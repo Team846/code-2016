@@ -1,6 +1,6 @@
 organization := "com.lynbrookrobotics"
 
-name := "potassium"
+name := "code-2016"
 
 version := "0.1-SNAPSHOT"
 
