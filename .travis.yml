@@ -1,2 +1,4 @@
 language: scala
 jdk: oraclejdk8
+notifications:
+  slack: team846:C7msa8tAKGdHScWVPPVL3DnB
