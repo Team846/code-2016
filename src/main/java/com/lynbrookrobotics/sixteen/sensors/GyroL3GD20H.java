@@ -4,11 +4,6 @@ import edu.wpi.first.wpilibj.SPI;
 
 import java.util.Arrays;
 
-
-//* Because the class LRTGyro should be able to use this class regardless of what gyro we use, All future digital gyro communication classes must have the following methods:
-
-//        * Make sure that all state and mode variables that are ued in both LRTGyro and LRTGyroCommunication are EXACTLY THE SAME
-
 /**
  * Communications for the L3GD20H gyro by Adafruit
  * @see <a href="http://www.adafruit.com/datasheets/L3GD20H.pdf">http://www.adafruit.com/datasheets/L3GD20H.pdf</a>
@@ -23,9 +18,9 @@ public class GyroL3GD20H {
     private final byte L3GD20_REGISTER_FIFO_CTRL = 0x2E;
     private final byte L3GD20_REGISTER_FIFO_SRC = 0x2F;
 
-    private final int BYPASSMODE = 0;
-    private final int STREAMMODE = 1;
-    private final int mode = STREAMMODE;//If the gyro does not have an imbedded queue or stack, use BYPASSMODE
+    private final int BYPASS_MODE = 0;
+    private final int STREAM_MODE = 1;
+    private final int mode = STREAM_MODE;//If the gyro does not have an imbedded queue or stack, use BYPASSMODE
 
     private final double conversionFactor = 0.00875F;
 
@@ -51,25 +46,20 @@ public class GyroL3GD20H {
 
     private static GyroL3GD20H instance = null;
 
-    private GyroL3GD20H() //initialization code, ensures there is only one gyro communication object
-    {
+    private GyroL3GD20H(){ //initialization code, ensures there is only one gyro communication object
         setupGyroCommunciation(mode);
     }
 
-    public static GyroL3GD20H getInstance() {
-        if (instance == null)//ensures that there is only one gyro object
-        {
-            instance = new GyroL3GD20H();
-        }
-
-        return instance;
-    }
-
+    /**
+     * This method sets up the settings and SPI connection.
+     * It controls the following setting: sensitivity,
+     * @param mode This can be BYPASS_MODE or STREAM_MODE. BYPASS_MODE doesn't use  the gyro's FIFO, STREAM_MODE does use the gyro's FIFO
+     */
     private void setupGyroCommunciation(int mode) {
         gyro = new SPI(SPI.Port.kOnboardCS3);
         gyro.setClockRate(2000000);
-//      gyro.setSampleDataOnRising();
-        gyro.setSampleDataOnFalling(); // Reversed
+
+        gyro.setSampleDataOnFalling(); // Reversed due to wpi bug. Should be gyro.setSampleDataOnRising();
 
         gyro.setMSBFirst(); //set most significant bit first (see pg. 29)
 
@@ -89,7 +79,7 @@ public class GyroL3GD20H {
         in = new byte[2];
         gyro.transaction(out, in, 2);
 
-        if (mode == STREAMMODE) {
+        if (mode == STREAM_MODE) {
             out[0] = (byte) (L3GD20_REGISTER_CTRL_REG5);
             out[1] = (byte) 0b01000000;//byte to enable FIFO
             gyro.transaction(out, in, 2);
@@ -101,70 +91,79 @@ public class GyroL3GD20H {
 
     }
 
+    /**
+     * @param calibrate Whether or not the gyro is currently calibrating
+     * @param streamOrBypass    Whether or not to use the Queue (STREAM_MODE) or not (BYPASS_MODE)
+     * @param driftX    The calculated drift of gyro x axis values
+     * @param driftY    The calculated drift of gyro x axis values
+     * @param driftZ    The calculated drift of gyro x axis values
+     */
     public void updateGyro(boolean calibrate, int streamOrBypass, double driftX, double driftY, double driftZ) {
-        switch (streamOrBypass) {
-            case STREAMMODE:
-                if (isFIFOFull() == true) {
-                    int FIFOCount = 0;
+        if(streamOrBypass == STREAM_MODE) {
+            if (isFIFOFull() == true) {
+                int FIFOCount = 0;
 
-                    for (int i = 0; i < xFIFOValues.length; i++) {
-                        Arrays.fill(outputToSlave, (byte) 0x00);
+                for (int i = 0; i < xFIFOValues.length; i++) {
+                    Arrays.fill(outputToSlave, (byte) 0x00);
 
-                        outputToSlave[0] = setByte(outputToSlave[0], L3GD20_REGISTER_OUT_X_L, (byte) 0b10000000, (byte) 0b01000000);//do not change
+                    outputToSlave[0] = setByte(outputToSlave[0], L3GD20_REGISTER_OUT_X_L, (byte) 0b10000000, (byte) 0b01000000);//do not change
 
-                        gyro.transaction(outputToSlave, inputFromSlave, 7);
+                    gyro.transaction(outputToSlave, inputFromSlave, 7);
 
-                        xFIFO = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;//Data for an axis is expressed with 2 bytes
-                        yFIFO = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;//the conversion factor converts the raw gyro value into degrees/second
-                        zFIFO = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;//Not index 0 because at this time register selection byte is being sent
+                    //Data for an axis is expressed with 2 bytes
+                    //Index is not 0 because the first byte is before the byte for register selection was sent
+                    //Conversion factor converts the raw gyro value into degrees/second
+                    xFIFO = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
+                    yFIFO = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
+                    zFIFO = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
 
-                        if (!calibrate)//if not currently calibrating
-                        {
-                            xFIFOValues[FIFOCount] = xFIFO - driftX;
-                            yFIFOValues[FIFOCount] = yFIFO - driftY;
-                            zFIFOValues[FIFOCount] = zFIFO - driftZ;
+                    if (!calibrate)//if not currently calibrating
+                    {
+                        xFIFOValues[FIFOCount] = xFIFO - driftX;
+                        yFIFOValues[FIFOCount] = yFIFO - driftY;
+                        zFIFOValues[FIFOCount] = zFIFO - driftZ;
 
-                        } else //if currently calibrating
-                        {
-                            xFIFOValues[FIFOCount] = xFIFO;
-                            yFIFOValues[FIFOCount] = yFIFO;
-                            zFIFOValues[FIFOCount] = zFIFO;
-                        }
-
-                        FIFOCount++;
-
+                    } else //if currently calibrating
+                    {
+                        xFIFOValues[FIFOCount] = xFIFO;
+                        yFIFOValues[FIFOCount] = yFIFO;
+                        zFIFOValues[FIFOCount] = zFIFO;
                     }
 
-                    xVel = average(xFIFOValues);
-                    yVel = average(yFIFOValues);
-                    zVel = average(zFIFOValues);
+                    FIFOCount++;
 
                 }
 
-                break;
-            case BYPASSMODE:
-                Arrays.fill(outputToSlave, (byte) 0b00000000);
-
-                outputToSlave[0] = L3GD20_REGISTER_OUT_X_L | (byte) 0x80 | (byte) 0x40;
-                gyro.transaction(outputToSlave, inputFromSlave, 7);
-
-                xVel = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
-                yVel = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
-                zVel = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
-
-                if (!calibrate){//if not currently calibrating
-                    xVel = xVel - driftX;
-                    yVel = yVel - driftY;
-                    zVel = zVel - driftZ;
-                }
-
-                break;
+                xVel = average(xFIFOValues);
+                yVel = average(yFIFOValues);
+                zVel = average(zFIFOValues);
+            }
         }
 
+        if(mode == BYPASS_MODE) {
+            Arrays.fill(outputToSlave, (byte) 0b00000000);
+
+            outputToSlave[0] = L3GD20_REGISTER_OUT_X_L | (byte) 0x80 | (byte) 0x40;
+            gyro.transaction(outputToSlave, inputFromSlave, 7);
+
+            xVel = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
+            yVel = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
+            zVel = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
+
+            if (!calibrate) {//if not currently calibrating
+                xVel = xVel - driftX;
+                yVel = yVel - driftY;
+                zVel = zVel - driftZ;
+            }
+
+        }
     }
 
-    private boolean isFIFOFull()
-    {
+    /**
+     * This method checks the gyro register for the FIFO status, and returns whether the queue is full
+     * @returns: returns whether the FIFO on the gyro is full or not
+     */
+    private boolean isFIFOFull() {
         byte[] outputToSlave = new byte[2];//from RoboRio to slave (gyro)
         outputToSlave[0] = setByte(L3GD20_REGISTER_FIFO_CTRL, (byte) 0b10000000); // set bit 0 (READ bit) to 1 (pg. 31)
         byte[] inputFromSlave = new byte[2];
@@ -193,6 +192,12 @@ public class GyroL3GD20H {
         return zVel;
     }
 
+    /**
+     * This method takes a byte and a series of modifier bytes. The modifier bytes are ored with the the toSet byte
+     * @param toSet The initial byte to be modified
+     * @param modifiers The bytes that modifty the toSet byte
+     * @return The modified byte is returned
+     */
     private byte setByte(byte toSet, byte... modifiers) {
         toSet = modifiers[0];
 
