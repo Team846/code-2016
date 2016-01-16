@@ -46,7 +46,7 @@ public class GyroL3GD20H {
 
     private static GyroL3GD20H instance = null;
 
-    private GyroL3GD20H(){ //initialization code, ensures there is only one gyro communication object
+    public GyroL3GD20H(){ //initialization code, ensures there is only one gyro communication object
         setupGyroCommunciation(mode);
     }
 
@@ -94,9 +94,9 @@ public class GyroL3GD20H {
     /**
      * @param calibrate Whether or not the gyro is currently calibrating
      * @param streamOrBypass    Whether or not to use the Queue (STREAM_MODE) or not (BYPASS_MODE)
-     * @param driftX    The calculated drift of gyro x axis values
-     * @param driftY    The calculated drift of gyro x axis values
-     * @param driftZ    The calculated drift of gyro x axis values
+     * @param driftX    The calculated drift of gyro x axis values. If not callibrating, input 0
+     * @param driftY    The calculated drift of gyro y axis values. If not callibrating, input 0
+     * @param driftZ    The calculated drift of gyro z axis values. If not callibrating, input 0
      */
     public void updateGyro(boolean calibrate, int streamOrBypass, double driftX, double driftY, double driftZ) {
         if(streamOrBypass == STREAM_MODE) {
@@ -195,7 +195,7 @@ public class GyroL3GD20H {
     /**
      * This method takes a byte and a series of modifier bytes. The modifier bytes are ored with the the toSet byte
      * @param toSet The initial byte to be modified
-     * @param modifiers The bytes that modifty the toSet byte
+     * @param modifiers The bytes that modify the toSet byte
      * @return The modified byte is returned
      */
     private byte setByte(byte toSet, byte... modifiers) {
