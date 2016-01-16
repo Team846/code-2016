@@ -1,224 +1,258 @@
 package com.lynbrookrobotics.sixteen.sensors;
 
-import edu.wpi.first.wpilibj.SPI;
+import java.lang.System;
 
-import java.util.Arrays;
 
-/**
- * Communications for the L3GD20H gyro by Adafruit
- * @see <a href="http://www.adafruit.com/datasheets/L3GD20H.pdf">http://www.adafruit.com/datasheets/L3GD20H.pdf</a>
- */
 public class GyroL3GD20H {
-    private SPI gyro;
 
-    private final byte L3GD20_REGISTER_OUT_X_L = 0x28; //This is a digital gyro. These are registers to read and write data
-    private final byte L3GD20_REGISTER_CTRL_REG1 = 0x20;
-    private final byte L3GD20_REGISTER_CTRL_REG4 = 0x23;
-    private final byte L3GD20_REGISTER_CTRL_REG5 = 0x24;
-    private final byte L3GD20_REGISTER_FIFO_CTRL = 0x2E;
+        private final int BYPASSMODE = 0; //Make sure that this is the same as in gyroCommunications class
+        private final int STREAMMODE = 1;//Make sure that this is the same as in gyroCommunications class
+        private final int mode = STREAMMODE;
 
-    private final int SIZE_GYRO_QUEU = 32;
+        public static final boolean CALIBRATING = true; //Make sure that this is the same as in gyroCommunications class
+        public static final boolean NOT_CALIBRATING = false; //Make sure that this is the same as in gyroCommunications class
 
-    private final int SETTING_BYTES_SENT_RECEIVED = 2;
-    private final int READING_BYTES_SENT_RECEIVED = 7; //the # of bytes sent and received while reading data for the 3 axis
+        private boolean calibrated = false;
 
-    private final int BYPASS_MODE = 0;
-    private final int STREAM_MODE = 1;
-    private final int mode = STREAM_MODE;//If the gyro does not have an imbedded queue or stack, use BYPASSMODE
+        double xVel = 0;
+        double yVel = 0;
+        double zVel = 0;
 
-    private final double conversionFactor = 0.00875F;
+        double previousXVel = 0;
+        double previousYVel = 0;
+        double previousZVel = 0;
 
-    public static final boolean CALIBRATE = true;
-    public static final boolean DONT_CALIBRATE = false;
+        double xAngle = 0;
+        double yAngle = 0;
+        double zAngle = 0;
 
+        double driftX = 0;
+        double driftY = 0;
+        double driftZ = 0;
 
-    private  byte[] inputFromSlave = new byte[7];
-    private  byte[] outputToSlave = new byte[7];
+        double xCalibValues[] = new double[100];
+        double yCalibValues[] = new double[100];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
+        double zCalibValues[] = new double[100];
 
-    private double xFIFO = 0;
-    private double xVel = 0;
+        long previousTime = System.currentTimeMillis();
+        long timePassed = previousTime;
 
-    private double yVel = 0;
-    private double yFIFO = 0;
+        long calibCount = 0;
 
-    private double zVel = 0;
-    private double zFIFO = 0;
+        boolean justEnabled = true;
 
-    private double xFIFOValues[] = new double[SIZE_GYRO_QUEU];//gyro queue only stores 32 values
-    private double yFIFOValues[] = new double[SIZE_GYRO_QUEU];
-    private double zFIFOValues[] = new double[SIZE_GYRO_QUEU];
+        private GyroL3GD20HProtocol gyroCom = null;//gyroCom is short for gyro Communications
 
-    private static GyroL3GD20H instance = null;
-
-    public GyroL3GD20H(){ //initialization code, ensures there is only one gyro communication object
-        setupGyroCommunciation(mode);
-    }
-
-    /**
-     * This method sets up the settings and SPI connection.
-     * It controls the following setting: sensitivity,
-     * @param mode This can be BYPASS_MODE or STREAM_MODE. BYPASS_MODE doesn't use  the gyro's FIFO, STREAM_MODE does use the gyro's FIFO
-     */
-    private void setupGyroCommunciation(int mode) {
-        gyro = new SPI(SPI.Port.kOnboardCS3);
-        gyro.setClockRate(2000000);
-
-        gyro.setSampleDataOnFalling(); // Reversed due to wpi bug. Should be gyro.setSampleDataOnRising();
-
-        gyro.setMSBFirst(); //set most significant bit first (see pg. 29)
-
-        gyro.setChipSelectActiveLow();
-        gyro.setClockActiveLow();
-
-        byte[] out = new byte[SETTING_BYTES_SENT_RECEIVED];
-        out[0] = (byte) (L3GD20_REGISTER_CTRL_REG1);
-        out[1] = (byte) (0b11001111);//byte to enable axis and misc. setting
-        byte[] in = new byte[SETTING_BYTES_SENT_RECEIVED];
-        gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
-
-        out = new byte[SETTING_BYTES_SENT_RECEIVED];
-        out[0] = (byte) (L3GD20_REGISTER_CTRL_REG4);
-        out[1] = (byte) (0b00110000);//set sensitivity
-        in = new byte[SETTING_BYTES_SENT_RECEIVED];
-        gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
-
-        if (mode == STREAM_MODE) {
-            out[0] = (byte) (L3GD20_REGISTER_CTRL_REG5);
-            out[1] = (byte) 0b01000000;//byte to enable FIFO
-            gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
-
-            out[0] = (byte) (L3GD20_REGISTER_FIFO_CTRL);
-            out[1] = (byte) (0b01000000);//byte that sets to stream mode
-            gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
+        public GyroL3GD20H(){
+            gyroCom = new GyroL3GD20HProtocol();
         }
 
-    }
+        /**
+         * Updates the gyro when the robot is disabled
+         */
+        public void updateDisabledPeriodic(){
+            if (!calibrated) {
+                calibrateUpdate();
 
-    /**
-     * @param calibrate Whether or not the gyro is currently calibrating
-     * @param streamOrBypass    Whether or not to use the Queue (STREAM_MODE) or not (BYPASS_MODE)
-     * @param driftX    The calculated drift of gyro x axis values. If not callibrating, input 0
-     * @param driftY    The calculated drift of gyro y axis values. If not callibrating, input 0
-     * @param driftZ    The calculated drift of gyro z axis values. If not callibrating, input 0
-     */
-    public void updateGyro(boolean calibrate, int streamOrBypass, double driftX, double driftY, double driftZ) {
-        if(streamOrBypass == STREAM_MODE) {
-            if (isFIFOFull() == true) {
-                int FIFOCount = 0;
+            } else{ //if already calibrated
+                angleUpdate();
+            }
+        }
 
-                for (int i = 0; i < xFIFOValues.length; i++) {
-                    Arrays.fill(outputToSlave, (byte) 0x00);
+        /**
+        * Updates the gyro when the robot is enabled
+        */
+        public void updateEnabledPeriodic(){
+            if (justEnabled) {
+                justEnabled = false;
+                calibrated = true;
+            }
+            resetTimer();
 
-                    outputToSlave[0] = setByte(outputToSlave[0], L3GD20_REGISTER_OUT_X_L, (byte) 0b10000000, (byte) 0b01000000);//do not change
+            angleUpdate();
+        }
 
-                    gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);
+        /**
+        *Updates values for the drift on the axis
+        */
+        public void calibrateUpdate(){
+            gyroCom.updateGyro(CALIBRATING, mode, 0, 0, 0);//Are calibrating
+            calibCount++;
 
-                    //Data for an axis is expressed with 2 bytes
-                    //Index is not 0 because the first byte is before the byte for register selection was sent
-                    //Conversion factor converts the raw gyro value into degrees/second
-                    xFIFO = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
-                    yFIFO = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
-                    zFIFO = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
+            xVel = gyroCom.getXVel();
+            yVel = gyroCom.getYVel();
+            zVel = gyroCom.getZVel();
 
-                    if (!calibrate)//if not currently calibrating
-                    {
-                        xFIFOValues[FIFOCount] = xFIFO - driftX;
-                        yFIFOValues[FIFOCount] = yFIFO - driftY;
-                        zFIFOValues[FIFOCount] = zFIFO - driftZ;
+            xCalibValues[(int) (calibCount % xCalibValues.length)] = xVel;
+            yCalibValues[(int) (calibCount % yCalibValues.length)] = yVel;
+            zCalibValues[(int) (calibCount % zCalibValues.length)] = zVel;
 
-                    } else {//if currently calibrating
-                        xFIFOValues[FIFOCount] = xFIFO;
-                        yFIFOValues[FIFOCount] = yFIFO;
-                        zFIFOValues[FIFOCount] = zFIFO;
-                    }
+            driftX = getDrift(xCalibValues);
+            driftY = getDrift(yCalibValues);
+            driftZ = getDrift(zCalibValues);
+        }
 
-                    FIFOCount++;
+        /**
+         * Updates values for the angle on the gyro
+         */
+        public void angleUpdate(){
+            ///NOT_CALIBRATING is here just in case we lose connection on the field and enter the disabled state
+            gyroCom.updateGyro(NOT_CALIBRATING, mode, driftX, driftY, driftZ);
 
+            previousXVel = xVel;
+            previousYVel = yVel;
+            previousZVel = zVel;
+
+            xVel = gyroCom.getXVel();
+            yVel = gyroCom.getYVel();
+            zVel = gyroCom.getZVel();
+
+            timePassed = getTimePassed();
+
+            xAngle = trapaziodalIntegration(xAngle, xVel, previousXVel);
+            yAngle = trapaziodalIntegration(xAngle, yVel, previousYVel);
+            zAngle = trapaziodalIntegration(zAngle, zVel, previousZVel);
+        }
+
+        /** Gets the drift by taking the average of values that are read when the gyro is not moving
+        * @param calibValues Values that are read when the gyro not moving.
+        * @return The drift calculated from the values read when the gyro is not moving
+        */
+        private double getDrift(double[] calibValues)//called after updateGyro()
+        {
+            double sum = 0;
+
+            if (calibCount < calibValues.length)//if calibrating for less than 2 seconds
+            {
+                for (int i = 0; i < calibCount; i++) {
+                    sum += calibValues[i];
                 }
 
-                xVel = average(xFIFOValues);
-                yVel = average(yFIFOValues);
-                zVel = average(zFIFOValues);
-            }
-        }
-
-        if(mode == BYPASS_MODE) {
-            Arrays.fill(outputToSlave, (byte) 0b00000000);
-
-            outputToSlave[0] = L3GD20_REGISTER_OUT_X_L | (byte) 0x80 | (byte) 0x40;
-            gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);
-
-            xVel = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
-            yVel = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
-            zVel = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
-
-            if (!calibrate) {//if not currently calibrating
-                xVel = xVel - driftX;
-                yVel = yVel - driftY;
-                zVel = zVel - driftZ;
+                return sum / calibCount;
             }
 
-        }
-    }
+            for (int i = 0; i < calibValues.length; i++)//If there are least 100 calibration values, AKA more than 2 seconds
+            {
+                sum += calibValues[i];
+            }
 
-    /**
-     * This method checks the gyro register for the FIFO status, and returns whether the queue is full
-     * @returns: returns whether the FIFO on the gyro is full or not
-     */
-    private boolean isFIFOFull() {
-        byte[] outputToSlave = new byte[SETTING_BYTES_SENT_RECEIVED];//from RoboRio to slave (gyro)
-        outputToSlave[0] = setByte(L3GD20_REGISTER_FIFO_CTRL, (byte) 0b10000000); // set bit 0 (READ bit) to 1 (pg. 31)
-        byte[] inputFromSlave = new byte[SETTING_BYTES_SENT_RECEIVED];
-
-        gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);//read from FIFO control register
-
-
-        if (((inputFromSlave[1] >> 6) & 0b1) == 0b1)//if second bit from the left is 1 then it is full
-        {
-            return true;
+            return sum / calibValues.length;
         }
 
-        return false;
-    }
+        /**
+        * Returns the angle about the x axis in between -180 and 180
+        * @return angle about the x axis in between -180 and 180
+        */
+        public double getXAngle() {
+            double angleToReturn = 0;
 
-    //All methods below are abstraction methods
-    public double getXVel() {
-        return xVel;
-    }
+            if (xAngle > 0) {
+                angleToReturn = xAngle - (Math.floor(xAngle / 360.0) * 360.0);//brings the angle to within 0 and 360
+            } else {
+                angleToReturn = xAngle - (Math.ceil(xAngle / 360.0) * 360.0);//brings the angle to within 0 and -360
+            }
 
-    public double getYVel() {
-        return yVel;
-    }
+            if (angleToReturn < -180) {
+                return angleToReturn + 360.0;//brings the angle to within 0 and 180
+            }
+            if (angleToReturn > 180) {
+                return angleToReturn - 360.0;//brings the angle to within 0 and 180
+            }
 
-    public double getZVel() {
-        return zVel;
-    }
-
-    /**
-     * This method takes a byte and a series of modifier bytes. The modifier bytes are ored with the the toSet byte
-     * @param toSet The initial byte to be modified
-     * @param modifiers The bytes that modify the toSet byte
-     * @return The modified byte is returned
-     */
-    private byte setByte(byte toSet, byte... modifiers) {
-        toSet = modifiers[0];
-
-        for (int i = 0; i < modifiers.length; i++)//for each loop
-        {
-            toSet = (byte) (toSet | modifiers[i]);
+            return angleToReturn;
         }
 
-        return toSet;
-    }
+         /*** Returns the angle about the y axis in between -180 and 180
+         * @return angle about the y axis in between -180 and 180
+         */
+        public double getYAngle() {
+            double angleToReturn = 0;
 
+            if (yAngle > 0) {
+                angleToReturn = yAngle - (Math.floor(yAngle / 360.0) * 360.0);
+            } else {
+                angleToReturn = yAngle - (Math.ceil(yAngle / 360.0) * 360.0);
+            }
 
-    private double average(double[] values) {
-        double sum = 0;
+            if (angleToReturn < -180) {
+                return angleToReturn + 360.0;
+            }
+            if (angleToReturn > 180) {
+                return angleToReturn - 360.0;
+            }
 
-        for (int i = 0; i < values.length; i++) {
-            sum += values[i];
+            return angleToReturn;
         }
-        return sum / values.length;
-    }
 
+         /**
+         * Returns the angle about the z axis in between -180 and 180
+         * @return angle about the z axis in between -180 and 180
+         */
+        public double getZAngle() {
+            double angleToReturn = 0;
+
+            if (zAngle > 0) {
+                angleToReturn = zAngle - (Math.floor(zAngle / 360.0) * 360.0);
+            } else {
+                angleToReturn = zAngle - (Math.ceil(zAngle / 360.0) * 360.0);
+            }
+
+            if (angleToReturn < -180) {
+                return angleToReturn + 360.0;
+            }
+            if (angleToReturn > 180) {
+                return angleToReturn - 360.0;
+            }
+
+            return angleToReturn;
+        }
+
+        //All below are abstraction methods
+
+        public double getXVel() {
+            return xVel;
+        }
+
+        public double getYVel() {
+            return yVel;
+        }
+
+        public double getZVel() {
+            return zVel;
+        }
+
+        private void resetTimer() {
+            previousTime = System.currentTimeMillis();
+        }
+
+        private void resetCalibCount() {
+            calibCount = 0;
+        }
+
+        public void resetXAngle() {
+            xAngle = 0;
+        }
+
+        public void resetYAngle() {
+            yAngle = 0;
+        }
+
+        public void resetZAngle() {
+            zAngle = 0;
+        }
+
+        private long getTimePassed() {
+            return (System.currentTimeMillis() - previousTime);//gets time in between gyro readings
+        }
+
+        /**Takes the previous velocity and current velocity, and takes the trapezoidal integral to find the angle traveled
+        * It works by taking the average of the 2 velocities, and multiplies it by the time in between updates (20 milliseconds)
+        * @param previousAngle The previous angle
+        * @param velocity   The current velocity read from the gyro
+        * @param previousVelocity   the previous velocity read from the gyro
+        * @return The angle gotten by taking the integral of the angular velocity
+        */
+        private double trapaziodalIntegration(double previousAngle, double velocity, double previousVelocity) {
+            return (previousAngle + /*timePassed*/ 20 * ((velocity + previousVelocity) / 2) / 1000);
+        }
 }
