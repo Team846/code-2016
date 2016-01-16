@@ -54,37 +54,10 @@ public class LRTGyro{
         {
 
             if (!calibrated) {
-                gyroCom.updateGyro(CALIBRATING, mode, 0, 0, 0);//Are calibrating
-                calibCount++;
-
-                xVel = gyroCom.getXVel();
-                yVel = gyroCom.getYVel();
-                zVel = gyroCom.getZVel();
-
-                xCalibValues[(int) (calibCount % xCalibValues.length)] = xVel;
-                yCalibValues[(int) (calibCount % yCalibValues.length)] = yVel;
-                zCalibValues[(int) (calibCount % zCalibValues.length)] = zVel;
-
-                driftX = getDrift(xCalibValues);
-                driftY = getDrift(yCalibValues);
-                driftZ = getDrift(zCalibValues);
+                calibrateUpdate();
 
             } else{ //if already calibrated
-                gyroCom.updateGyro(NOT_CALIBRATING, mode, driftX, driftY, driftZ);
-
-                previousXVel = xVel;
-                previousYVel = yVel;
-                previousZVel = zVel;
-
-                xVel = gyroCom.getXVel();
-                yVel = gyroCom.getYVel();
-                zVel = gyroCom.getZVel();
-
-                timePassed = getTimePassed();
-
-                xAngle = trapaziodalIntegration(xAngle, xVel, previousXVel);
-                yAngle = trapaziodalIntegration(xAngle, yVel, previousYVel);
-                zAngle = trapaziodalIntegration(zAngle, zVel, previousZVel);
+                angleUpdate();
             }
         }
 
@@ -96,23 +69,45 @@ public class LRTGyro{
                 calibrated = true;
             }
 
-            gyroCom.updateGyro(NOT_CALIBRATING, mode, driftX, driftY, driftZ);//all returned values are calibrated
-
-            previousXVel = xVel;
-            previousYVel = yVel;
-            previousZVel = zVel;
-
-            xVel = gyroCom.getXVel();
-            yVel = gyroCom.getYVel();
-            zVel = gyroCom.getZVel();
-
-            timePassed = getTimePassed();
-
-            xAngle = trapaziodalIntegration(xAngle, xVel, previousXVel);
-            yAngle = trapaziodalIntegration(xAngle, yVel, previousYVel);
-            zAngle = trapaziodalIntegration(zAngle, zVel, previousZVel);
+            angleUpdate();
         }
 
+    }
+
+    public void calibrateUpdate(){
+        gyroCom.updateGyro(CALIBRATING, mode, 0, 0, 0);//Are calibrating
+        calibCount++;
+
+        xVel = gyroCom.getXVel();
+        yVel = gyroCom.getYVel();
+        zVel = gyroCom.getZVel();
+
+        xCalibValues[(int) (calibCount % xCalibValues.length)] = xVel;
+        yCalibValues[(int) (calibCount % yCalibValues.length)] = yVel;
+        zCalibValues[(int) (calibCount % zCalibValues.length)] = zVel;
+
+        driftX = getDrift(xCalibValues);
+        driftY = getDrift(yCalibValues);
+        driftZ = getDrift(zCalibValues);
+    }
+
+    public void angleUpdate(){
+        ///NOT_CALIBRATING is here just in case we lose connection on the field and enter the disabled state
+        gyroCom.updateGyro(NOT_CALIBRATING, mode, driftX, driftY, driftZ);
+
+        previousXVel = xVel;
+        previousYVel = yVel;
+        previousZVel = zVel;
+
+        xVel = gyroCom.getXVel();
+        yVel = gyroCom.getYVel();
+        zVel = gyroCom.getZVel();
+
+        timePassed = getTimePassed();
+
+        xAngle = trapaziodalIntegration(xAngle, xVel, previousXVel);
+        yAngle = trapaziodalIntegration(xAngle, yVel, previousYVel);
+        zAngle = trapaziodalIntegration(zAngle, zVel, previousZVel);
     }
 
     private double getDrift(double[] calibValues)//called after updateGyro()
