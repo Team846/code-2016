@@ -3,6 +3,7 @@ package com.lynbrookrobotics.sixteen;
 import com.lynbrookrobotics.potassium.Potassium;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
@@ -24,17 +25,7 @@ public class Main {
         when(drivetrainHardware.leftMotor()).thenReturn(leftMotor);
         when(drivetrainHardware.rightMotor()).thenReturn(rightMotor);
 
-        Drivetrain drivetrain = new Drivetrain(hardware, new DrivetrainController() {
-            @Override
-            public double leftSpeed() {
-                return 0;
-            }
-
-            @Override
-            public double rightSpeed() {
-                return 0;
-            }
-        });
+        Drivetrain drivetrain = new Drivetrain(hardware, new TankDriveController(Math::random, Math::random));
 
         Timer updateTimer = new Timer("update-loop");
 
