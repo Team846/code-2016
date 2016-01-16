@@ -48,32 +48,28 @@ public class LRTGyro{
         }
 
         /**
-         * A method that reads data from the gyro and updates the drift values and angle values
+         * Updates the gyro when the robot is disabled
          */
-        public void update() {
+        public void updateDisabledPeriodic(){
+            if (!calibrated) {
+                calibrateUpdate();
 
-            if (RobotState.Instance().GameMode() == GameState.DISABLED) //TODO: Change to whatever we're using to check game state
-            {
-
-                if (!calibrated) {
-                    calibrateUpdate();
-
-                } else{ //if already calibrated
-                    angleUpdate();
-                }
-            }
-
-            if (RobotState.Instance().GameMode() == GameState.TELEOPERATED || RobotState.Instance().GameMode() == GameState.AUTONOMOUS) {
-                if (justEnabled) {
-                    justEnabled = false;
-                    calibrated = true;
-                }
-
-                resetTimer();
-
+            } else{ //if already calibrated
                 angleUpdate();
             }
+        }
 
+        /**
+        * Updates the gyro when the robot is enabled
+        */
+        public void updateEnabledPeriodic(){
+            if (justEnabled) {
+                justEnabled = false;
+                calibrated = true;
+            }
+            resetTimer();
+
+            angleUpdate();
         }
 
         /**
