@@ -48,31 +48,6 @@ public class GyroL3GD20H {
         }
 
         /**
-         * Updates the gyro when the robot is disabled
-         */
-        public void updateDisabledPeriodic(){
-            if (!calibrated) {
-                calibrateUpdate();
-
-            } else{ //if already calibrated
-                angleUpdate();
-            }
-        }
-
-        /**
-        * Updates the gyro when the robot is enabled
-        */
-        public void updateEnabledPeriodic(){
-            if (justEnabled) {
-                justEnabled = false;
-                calibrated = true;
-            }
-            resetTimer();
-
-            angleUpdate();
-        }
-
-        /**
         *Updates values for the drift on the axis
         */
         public void calibrateUpdate(){
@@ -118,8 +93,7 @@ public class GyroL3GD20H {
         * @param calibValues Values that are read when the gyro not moving.
         * @return The drift calculated from the values read when the gyro is not moving
         */
-        private double getDrift(double[] calibValues)//called after updateGyro()
-        {
+        private double getDrift(double[] calibValues){//called after updateGyro()
             double sum = 0;
 
             if (calibCount < calibValues.length)//if calibrating for less than 2 seconds
@@ -131,8 +105,7 @@ public class GyroL3GD20H {
                 return sum / calibCount;
             }
 
-            for (int i = 0; i < calibValues.length; i++)//If there are least 100 calibration values, AKA more than 2 seconds
-            {
+            for (int i = 0; i < calibValues.length; i++){//If there are least 100 calibration values, AKA more than 2 seconds
                 sum += calibValues[i];
             }
 
@@ -207,16 +180,24 @@ public class GyroL3GD20H {
             return angleToReturn;
         }
 
-        //All below are abstraction methods
-
+        /**
+        *
+        * @return Angular velocity around X axis
+        */
         public double getXVel() {
             return xVel;
         }
 
+        /**
+        * @return Angular velocity around Y axis
+        */
         public double getYVel() {
             return yVel;
         }
 
+        /**
+        * @return Angular velocity around Z axis
+        */
         public double getZVel() {
             return zVel;
         }

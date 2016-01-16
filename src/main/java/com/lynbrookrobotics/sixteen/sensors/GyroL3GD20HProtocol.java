@@ -120,8 +120,7 @@ class GyroL3GD20HProtocol {
                     yFIFO = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
                     zFIFO = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
 
-                    if (!calibrate)//if not currently calibrating
-                    {
+                    if (!calibrate){//if not currently calibrating
                         xFIFOValues[FIFOCount] = xFIFO - driftX;
                         yFIFOValues[FIFOCount] = yFIFO - driftY;
                         zFIFOValues[FIFOCount] = zFIFO - driftZ;
@@ -133,7 +132,6 @@ class GyroL3GD20HProtocol {
                     }
 
                     FIFOCount++;
-
                 }
 
                 xVel = average(xFIFOValues);
@@ -173,8 +171,7 @@ class GyroL3GD20HProtocol {
         gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);//read from FIFO control register
 
 
-        if (((inputFromSlave[1] >> 6) & 0b1) == 0b1)//if second bit from the left is 1 then it is full
-        {
+        if (((inputFromSlave[1] >> 6) & 0b1) == 0b1){//if second bit from the left is 1 then it is full
             return true;
         }
 
@@ -203,8 +200,7 @@ class GyroL3GD20HProtocol {
     private byte setByte(byte toSet, byte... modifiers) {
         toSet = modifiers[0];
 
-        for (int i = 0; i < modifiers.length; i++)//for each loop
-        {
+        for (int i = 0; i < modifiers.length; i++){//for each loop
             toSet = (byte) (toSet | modifiers[i]);
         }
 
