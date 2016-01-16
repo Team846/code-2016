@@ -18,7 +18,7 @@ public class CoreEvents {
     // Drivetrain
     TankDriveController enabledDrive = new TankDriveController(
         () -> controls.driverStick().getAxis(Joystick.AxisType.kY),
-        () -> controls.driverWheel().getAxis(Joystick.AxisType.kY)
+        () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
     );
 
     public CoreEvents(DriverControls controls, Drivetrain drivetrain) {
