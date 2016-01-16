@@ -1,4 +1,7 @@
+enablePlugins(FRCPlugin)
+
 organization := "com.lynbrookrobotics"
+teamNumber := 846
 
 name := "code-2016"
 
