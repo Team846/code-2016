@@ -11,12 +11,16 @@ import java.util.Arrays;
 public class GyroL3GD20H {
     private SPI gyro;
 
-    private final byte L3GD20_REGISTER_OUT_X_L = 0x28; //  * This is a digital gyro. These are registers to read and write data
+    private final byte L3GD20_REGISTER_OUT_X_L = 0x28; //This is a digital gyro. These are registers to read and write data
     private final byte L3GD20_REGISTER_CTRL_REG1 = 0x20;
     private final byte L3GD20_REGISTER_CTRL_REG4 = 0x23;
     private final byte L3GD20_REGISTER_CTRL_REG5 = 0x24;
     private final byte L3GD20_REGISTER_FIFO_CTRL = 0x2E;
-    private final byte L3GD20_REGISTER_FIFO_SRC = 0x2F;
+
+    private final int SIZE_GYRO_QUEU = 32;
+
+    private final int SETTING_BYTES_SENT_RECEIVED = 2;
+    private final int READING_BYTES_SENT_RECEIVED = 7; //the # of bytes sent and received while reading data for the 3 axis
 
     private final int BYPASS_MODE = 0;
     private final int STREAM_MODE = 1;
@@ -40,9 +44,9 @@ public class GyroL3GD20H {
     private double zVel = 0;
     private double zFIFO = 0;
 
-    private double xFIFOValues[] = new double[32];//gyro queue only stores 32 values
-    private double yFIFOValues[] = new double[32];
-    private double zFIFOValues[] = new double[32];
+    private double xFIFOValues[] = new double[SIZE_GYRO_QUEU];//gyro queue only stores 32 values
+    private double yFIFOValues[] = new double[SIZE_GYRO_QUEU];
+    private double zFIFOValues[] = new double[SIZE_GYRO_QUEU];
 
     private static GyroL3GD20H instance = null;
 
@@ -63,30 +67,29 @@ public class GyroL3GD20H {
 
         gyro.setMSBFirst(); //set most significant bit first (see pg. 29)
 
-
         gyro.setChipSelectActiveLow();
         gyro.setClockActiveLow();
 
-        byte[] out = new byte[2];
+        byte[] out = new byte[SETTING_BYTES_SENT_RECEIVED];
         out[0] = (byte) (L3GD20_REGISTER_CTRL_REG1);
         out[1] = (byte) (0b11001111);//byte to enable axis and misc. setting
-        byte[] in = new byte[2];
-        gyro.transaction(out, in, 2);
+        byte[] in = new byte[SETTING_BYTES_SENT_RECEIVED];
+        gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
-        out = new byte[2];
+        out = new byte[SETTING_BYTES_SENT_RECEIVED];
         out[0] = (byte) (L3GD20_REGISTER_CTRL_REG4);
         out[1] = (byte) (0b00110000);//set sensitivity
-        in = new byte[2];
-        gyro.transaction(out, in, 2);
+        in = new byte[SETTING_BYTES_SENT_RECEIVED];
+        gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
         if (mode == STREAM_MODE) {
             out[0] = (byte) (L3GD20_REGISTER_CTRL_REG5);
             out[1] = (byte) 0b01000000;//byte to enable FIFO
-            gyro.transaction(out, in, 2);
+            gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
             out[0] = (byte) (L3GD20_REGISTER_FIFO_CTRL);
             out[1] = (byte) (0b01000000);//byte that sets to stream mode
-            gyro.transaction(out, in, 2);
+            gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
         }
 
     }
@@ -108,7 +111,7 @@ public class GyroL3GD20H {
 
                     outputToSlave[0] = setByte(outputToSlave[0], L3GD20_REGISTER_OUT_X_L, (byte) 0b10000000, (byte) 0b01000000);//do not change
 
-                    gyro.transaction(outputToSlave, inputFromSlave, 7);
+                    gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);
 
                     //Data for an axis is expressed with 2 bytes
                     //Index is not 0 because the first byte is before the byte for register selection was sent
@@ -123,8 +126,7 @@ public class GyroL3GD20H {
                         yFIFOValues[FIFOCount] = yFIFO - driftY;
                         zFIFOValues[FIFOCount] = zFIFO - driftZ;
 
-                    } else //if currently calibrating
-                    {
+                    } else {//if currently calibrating
                         xFIFOValues[FIFOCount] = xFIFO;
                         yFIFOValues[FIFOCount] = yFIFO;
                         zFIFOValues[FIFOCount] = zFIFO;
@@ -144,7 +146,7 @@ public class GyroL3GD20H {
             Arrays.fill(outputToSlave, (byte) 0b00000000);
 
             outputToSlave[0] = L3GD20_REGISTER_OUT_X_L | (byte) 0x80 | (byte) 0x40;
-            gyro.transaction(outputToSlave, inputFromSlave, 7);
+            gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);
 
             xVel = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
             yVel = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
@@ -164,11 +166,11 @@ public class GyroL3GD20H {
      * @returns: returns whether the FIFO on the gyro is full or not
      */
     private boolean isFIFOFull() {
-        byte[] outputToSlave = new byte[2];//from RoboRio to slave (gyro)
+        byte[] outputToSlave = new byte[SETTING_BYTES_SENT_RECEIVED];//from RoboRio to slave (gyro)
         outputToSlave[0] = setByte(L3GD20_REGISTER_FIFO_CTRL, (byte) 0b10000000); // set bit 0 (READ bit) to 1 (pg. 31)
-        byte[] inputFromSlave = new byte[2];
+        byte[] inputFromSlave = new byte[SETTING_BYTES_SENT_RECEIVED];
 
-        gyro.transaction(outputToSlave, inputFromSlave, 2);//read from FIFO control register
+        gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);//read from FIFO control register
 
 
         if (((inputFromSlave[1] >> 6) & 0b1) == 0b1)//if second bit from the left is 1 then it is full
