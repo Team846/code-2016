@@ -8,7 +8,7 @@ import java.io.File;
 
 public class VariableConfiguration {
     private Config loadedConfig = ConfigFactory.parseFile(new File("robot.conf"));
-    private DrivetrainPorts drivetrainPorts = new DrivetrainPorts(loadedConfig.atKey("drivetrain"));
+    private DrivetrainPorts drivetrainPorts = new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
 
     public DrivetrainPorts drivetrainPorts() {
         return drivetrainPorts;

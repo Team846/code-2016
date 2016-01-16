@@ -1,26 +1,25 @@
 package com.lynbrookrobotics.sixteen.components.drivetrain;
 
 import com.lynbrookrobotics.potassium.components.Component;
+import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.DrivetrainPorts;
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.VariableConfiguration;
 import edu.wpi.first.wpilibj.Jaguar;
 
 public class Drivetrain extends Component<DrivetrainController> {
-    private DrivetrainPorts ports;
-    private Jaguar leftMotor;
-    private Jaguar rightMotor;
+    private DrivetrainHardware hardware;
 
-    public Drivetrain(VariableConfiguration config, DrivetrainController defaultController) {
+    public Drivetrain(RobotHardware robotHardware, DrivetrainController defaultController) {
         super(defaultController);
 
-        this.ports = config.drivetrainPorts();
-        this.leftMotor = new Jaguar(ports.portLeft());
-        this.rightMotor = new Jaguar(ports.portRight());
+        this.hardware = robotHardware.drivetrainHardware();
     }
 
     @Override
     public void setOutputs(DrivetrainController drivetrainController) {
-        leftMotor.set(drivetrainController.leftSpeed());
-        rightMotor.set(drivetrainController.rightSpeed());
+        System.out.println("setting out");
+        hardware.leftMotor().set(drivetrainController.leftSpeed());
+        hardware.rightMotor().set(drivetrainController.rightSpeed());
     }
 }
