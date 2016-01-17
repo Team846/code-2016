@@ -14,7 +14,7 @@ resolvers += "Funky-Repo" at "http://team846.github.io/repo"
 
 libraryDependencies += "com.lynbrookrobotics" % "potassium" % "0.1-SNAPSHOT"
 
-libraryDependencies += "com.lynbrookrobotics" % "funky-dashboard-server_2.11" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.lynbrookrobotics" % "funky-dashboard_2.11" % "0.1.0-SNAPSHOT"
 
 libraryDependencies += "com.typesafe" % "config" % "1.3.0"
 
