@@ -17,7 +17,7 @@ class GyroL3GD20HProtocol {
     private final byte L3GD20_REGISTER_CTRL_REG5 = 0x24;
     private final byte L3GD20_REGISTER_FIFO_CTRL = 0x2E;
 
-    private final int SIZE_GYRO_QUEU = 32;
+    private final int SIZE_GYRO_QUEU = 16;
 
     private final int SETTING_BYTES_SENT_RECEIVED = 2;
     private final int READING_BYTES_SENT_RECEIVED = 7; //the # of bytes sent and received while reading data for the 3 axis
@@ -75,7 +75,7 @@ class GyroL3GD20HProtocol {
 
         byte[] out = new byte[SETTING_BYTES_SENT_RECEIVED];
         out[0] = (byte) (L3GD20_REGISTER_CTRL_REG1);
-        out[1] = (byte) (0b11001111);//byte to enable axis and misc. setting
+        out[1] = (byte) (0b11111111);//byte to enable x, y, and z, axis, set sampling rate to 800hz
         byte[] in = new byte[SETTING_BYTES_SENT_RECEIVED];
         gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
@@ -87,7 +87,7 @@ class GyroL3GD20HProtocol {
 
         if (mode == STREAM_MODE) {
             out[0] = (byte) (L3GD20_REGISTER_CTRL_REG5);
-            out[1] = (byte) 0b01000000;//byte to enable FIFO, and limit the FIFO to an amount specified later
+            out[1] = (byte) 0b01100000;//byte to enable FIFO, and limit the FIFO to an threshold specified in the next transaction
             gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
             out[0] = (byte) (L3GD20_REGISTER_FIFO_CTRL);
