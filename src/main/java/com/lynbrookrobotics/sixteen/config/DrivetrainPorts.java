@@ -3,22 +3,37 @@ package com.lynbrookrobotics.sixteen.config;
 import com.typesafe.config.Config;
 
 public class DrivetrainPorts {
-    private int portLeft, portRight;
+    private int portFrontLeft, portFrontRight, portBackLeft, portBackRight;
 
-    public DrivetrainPorts(int portLeft, int portRight) {
-        this.portLeft = portLeft;
-        this.portRight = portRight;
+    public DrivetrainPorts(int portFrontLeft, int portFrontRight, int portBackLeft, int portBackRight) {
+        this.portFrontLeft = portFrontLeft;
+        this.portFrontRight = portFrontRight;
+        this.portBackLeft = portBackLeft;
+        this.portBackRight = portBackRight;
     }
 
     public DrivetrainPorts(Config config) {
-        this(config.getInt("left-port"), config.getInt("right-port"));
+        this(
+            config.getInt("front-left-port"),
+            config.getInt("front-right-port"),
+            config.getInt("back-left-port"),
+            config.getInt("back-right-port")
+        );
     }
 
-    public int portLeft() {
-        return portLeft;
+    public int portFrontLeft() {
+        return portFrontLeft;
     }
 
-    public int portRight() {
-        return portRight;
+    public int portFrontRight() {
+        return portFrontRight;
+    }
+
+    public int portBackLeft() {
+        return portBackLeft;
+    }
+
+    public int portBackRight() {
+        return portBackRight;
     }
 }

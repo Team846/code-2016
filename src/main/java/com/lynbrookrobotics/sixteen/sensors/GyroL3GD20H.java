@@ -117,44 +117,14 @@ public class GyroL3GD20H {
         * @return angle about the x axis in between -180 and 180
         */
         public double getXAngle() {
-            double angleToReturn = 0;
-
-            if (xAngle > 0) {
-                angleToReturn = xAngle - (Math.floor(xAngle / 360.0) * 360.0);//brings the angle to within 0 and 360
-            } else {
-                angleToReturn = xAngle - (Math.ceil(xAngle / 360.0) * 360.0);//brings the angle to within 0 and -360
-            }
-
-            if (angleToReturn < -180) {
-                return angleToReturn + 360.0;//brings the angle to within 0 and 180
-            }
-            if (angleToReturn > 180) {
-                return angleToReturn - 360.0;//brings the angle to within 0 and 180
-            }
-
-            return angleToReturn;
+            return xAngle;
         }
 
          /*** Returns the angle about the y axis in between -180 and 180
          * @return angle about the y axis in between -180 and 180
          */
         public double getYAngle() {
-            double angleToReturn = 0;
-
-            if (yAngle > 0) {
-                angleToReturn = yAngle - (Math.floor(yAngle / 360.0) * 360.0);
-            } else {
-                angleToReturn = yAngle - (Math.ceil(yAngle / 360.0) * 360.0);
-            }
-
-            if (angleToReturn < -180) {
-                return angleToReturn + 360.0;
-            }
-            if (angleToReturn > 180) {
-                return angleToReturn - 360.0;
-            }
-
-            return angleToReturn;
+            return yAngle;
         }
 
          /**
@@ -162,22 +132,7 @@ public class GyroL3GD20H {
          * @return angle about the z axis in between -180 and 180
          */
         public double getZAngle() {
-            double angleToReturn = 0;
-
-            if (zAngle > 0) {
-                angleToReturn = zAngle - (Math.floor(zAngle / 360.0) * 360.0);
-            } else {
-                angleToReturn = zAngle - (Math.ceil(zAngle / 360.0) * 360.0);
-            }
-
-            if (angleToReturn < -180) {
-                return angleToReturn + 360.0;
-            }
-            if (angleToReturn > 180) {
-                return angleToReturn - 360.0;
-            }
-
-            return angleToReturn;
+            return zAngle;
         }
 
         /**

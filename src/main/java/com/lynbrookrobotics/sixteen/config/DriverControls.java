@@ -22,8 +22,9 @@ public class DriverControls {
         this(
             DriverStation.getInstance(),
             new Joystick(RobotConstants.DRIVER_STICK),
-            new Joystick(RobotConstants.OPERATOR_STICK),
-            new Joystick(RobotConstants.DRIVER_WHEEL)
+                new Joystick(RobotConstants.DRIVER_WHEEL),
+            new Joystick(RobotConstants.OPERATOR_STICK)
+
         );
     }
 

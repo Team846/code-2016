@@ -21,19 +21,20 @@ public class Main {
     static Jaguar rightMotor = mock(Jaguar.class, withSettings().verboseLogging());
 
     public static void main(String[] args) {
-        when(hardware.drivetrainHardware()).thenReturn(drivetrainHardware);
-        when(drivetrainHardware.leftMotor()).thenReturn(leftMotor);
-        when(drivetrainHardware.rightMotor()).thenReturn(rightMotor);
-
-        Drivetrain drivetrain = new Drivetrain(hardware, new TankDriveController(Math::random, Math::random));
-
-        Timer updateTimer = new Timer("update-loop");
-
-        updateTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Potassium.updateAll();
-            }
-        }, 0, (long) (RobotConstants.TICK_PERIOD * 1000));
+        System.out.println(RobotConstants.dashboard());
+//        when(hardware.drivetrainHardware()).thenReturn(drivetrainHardware);
+//        when(drivetrainHardware.leftMotor()).thenReturn(leftMotor);
+//        when(drivetrainHardware.rightMotor()).thenReturn(rightMotor);
+//
+//        Drivetrain drivetrain = new Drivetrain(hardware, new TankDriveController(Math::random, Math::random));
+//
+//        Timer updateTimer = new Timer("update-loop");
+//
+//        updateTimer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                Potassium.updateAll();
+//            }
+//        }, 0, (long) (RobotConstants.TICK_PERIOD * 1000));
     }
 }
