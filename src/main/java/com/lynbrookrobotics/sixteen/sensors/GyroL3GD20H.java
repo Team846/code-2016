@@ -34,8 +34,8 @@ public class GyroL3GD20H {
         double yCalibValues[] = new double[100];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
         double zCalibValues[] = new double[100];
 
-        long previousTime = System.currentTimeMillis();
-        long timePassed = previousTime;
+        long previousTime = System.nanoTime();
+        long timePassed = 0;
 
         long calibCount = 0;
 
@@ -83,6 +83,7 @@ public class GyroL3GD20H {
             zVel = gyroCom.getZVel();
 
             timePassed = getTimePassed();
+            resetTimer();
 
             xAngle = trapaziodalIntegration(xAngle, xVel, previousXVel);
             yAngle = trapaziodalIntegration(xAngle, yVel, previousYVel);
@@ -96,8 +97,7 @@ public class GyroL3GD20H {
         private double getDrift(double[] calibValues){//called after updateGyro()
             double sum = 0;
 
-            if (calibCount < calibValues.length)//if calibrating for less than 2 seconds
-            {
+            if (calibCount < calibValues.length){//if calibrating for less than 2 seconds
                 for (int i = 0; i < calibCount; i++) {
                     sum += calibValues[i];
                 }
@@ -195,6 +195,7 @@ public class GyroL3GD20H {
             return yVel;
         }
 
+
         /**
         * @return Angular velocity around Z axis
         */
@@ -223,7 +224,7 @@ public class GyroL3GD20H {
         }
 
         private long getTimePassed() {
-            return (System.currentTimeMillis() - previousTime);//gets time in between gyro readings
+            return 1000 * (System.nanoTime() - previousTime);//gets time in between gyro readings
         }
 
         /**Takes the previous velocity and current velocity, and takes the trapezoidal integral to find the angle traveled
@@ -234,6 +235,6 @@ public class GyroL3GD20H {
         * @return The angle gotten by taking the integral of the angular velocity
         */
         private double trapaziodalIntegration(double previousAngle, double velocity, double previousVelocity) {
-            return (previousAngle + /*timePassed*/ 20 * ((velocity + previousVelocity) / 2) / 1000);
+            return (previousAngle + getTimePassed() * ((velocity + previousVelocity) / 2) / 1000);
         }
 }
