@@ -30,9 +30,10 @@ public class GyroL3GD20H {
         double driftY = 0;
         double driftZ = 0;
 
-        double xCalibValues[] = new double[100];
-        double yCalibValues[] = new double[100];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
-        double zCalibValues[] = new double[100];
+        private final int NUMBER_CALIBRATION_VALUES = 100;
+        double xCalibValues[] = new double[NUMBER_CALIBRATION_VALUES];
+        double yCalibValues[] = new double[NUMBER_CALIBRATION_VALUES];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
+        double zCalibValues[] = new double[NUMBER_CALIBRATION_VALUES];
 
         long previousTime = System.nanoTime();
         long timePassed = 0;
@@ -215,9 +216,9 @@ public class GyroL3GD20H {
             xAngle = 0;
         }
 
-        public void resetYAngle() {
-            yAngle = 0;
-        }
+    public void resetYAngle() {
+        yAngle = 0;
+    }
 
         public void resetZAngle() {
             zAngle = 0;
