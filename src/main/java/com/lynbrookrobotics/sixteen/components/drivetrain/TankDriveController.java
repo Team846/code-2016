@@ -18,11 +18,12 @@ public class TankDriveController extends DrivetrainController {
 
     @Override
     public double leftSpeed() {
-        return forwardSpeed.get() + turnSpeed.get();
+        System.out.println("turn: " + turnSpeed.get());
+        return -forwardSpeed.get() + turnSpeed.get();
     }
 
     @Override
     public double rightSpeed() {
-        return forwardSpeed.get() - turnSpeed.get();
+        return -forwardSpeed.get() - turnSpeed.get();
     }
 }

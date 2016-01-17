@@ -18,7 +18,10 @@ public class Drivetrain extends Component<DrivetrainController> {
 
     @Override
     public void setOutputs(DrivetrainController drivetrainController) {
-        hardware.leftMotor().set(drivetrainController.leftSpeed());
-        hardware.rightMotor().set(drivetrainController.rightSpeed());
+        hardware.frontLeftMotor().set(drivetrainController.leftSpeed());
+        hardware.backLeftMotor().set(drivetrainController.leftSpeed());
+
+        hardware.frontRightMotor().set(drivetrainController.rightSpeed());
+        hardware.backRightMotor().set(drivetrainController.rightSpeed());
     }
 }

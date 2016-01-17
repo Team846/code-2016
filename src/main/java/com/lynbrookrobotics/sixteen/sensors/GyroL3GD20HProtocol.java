@@ -26,7 +26,7 @@ class GyroL3GD20HProtocol {
     private final int STREAM_MODE = 1;
     private final int mode = STREAM_MODE;//If the gyro does not have an imbedded queue or stack, use BYPASSMODE
 
-    private final double conversionFactor = 0.00875F;
+    private final double CONVERSION_FACTOR = 0.071934231559717;
 
     public static final boolean CALIBRATE = true;
     public static final boolean DONT_CALIBRATE = false;
@@ -119,9 +119,9 @@ class GyroL3GD20HProtocol {
                     //Data for an axis is expressed with 2 bytes
                     //Index is not 0 because the first byte is before the byte for register selection was sent
                     //Conversion factor converts the raw gyro value into degrees/second
-                    xFIFO = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
-                    yFIFO = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
-                    zFIFO = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
+                    xFIFO = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * CONVERSION_FACTOR;
+                    yFIFO = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * CONVERSION_FACTOR;
+                    zFIFO = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * CONVERSION_FACTOR;
 
                     if (!calibrate){//if not currently calibrating
                         xFIFOValues[FIFOCount] = xFIFO - driftX;
@@ -149,9 +149,9 @@ class GyroL3GD20HProtocol {
             outputToSlave[0] = L3GD20_REGISTER_OUT_X_L | (byte) 0x80 | (byte) 0x40;
             gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);
 
-            xVel = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * conversionFactor;
-            yVel = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
-            zVel = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * conversionFactor;
+            xVel = ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * CONVERSION_FACTOR;
+            yVel = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * CONVERSION_FACTOR;
+            zVel = ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * CONVERSION_FACTOR;
 
             if (!calibrate) {//if not currently calibrating
                 xVel = xVel - driftX;

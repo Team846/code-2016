@@ -109,6 +109,7 @@ public class GyroL3GD20H {
             return sum / calibCount;
         }
 
+<<<<<<< HEAD
         for (int i = 0; i < calibValues.length; i++){//If there are least 100 calibration values, AKA more than 2 seconds
             sum += calibValues[i];
         }
@@ -149,6 +150,29 @@ public class GyroL3GD20H {
             angleToReturn = yAngle - (Math.floor(yAngle / 360.0) * 360.0);
         } else {
             angleToReturn = yAngle - (Math.ceil(yAngle / 360.0) * 360.0);
+=======
+        /**
+        * Returns the angle about the x axis in between -180 and 180
+        * @return angle about the x axis in between -180 and 180
+        */
+        public double getXAngle() {
+            return xAngle;
+        }
+
+         /*** Returns the angle about the y axis in between -180 and 180
+         * @return angle about the y axis in between -180 and 180
+         */
+        public double getYAngle() {
+            return yAngle;
+        }
+
+         /**
+         * Returns the angle about the z axis in between -180 and 180
+         * @return angle about the z axis in between -180 and 180
+         */
+        public double getZAngle() {
+            return zAngle;
+>>>>>>> refs/remotes/Team846/master
         }
 
         if (angleToReturn < -180) {
