@@ -3,8 +3,8 @@ package com.lynbrookrobotics.sixteen.config;
 import com.lynbrookrobotics.sixteen.sensors.GyroL3GD20H;
 import edu.wpi.first.wpilibj.Jaguar;
 
-/** Contains all the hardware components for the drivetrain
- *  including motors and gyros for angle and acceleration measurement
+/**
+ * Contains all the hardware components for the drivetrain including motors and gyros for angle and acceleration measurement
  */
 public class DrivetrainHardware {
     private Jaguar frontLeftMotor;
