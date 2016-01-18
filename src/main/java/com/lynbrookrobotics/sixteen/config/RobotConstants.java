@@ -13,10 +13,19 @@ public class RobotConstants {
     public static ActorSystem system = ActorSystem.create();
     public static FunkyDashboard dashboard = null;
 
+    public static boolean onRobot() {
+        return System.getProperty("user.name").equals("lvuser");
+    }
+
     public static FunkyDashboard dashboard() {
         if (dashboard == null) {
             dashboard = new FunkyDashboard();
-            dashboard.bindRoute("roborio-846-frc.local", 8080, system);
+
+            if (onRobot()) {
+                dashboard.bindRoute("roborio-846-frc.local", 8080, system);
+            } else {
+                dashboard.bindRoute("localhost", 8080, system);
+            }
         }
 
         return dashboard;
