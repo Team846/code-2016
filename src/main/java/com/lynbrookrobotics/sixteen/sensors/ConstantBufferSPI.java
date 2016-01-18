@@ -22,6 +22,8 @@ public class ConstantBufferSPI extends SPI {
 
         this.size = (byte) size;
         this.port = (byte) port.getValue();
+        this.sendBuffer = ByteBuffer.allocateDirect(size);
+        this.receiveBuffer = ByteBuffer.allocateDirect(size);
     }
 
     @Override
