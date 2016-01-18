@@ -6,3 +6,6 @@ Click "Open" in IntelliJ and select the code-2016 directory you cloned down. If 
 
 ## Deploying to Robot
 Either in the command prompt or through IntelliJ run configurations, run the `deploy` task through SBT.
+
+## [Notebook](notebook)
+The notebook contains daily updates on software work as well as associated data files.
