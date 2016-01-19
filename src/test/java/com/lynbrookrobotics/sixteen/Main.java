@@ -32,7 +32,7 @@ public class Main {
         when(drivetrainHardware.backLeftMotor()).thenReturn(backLeftMotor);
         when(drivetrainHardware.backRightMotor()).thenReturn(backRightMotor);
 
-        Drivetrain drivetrain = new Drivetrain(hardware, new TankDriveController(Math::random, Math::random));
+        Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(Math::random, Math::random));
 
         Timer updateTimer = new Timer("update-loop");
 

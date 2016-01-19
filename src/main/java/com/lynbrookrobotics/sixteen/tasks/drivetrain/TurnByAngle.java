@@ -2,12 +2,8 @@ package com.lynbrookrobotics.sixteen.tasks.drivetrain;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.PositionControllers;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.TurnByAngleController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import javaslang.Tuple2;
-
-import java.util.function.Supplier;
 
 public class TurnByAngle extends FiniteTask {
     RobotHardware hardware;
@@ -15,7 +11,7 @@ public class TurnByAngle extends FiniteTask {
 
     double angle;
 
-    Supplier<Double> diff;
+    TurnByAngleController controller;
 
     public TurnByAngle(double angle, RobotHardware hardware, Drivetrain drivetrain) {
         this.hardware = hardware;
@@ -26,19 +22,16 @@ public class TurnByAngle extends FiniteTask {
 
     @Override
     protected void startTask() {
-        Tuple2<TankDriveController, Supplier<Double>> positionControl =
-                PositionControllers.turnByAngle(angle, hardware);
-
-        diff = positionControl._2;
-        drivetrain.setController(positionControl._1);
+        controller = new TurnByAngleController(angle, hardware);
+        drivetrain.setController(controller);
     }
 
     int goodTicks = 0;
 
     @Override
     protected void update() {
-        System.out.println("LEFT: " + diff.get());
-        if (diff.get() < 0.25) {
+        System.out.println("LEFT: " + controller.difference());
+        if (controller.difference() < 0.25) {
             goodTicks++;
             if (goodTicks == 100) {
                 finished();
@@ -51,6 +44,6 @@ public class TurnByAngle extends FiniteTask {
     @Override
     protected void endTask() {
         drivetrain.resetToDefault();
-        diff = null;
+        controller = null;
     }
 }

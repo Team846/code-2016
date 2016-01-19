@@ -21,7 +21,7 @@ public class CoreRobot {
 
     DriverControls controls = new DriverControls();
 
-    Drivetrain drivetrain = new Drivetrain(hardware, new TankDriveController(() -> 0.0, () -> 0.0));
+    Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
 
     CoreEvents events = new CoreEvents(controls, hardware, drivetrain);
 

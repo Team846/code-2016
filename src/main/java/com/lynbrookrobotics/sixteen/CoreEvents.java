@@ -26,7 +26,7 @@ public class CoreEvents {
     InGameState enabledStateEvent;
 
     // Drivetrain
-    TankDriveController enabledDrive = new TankDriveController(
+    TankDriveController enabledDrive = TankDriveController.of(
         () -> controls.driverStick().getAxis(Joystick.AxisType.kY),
         () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
     );
