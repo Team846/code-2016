@@ -13,6 +13,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import edu.wpi.first.wpilibj.Joystick;
 
+//CoreEvents class creates events and maps these to handlers 
 public class CoreEvents {
     DriverControls controls;
     RobotHardware hardware;
@@ -26,6 +27,7 @@ public class CoreEvents {
     InGameState enabledStateEvent;
 
     // Drivetrain
+    // using lambda expression to pass updated forward & turn speeds for tank drive controller
     TankDriveController enabledDrive = TankDriveController.of(
         () -> controls.driverStick().getAxis(Joystick.AxisType.kY),
         () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
@@ -33,6 +35,7 @@ public class CoreEvents {
 
     FiniteTask auto;
 
+    // initializes hardware for events
     public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain) {
         this.controls = controls;
         this.drivetrain = drivetrain;
