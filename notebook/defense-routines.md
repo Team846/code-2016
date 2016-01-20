@@ -1,5 +1,5 @@
 # Example Defense Routines
-## Team Indiana
+## Team Indiana (https://www.youtube.com/watch?v=7Gt1tazM0ig)
 ### Portcullis
 Drivetrain:
 + accelerates to get up ramp (aka defense platform), but ends up bumping into door of arched gateway
