@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import java.util.Timer;
 import java.util.TimerTask;
 
-// CoreRobot class loads config and creates components
+/**
+ * CoreRobot class loads config and creates components
+ */
 public class CoreRobot {
     VariableConfiguration config = new VariableConfiguration();
     RobotHardware hardware = new RobotHardware(config);
@@ -26,7 +28,9 @@ public class CoreRobot {
 
     CoreEvents events = new CoreEvents(controls, hardware, drivetrain);
 
-    //sets up tick function with timer
+    /**
+     * Sets up tick function with timer
+     */
     public CoreRobot() {
         Timer updateTimer = new Timer("update-loop");
 

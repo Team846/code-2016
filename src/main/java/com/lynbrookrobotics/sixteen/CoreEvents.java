@@ -13,7 +13,9 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import edu.wpi.first.wpilibj.Joystick;
 
-//CoreEvents class creates events and maps these to handlers 
+/**
+ * CoreEvents class creates events and maps these to handlers
+ */
 public class CoreEvents {
     DriverControls controls;
     RobotHardware hardware;
@@ -27,15 +29,19 @@ public class CoreEvents {
     InGameState enabledStateEvent;
 
     // Drivetrain
-    // using lambda expression to pass updated forward & turn speeds for tank drive controller
+    /**
+     * Using lambda expression to pass updated forward & turn speeds for tank drive controller
+     */
     TankDriveController enabledDrive = TankDriveController.of(
-        () -> controls.driverStick().getAxis(Joystick.AxisType.kY),
-        () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
+            () -> controls.driverStick().getAxis(Joystick.AxisType.kY),
+            () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
     );
 
     FiniteTask auto;
 
-    // initializes hardware for events
+    /**
+     * Initializes hardware for events
+     */
     public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain) {
         this.controls = controls;
         this.drivetrain = drivetrain;
@@ -67,7 +73,8 @@ public class CoreEvents {
         // Drivetrain - Gyro
         disabledStateEvent.forEach(new SteadyEventHandler() {
             @Override
-            public void onStart() {}
+            public void onStart() {
+            }
 
             @Override
             public void onRunning() {
@@ -79,7 +86,8 @@ public class CoreEvents {
             }
 
             @Override
-            public void onEnd() {}
+            public void onEnd() {
+            }
         });
 
 //        enabledStateEvent.forEach(new SteadyEventHandler() {
@@ -100,7 +108,8 @@ public class CoreEvents {
 
         enabledStateEvent.forEach(new SteadyEventHandler() {
             @Override
-            public void onStart() {}
+            public void onStart() {
+            }
 
             @Override
             public void onRunning() {
@@ -109,7 +118,8 @@ public class CoreEvents {
             }
 
             @Override
-            public void onEnd() {}
+            public void onEnd() {
+            }
         });
 
         RobotConstants.dashboard().datasetGroup("drivetrain").
@@ -130,7 +140,8 @@ public class CoreEvents {
             }
 
             @Override
-            public void onRunning() {}
+            public void onRunning() {
+            }
 
             @Override
             public void onEnd() {
