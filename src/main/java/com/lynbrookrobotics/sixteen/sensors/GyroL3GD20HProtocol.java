@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @see <a href="http://www.adafruit.com/datasheets/L3GD20H.pdf">http://www.adafruit.com/datasheets/L3GD20H.pdf</a>
  */
 class GyroL3GD20HProtocol {
-    private SPI gyro;
+    private ConstantBufferSPI gyro;
 
     private final byte L3GD20_REGISTER_OUT_X_L = 0x28; //This is a digital gyro. These are registers to read and write data
     private final byte L3GD20_REGISTER_CTRL_REG1 = 0x20;
@@ -17,7 +17,7 @@ class GyroL3GD20HProtocol {
     private final byte L3GD20_REGISTER_CTRL_REG5 = 0x24;
     private final byte L3GD20_REGISTER_FIFO_CTRL = 0x2E;
 
-    private final int SIZE_GYRO_QUEU = 32;
+    private final int SIZE_GYRO_QUEU = 16;
 
     private final int SETTING_BYTES_SENT_RECEIVED = 2;
     private final int READING_BYTES_SENT_RECEIVED = 7; //the # of bytes sent and received while reading data for the 3 axis
@@ -44,7 +44,7 @@ class GyroL3GD20HProtocol {
     private double zVel = 0;
     private double zFIFO = 0;
 
-    private double xFIFOValues[] = new double[SIZE_GYRO_QUEU];//gyro queue only stores 32 values
+    private double xFIFOValues[] = new double[SIZE_GYRO_QUEU];//gyro queue only stores 32 values (but we choose to make it 16)
     private double yFIFOValues[] = new double[SIZE_GYRO_QUEU];
     private double zFIFOValues[] = new double[SIZE_GYRO_QUEU];
 
@@ -72,7 +72,7 @@ class GyroL3GD20HProtocol {
 
         byte[] out = new byte[SETTING_BYTES_SENT_RECEIVED];
         out[0] = (byte) (L3GD20_REGISTER_CTRL_REG1);
-        out[1] = (byte) (0b11001111);//byte to enable axis and misc. setting
+        out[1] = (byte) (0b11001111);//byte to enable axis and misc. setting, set ODR to 800
         byte[] in = new byte[SETTING_BYTES_SENT_RECEIVED];
         gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
@@ -84,11 +84,11 @@ class GyroL3GD20HProtocol {
 
         if (mode == STREAM_MODE) {
             out[0] = (byte) (L3GD20_REGISTER_CTRL_REG5);
-            out[1] = (byte) 0b01000000;//byte to enable FIFO
+            out[1] = (byte) 0b01000000;//byte to enable FIFO, and enable the FIFO to stop at 16 bits
             gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
             out[0] = (byte) (L3GD20_REGISTER_FIFO_CTRL);
-            out[1] = (byte) (0b01000000);//byte that sets to stream mode
+            out[1] = (byte) (0b01100000);//byte that sets to stream mode, and set queue to 16
             gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
         }
 
