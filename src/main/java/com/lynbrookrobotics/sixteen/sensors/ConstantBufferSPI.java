@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 
 public class ConstantBufferSPI extends SPI {
     private byte port;
-    private byte size;
 
     private ByteBuffer sendBuffer;
     private ByteBuffer receiveBuffer;
@@ -20,7 +19,6 @@ public class ConstantBufferSPI extends SPI {
     public ConstantBufferSPI(Port port, int size) {
         super(port);
 
-        this.size = (byte) size;
         this.port = (byte) port.getValue();
         this.sendBuffer = ByteBuffer.allocateDirect(size);
         this.receiveBuffer = ByteBuffer.allocateDirect(size);
@@ -28,8 +26,11 @@ public class ConstantBufferSPI extends SPI {
 
     @Override
     public int transaction(byte[] dataToSend, byte[] dataReceived, int size) {
+        sendBuffer.clear();
+        receiveBuffer.clear();
+
         sendBuffer.put(dataToSend); // put the send data into dataToSend
-        int resultCode = SPIJNI.spiTransaction(port, sendBuffer, receiveBuffer, this.size);
+        int resultCode = SPIJNI.spiTransaction(port, sendBuffer, receiveBuffer, (byte) size);
         receiveBuffer.get(dataReceived); // pull the result data into dataRecieved
 
         return resultCode;
