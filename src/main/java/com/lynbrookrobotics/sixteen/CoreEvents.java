@@ -10,6 +10,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -51,19 +52,13 @@ public class CoreEvents {
         this.autonomousStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.AUTONOMOUS);
         this.enabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.ENABLED);
 
-        this.auto =
-                new TurnByAngle(360, hardware, drivetrain).
-                        then(new TurnByAngle(360, hardware, drivetrain)).
-                        then(new TurnByAngle(360, hardware, drivetrain)).
-                        then(new TurnByAngle(360, hardware, drivetrain));
-//                        then(new TurnByAngle(90, hardware, drivetrain)).
-//                        then(new TurnByAngle(90, hardware, drivetrain)).
-//                        then(new TurnByAngle(90, hardware, drivetrain)).
-//                        then(new TurnByAngle(90, hardware, drivetrain)).
-//                        then(new TurnByAngle(90, hardware, drivetrain)).
-//                        then(new TurnByAngle(90, hardware, drivetrain)).
-//                        then(new TurnByAngle(90, hardware, drivetrain)).
-//                        then(new TurnByAngle(90, hardware, drivetrain));
+        FiniteTask autoPart =
+                new TimedDrive(1000, () -> -0.2, () -> 0.0, hardware, drivetrain).
+                        then(new TurnByAngle(180, hardware, drivetrain)).
+                        then(new TimedDrive(1000, () -> -0.2, () -> 0.0, hardware, drivetrain)).
+                        then(new TurnByAngle(180, hardware, drivetrain));
+
+        this.auto = autoPart.then(autoPart).then(autoPart);
 
         initEventMappings();
     }
@@ -90,20 +85,23 @@ public class CoreEvents {
             }
         });
 
-//        enabledStateEvent.forEach(new SteadyEventHandler() {
-//            @Override
-//            public void onStart() {
-//                Task.executeTask(auto);
-//            }
-//
-//            @Override
-//            public void onRunning() {}
-//
-//            @Override
-//            public void onEnd() {
-//                Task.abortTask(auto);
-//            }
-//        });
+        autonomousStateEvent.forEach(new SteadyEventHandler() {
+            @Override
+            public void onStart() {
+                Task.executeTask(auto);
+            }
+
+            @Override
+            public void onRunning() {
+                initialCalibrationDone = true;
+                hardware.drivetrainHardware().gyro().angleUpdate();
+            }
+
+            @Override
+            public void onEnd() {
+                Task.abortTask(auto);
+            }
+        });
 
 
         enabledStateEvent.forEach(new SteadyEventHandler() {

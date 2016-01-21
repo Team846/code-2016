@@ -5,7 +5,7 @@ import com.lynbrookrobotics.sixteen.sensors.GyroL3GD20H;
 
 public class TurnByAngleController extends TankDriveController {
     RobotHardware hardware;
-    GyroL3GD20H gyro = hardware.drivetrainHardware().gyro();
+    GyroL3GD20H gyro;
     double targetAngle;
 
     public TurnByAngleController(double angle, RobotHardware hardware) {
