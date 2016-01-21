@@ -2,6 +2,9 @@ package com.lynbrookrobotics.sixteen.config;
 
 import com.typesafe.config.Config;
 
+/**
+ * Contains ports for all 4 drivetrain motors
+ */
 public class DrivetrainPorts {
     private int portFrontLeft, portFrontRight, portBackLeft, portBackRight;
 
