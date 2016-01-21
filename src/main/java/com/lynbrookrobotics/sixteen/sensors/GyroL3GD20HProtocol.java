@@ -60,7 +60,7 @@ class GyroL3GD20HProtocol {
      * @param mode This can be BYPASS_MODE or STREAM_MODE. BYPASS_MODE doesn't use  the gyro's FIFO, STREAM_MODE does use the gyro's FIFO
      */
     private void setupGyroCommunciation(int mode) {
-        gyro = new SPI(SPI.Port.kOnboardCS3);
+        gyro = new ConstantBufferSPI(ConstantBufferSPI.Port.kOnboardCS3, 7);
         gyro.setClockRate(2000000);
 
         gyro.setSampleDataOnFalling(); // Reversed due to wpi bug. Should be gyro.setSampleDataOnRising();
