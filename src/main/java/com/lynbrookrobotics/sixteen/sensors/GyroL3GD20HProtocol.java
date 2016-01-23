@@ -84,11 +84,11 @@ class GyroL3GD20HProtocol {
 
         if (mode == STREAM_MODE) {
             out[0] = (byte) (L3GD20_REGISTER_CTRL_REG5);
-            out[1] = (byte) 0b01000000;//byte to enable FIFO, and enable the FIFO to stop at 16 bits
+            out[1] = (byte) 0b01100000;//byte to enable FIFO, and enable the FIFO to stop at 16 bits
             gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
             out[0] = (byte) (L3GD20_REGISTER_FIFO_CTRL);
-            out[1] = (byte) (0b01100000);//byte that sets to stream mode, and set queue to 16
+            out[1] = (byte) (0b01010000);//byte that sets to stream mode, and set queue to 16
             gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
         }
 
