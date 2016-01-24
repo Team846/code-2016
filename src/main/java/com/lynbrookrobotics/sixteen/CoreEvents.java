@@ -123,12 +123,12 @@ public class CoreEvents {
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Gyro Velocity",
-                        hardware.drivetrainHardware().gyro()::getZVel));
+                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
 
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Gyro Position",
-                        hardware.drivetrainHardware().gyro()::getZAngle));
+                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
 
         // Drivetrain - Joystick
         enabledStateEvent.forEach(new SteadyEventHandler() {
