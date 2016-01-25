@@ -30,7 +30,7 @@ class GyroL3GD20HProtocol {
     private final int SETTING_BYTES_SENT_RECEIVED = 2;
     private final int READING_BYTES_SENT_RECEIVED = 7; //the # of bytes sent and received while reading data for the 3 axis
 
-    private final double CONVERSION_FACTOR = 0.00175;
+    private final double CONVERSION_FACTOR = 0.0175;
 
     private  byte[] inputFromSlave = new byte[7];
     private  byte[] outputToSlave = new byte[7];
