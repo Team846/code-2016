@@ -30,7 +30,7 @@ class GyroL3GD20HProtocol {
     private final int SETTING_BYTES_SENT_RECEIVED = 2;
     private final int READING_BYTES_SENT_RECEIVED = 7; //the # of bytes sent and received while reading data for the 3 axis
 
-    private final double CONVERSION_FACTOR = 0.071934231559717;
+    private final double CONVERSION_FACTOR = 0.00175;
 
     private  byte[] inputFromSlave = new byte[7];
     private  byte[] outputToSlave = new byte[7];
@@ -63,7 +63,7 @@ class GyroL3GD20HProtocol {
 
         out = new byte[SETTING_BYTES_SENT_RECEIVED];
         out[0] = L3GD20_REGISTER_CTRL_REG4;
-        out[1] = (byte) (0b00110000);//set sensitivity
+        out[1] = (byte) (0b00010000);//set sensitivity
         in = new byte[SETTING_BYTES_SENT_RECEIVED];
         gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
