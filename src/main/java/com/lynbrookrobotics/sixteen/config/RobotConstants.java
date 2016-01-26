@@ -2,6 +2,10 @@ package com.lynbrookrobotics.sixteen.config;
 
 import akka.actor.ActorSystem;
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+
+import java.util.ArrayList;
 
 public class RobotConstants {
     public static double TICK_PERIOD = 1D/50; // every 20ms, matches IterativeRobot
@@ -12,6 +16,11 @@ public class RobotConstants {
 
     public static ActorSystem system = ActorSystem.create();
     public static FunkyDashboard dashboard = null;
+
+    public static Class[] taskList = {
+            TimedDrive.class,
+            TurnByAngle.class
+    };
 
     public static boolean onRobot() {
         return System.getProperty("user.name").equals("lvuser");
