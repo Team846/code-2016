@@ -129,6 +129,15 @@ public class CoreEvents {
                 addDataset(new TimeSeriesNumeric<>(
                         "Gyro Position",
                         () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU absolute position",
+                        () -> hardware.drivetrainHardware().IMU().getAngleZ()));
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU relative position",
+                        () -> hardware.drivetrainHardware().IMU().getRelativeAngle().z()));
+
 
         // Drivetrain - Joystick
         enabledStateEvent.forEach(new SteadyEventHandler() {
