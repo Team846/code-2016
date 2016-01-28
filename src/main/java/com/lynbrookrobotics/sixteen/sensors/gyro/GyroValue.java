@@ -50,10 +50,4 @@ public class GyroValue {
                 ", zValue=" + zValue +
                 '}';
     }
-
-    public void set(double xValue, double yValue, double zValue) {
-        this.xValue = xValue;
-        this.yValue = yValue;
-        this.zValue = zValue;
-    }
 }

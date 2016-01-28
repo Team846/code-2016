@@ -23,6 +23,6 @@ public class TurnByAngleController extends TankDriveController {
 
     @Override
     public double turnSpeed() {
-        return difference() * (1D/720);
+        return difference() * (1D/360);
     }
 }
