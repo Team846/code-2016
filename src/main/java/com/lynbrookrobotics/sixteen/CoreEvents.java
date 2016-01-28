@@ -120,15 +120,20 @@ public class CoreEvents {
             }
         });
 
+//        RobotConstants.dashboard().datasetGroup("drivetrain").
+//                addDataset(new TimeSeriesNumeric<>(
+//                        "Gyro Velocity",
+//                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
+//
+//        RobotConstants.dashboard().datasetGroup("drivetrain").
+//                addDataset(new TimeSeriesNumeric<>(
+//                        "Gyro Position",
+//                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
-                        "Gyro Velocity",
-                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
+                        "IMU absolute position",
+                        () -> hardware.drivetrainHardware().IMU().getAngleZ()));
 
-        RobotConstants.dashboard().datasetGroup("drivetrain").
-                addDataset(new TimeSeriesNumeric<>(
-                        "Gyro Position",
-                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
 
         // Drivetrain - Joystick
         enabledStateEvent.forEach(new SteadyEventHandler() {

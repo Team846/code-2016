@@ -1,6 +1,7 @@
 package com.lynbrookrobotics.sixteen.config;
 
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
+import com.lynbrookrobotics.sixteen.sensors.IMU.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.Jaguar;
 
 /**
@@ -13,6 +14,7 @@ public class DrivetrainHardware {
     private Jaguar backRightMotor;
 
     private GyroL3GD20H gyro;
+    private ADIS16448_IMU IMU;
 
     public DrivetrainHardware(VariableConfiguration config) {
         frontLeftMotor = new Jaguar(config.drivetrainPorts().portFrontLeft());
@@ -21,6 +23,7 @@ public class DrivetrainHardware {
         backRightMotor = new Jaguar(config.drivetrainPorts().portBackRight());
 
         gyro = new GyroL3GD20H();
+        IMU = new ADIS16448_IMU();
     }
 
     public Jaguar frontLeftMotor() {
@@ -41,5 +44,9 @@ public class DrivetrainHardware {
 
     public GyroL3GD20H gyro() {
         return gyro;
+    }
+
+    public ADIS16448_IMU IMU(){
+        return IMU;
     }
 }
