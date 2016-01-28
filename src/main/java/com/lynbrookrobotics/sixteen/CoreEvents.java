@@ -10,6 +10,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.FixedHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import edu.wpi.first.wpilibj.Joystick;
@@ -34,7 +35,7 @@ public class CoreEvents {
      * Using lambda expression to pass updated forward & turn speeds for tank drive controller
      */
     TankDriveController enabledDrive = TankDriveController.of(
-            () -> controls.driverStick().getAxis(Joystick.AxisType.kY),
+            () -> -controls.driverStick().getAxis(Joystick.AxisType.kY),
             () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
     );
 
@@ -53,12 +54,12 @@ public class CoreEvents {
         this.enabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.ENABLED);
 
         FiniteTask autoPart =
-                new TimedDrive(1000, () -> -0.2, () -> 0.0, hardware, drivetrain).
-                        then(new TurnByAngle(180, hardware, drivetrain)).
-                        then(new TimedDrive(1000, () -> -0.2, () -> 0.0, hardware, drivetrain)).
-                        then(new TurnByAngle(180, hardware, drivetrain));
+                new FixedHeadingTimedDrive(1000, () -> 0.2, 0, hardware, drivetrain)
+                .then(new FixedHeadingTimedDrive(1000, () -> 0.2, 90, hardware, drivetrain))
+                .then(new FixedHeadingTimedDrive(1000, () -> 0.2, 90, hardware, drivetrain))
+                .then(new FixedHeadingTimedDrive(1000, () -> 0.2, 90, hardware, drivetrain));
 
-        this.auto = autoPart.then(autoPart).then(autoPart);
+        this.auto = autoPart/*.then(autoPart).then(autoPart)*/;
 
         initEventMappings();
     }

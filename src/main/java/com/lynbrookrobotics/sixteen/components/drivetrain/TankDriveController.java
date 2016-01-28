@@ -34,11 +34,11 @@ public abstract class TankDriveController extends DrivetrainController {
 
     @Override
     public double leftSpeed() {
-        return -forwardSpeed() + turnSpeed();
+        return forwardSpeed() + turnSpeed();
     }
 
     @Override
     public double rightSpeed() {
-        return -forwardSpeed() - turnSpeed();
+        return forwardSpeed() - turnSpeed();
     }
 }
