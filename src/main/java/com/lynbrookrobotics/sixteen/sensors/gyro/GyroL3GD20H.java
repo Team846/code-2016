@@ -5,12 +5,12 @@ import java.util.Queue;
 
 
 public class GyroL3GD20H {
-        GyroValue currentVelocity = new GyroValue(0, 0, 0);
-        GyroValue currentPosition = new GyroValue(0, 0, 0);
+        Value3D currentVelocity = new Value3D(0, 0, 0);
+        Value3D currentPosition = new Value3D(0, 0, 0);
 
-        GyroValue currentDrift;
+        Value3D currentDrift;
 
-        Queue<GyroValue> calibrationValues = new LinkedList<>();
+        Queue<Value3D> calibrationValues = new LinkedList<>();
 
         private GyroL3GD20HProtocol gyroCom;
 
@@ -45,12 +45,12 @@ public class GyroL3GD20H {
          * Updates values for the angle on the gyro
          */
         public void angleUpdate() {
-            GyroValue previousVelocity = currentVelocity;
+            Value3D previousVelocity = currentVelocity;
             currentVelocity =
                 gyroCom.getGyroValue().
                     plus(currentDrift.times(-1));
 
-            GyroValue integratedDifference = new GyroValue(
+            Value3D integratedDifference = new Value3D(
                 trapaziodalIntegration(currentVelocity.x(), previousVelocity.x()),
                 trapaziodalIntegration(currentVelocity.y(), previousVelocity.y()),
                 trapaziodalIntegration(currentVelocity.z(), previousVelocity.z())
@@ -64,24 +64,24 @@ public class GyroL3GD20H {
          * @param values values that are read when the gyro not moving
          * @return the drift calculated from the values read when the gyro is not moving
          */
-        private static GyroValue averageGyroVelocity(Queue<GyroValue> values){//called after getGyroValue()
-            GyroValue sum = values.stream().reduce(
-                    new GyroValue(0, 0, 0), // inital value of acc
-                    GyroValue::plus // (acc, cur) -> acc.plus(cur)
+        public static Value3D averageGyroVelocity(Queue<Value3D> values){//called after getGyroValue()
+            Value3D sum = values.stream().reduce(
+                    new Value3D(0, 0, 0), // inital value of acc
+                    Value3D::plus // (acc, cur) -> acc.plus(cur)
             );
 
-            return new GyroValue(
+            return new Value3D(
                 sum.x() / (double) values.size(),
                 sum.y() / (double) values.size(),
                 sum.z() / (double) values.size()
             );
         }
 
-        public GyroValue currentPosition() {
+        public Value3D currentPosition() {
             return currentPosition;
         }
 
-        public GyroValue currentVelocity() {
+        public Value3D currentVelocity() {
             return currentVelocity;
         }
 

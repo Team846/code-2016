@@ -82,17 +82,17 @@ class GyroL3GD20HProtocol {
     /**
      * @return the current velocity measured by the gyro
      */
-    public GyroValue getGyroValue() {
+    public Value3D getGyroValue() {
         if(mode == CollectionMode.STREAM) {
             if (isFIFOFull()) {
-                Queue<GyroValue> gyroValues = new LinkedList<>();
+                Queue<Value3D> gyroValues = new LinkedList<>();
                 for (int i = 0; i < SIZE_GYRO_QUEUE; i++) {
                     gyroValues.add(getOneValue());
                 }
 
-                GyroValue sum = gyroValues.stream().reduce(
-                    new GyroValue(0, 0, 0), // inital value of acc
-                    GyroValue::plus // (acc, cur) -> acc.plus(cur)
+                Value3D sum = gyroValues.stream().reduce(
+                    new Value3D(0, 0, 0), // inital value of acc
+                    Value3D::plus // (acc, cur) -> acc.plus(cur)
                 );
 
                 return sum.times(1D/SIZE_GYRO_QUEUE);
@@ -104,13 +104,13 @@ class GyroL3GD20HProtocol {
         }
     }
 
-    public GyroValue getOneValue() {
+    public Value3D getOneValue() {
         Arrays.fill(outputToSlave, (byte) 0b00000000);
 
         outputToSlave[0] = combineBytes(L3GD20_REGISTER_OUT_X_L, (byte) 0x80, (byte) 0x40);
         gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);
 
-        return new GyroValue(
+        return new Value3D(
                 ((inputFromSlave[1] & 0xFF) | (inputFromSlave[2] << 8)) * CONVERSION_FACTOR,
                 ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * CONVERSION_FACTOR,
                 ((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8)) * CONVERSION_FACTOR

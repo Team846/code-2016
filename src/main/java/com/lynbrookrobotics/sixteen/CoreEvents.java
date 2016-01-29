@@ -76,8 +76,10 @@ public class CoreEvents {
             public void onRunning() {
                 if (!initialCalibrationDone) {
                     hardware.drivetrainHardware().gyro().calibrateUpdate();
+                    hardware.drivetrainHardware().imu().calibrate();
                 } else {
                     hardware.drivetrainHardware().gyro().angleUpdate();
+                    hardware.drivetrainHardware().imu().updateAngle();
                 }
             }
 
@@ -121,19 +123,25 @@ public class CoreEvents {
             }
         });
 
-//        RobotConstants.dashboard().datasetGroup("drivetrain").
-//                addDataset(new TimeSeriesNumeric<>(
-//                        "Gyro Velocity",
-//                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
-//
-//        RobotConstants.dashboard().datasetGroup("drivetrain").
-//                addDataset(new TimeSeriesNumeric<>(
-//                        "Gyro Position",
-//                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
-                        "IMU absolute position",
-                        () -> hardware.drivetrainHardware().IMU().getAngleZ()));
+                        "Gyro Velocity",
+                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "Gyro Position",
+                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU Velocity",
+                        () -> hardware.drivetrainHardware().imu().relativeAngleVelocity().z()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU Position",
+                        () -> hardware.drivetrainHardware().imu().relativeAnglePosition().z()));
 
 
         // Drivetrain - Joystick

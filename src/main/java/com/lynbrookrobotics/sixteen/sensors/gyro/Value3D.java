@@ -3,12 +3,12 @@ package com.lynbrookrobotics.sixteen.sensors.gyro;
 /**
  * Represents a value collected from a gyro, either velocity or position, with x, y and z parts
  */
-public class GyroValue {
+public class Value3D {
     double xValue;
     double yValue;
     double zValue;
 
-    public GyroValue(double xValue, double yValue, double zValue) {
+    public Value3D(double xValue, double yValue, double zValue) {
         this.xValue = xValue;
         this.yValue = yValue;
         this.zValue = zValue;
@@ -26,16 +26,16 @@ public class GyroValue {
         return zValue;
     }
 
-    public GyroValue plus(GyroValue toAdd) {
-        return new GyroValue(
+    public Value3D plus(Value3D toAdd) {
+        return new Value3D(
             this.x() + toAdd.x(),
             this.y() + toAdd.y(),
             this.z() + toAdd.z()
         );
     }
 
-    public GyroValue times(double scalar) {
-        return new GyroValue(
+    public Value3D times(double scalar) {
+        return new Value3D(
                 scalar * this.x(),
                 scalar * this.y(),
                 scalar * this.z()
