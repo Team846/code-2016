@@ -1,6 +1,6 @@
 package com.lynbrookrobotics.sixteen.sensors.IMU;
 
-import com.lynbrookrobotics.sixteen.sensors.gyro.Value3D;
+import com.lynbrookrobotics.sixteen.sensors.Value3D;
 
 public class IMUValue {
     private Value3D gyro;

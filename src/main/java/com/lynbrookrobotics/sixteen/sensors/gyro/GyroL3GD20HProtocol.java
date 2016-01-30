@@ -1,6 +1,7 @@
 package com.lynbrookrobotics.sixteen.sensors.gyro;
 
 import com.lynbrookrobotics.sixteen.sensors.ConstantBufferSPI;
+import com.lynbrookrobotics.sixteen.sensors.Value3D;
 
 import java.util.Arrays;
 import java.util.LinkedList;

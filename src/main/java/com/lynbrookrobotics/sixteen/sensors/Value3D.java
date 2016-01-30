@@ -1,7 +1,7 @@
-package com.lynbrookrobotics.sixteen.sensors.gyro;
+package com.lynbrookrobotics.sixteen.sensors;
 
 /**
- * Represents a value collected from a gyro, either velocity or position, with x, y and z parts
+ * Represents a value with x, y and z parts
  */
 public class Value3D {
     double xValue;
