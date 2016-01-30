@@ -17,6 +17,10 @@ class ADIS16448Protocol {
         static final IMURegister PROD_ID = new IMURegister(0x56);
     }
 
+    private final Byte X_GYRO_REG = 0x04;
+    private final Byte Y_GYRO_REG = 0x06;
+    private final Byte Z_GYRO_REG = 0x08;
+
     private static class Constants {
         // TODO: test with 0.01 as per http://www.analog.com/media/en/technical-documentation/data-sheets/ADIS16448.pdf#page=23
         static final double DegreePerSecondPerLSB = 1.0 / 25.0;
@@ -46,9 +50,9 @@ class ADIS16448Protocol {
         Registers.SENS_AVG.write(1030, spi); // TODO: Magic Number
     }
 
-    private short getGyroRegister(byte[] outData) {
+    private short readGyroRegister(byte register) {
         byte[] gyroData = new byte[2];
-        spi.transaction(new byte[]{ 0x08, 0 }, gyroData, 2);
+        spi.transaction(new byte[]{ register, 0 }, gyroData, 2);
         ByteBuffer gyroBuffer = ByteBuffer.wrap(gyroData);
 
         return gyroBuffer.getShort();
@@ -59,9 +63,9 @@ class ADIS16448Protocol {
      */
     public IMUValue currentData() {
         Value3D gyro = new Value3D(
-            getGyroRegister(new byte[]{ 0x04, 0 }) * Constants.DegreePerSecondPerLSB,
-            getGyroRegister(new byte[]{ 0x06, 0 }) * Constants.DegreePerSecondPerLSB,
-            getGyroRegister(new byte[]{ 0x08, 0 }) * Constants.DegreePerSecondPerLSB
+            readGyroRegister(X_GYRO_REG) * Constants.DegreePerSecondPerLSB,
+            readGyroRegister(Y_GYRO_REG) * Constants.DegreePerSecondPerLSB,
+            readGyroRegister(Z_GYRO_REG) * Constants.DegreePerSecondPerLSB
         );
 
         // TODO: kalman calculation?
