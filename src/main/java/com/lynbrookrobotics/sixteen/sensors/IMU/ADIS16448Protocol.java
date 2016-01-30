@@ -14,21 +14,22 @@ class ADIS16448Protocol {
     // TODO: rename to something more understandable
     // TODO: registers should be objects, with write/read on them
     private static class Registers {
-        static final int RegSMPL_PRD = 0x36;
-        static final int RegSENS_AVG = 0x38;
-        static final int RegMSC_CTRL = 0x34;
-        static final int RegPROD_ID = 0x56;
+        static final int SMPL_PRD = 0x36;
+        static final int SENS_AVG = 0x38;
+        static final int MSC_CTRL = 0x34;
+        static final int PROD_ID = 0x56;
     }
 
     // TODO: capitalization, rename
     private static class Constants {
+        // TODO: test with 0.01 as per http://www.analog.com/media/en/technical-documentation/data-sheets/ADIS16448.pdf#page=23
         static final double DegreePerSecondPerLSB = 1.0 / 25.0;
         static final double GPerLSB = 1.0 / 1200.0;
         static final double MilligaussPerLSB = 1.0 / 7.0;
     }
 
-    // TODO: what is glob command? where did the name come from?
-    private static final byte[] globCommand = {0x3E, 0};
+    // TODO: what is the global command doing?
+    private static final byte[] globalCommand = {0x3E, 0};
     private ConstantBufferSPI spi;
 
     public ADIS16448Protocol() {
@@ -41,14 +42,14 @@ class ADIS16448Protocol {
 
         registerBuffer = ByteBuffer.allocateDirect(2);
 
-        readRegister(Registers.RegPROD_ID); // TODO: check if dummy read is needed
-        if (readRegister(Registers.RegPROD_ID) != 16448) {
+        readRegister(Registers.PROD_ID); // TODO: check if dummy read is needed
+        if (readRegister(Registers.PROD_ID) != 16448) {
             throw new IllegalStateException("The device in the MXP port is not an ADIS16448 IMU");
         }
 
-        writeRegister(Registers.RegSMPL_PRD, 769); // TODO: Magic Number
-        writeRegister(Registers.RegMSC_CTRL, 4); // TODO: Magic Number
-        writeRegister(Registers.RegSENS_AVG, 1030); // TODO: Magic Number
+        writeRegister(Registers.SMPL_PRD, 769); // TODO: Magic Number
+        writeRegister(Registers.MSC_CTRL, 4); // TODO: Magic Number
+        writeRegister(Registers.SENS_AVG, 1030); // TODO: Magic Number
     }
 
     /**
@@ -56,7 +57,7 @@ class ADIS16448Protocol {
      */
     public IMUValue currentData() {
         byte[] outData = new byte[26];
-        spi.transaction(globCommand, outData, 26);
+        spi.transaction(globalCommand, outData, 26);
         ByteBuffer buffer = ByteBuffer.wrap(outData); // TODO: just use byte buffer from the beginning
 
         Value3D gyro = new Value3D(
