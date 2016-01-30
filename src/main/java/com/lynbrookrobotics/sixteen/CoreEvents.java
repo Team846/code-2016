@@ -54,10 +54,10 @@ public class CoreEvents {
         this.enabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.ENABLED);
 
         FiniteTask autoPart =
-                new FixedHeadingTimedDrive(1000, () -> 0.2, 0, hardware, drivetrain)
-                .then(new FixedHeadingTimedDrive(1000, () -> 0.2, 90, hardware, drivetrain))
-                .then(new FixedHeadingTimedDrive(1000, () -> 0.2, 90, hardware, drivetrain))
-                .then(new FixedHeadingTimedDrive(1000, () -> 0.2, 90, hardware, drivetrain));
+                new FixedHeadingTimedDrive(2000, () -> 0.1, 0, hardware, drivetrain)
+                .then(new FixedHeadingTimedDrive(2000, () -> 0.1, 90, hardware, drivetrain))
+                .then(new FixedHeadingTimedDrive(2000, () -> 0.1, 90, hardware, drivetrain))
+                .then(new FixedHeadingTimedDrive(2000, () -> 0.1, 90, hardware, drivetrain));
 
         this.auto = autoPart/*.then(autoPart).then(autoPart)*/;
 
@@ -76,8 +76,10 @@ public class CoreEvents {
             public void onRunning() {
                 if (!initialCalibrationDone) {
                     hardware.drivetrainHardware().gyro().calibrateUpdate();
+                    hardware.drivetrainHardware().imu().calibrateUpdate();
                 } else {
                     hardware.drivetrainHardware().gyro().angleUpdate();
+                    hardware.drivetrainHardware().imu().angleUpdate();
                 }
             }
 
@@ -96,6 +98,7 @@ public class CoreEvents {
             public void onRunning() {
                 initialCalibrationDone = true;
                 hardware.drivetrainHardware().gyro().angleUpdate();
+                hardware.drivetrainHardware().imu().angleUpdate();
             }
 
             @Override
@@ -114,6 +117,7 @@ public class CoreEvents {
             public void onRunning() {
                 initialCalibrationDone = true;
                 hardware.drivetrainHardware().gyro().angleUpdate();
+                hardware.drivetrainHardware().imu().angleUpdate();
             }
 
             @Override
@@ -121,19 +125,25 @@ public class CoreEvents {
             }
         });
 
-//        RobotConstants.dashboard().datasetGroup("drivetrain").
-//                addDataset(new TimeSeriesNumeric<>(
-//                        "Gyro Velocity",
-//                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
-//
-//        RobotConstants.dashboard().datasetGroup("drivetrain").
-//                addDataset(new TimeSeriesNumeric<>(
-//                        "Gyro Position",
-//                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
-                        "IMU absolute position",
-                        () -> hardware.drivetrainHardware().IMU().getAngleZ()));
+                        "Gyro Velocity",
+                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "Gyro Position",
+                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU Velocity",
+                        () -> hardware.drivetrainHardware().imu().currentVelocity().z()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU Position",
+                        () -> hardware.drivetrainHardware().imu().currentPosition().z()));
 
 
         // Drivetrain - Joystick
