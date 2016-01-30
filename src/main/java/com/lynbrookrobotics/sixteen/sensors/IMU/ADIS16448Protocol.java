@@ -25,7 +25,7 @@ class ADIS16448Protocol {
     }
 
     // TODO: what is the global command doing?
-    private static final byte[] globalCommand = {0x3E, 0};
+    private static final byte[] globalCommand = {0x08, 0};
     private ConstantBufferSPI spi;
 
     public ADIS16448Protocol() {
@@ -46,33 +46,25 @@ class ADIS16448Protocol {
         Registers.SENS_AVG.write(1030, spi); // TODO: Magic Number
     }
 
+    private short getGyroRegister(byte[] outData) {
+        byte[] gyroData = new byte[2];
+        spi.transaction(new byte[]{ 0x08, 0 }, gyroData, 2);
+        ByteBuffer gyroBuffer = ByteBuffer.wrap(gyroData);
+
+        return gyroBuffer.getShort();
+    }
+
     /**
      * @return the current gyro, accel, and magneto data from the IMU
      */
     public IMUValue currentData() {
-        byte[] outData = new byte[26];
-        spi.transaction(globalCommand, outData, 26);
-        ByteBuffer buffer = ByteBuffer.wrap(outData);
-
         Value3D gyro = new Value3D(
-            buffer.getShort(4) * Constants.DegreePerSecondPerLSB,
-            buffer.getShort(6) * Constants.DegreePerSecondPerLSB,
-            buffer.getShort(8) * Constants.DegreePerSecondPerLSB
-        );
-
-        Value3D accel = new Value3D(
-            buffer.getShort(10) * Constants.GPerLSB,
-            buffer.getShort(12) * Constants.GPerLSB,
-            buffer.getShort(14) * Constants.GPerLSB
-        );
-
-        Value3D mag = new Value3D(
-            buffer.getShort(16) * Constants.MilligaussPerLSB,
-            buffer.getShort(18) * Constants.MilligaussPerLSB,
-            buffer.getShort(20) * Constants.MilligaussPerLSB
+            getGyroRegister(new byte[]{ 0x04, 0 }) * Constants.DegreePerSecondPerLSB,
+            getGyroRegister(new byte[]{ 0x06, 0 }) * Constants.DegreePerSecondPerLSB,
+            getGyroRegister(new byte[]{ 0x08, 0 }) * Constants.DegreePerSecondPerLSB
         );
 
         // TODO: kalman calculation?
-        return new IMUValue(gyro, accel, mag);
+        return new IMUValue(gyro, null, null);
     }
 }

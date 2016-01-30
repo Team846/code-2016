@@ -54,10 +54,10 @@ public class CoreEvents {
         this.enabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.ENABLED);
 
         FiniteTask autoPart =
-                new FixedHeadingTimedDrive(2000, () -> 0.1, 0, hardware, drivetrain)
-                .then(new FixedHeadingTimedDrive(2000, () -> 0.1, 90, hardware, drivetrain))
-                .then(new FixedHeadingTimedDrive(2000, () -> 0.1, 90, hardware, drivetrain))
-                .then(new FixedHeadingTimedDrive(2000, () -> 0.1, 90, hardware, drivetrain));
+                new FixedHeadingTimedDrive(2000, () -> 0.3, 0, hardware, drivetrain)
+                .then(new FixedHeadingTimedDrive(2000, () -> 0.3, 90, hardware, drivetrain))
+                .then(new FixedHeadingTimedDrive(2000, () -> 0.3, 90, hardware, drivetrain))
+                .then(new FixedHeadingTimedDrive(2000, () -> 0.3, 90, hardware, drivetrain));
 
         this.auto = autoPart/*.then(autoPart).then(autoPart)*/;
 
