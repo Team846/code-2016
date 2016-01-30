@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.components.drivetrain;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.sensors.IMU.ADIS16448;
+import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 
 import java.util.function.Supplier;
 

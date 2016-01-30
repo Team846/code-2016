@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.config;
 
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
-import com.lynbrookrobotics.sixteen.sensors.IMU.ADIS16448;
+import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 import edu.wpi.first.wpilibj.Jaguar;
 
 /**
