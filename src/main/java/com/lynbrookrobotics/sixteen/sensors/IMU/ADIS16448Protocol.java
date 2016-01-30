@@ -29,7 +29,7 @@ class ADIS16448Protocol {
     private ConstantBufferSPI spi;
 
     public ADIS16448Protocol() {
-        spi = new ConstantBufferSPI(SPI.Port.kMXP, 26);
+        spi = new ConstantBufferSPI(SPI.Port.kMXP, 2);
         spi.setClockRate(100000); // TODO: check if this is a random number
         spi.setMSBFirst();
         spi.setSampleDataOnFalling();
