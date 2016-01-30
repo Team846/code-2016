@@ -24,6 +24,7 @@ class ADIS16448Protocol {
     private static class Constants {
         static final double DegreePerSecondPerLSB = 1.0 / 25.0;
         static final double GPerLSB = 1.0 / 1200.0;
+        static final double MilligaussPerLSB = 1.0 / 7.0;
     }
 
     // TODO: what is glob command? where did the name come from?
@@ -48,8 +49,6 @@ class ADIS16448Protocol {
         writeRegister(Registers.RegSMPL_PRD, 769); // TODO: Magic Number
         writeRegister(Registers.RegMSC_CTRL, 4); // TODO: Magic Number
         writeRegister(Registers.RegSENS_AVG, 1030); // TODO: Magic Number
-
-
     }
 
     /**
@@ -73,9 +72,9 @@ class ADIS16448Protocol {
         );
 
         Value3D mag = new Value3D(
-            buffer.getShort(10) * Constants.GPerLSB,
-            buffer.getShort(12) * Constants.GPerLSB,
-            buffer.getShort(14) * Constants.GPerLSB
+            buffer.getShort(16) * Constants.MilligaussPerLSB,
+            buffer.getShort(18) * Constants.MilligaussPerLSB,
+            buffer.getShort(20) * Constants.MilligaussPerLSB
         );
 
         // TODO: kalman calculation?
