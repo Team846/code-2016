@@ -11,6 +11,14 @@ public class DriveOnHeadingController extends TankDriveController {
     double targetAngle;
     Supplier<Double> forwardSpeed;
 
+    private double proportionalCorrection = 0;
+    private final double pGain = 1.0D/180.0;
+
+    private double integralCorrection = 0;
+    private final double iGain = 1.0D/90.0;
+
+    private double accumulatedError = 0;
+
     public DriveOnHeadingController(double angle, Supplier<Double> speed, RobotHardware hardware) {
         this.hardware = hardware;
         this.gyro = hardware.drivetrainHardware().gyro();
@@ -27,6 +35,11 @@ public class DriveOnHeadingController extends TankDriveController {
 
     @Override
     public double turnSpeed() {
-        return difference() * (1D/90);
+        accumulatedError += difference();
+
+        integralCorrection = accumulatedError * iGain;
+        proportionalCorrection = difference() * pGain;
+
+        return integralCorrection + proportionalCorrection;
     }
 }
