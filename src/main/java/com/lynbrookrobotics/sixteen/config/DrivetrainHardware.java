@@ -46,7 +46,7 @@ public class DrivetrainHardware {
         return gyro;
     }
 
-    public ADIS16448 imu(){
+    public ADIS16448 imu() {
         return imu;
     }
 }

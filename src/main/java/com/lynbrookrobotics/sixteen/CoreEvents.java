@@ -1,7 +1,9 @@
 package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
+import com.lynbrookrobotics.potassium.Potassium;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
+import com.lynbrookrobotics.potassium.events.SteadyEvent;
 import com.lynbrookrobotics.potassium.events.SteadyEventHandler;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.potassium.tasks.Task;
@@ -13,7 +15,13 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.FixedHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+import com.ni.vision.NIVision;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.vision.USBCamera;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * CoreEvents class creates events and maps these to handlers
@@ -65,6 +73,26 @@ public class CoreEvents {
     }
 
     public void initEventMappings() {
+        // Camera Streaming
+        NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+        USBCamera camera = new USBCamera();
+        camera.setBrightness(50);
+        camera.setExposureAuto();
+        camera.updateSettings();
+        camera.startCapture();
+
+        Timer updateTimer = new Timer("update-loop");
+
+        CameraServer.getInstance().setQuality(50);
+        updateTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                camera.getImage(image);
+                CameraServer.getInstance().setImage(image);
+            }
+        }, 0, (long) (100));
+
         // Drivetrain
         // Drivetrain - Gyro
         disabledStateEvent.forEach(new SteadyEventHandler() {
