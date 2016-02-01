@@ -34,7 +34,7 @@ class ADIS16448Protocol {
 
     public ADIS16448Protocol() {
         spi = new ConstantBufferSPI(SPI.Port.kMXP, 2);
-        spi.setClockRate(100000); // TODO: check if this is a random number
+        spi.setClockRate(2000000); // TODO: check if this is a random number
         spi.setMSBFirst();
         spi.setSampleDataOnFalling();
         spi.setClockActiveLow();
@@ -45,7 +45,7 @@ class ADIS16448Protocol {
             throw new IllegalStateException("The device in the MXP port is not an ADIS16448 IMU");
         }
 
-        Registers.SMPL_PRD.write(769, spi); // TODO: Magic Number
+        Registers.SMPL_PRD.write(1/*0b1000000001*/, spi); // TODO: Magic Number
         Registers.MSC_CTRL.write(4, spi); // TODO: Magic Number
         Registers.SENS_AVG.write(1030, spi); // TODO: Magic Number
     }
@@ -56,8 +56,10 @@ class ADIS16448Protocol {
 
     private short readGyroRegister(byte[] outData) {
         byte[] gyroData = new byte[2];
-        spi.transaction(outData, gyroData, 2);
-        spi.transaction(outData, gyroData, 2);
+        spi.write(outData, 2);
+//        spi.transaction(outData, gyroData, 2);
+//        spi.transaction(outData, gyroData, 2);
+        spi.read(false, gyroData, 2);
         ByteBuffer gyroBuffer = ByteBuffer.wrap(gyroData);
 
         return gyroBuffer.getShort();
