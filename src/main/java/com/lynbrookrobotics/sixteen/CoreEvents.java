@@ -107,10 +107,14 @@ public class CoreEvents {
             @Override
             public void onStart() {
                 double currentAngle = hardware.drivetrainHardware().imu().currentPosition().z();
-                auto = new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 0, hardware, drivetrain)
-                           .then(new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 90, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 180, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 270, hardware, drivetrain));
+                auto = new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 0, hardware, drivetrain)
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 0, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 180, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 180, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 270, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 270, hardware, drivetrain));
                 Task.executeTask(auto);
             }
 
