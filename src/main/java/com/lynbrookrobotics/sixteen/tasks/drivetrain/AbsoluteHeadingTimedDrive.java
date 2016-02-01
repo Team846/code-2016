@@ -3,25 +3,23 @@ package com.lynbrookrobotics.sixteen.tasks.drivetrain;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnHeadingController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TurnByAngleController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
 
-public class FixedHeadingTimedDrive extends FiniteTask {
+public class AbsoluteHeadingTimedDrive extends FiniteTask {
     RobotHardware hardware;
     Drivetrain drivetrain;
 
-    double relativeHeading;
+    double absoluteHeading;
     Supplier<Double> forward;
     DriveOnHeadingController controller;
     long duration;
     long endTime;
 
-    public FixedHeadingTimedDrive(long duration, Supplier<Double> forward, double relativeHeading, RobotHardware hardware, Drivetrain drivetrain) {
+    public AbsoluteHeadingTimedDrive(long duration, Supplier<Double> forward, double absoluteHeading, RobotHardware hardware, Drivetrain drivetrain) {
         this.duration = duration;
-        this.relativeHeading = relativeHeading;
+        this.absoluteHeading = absoluteHeading;
         this.forward = forward;
         this.hardware = hardware;
         this.drivetrain = drivetrain;
@@ -29,7 +27,7 @@ public class FixedHeadingTimedDrive extends FiniteTask {
 
     @Override
     protected void startTask() {
-        controller = new DriveOnHeadingController(relativeHeading, forward, hardware);
+        controller = new DriveOnHeadingController(absoluteHeading, forward, hardware);
         drivetrain.setController(controller);
         endTime = System.currentTimeMillis() + duration;
     }

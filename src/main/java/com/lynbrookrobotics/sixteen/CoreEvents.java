@@ -1,9 +1,7 @@
 package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
-import com.lynbrookrobotics.potassium.Potassium;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
-import com.lynbrookrobotics.potassium.events.SteadyEvent;
 import com.lynbrookrobotics.potassium.events.SteadyEventHandler;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.potassium.tasks.Task;
@@ -12,9 +10,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.FixedHeadingTimedDrive;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.ni.vision.NIVision;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
@@ -47,8 +43,6 @@ public class CoreEvents {
             () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
     );
 
-    FiniteTask auto;
-
     /**
      * Initializes hardware for events
      */
@@ -60,14 +54,6 @@ public class CoreEvents {
         this.disabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.DISABLED);
         this.autonomousStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.AUTONOMOUS);
         this.enabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.ENABLED);
-
-        FiniteTask autoPart =
-                new FixedHeadingTimedDrive(1000, () -> 0.15, 0, hardware, drivetrain)
-                .then(new FixedHeadingTimedDrive(1000, () -> 0.15, 90, hardware, drivetrain))
-                .then(new FixedHeadingTimedDrive(1000, () -> 0.15, 90, hardware, drivetrain))
-                .then(new FixedHeadingTimedDrive(1000, () -> 0.15, 90, hardware, drivetrain));
-
-        this.auto = autoPart/*.then(autoPart).then(autoPart)*/;
 
         initEventMappings();
     }
@@ -117,8 +103,14 @@ public class CoreEvents {
         });
 
         autonomousStateEvent.forEach(new SteadyEventHandler() {
+            FiniteTask auto;
             @Override
             public void onStart() {
+                double currentAngle = hardware.drivetrainHardware().imu().currentPosition().z();
+                auto = new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 0, hardware, drivetrain)
+                           .then(new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 180, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(1000, () -> 0.15, currentAngle + 270, hardware, drivetrain));
                 Task.executeTask(auto);
             }
 
@@ -132,6 +124,7 @@ public class CoreEvents {
             @Override
             public void onEnd() {
                 Task.abortTask(auto);
+                auto = null;
             }
         });
 

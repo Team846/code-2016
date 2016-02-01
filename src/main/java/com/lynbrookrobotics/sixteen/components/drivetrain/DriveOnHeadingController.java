@@ -22,7 +22,7 @@ public class DriveOnHeadingController extends TankDriveController {
     public DriveOnHeadingController(double angle, Supplier<Double> speed, RobotHardware hardware) {
         this.hardware = hardware;
         this.gyro = hardware.drivetrainHardware().imu();
-        this.targetAngle = gyro.currentPosition().z() + angle;
+        this.targetAngle = angle;
         this.forwardSpeed = speed;
     }
 
@@ -37,8 +37,8 @@ public class DriveOnHeadingController extends TankDriveController {
     }
 
     private double piOutput() {
-        double pOut = difference() * (1D/(2.5D * 90));
-        double iOut = updateIntegral(gyro.currentPosition().z()) * (2D/90);
+        double pOut = difference() * (1D/90);
+        double iOut = updateIntegral(gyro.currentPosition().z()) * 0 /*(2D/90)*/;
 
         return pOut + iOut;
     }

@@ -45,9 +45,9 @@ class ADIS16448Protocol {
             throw new IllegalStateException("The device in the MXP port is not an ADIS16448 IMU");
         }
 
-        Registers.SMPL_PRD.write(1/*0b1000000001*/, spi); // TODO: Magic Number
+        Registers.SMPL_PRD.write(1, spi); // TODO: Magic Number
         Registers.MSC_CTRL.write(4, spi); // TODO: Magic Number
-        Registers.SENS_AVG.write(1030, spi); // TODO: Magic Number
+        Registers.SENS_AVG.write(0b10000000000, spi); // TODO: Magic Number
     }
 
     private static final byte[] X_GYRO_OUT = new byte[]{ X_GYRO_REG, 0 };
