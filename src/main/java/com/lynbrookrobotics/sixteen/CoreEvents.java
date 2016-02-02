@@ -106,7 +106,7 @@ public class CoreEvents {
             FiniteTask auto;
             @Override
             public void onStart() {
-                double currentAngle = hardware.drivetrainHardware().imu().currentPosition().z();
+                double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().z();
                 auto = new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 0, hardware, drivetrain)
                            .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 0, hardware, drivetrain))
                            .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 90, hardware, drivetrain))

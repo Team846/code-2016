@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 import edu.wpi.first.wpilibj.Jaguar;
@@ -48,5 +49,9 @@ public class DrivetrainHardware {
 
     public ADIS16448 imu() {
         return imu;
+    }
+
+    public DigitalGyro mainGyro() {
+        return imu();
     }
 }
