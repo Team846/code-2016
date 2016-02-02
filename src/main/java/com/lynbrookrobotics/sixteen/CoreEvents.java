@@ -127,15 +127,15 @@ public class CoreEvents {
             @Override
             public void onStart() {
                 double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().z();
-                auto = new AbsoluteHeadingTimedDrive(1000, trapezoidalCurve(0.4, 1.5), currentAngle + 0, hardware, drivetrain)
-                           .then(new AbsoluteHeadingTimedDrive(1000, (p) -> 0.0, currentAngle + 0, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, trapezoidalCurve(0.4, 1.5), currentAngle + 90, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, (p) -> 0.0, currentAngle + 90, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, trapezoidalCurve(0.4, 1.5), currentAngle + 180, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, (p) -> 0.0, currentAngle + 180, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, trapezoidalCurve(0.4, 1.5), currentAngle + 270, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1000, (p) -> 0.0, currentAngle + 270, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(3000, (p) -> 0.0, currentAngle + 360, hardware, drivetrain));
+                auto = new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain)
+                           .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 270, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 360, hardware, drivetrain));
                 Task.executeTask(auto);
             }
 
