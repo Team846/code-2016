@@ -5,6 +5,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnHeadingControll
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class AbsoluteHeadingTimedDrive extends FiniteTask {
@@ -12,12 +13,12 @@ public class AbsoluteHeadingTimedDrive extends FiniteTask {
     Drivetrain drivetrain;
 
     double absoluteHeading;
-    Supplier<Double> forward;
+    Function<Double, Double> forward;
     DriveOnHeadingController controller;
     long duration;
     long endTime;
 
-    public AbsoluteHeadingTimedDrive(long duration, Supplier<Double> forward, double absoluteHeading, RobotHardware hardware, Drivetrain drivetrain) {
+    public AbsoluteHeadingTimedDrive(long duration, Function<Double, Double> forward, double absoluteHeading, RobotHardware hardware, Drivetrain drivetrain) {
         this.duration = duration;
         this.absoluteHeading = absoluteHeading;
         this.forward = forward;
@@ -27,7 +28,10 @@ public class AbsoluteHeadingTimedDrive extends FiniteTask {
 
     @Override
     protected void startTask() {
-        controller = new DriveOnHeadingController(absoluteHeading, forward, hardware);
+        Supplier<Double> progressForward =
+                () -> forward.apply((endTime - System.currentTimeMillis()) / (double) duration);
+
+        controller = new DriveOnHeadingController(absoluteHeading, progressForward, hardware);
         drivetrain.setController(controller);
         endTime = System.currentTimeMillis() + duration;
     }

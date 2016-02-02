@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 public class DriveOnHeadingController extends TankDriveController {
     static double lastError = 0;
     static double integral = 0;
+    static double forward = 0;
 
     static {
         RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
@@ -17,13 +18,16 @@ public class DriveOnHeadingController extends TankDriveController {
 
         RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
                 addDataset(new TimeSeriesNumeric<>("PID integral", () -> integral));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
+                addDataset(new TimeSeriesNumeric<>("Forward speed", () -> forward));
     }
 
     private static double IIR_DECAY(double freq) {
         return 2 * Math.PI * freq / 50;
     }
 
-    private static final double iDecay = IIR_DECAY(5.0);
+    private static final double iMemory = 0.4/* IIR_DECAY(5.0) */;
     private double runningIntegral = 0.0;
 
     RobotHardware hardware;
@@ -45,21 +49,24 @@ public class DriveOnHeadingController extends TankDriveController {
     }
 
     private double updateIntegral(double value) {
-        runningIntegral = (runningIntegral * iDecay) + (value * RobotConstants.TICK_PERIOD);
-        integral = runningIntegral * (1 - iDecay);
+        runningIntegral = (runningIntegral * iMemory) + ((1 - iMemory) * value * RobotConstants.TICK_PERIOD);
+        integral = runningIntegral;
 
-        return runningIntegral * (1 - iDecay);
+        return runningIntegral;
     }
 
     private double piOutput() {
-        double pOut = difference() * (1D/(3 * 90));
-        double iOut = updateIntegral(gyro.currentPosition().z()) * (1D/(90));
+        double pOut = difference() * (1D/(4 * 90));
+        double iOut = updateIntegral(difference()) * (1.5D/(90));
 
         return pOut + iOut;
     }
 
     @Override
-    public double forwardSpeed() { return forwardSpeed.get(); }
+    public double forwardSpeed() {
+        forward = forwardSpeed.get();
+        return forward;
+    }
 
     @Override
     public double turnSpeed() {
