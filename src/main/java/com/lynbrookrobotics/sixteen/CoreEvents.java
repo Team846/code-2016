@@ -10,9 +10,14 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
+import com.ni.vision.NIVision;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.vision.USBCamera;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * CoreEvents class creates events and maps these to handlers
@@ -34,11 +39,9 @@ public class CoreEvents {
      * Using lambda expression to pass updated forward & turn speeds for tank drive controller
      */
     TankDriveController enabledDrive = TankDriveController.of(
-            () -> controls.driverStick().getAxis(Joystick.AxisType.kY),
+            () -> -controls.driverStick().getAxis(Joystick.AxisType.kY),
             () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
     );
-
-    FiniteTask auto;
 
     /**
      * Initializes hardware for events
@@ -52,18 +55,30 @@ public class CoreEvents {
         this.autonomousStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.AUTONOMOUS);
         this.enabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.ENABLED);
 
-        FiniteTask autoPart =
-                new TimedDrive(1000, () -> -0.2, () -> 0.0, hardware, drivetrain).
-                        then(new TurnByAngle(180, hardware, drivetrain)).
-                        then(new TimedDrive(1000, () -> -0.2, () -> 0.0, hardware, drivetrain)).
-                        then(new TurnByAngle(180, hardware, drivetrain));
-
-        this.auto = autoPart.then(autoPart).then(autoPart);
-
         initEventMappings();
     }
 
     public void initEventMappings() {
+        // Camera Streaming
+        NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+        USBCamera camera = new USBCamera();
+        camera.setBrightness(50);
+        camera.setExposureAuto();
+        camera.updateSettings();
+        camera.startCapture();
+
+        Timer updateTimer = new Timer("update-loop");
+
+        CameraServer.getInstance().setQuality(50);
+        updateTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                camera.getImage(image);
+                CameraServer.getInstance().setImage(image);
+            }
+        }, 0, (long) (100));
+
         // Drivetrain
         // Drivetrain - Gyro
         disabledStateEvent.forEach(new SteadyEventHandler() {
@@ -75,8 +90,10 @@ public class CoreEvents {
             public void onRunning() {
                 if (!initialCalibrationDone) {
                     hardware.drivetrainHardware().gyro().calibrateUpdate();
+                    hardware.drivetrainHardware().imu().calibrateUpdate();
                 } else {
                     hardware.drivetrainHardware().gyro().angleUpdate();
+                    hardware.drivetrainHardware().imu().angleUpdate();
                 }
             }
 
@@ -86,8 +103,18 @@ public class CoreEvents {
         });
 
         autonomousStateEvent.forEach(new SteadyEventHandler() {
+            FiniteTask auto;
             @Override
             public void onStart() {
+                double currentAngle = hardware.drivetrainHardware().imu().currentPosition().z();
+                auto = new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 0, hardware, drivetrain)
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 0, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 90, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 180, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 180, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.15, currentAngle + 270, hardware, drivetrain))
+                           .then(new AbsoluteHeadingTimedDrive(2000, () -> 0.0, currentAngle + 270, hardware, drivetrain));
                 Task.executeTask(auto);
             }
 
@@ -95,11 +122,13 @@ public class CoreEvents {
             public void onRunning() {
                 initialCalibrationDone = true;
                 hardware.drivetrainHardware().gyro().angleUpdate();
+                hardware.drivetrainHardware().imu().angleUpdate();
             }
 
             @Override
             public void onEnd() {
                 Task.abortTask(auto);
+                auto = null;
             }
         });
 
@@ -113,6 +142,7 @@ public class CoreEvents {
             public void onRunning() {
                 initialCalibrationDone = true;
                 hardware.drivetrainHardware().gyro().angleUpdate();
+                hardware.drivetrainHardware().imu().angleUpdate();
             }
 
             @Override
@@ -123,12 +153,33 @@ public class CoreEvents {
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Gyro Velocity",
-                        hardware.drivetrainHardware().gyro()::getZVel));
+                        () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
 
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Gyro Position",
-                        hardware.drivetrainHardware().gyro()::getZAngle));
+                        () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
+
+//        RobotConstants.dashboard().datasetGroup("drivetrain").
+//                addDataset(new TimeSeriesNumeric<>(
+//                        "IMU Velocity X",
+//                        () -> hardware.drivetrainHardware().imu().currentVelocity().x()));
+//
+//        RobotConstants.dashboard().datasetGroup("drivetrain").
+//                addDataset(new TimeSeriesNumeric<>(
+//                        "IMU Velocity Y",
+//                        () -> hardware.drivetrainHardware().imu().currentVelocity().y()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU Velocity Z",
+                        () -> hardware.drivetrainHardware().imu().currentVelocity().z()));
+
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "IMU Position",
+                        () -> hardware.drivetrainHardware().imu().currentPosition().z()));
+
 
         // Drivetrain - Joystick
         enabledStateEvent.forEach(new SteadyEventHandler() {
