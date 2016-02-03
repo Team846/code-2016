@@ -25,6 +25,7 @@ public class JSValidator {
      *   Also get's the Error and set's the error
      */
     public void createObjects() {
+//        DrivetrainHardware drivetrainHardware=new DrivetrainHardware(null);
         ShooterHardware shooterHardware=new ShooterHardware();
         RobotHardware robotHardware = new RobotHardware(null,shooterHardware);
         Drivetrain  drivetrain = new Drivetrain(robotHardware, null);
