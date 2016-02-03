@@ -25,16 +25,15 @@ public class JSValidator {
     private Object JavaScriptObject;
     private JTextPane fileChoosenTxt;
     /**
-     *   This creates the objects, and loads the JS.//TODO add the JS to it
+     *   This creates the objects, and loads the JS.
      *   Also get's the Error and set's the error
      */
     public void createObjects() {
 
-        RobotHardware robotHardware =new RobotHardware(new VariableConfiguration());
+        RobotHardware robotHardware = new RobotHardware(new VariableConfiguration());
+        Drivetrain  drivetrain = new Drivetrain(robotHardware, null);
 
-        Drivetrain  drivetrain=new Drivetrain(robotHardware, null);
-
-        LoadJavascriptFile loadJavascriptFile=new LoadJavascriptFile();
+        LoadJavascriptFile loadJavascriptFile = new LoadJavascriptFile();
         try {
             File file = new File(JavaScriptObject.toString());
             FileReader fileReader = new FileReader(file);

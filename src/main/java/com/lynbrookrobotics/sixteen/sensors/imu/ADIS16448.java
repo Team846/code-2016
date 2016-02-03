@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.sensors.imu;
+package com.lynbrookrobotics.sixteen.sensors.IMU;
 
 import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
