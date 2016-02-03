@@ -34,8 +34,8 @@ public class JSValidator {
             File file = new File(JavaScriptObject.toString());
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-           String x= loadJavascriptFile.loadReader(bufferedReader,robotHardware,drivetrain).toString();
-            addTextToConsole("Success \n" + x + "\n");
+           String tasks= loadJavascriptFile.loadReader(bufferedReader,robotHardware,drivetrain).toString();
+            addTextToConsole("Success \n" + tasks + "\n");
         }
         catch (Exception e) {
             addTextToConsole("INVALID: Error" + "\n");
@@ -47,7 +47,7 @@ public class JSValidator {
     }
     public static void main(String[]args)
     {
-                  JSValidator jsValidator=new JSValidator();
+        JSValidator jsValidator=new JSValidator();
         jsValidator.initialize();
     }
 
