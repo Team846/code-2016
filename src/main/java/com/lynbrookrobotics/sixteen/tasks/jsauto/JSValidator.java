@@ -3,23 +3,19 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 
-import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
-import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.file.Path;
 
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.config.VariableConfiguration;
+import com.lynbrookrobotics.sixteen.config.ShooterHardware;
 
 
 /**
  * Creates an Interface and Validates the JS
  */
 public class JSValidator {
-
     public JTextArea textArea;
     public JButton jbutton;
     private Object JavaScriptObject;
@@ -29,8 +25,9 @@ public class JSValidator {
      *   Also get's the Error and set's the error
      */
     public void createObjects() {
-
-        RobotHardware robotHardware = new RobotHardware(new VariableConfiguration());
+//        DrivetrainHardware drivetrainHardware=new DrivetrainHardware(null);
+        ShooterHardware shooterHardware=new ShooterHardware();
+        RobotHardware robotHardware = new RobotHardware(null,shooterHardware);
         Drivetrain  drivetrain = new Drivetrain(robotHardware, null);
 
         LoadJavascriptFile loadJavascriptFile = new LoadJavascriptFile();
@@ -38,14 +35,15 @@ public class JSValidator {
             File file = new File(JavaScriptObject.toString());
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-
+           String x= loadJavascriptFile.loadReader(bufferedReader,robotHardware,drivetrain).toString();
+            addTextToConsole("Success \n" + x + "\n");
         }
         catch (Exception e) {
-
+            addTextToConsole("INVALID: Error" + "\n");
+            addTextToConsole(e.toString() + "\n");
         }
-
-      //setConsoleText(Error);
-
+        for(int i=0;i<46;i++)
+            addTextToConsole("-");
     }
     public static void main(String[]args)
     {
@@ -112,9 +110,13 @@ public class JSValidator {
      *  Sets the error text area
      * @param error
      */
-    public void setConsoleText(String error)
+    public void addTextToConsole(String error)
     {
-        textArea.setText(error);
+        for(int i=0, positiononTextArea=0;i<error.length();i++,positiononTextArea++) {
+            if(positiononTextArea==42) {
+                addTextToConsole("\n"); positiononTextArea=0;}
+            textArea.append(error.charAt(i)+"");
+        }
     }
 
 
