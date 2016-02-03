@@ -13,6 +13,7 @@ public class RobotHardware {
 
     public RobotHardware(VariableConfiguration config) {
         drivetrainHardware = new DrivetrainHardware(config);
+        shooterHardware = new ShooterHardware(config);
     }
 
     public DrivetrainHardware drivetrainHardware() {
