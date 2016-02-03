@@ -43,6 +43,7 @@ public class JSValidator {
         }
         for(int i=0;i<46;i++)
             addTextToConsole("-");
+        addTextToConsole("\n");
     }
     public static void main(String[]args)
     {
