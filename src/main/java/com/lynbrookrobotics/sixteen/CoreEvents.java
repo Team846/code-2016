@@ -7,12 +7,13 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.shooter.ConstantVelocityController;
+import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.ni.vision.NIVision;
-
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -29,6 +30,7 @@ public class CoreEvents {
   DriverControls controls;
   RobotHardware hardware;
   Drivetrain drivetrain;
+  Shooter shooter;
 
   boolean initialCalibrationDone = false;
 
@@ -46,13 +48,19 @@ public class CoreEvents {
       () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
   );
 
+  // Shooter
+  ConstantVelocityController enabledShooter = ConstantVelocityController.of(
+          () -> controls.operatorStick().getAxis(Joystick.AxisType.kY)
+  );
+
   /**
    * Initializes hardware for events
    */
-  public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain) {
+  public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain, Shooter shooter) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;
+    this.shooter = shooter;
 
     this.disabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.DISABLED);
     this.autonomousStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.AUTONOMOUS);
@@ -209,6 +217,7 @@ public class CoreEvents {
       @Override
       public void onStart() {
         drivetrain.setController(enabledDrive);
+        shooter.setController(enabledShooter);
       }
 
       @Override
@@ -218,6 +227,7 @@ public class CoreEvents {
       @Override
       public void onEnd() {
         drivetrain.resetToDefault();
+        shooter.resetToDefault();
       }
     });
   }

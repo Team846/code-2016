@@ -14,6 +14,7 @@ import java.io.File;
 public class VariableConfiguration {
   private Config loadedConfig = ConfigFactory.parseFile(new File("/home/lvuser/robot.conf"));
   private DrivetrainPorts drivetrainPorts = new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
+  private ShooterPorts shooterPorts = new ShooterPorts(loadedConfig.getConfig("shooter"));
 
   /**
    * Returns the pre-loaded config for the four drivetrain ports
@@ -21,4 +22,9 @@ public class VariableConfiguration {
   public DrivetrainPorts drivetrainPorts() {
     return drivetrainPorts;
   }
+
+  /**
+   * Returns the pre-loaded config for the shooter components
+   */
+  public ShooterPorts shooterPorts() { return shooterPorts; }
 }
