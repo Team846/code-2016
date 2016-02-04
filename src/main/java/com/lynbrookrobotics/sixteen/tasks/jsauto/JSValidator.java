@@ -24,7 +24,7 @@ public class JSValidator {
      *   This creates the objects, and loads the JS.
      *   Also get's the Error and set's the error
      */
-    public void createObjects() {
+    public void createObjectsAndLoadConsole() {
         ShooterHardware shooterHardware=new ShooterHardware();
         RobotHardware robotHardware = new RobotHardware(null,shooterHardware);
         Drivetrain  drivetrain = new Drivetrain(robotHardware, null);
@@ -34,11 +34,11 @@ public class JSValidator {
             File file = new File(JavaScriptObject.toString());
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-           String x= loadJavascriptFile.loadReader(bufferedReader,robotHardware,drivetrain).toString();
-            addTextToConsole("Success \n" + x + "\n");
+             String finiteTaskToString= loadJavascriptFile.loadReader(bufferedReader,robotHardware,drivetrain).toString();
+            addTextToConsole("Success \n" + finiteTaskToString + "\n");
         }
         catch (Exception e) {
-            addTextToConsole("INVALID: Error" + "\n");
+            addTextToConsole("INVALID: Error \n");
             addTextToConsole(e.toString() + "\n");
         }
         for(int i=0;i<46;i++)
@@ -46,15 +46,20 @@ public class JSValidator {
         addTextToConsole("\n");
 
     }
+
+    /**
+     * Runs the program.
+     * @param args
+     */
     public static void main(String[]args)
     {
-                  JSValidator jsValidator=new JSValidator();
+        JSValidator jsValidator=new JSValidator();
         jsValidator.initialize();
     }
 
 
     /**
-     * This creates a frame, titleTextBox, a Button, and a Text Area were the console will input.
+     * This creates a frame, titleTextBox, a Button,ScrollBar and a Text Area were the console will input.
      * The Button also calls the ButtonPressed method when it is pressed.
      */
     public void initialize() {
@@ -67,6 +72,7 @@ public class JSValidator {
         titleText.setBackground(new Color(255, 255, 204));
         titleText.setText("Please Click a Button To Check the Validation of the JS Code");
         titleText.setBounds(73, 22, 278, 48);
+        titleText.setEditable(false);
         frame.getContentPane().add(titleText);
 
         jbutton = new JButton("Check Validation");
@@ -75,20 +81,28 @@ public class JSValidator {
         jbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 buttonPressed();
-            }});
+            }
+        });
 
         textArea = new JTextArea();
         textArea.setBounds(374, 65, 243, 196);
+        textArea.setEditable(false);
         frame.getContentPane().add(textArea);
+
+        JScrollPane scrollBar = new JScrollPane(textArea);
+        scrollBar.setBounds(374, 65, 243, 196);
+        frame.add(scrollBar);
 
         JTextPane Console = new JTextPane();
         Console.setText("Console(In Case of Errors)");
         Console.setBounds(374, 38, 160, 20);
-
+        Console.setEditable(false);
 
         fileChoosenTxt = new JTextPane();
         fileChoosenTxt.setText("NO File Choosen");
         fileChoosenTxt.setBounds(263, 162, 101, 20);
+        fileChoosenTxt.setEditable(false);
+        frame.add(fileChoosenTxt);
 
         frame.getContentPane().add(Console);
         frame.setBounds(100, 100, 662, 310);
@@ -104,19 +118,20 @@ public class JSValidator {
         FileSelector fileSelector = new FileSelector();
         JavaScriptObject  = fileSelector.runJS(fileSelector.openFileBrowser());
         fileChoosenTxt.setText("Valid File");
-         createObjects();
+        createObjectsAndLoadConsole();
     }
 
     /**
      *  Sets the error text area
-     * @param error
+     * @param stringToBeApended
      */
-    public void addTextToConsole(String error)
+    public void addTextToConsole(String stringToBeApended)
     {
-        for(int i=0, positiononTextArea=0;i<error.length();i++,positiononTextArea++) {
+        for(int i=0,positiononTextArea=0 ; i<stringToBeApended.length() ; i++,positiononTextArea++) {
             if(positiononTextArea==42) {
-                addTextToConsole("\n"); positiononTextArea=0;}
-            textArea.append(error.charAt(i)+"");
+                addTextToConsole("\n");
+                positiononTextArea=0;}
+            textArea.append(stringToBeApended.charAt(i)+"");
         }
     }
 
