@@ -5,6 +5,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnHeadingControll
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class RelativeHeadingTimedDrive extends FiniteTask {
@@ -12,12 +13,12 @@ public class RelativeHeadingTimedDrive extends FiniteTask {
     Drivetrain drivetrain;
 
     double relativeHeading;
-    Supplier<Double> forward;
+    Function<Double, Double> forward;
     DriveOnHeadingController controller;
     long duration;
     long endTime;
 
-    public RelativeHeadingTimedDrive(long duration, Supplier<Double> forward, double relativeHeading, RobotHardware hardware, Drivetrain drivetrain) {
+    public RelativeHeadingTimedDrive(long duration, Function<Double, Double> forward, double relativeHeading, RobotHardware hardware, Drivetrain drivetrain) {
         this.duration = duration;
         this.relativeHeading = relativeHeading;
         this.forward = forward;
@@ -27,7 +28,9 @@ public class RelativeHeadingTimedDrive extends FiniteTask {
 
     @Override
     protected void startTask() {
-        controller = new DriveOnHeadingController(relativeHeading + hardware.drivetrainHardware().mainGyro().currentPosition().z(), forward, hardware);
+        Supplier<Double> progressForward =
+                () -> forward.apply((endTime - System.currentTimeMillis()) / (double) duration);
+        controller = new DriveOnHeadingController(relativeHeading + hardware.drivetrainHardware().mainGyro().currentPosition().z(), progressForward, hardware);
         drivetrain.setController(controller);
         endTime = System.currentTimeMillis() + duration;
     }
