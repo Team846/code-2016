@@ -3,7 +3,6 @@ package com.lynbrookrobotics.sixteen.sensors.imu;
 import com.lynbrookrobotics.sixteen.sensors.ConstantBufferSPI;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
 import edu.wpi.first.wpilibj.SPI;
-
 import java.nio.ByteBuffer;
 
 /**
