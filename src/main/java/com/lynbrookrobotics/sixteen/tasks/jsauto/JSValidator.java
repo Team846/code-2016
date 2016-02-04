@@ -22,7 +22,8 @@ public class JSValidator {
     private JTextPane fileChoosenTxt;
     /**
      *   This creates the objects, and loads the JS.
-     *   Also get's the Error and set's the error
+     *   Also get's the Error and set's the error. Otherwise sets the value to
+     *   Success
      */
     public void createObjectsAndLoadConsole() {
         ShooterHardware shooterHardware=new ShooterHardware();
@@ -34,13 +35,15 @@ public class JSValidator {
             File file = new File(JavaScriptObject.toString());
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-             String finiteTaskToString= loadJavascriptFile.loadReader(bufferedReader,robotHardware,drivetrain).toString();
+            String finiteTaskToString= loadJavascriptFile.loadReader(bufferedReader,robotHardware,drivetrain).toString();
+            //gets the finiteTask as a String
             addTextToConsole("Success \n" + finiteTaskToString + "\n");
         }
         catch (Exception e) {
-            addTextToConsole("INVALID: Error \n");
+            addTextToConsole("INVALID: Error \n");//
             addTextToConsole(e.toString() + "\n");
         }
+      //adds ------- under the current test to allow for multiple tests.
         for(int i=0;i<46;i++)
             addTextToConsole("-");
         addTextToConsole("\n");
@@ -49,7 +52,6 @@ public class JSValidator {
 
     /**
      * Runs the program.
-     * @param args
      */
     public static void main(String[]args)
     {
@@ -112,7 +114,7 @@ public class JSValidator {
     }
 
     /**
-     * Creates the Objects
+     * opens the file browser, and runs the create objects method.
      */
     private void buttonPressed() {
         FileSelector fileSelector = new FileSelector();
@@ -122,16 +124,17 @@ public class JSValidator {
     }
 
     /**
-     *  Sets the error text area
-     * @param stringToBeApended
+     * adds the text to the console.
+     * If the text length 42  then added a new line to improve readability.
+     * @param stringToBeAppended this string is appended to the console
      */
-    public void addTextToConsole(String stringToBeApended)
+    public void addTextToConsole(String stringToBeAppended)
     {
-        for(int i=0,positiononTextArea=0 ; i<stringToBeApended.length() ; i++,positiononTextArea++) {
-            if(positiononTextArea==42) {
+        for(int i=0,positionTextArea=0 ; i<stringToBeAppended.length() ; i++,positionTextArea++) {
+            if(positionTextArea==42) {
                 addTextToConsole("\n");
-                positiononTextArea=0;}
-            textArea.append(stringToBeApended.charAt(i)+"");
+                positionTextArea=0;}
+            textArea.append(stringToBeAppended.charAt(i)+"");
         }
     }
 
