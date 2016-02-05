@@ -11,7 +11,10 @@ public class RobotHardware {
     public RobotHardware(VariableConfiguration config) {
         drivetrainHardware = new DrivetrainHardware(config);
     }
-
+    public RobotHardware(DrivetrainHardware drivetrainHardware,ShooterHardware shooterHardware) {
+         this.drivetrainHardware=drivetrainHardware;
+        this.shooterHardware=shooterHardware;
+    }
     public DrivetrainHardware drivetrainHardware() {
         return drivetrainHardware;
     }
