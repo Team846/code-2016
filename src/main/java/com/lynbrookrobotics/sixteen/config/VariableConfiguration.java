@@ -7,7 +7,8 @@ import com.typesafe.config.ConfigFactory;
 import java.io.File;
 
 /**
- * VariableConfiguration class contains all of robot constants that are configured by a file on the robot. It parses the configuration file and constructs classes that represent each subgroup of constants.
+ * VariableConfiguration class contains all of robot constants that are configured by a file on the robot.
+ * It parses the configuration file and constructs classes that represent each subgroup of constants.
  */
 public class VariableConfiguration {
     private Config loadedConfig = ConfigFactory.parseFile(new File("/home/lvuser/robot.conf"));
