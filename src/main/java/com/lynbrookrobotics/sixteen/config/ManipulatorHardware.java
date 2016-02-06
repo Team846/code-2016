@@ -1,5 +1,5 @@
 package com.lynbrookrobotics.sixteen.config;
 
-public class ArmHardware {
+public class ManipulatorHardware {
 
 }
