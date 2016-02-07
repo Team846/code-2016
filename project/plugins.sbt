@@ -6,4 +6,6 @@ addSbtPlugin("com.lynbrookrobotics" % "sbt-frc" % "0.2.0.1-SNAPSHOT")
 
 addSbtPlugin("com.etsy" % "sbt-checkstyle-plugin" % "2.0.0")
 
+addSbtPlugin("com.lynbrookrobotics" % "travis-checkstyle" % "0.1.0-SNAPSHOT")
+
 dependencyOverrides += "com.puppycrawl.tools" % "checkstyle" % "6.15"
