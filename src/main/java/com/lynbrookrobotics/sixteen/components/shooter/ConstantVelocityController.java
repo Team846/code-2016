@@ -3,6 +3,11 @@ package com.lynbrookrobotics.sixteen.components.shooter;
 import java.util.function.Supplier;
 
 public abstract class ConstantVelocityController extends ShooterController {
+  /**
+   * Creates a constant velocity controll based on a supplier
+   * @param shooterSpeed the speed to move the wheel motors at
+   * @return
+   */
   public static ConstantVelocityController of(Supplier<Double> shooterSpeed) {
     return new ConstantVelocityController() {
       @Override
@@ -12,6 +17,9 @@ public abstract class ConstantVelocityController extends ShooterController {
     };
   }
 
+  /**
+   * @return the speed that the wheels should spin at
+   */
   public abstract double wheelSpeed();
 
   /**
