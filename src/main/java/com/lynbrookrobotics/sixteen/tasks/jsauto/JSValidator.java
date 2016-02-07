@@ -13,6 +13,7 @@ import java.io.*;
 
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.ShooterHardware;
+import com.lynbrookrobotics.sixteen.config.VariableConfiguration;
 
 /**
  * A swing-based interface for validating JavaScript routines
@@ -28,7 +29,8 @@ public class JSValidator {
    * sets the value to Success
    */
   public void createObjectsAndLoadConsole() {
-    ShooterHardware shooterHardware = new ShooterHardware();
+    VariableConfiguration config = new VariableConfiguration();
+    ShooterHardware shooterHardware = new ShooterHardware(config); // FIXME
     RobotHardware robotHardware = new RobotHardware(null, shooterHardware);
     Drivetrain drivetrain = new Drivetrain(robotHardware, null);
 
@@ -37,7 +39,9 @@ public class JSValidator {
       File file = new File(JavaScriptObject.toString());
       FileReader fileReader = new FileReader(file);
       BufferedReader bufferedReader = new BufferedReader(fileReader);
-      String finiteTaskToString = loadJavascriptFile.loadReader(bufferedReader, robotHardware, drivetrain).toString();
+
+      //String finiteTaskToString = loadJavascriptFile.loadReader(bufferedReader, robotHardware, drivetrain).toString();
+      String finiteTaskToString = ""; // TODO: // FIXME: 2/7/2016 add missing arguments
       //gets the finiteTask as a String
       addTextToConsole("Success \n" + finiteTaskToString + "\n");
     } catch (Exception e) {

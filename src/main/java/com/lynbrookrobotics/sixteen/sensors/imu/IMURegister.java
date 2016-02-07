@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.sensors.IMU;
+package com.lynbrookrobotics.sixteen.sensors.imu;
 
 import edu.wpi.first.wpilibj.SPI;
 

@@ -1,7 +1,6 @@
 package com.lynbrookrobotics.sixteen.config;
 
 import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
-import com.lynbrookrobotics.sixteen.components.arm.Arm;
 
 /**
  * Aggregation of subsystem hardware interfaces.contains instances of each subsystem hardware and
