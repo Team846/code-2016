@@ -1,18 +1,8 @@
-package com.lynbrookrobotics.sixteen.components.Intake;
+package com.lynbrookrobotics.sixteen.components.intake;
 
-import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
-import com.lynbrookrobotics.sixteen.config.RobotHardware;
-
-import java.awt.*;
-
-/**
- * Created by Vikranth on 2/5/2016.
- */
-public abstract class IntakeController{
+public abstract class IntakeController {
     /**
-     * Returns the speed
+     * @return the current intake speed
      */
-    public abstract void getSpeed();
-
-
+    public abstract double speed();
 }

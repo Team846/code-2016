@@ -1,13 +1,14 @@
-package com.lynbrookrobotics.sixteen.components.Intake;
+package com.lynbrookrobotics.sixteen.components.intake;
 
-import java.awt.*;
+import com.lynbrookrobotics.potassium.components.Component;
 
-/**
- * Created by Vikranth on 2/5/2016.
- */
-public class Intake extends Component {
+public class Intake extends Component<IntakeController> {
+    public Intake(IntakeController defaultController) {
+        super(defaultController);
+    }
 
+    @Override
+    protected void setOutputs(IntakeController intakeController) {
 
-
-
+    }
 }
