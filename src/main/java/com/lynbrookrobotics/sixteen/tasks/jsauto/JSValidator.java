@@ -1,4 +1,5 @@
 package com.lynbrookrobotics.sixteen.tasks.jsauto;
+
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
@@ -11,15 +12,15 @@ import java.io.*;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.ShooterHardware;
 
-
 /**
- * Creates an Interface and Validates the JS
+ * A swing-based interface for validating JavaScript routines
  */
 public class JSValidator {
     public JTextArea textArea;
     public JButton jbutton;
     private Object JavaScriptObject;
     private JTextPane fileChoosenTxt;
+
     /**
      *   This creates the objects, and loads the JS.
      *   Also get's the Error and set's the error. Otherwise sets the value to
@@ -53,8 +54,7 @@ public class JSValidator {
     /**
      * Runs the program.
      */
-    public static void main(String[]args)
-    {
+    public static void main(String[] args) {
         JSValidator jsValidator=new JSValidator();
         jsValidator.initialize();
     }
@@ -128,8 +128,7 @@ public class JSValidator {
      * If the text length 42  then added a new line to improve readability.
      * @param stringToBeAppended this string is appended to the console
      */
-    public void addTextToConsole(String stringToBeAppended)
-    {
+    public void addTextToConsole(String stringToBeAppended) {
         for(int i=0,positionTextArea=0 ; i<stringToBeAppended.length() ; i++,positionTextArea++) {
             if(positionTextArea==42) {
                 addTextToConsole("\n");
@@ -137,6 +136,4 @@ public class JSValidator {
             textArea.append(stringToBeAppended.charAt(i)+"");
         }
     }
-
-
 }
