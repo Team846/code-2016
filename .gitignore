@@ -1,3 +1,4 @@
 .idea/
+!.idea/codeStyleSettings.xml
 project/project
 target/
