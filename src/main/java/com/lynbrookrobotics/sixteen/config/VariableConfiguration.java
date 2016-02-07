@@ -26,5 +26,7 @@ public class VariableConfiguration {
   /**
    * Returns the pre-loaded config for the shooter components
    */
-  public ShooterPorts shooterPorts() { return shooterPorts; }
+  public ShooterPorts shooterPorts() {
+    return shooterPorts;
+  }
 }

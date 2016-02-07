@@ -14,6 +14,7 @@ import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.ni.vision.NIVision;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -50,7 +51,7 @@ public class CoreEvents {
 
   // Shooter
   ConstantVelocityController enabledShooter = ConstantVelocityController.of(
-          () -> controls.operatorStick().getAxis(Joystick.AxisType.kY)
+      () -> controls.operatorStick().getAxis(Joystick.AxisType.kY)
   );
 
   /**
