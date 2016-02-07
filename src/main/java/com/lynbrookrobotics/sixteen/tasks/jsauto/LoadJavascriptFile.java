@@ -1,3 +1,4 @@
+/*
 package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
@@ -18,7 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class LoadJavascriptFile {
-    /**
+    */
+/**
      * Returns a FiniteTask that is constructed by executing a
      * specific JavaScript program. A {@link java.io.Reader}
      * that is the source of the JavaScript program is specified.
@@ -27,7 +29,8 @@ public class LoadJavascriptFile {
      * @param hardware  the robot's hardware
      * @param drive     the robot's drivetrain
      * @return          the FiniteTask constructed by the JavaScript program
-     */
+     *//*
+
     public static FiniteTask loadReader(BufferedReader script, RobotHardware hardware, Drivetrain drive) { // TODO: load task list and expose in JS scope
         try {
             Context ctx = Context.enter();
@@ -52,7 +55,8 @@ public class LoadJavascriptFile {
 
     }
 
-    /**
+    */
+/**
      * Loads a FiniteTask from a JavaScript source file specified
      * using the string path of the file.
      *
@@ -60,12 +64,14 @@ public class LoadJavascriptFile {
      * @param hardware  the robot's hardware
      * @param drive     the robot's drivetrain
      * @return      the FiniteTask constructed by the JavaScript program
-     */
+     *//*
+
     public static FiniteTask loadStringPath(String path, RobotHardware hardware, Drivetrain drive) {
         return loadPath(Paths.get(path), hardware, drive);
     }
 
-    /**
+    */
+/**
      * Loads a FiniteTask from a JavaScript source file specified
      * using a {@link Path} corresponding to the source.
      *
@@ -73,7 +79,8 @@ public class LoadJavascriptFile {
      * @param hardware  the robot's hardware
      * @param drive     the robot's drivetrain
      * @return      the FiniteTask constructed by the JavaScript program
-     */
+     *//*
+
     public static FiniteTask loadPath(Path path, RobotHardware hardware, Drivetrain drive) {
         try {
             return loadReader(Files.newBufferedReader(path, StandardCharsets.UTF_8), hardware, drive);
@@ -83,7 +90,8 @@ public class LoadJavascriptFile {
         }
     }
 
-    /**
+    */
+/**
      * Loads a FiniteTask from a JavaScript source file specified
      * directly by the argument.
      *
@@ -91,12 +99,14 @@ public class LoadJavascriptFile {
      * @param hardware  the robot's hardware
      * @param drive     the robot's drivetrain
      * @return          the FiniteTask constructed by the JavaScript program
-     */
+     *//*
+
     public static FiniteTask loadString(String script, RobotHardware hardware, Drivetrain drive) {
         return loadReader(new BufferedReader(new StringReader(script)), hardware, drive);
     }
 
-    /**
+    */
+/**
      * Loads a FiniteTask from a JavaScript source file specified
      * by the name of the script in a designated scripting folder
      * on the system.
@@ -105,8 +115,10 @@ public class LoadJavascriptFile {
      * @param hardware  the robot's hardware
      * @param drive     the robot's drivetrain
      * @return              the FiniteTask constructed by the JavaScript program
-     */
+     *//*
+
     public static FiniteTask loadScript(String scriptName, RobotHardware hardware, Drivetrain drive) {
         return loadStringPath(scriptName, hardware, drive); // TODO: prefix scripts location to scriptName
     }
 }
+*/

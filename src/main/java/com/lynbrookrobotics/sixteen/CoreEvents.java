@@ -10,7 +10,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.ni.vision.NIVision;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * CoreEvents class creates events and maps these to handlers
@@ -124,10 +123,11 @@ public class CoreEvents {
 
         autonomousStateEvent.forEach(new SteadyEventHandler() {
             FiniteTask auto;
+
             @Override
             public void onStart() {
                 double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().z();
-                auto = new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain)
+                /*auto = new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain)
                            .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
                            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
                            .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
@@ -135,7 +135,9 @@ public class CoreEvents {
                            .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
                            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
                            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 270, hardware, drivetrain))
-                           .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 360, hardware, drivetrain));
+                           .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 360, hardware, drivetrain));*/
+                auto = new TimedDrive(5000, () -> .5, () -> 0.0, hardware, drivetrain)
+                        .then(new TimedDrive(2000, () -> 0D, () -> 0.0, hardware, drivetrain));
                 Task.executeTask(auto);
             }
 
@@ -171,6 +173,7 @@ public class CoreEvents {
             }
         });
 
+/*
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Gyro Velocity",
@@ -180,6 +183,7 @@ public class CoreEvents {
                 addDataset(new TimeSeriesNumeric<>(
                         "Gyro Position",
                         () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
+*/
 
 //        RobotConstants.dashboard().datasetGroup("drivetrain").
 //                addDataset(new TimeSeriesNumeric<>(
@@ -191,15 +195,27 @@ public class CoreEvents {
 //                        "IMU Velocity Y",
 //                        () -> hardware.drivetrainHardware().imu().currentVelocity().y()));
 
-        RobotConstants.dashboard().datasetGroup("drivetrain").
+/*        RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "IMU Velocity Z",
-                        () -> hardware.drivetrainHardware().imu().currentVelocity().z()));
+                        () -> hardware.drivetrainHardware().imu().currentVelocity().z()));*/
 
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
-                        "IMU Position",
-                        () -> hardware.drivetrainHardware().imu().currentPosition().z()));
+                        "Back Left Motor speed",
+                        () -> hardware.drivetrainHardware().getBackLeftEncoder().getSpeed() ));
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "Back Right Motor speed",
+                        () -> hardware.drivetrainHardware().getBackRightEncoder().getSpeed() ));
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "Front Left Motor speed",
+                        () -> hardware.drivetrainHardware().getFrontLeftEncoder().getPosition() ));
+        RobotConstants.dashboard().datasetGroup("drivetrain").
+                addDataset(new TimeSeriesNumeric<>(
+                        "Front Right Motor speed",
+                        () -> hardware.drivetrainHardware().getFrontRightEncoder().getSpeed() ));
 
 
         // Drivetrain - Joystick
