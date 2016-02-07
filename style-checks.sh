@@ -1,1 +1,1 @@
-sbt checkAndPublish
+sbt ';checkstyle; publishStyleComments'
