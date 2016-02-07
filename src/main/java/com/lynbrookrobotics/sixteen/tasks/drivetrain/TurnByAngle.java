@@ -6,44 +6,44 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TurnByAngleController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 public class TurnByAngle extends FiniteTask {
-    RobotHardware hardware;
-    Drivetrain drivetrain;
+  RobotHardware hardware;
+  Drivetrain drivetrain;
 
-    double angle;
+  double angle;
 
-    TurnByAngleController controller;
+  TurnByAngleController controller;
 
-    public TurnByAngle(double angle, RobotHardware hardware, Drivetrain drivetrain) {
-        this.hardware = hardware;
-        this.drivetrain = drivetrain;
+  public TurnByAngle(double angle, RobotHardware hardware, Drivetrain drivetrain) {
+    this.hardware = hardware;
+    this.drivetrain = drivetrain;
 
-        this.angle = angle;
+    this.angle = angle;
+  }
+
+  @Override
+  protected void startTask() {
+    controller = new TurnByAngleController(angle, hardware);
+    drivetrain.setController(controller);
+  }
+
+  int goodTicks = 0;
+
+  @Override
+  protected void update() {
+    System.out.println("LEFT: " + controller.difference());
+    if (controller.difference() < 0.25) {
+      goodTicks++;
+      if (goodTicks == 100) {
+        finished();
+      }
+    } else {
+      goodTicks = 0;
     }
+  }
 
-    @Override
-    protected void startTask() {
-        controller = new TurnByAngleController(angle, hardware);
-        drivetrain.setController(controller);
-    }
-
-    int goodTicks = 0;
-
-    @Override
-    protected void update() {
-        System.out.println("LEFT: " + controller.difference());
-        if (controller.difference() < 0.25) {
-            goodTicks++;
-            if (goodTicks == 100) {
-                finished();
-            }
-        } else {
-            goodTicks = 0;
-        }
-    }
-
-    @Override
-    protected void endTask() {
-        drivetrain.resetToDefault();
-        controller = null;
-    }
+  @Override
+  protected void endTask() {
+    drivetrain.resetToDefault();
+    controller = null;
+  }
 }

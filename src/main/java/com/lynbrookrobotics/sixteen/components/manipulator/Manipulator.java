@@ -5,16 +5,16 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.ManipulatorHardware;
 
 public class Manipulator extends Component<ManipulatorController> {
-    private ManipulatorHardware hardware;
+  private ManipulatorHardware hardware;
 
-    public Manipulator(RobotHardware robotHardware, ManipulatorController defaultController) {
-        super(defaultController);
+  public Manipulator(RobotHardware robotHardware, ManipulatorController defaultController) {
+    super(defaultController);
 
-        this.hardware = robotHardware.manipulatorHardware();
-    }
+    this.hardware = robotHardware.manipulatorHardware();
+  }
 
-    @Override
-    protected void setOutputs(ManipulatorController manipulatorController) {
+  @Override
+  protected void setOutputs(ManipulatorController manipulatorController) {
 
-    }
+  }
 }

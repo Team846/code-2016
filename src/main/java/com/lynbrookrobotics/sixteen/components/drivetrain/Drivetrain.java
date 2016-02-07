@@ -5,23 +5,24 @@ import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**
- * The component representing the drivetrain of the robot, made up of two independently controlled sides that allows for tank-style control
+ * The component representing the drivetrain of the robot, made up of two independently controlled
+ * sides that allows for tank-style control
  */
 public class Drivetrain extends Component<DrivetrainController> {
-    private DrivetrainHardware hardware;
+  private DrivetrainHardware hardware;
 
-    public Drivetrain(RobotHardware robotHardware, DrivetrainController defaultController) {
-        super(defaultController);
+  public Drivetrain(RobotHardware robotHardware, DrivetrainController defaultController) {
+    super(defaultController);
 
-        this.hardware = robotHardware.drivetrainHardware();
-    }
+    this.hardware = robotHardware.drivetrainHardware();
+  }
 
-    @Override
-    public void setOutputs(DrivetrainController drivetrainController) {
-        hardware.frontLeftMotor().set(drivetrainController.leftSpeed());
-        hardware.backLeftMotor().set(drivetrainController.leftSpeed());
+  @Override
+  public void setOutputs(DrivetrainController drivetrainController) {
+    hardware.frontLeftMotor().set(drivetrainController.leftSpeed());
+    hardware.backLeftMotor().set(drivetrainController.leftSpeed());
 
-        hardware.frontRightMotor().set(drivetrainController.rightSpeed());
-        hardware.backRightMotor().set(drivetrainController.rightSpeed());
-    }
+    hardware.frontRightMotor().set(drivetrainController.rightSpeed());
+    hardware.backRightMotor().set(drivetrainController.rightSpeed());
+  }
 }

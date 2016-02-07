@@ -8,68 +8,68 @@ import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 import java.util.function.Supplier;
 
 public class DriveOnHeadingController extends TankDriveController {
-    static double lastError = 0;
-    static double integral = 0;
-    static double forward = 0;
+  static double lastError = 0;
+  static double integral = 0;
+  static double forward = 0;
 
-    static {
-        RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
-                addDataset(new TimeSeriesNumeric<>("PID error", () -> lastError));
+  static {
+    RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
+        addDataset(new TimeSeriesNumeric<>("PID error", () -> lastError));
 
-        RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
-                addDataset(new TimeSeriesNumeric<>("PID integral", () -> integral));
+    RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
+        addDataset(new TimeSeriesNumeric<>("PID integral", () -> integral));
 
-        RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
-                addDataset(new TimeSeriesNumeric<>("Forward speed", () -> forward));
-    }
+    RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
+        addDataset(new TimeSeriesNumeric<>("Forward speed", () -> forward));
+  }
 
-    private static double IIR_DECAY(double freq) {
-        return 2 * Math.PI * freq / 50;
-    }
+  private static double IIR_DECAY(double freq) {
+    return 2 * Math.PI * freq / 50;
+  }
 
-    private static final double iMemory = 0.4/* IIR_DECAY(5.0) */;
-    private double runningIntegral = 0.0;
+  private static final double iMemory = 0.4/* IIR_DECAY(5.0) */;
+  private double runningIntegral = 0.0;
 
-    RobotHardware hardware;
-    DigitalGyro gyro;
-    double targetAngle;
-    Supplier<Double> forwardSpeed;
+  RobotHardware hardware;
+  DigitalGyro gyro;
+  double targetAngle;
+  Supplier<Double> forwardSpeed;
 
-    public DriveOnHeadingController(double angle, Supplier<Double> speed, RobotHardware hardware) {
-        this.hardware = hardware;
-        this.gyro = hardware.drivetrainHardware().mainGyro();
-        this.targetAngle = angle;
-        this.forwardSpeed = speed;
-    }
+  public DriveOnHeadingController(double angle, Supplier<Double> speed, RobotHardware hardware) {
+    this.hardware = hardware;
+    this.gyro = hardware.drivetrainHardware().mainGyro();
+    this.targetAngle = angle;
+    this.forwardSpeed = speed;
+  }
 
-    public double difference() {
-        double ret = targetAngle - gyro.currentPosition().z();
-        lastError = ret;
-        return ret;
-    }
+  public double difference() {
+    double ret = targetAngle - gyro.currentPosition().z();
+    lastError = ret;
+    return ret;
+  }
 
-    private double updateIntegral(double value) {
-        runningIntegral = (runningIntegral * iMemory) + ((1 - iMemory) * value * RobotConstants.TICK_PERIOD);
-        integral = runningIntegral;
+  private double updateIntegral(double value) {
+    runningIntegral = (runningIntegral * iMemory) + ((1 - iMemory) * value * RobotConstants.TICK_PERIOD);
+    integral = runningIntegral;
 
-        return runningIntegral;
-    }
+    return runningIntegral;
+  }
 
-    private double piOutput() {
-        double pOut = difference() * (1D/(4 * 90));
-        double iOut = updateIntegral(difference()) * (1.5D/(90));
+  private double piOutput() {
+    double pOut = difference() * (1D / (4 * 90));
+    double iOut = updateIntegral(difference()) * (1.5D / (90));
 
-        return pOut + iOut;
-    }
+    return pOut + iOut;
+  }
 
-    @Override
-    public double forwardSpeed() {
-        forward = forwardSpeed.get();
-        return forward;
-    }
+  @Override
+  public double forwardSpeed() {
+    forward = forwardSpeed.get();
+    return forward;
+  }
 
-    @Override
-    public double turnSpeed() {
-        return piOutput();
-    }
+  @Override
+  public double turnSpeed() {
+    return piOutput();
+  }
 }

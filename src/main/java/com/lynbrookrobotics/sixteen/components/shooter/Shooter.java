@@ -5,16 +5,16 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.ShooterHardware;
 
 public class Shooter extends Component<ShooterController> {
-    private ShooterHardware hardware;
+  private ShooterHardware hardware;
 
-    public Shooter(RobotHardware robotHardware, ShooterController defaultController) {
-        super(defaultController);
+  public Shooter(RobotHardware robotHardware, ShooterController defaultController) {
+    super(defaultController);
 
-        this.hardware = robotHardware.shooterHardware();
-    }
+    this.hardware = robotHardware.shooterHardware();
+  }
 
-    @Override
-    protected void setOutputs(ShooterController shooterController) {
+  @Override
+  protected void setOutputs(ShooterController shooterController) {
 
-    }
+  }
 }
