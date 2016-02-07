@@ -1,6 +1,7 @@
 language: scala
 jdk: oraclejdk8
-after_success:
+script:
+  - 'sbt test'
   - 'if [[ $TRAVIS_PULL_REQUEST == "true" ]]; then bash ./style-checks.sh; fi'
 notifications:
   slack:
