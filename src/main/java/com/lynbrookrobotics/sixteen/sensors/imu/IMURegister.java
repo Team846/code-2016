@@ -1,12 +1,12 @@
 package com.lynbrookrobotics.sixteen.sensors.imu;
 
+import edu.wpi.first.wpilibj.SPI;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import edu.wpi.first.wpilibj.SPI;
-
 /**
- * Represents a register on the ADIS16448 IMU
+ * Represents a register on the ADIS16448 IMU.
  */
 class IMURegister {
   int register;
@@ -27,6 +27,7 @@ class IMURegister {
   }
 
   /**
+   * Reads a value from the register.
    * @param spi the interface to use for communication
    * @return a single value from the register
    */
@@ -39,7 +40,7 @@ class IMURegister {
   }
 
   /**
-   * Writes a single value to the register
+   * Writes a single value to the register.
    *
    * @param value the value to write
    * @param spi   the interface to use for communication

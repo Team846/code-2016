@@ -3,12 +3,12 @@ package com.lynbrookrobotics.sixteen.sensors.imu;
 import com.lynbrookrobotics.sixteen.sensors.ConstantBufferSPI;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
 
-import java.nio.ByteBuffer;
-
 import edu.wpi.first.wpilibj.SPI;
 
+import java.nio.ByteBuffer;
+
 /**
- * Implements the SPI protocol for the ADIS16448 IMU
+ * Implements the SPI protocol for the ADIS16448 IMU.
  */
 class ADIS16448Protocol {
   private static class Registers {
@@ -58,8 +58,6 @@ class ADIS16448Protocol {
   private short readGyroRegister(byte[] outData) {
     byte[] gyroData = new byte[2];
     spi.write(outData, 2);
-//        spi.transaction(outData, gyroData, 2);
-//        spi.transaction(outData, gyroData, 2);
     spi.read(false, gyroData, 2);
     ByteBuffer gyroBuffer = ByteBuffer.wrap(gyroData);
 
@@ -67,7 +65,7 @@ class ADIS16448Protocol {
   }
 
   /**
-   * @return the current gyro, accel, and magneto data from the IMU
+   * Gets the current gyro, accel, and magneto data from the IMU.
    */
   public IMUValue currentData() {
     Value3D gyro = new Value3D(

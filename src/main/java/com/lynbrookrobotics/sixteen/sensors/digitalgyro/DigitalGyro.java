@@ -13,10 +13,13 @@ public abstract class DigitalGyro {
 
   Queue<Value3D> calibrationValues = new LinkedList<>();
 
+  /**
+   * Gets the current velocity.
+   */
   public abstract Value3D retrieveVelocity();
 
   /**
-   * Updates values for the drift on the axis
+   * Updates values for the drift on the axis.
    */
   public void calibrateUpdate() {
     currentVelocity = retrieveVelocity();
@@ -30,16 +33,8 @@ public abstract class DigitalGyro {
     currentDrift = averageGyroVelocity(calibrationValues);
   }
 
-  public static double minimalValue(double min, double value) {
-    if (Math.abs(value) > min) {
-      return value;
-    } else {
-      return 0;
-    }
-  }
-
   /**
-   * Updates values for the angle on the gyro
+   * Updates values for the angle on the gyro.
    */
   public void angleUpdate() {
     Value3D previousVelocity = currentVelocity;
@@ -55,12 +50,12 @@ public abstract class DigitalGyro {
   }
 
   /**
-   * Gets the drift by taking the average of values that are read when the gyro is not moving
+   * Gets the drift by taking the average of values that are read when the gyro is not moving.
    *
    * @param values values that are read when the gyro not moving
    * @return the drift calculated from the values read when the gyro is not moving
    */
-  public static Value3D averageGyroVelocity(Queue<Value3D> values) {//called after getGyroValue()
+  public static Value3D averageGyroVelocity(Queue<Value3D> values) {
     Value3D sum = values.stream().reduce(
         new Value3D(0, 0, 0), // inital value of acc
         Value3D::plus // (acc, cur) -> acc.plus(cur)
@@ -82,9 +77,8 @@ public abstract class DigitalGyro {
   }
 
   /**
-   * Takes the previous velocity and current velocity, and takes the trapezoidal integral to find
-   * the angle traveled It works by taking the average of the 2 velocities, and multiplies it by the
-   * time in between updates (20 milliseconds)
+   * Integrates a single gyro axis.
+   * Takes the average of the 2 velocities and multiplies by tick period (20 ms)
    *
    * @param velocity         The current velocity read from the gyro
    * @param previousVelocity the previous velocity read from the gyro

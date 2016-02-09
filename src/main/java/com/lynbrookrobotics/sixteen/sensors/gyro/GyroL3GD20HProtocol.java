@@ -21,7 +21,8 @@ class GyroL3GD20HProtocol {
   private ConstantBufferSPI gyro;
   private CollectionMode mode;
 
-  private final byte L3GD20_REGISTER_OUT_X_L = 0x28; //This is a digital gyro. These are registers to read and write data
+  // This is a digital gyro. These are registers to read and write data
+  private final byte L3GD20_REGISTER_OUT_X_L = 0x28;
   private final byte L3GD20_REGISTER_CTRL_REG1 = 0x20;
   private final byte L3GD20_REGISTER_CTRL_REG4 = 0x23;
   private final byte L3GD20_REGISTER_CTRL_REG5 = 0x24;
@@ -30,27 +31,31 @@ class GyroL3GD20HProtocol {
   private static final int SIZE_GYRO_QUEUE = 16;
 
   private final int SETTING_BYTES_SENT_RECEIVED = 2;
-  private final int READING_BYTES_SENT_RECEIVED = 7; //the # of bytes sent and received while reading data for the 3 axis
+
+  // the # of bytes sent and received while reading data for the 3 axis
+  private final int READING_BYTES_SENT_RECEIVED = 7;
 
   private final double CONVERSION_FACTOR = 0.0175;
 
   private byte[] inputFromSlave = new byte[7];
   private byte[] outputToSlave = new byte[7];
 
-  public GyroL3GD20HProtocol(CollectionMode mode) { //initialization code, ensures there is only one gyro communication object
+  // initialization code, ensures there is only one gyro communication object
+  public GyroL3GD20HProtocol(CollectionMode mode) {
     this.mode = mode;
     setupGyroCommunciation();
   }
 
   /**
-   * This method sets up the settings and SPI connection. It controls the following setting:
-   * sensitivity,
+   * This method sets up the settings and SPI connection.
+   * It controls the following setting: sensitivity
    */
   private void setupGyroCommunciation() {
     gyro = new ConstantBufferSPI(ConstantBufferSPI.Port.kOnboardCS3, 7);
     gyro.setClockRate(2000000);
 
-    gyro.setSampleDataOnFalling(); // Reversed due to wpi bug. Should be gyro.setSampleDataOnRising();
+    // Reversed due to wpi bug. Should be gyro.setSampleDataOnRising();
+    gyro.setSampleDataOnFalling();
 
     gyro.setMSBFirst(); //set most significant bit first (see pg. 29)
 
@@ -82,7 +87,7 @@ class GyroL3GD20HProtocol {
   }
 
   /**
-   * @return the current velocity measured by the gyro
+   * Gets the current velocity measured by the gyro.
    */
   public Value3D getGyroValue() {
     if (mode == CollectionMode.STREAM) {
@@ -120,31 +125,32 @@ class GyroL3GD20HProtocol {
   }
 
   /**
-   * This method checks the gyro register for the FIFO status, and returns whether the queue is
-   * full
+   * Checks the gyro register for the FIFO status.
    *
    * @return whether the FIFO on the gyro is full or not
    */
   private boolean isFIFOFull() {
     byte[] outputToSlave = new byte[SETTING_BYTES_SENT_RECEIVED];//from RoboRio to slave (gyro)
-    outputToSlave[0] = combineBytes(L3GD20_REGISTER_FIFO_CTRL, (byte) 0b10000000); // set bit 0 (READ bit) to 1 (pg. 31)
+
+    // set bit 0 (READ bit) to 1 (pg. 31)
+    outputToSlave[0] = combineBytes(L3GD20_REGISTER_FIFO_CTRL, (byte) 0b10000000);
     byte[] inputFromSlave = new byte[SETTING_BYTES_SENT_RECEIVED];
 
-    gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);//read from FIFO control register
+    // read from FIFO control register
+    gyro.transaction(outputToSlave, inputFromSlave, READING_BYTES_SENT_RECEIVED);
 
     return ((inputFromSlave[1] >> 6) & 0b1) == 0b1;
   }
 
   /**
-   * This method takes a byte and a series of modifier bytes. The modifier bytes are ored with the
-   * the toSet byte
+   * This method takes a byte and a series of modifier bytes.
    *
    * @param toSet     The initial byte to be modified
    * @param modifiers The bytes that modify the toSet byte
    * @return The modified byte is returned
    */
   private byte combineBytes(byte toSet, byte... modifiers) {
-    for (byte modifier : modifiers) {//for each loop
+    for (byte modifier : modifiers) {
       toSet = (byte) (toSet | modifier);
     }
 

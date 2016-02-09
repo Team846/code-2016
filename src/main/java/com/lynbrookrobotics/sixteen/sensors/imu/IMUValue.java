@@ -7,6 +7,9 @@ public class IMUValue {
   private Value3D accel;
   private Value3D magneto;
 
+  /**
+   * Constructs a single datapoint from the IMU.
+   */
   public IMUValue(Value3D gyro, Value3D accel, Value3D magneto) {
     this.gyro = gyro;
     this.accel = accel;
