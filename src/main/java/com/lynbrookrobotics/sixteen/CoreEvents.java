@@ -10,16 +10,16 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.ni.vision.NIVision;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.function.Function;
-
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.function.Function;
+
 /**
- * CoreEvents class creates events and maps these to handlers
+ * CoreEvents class creates events and maps these to handlers.
  */
 public class CoreEvents {
   DriverControls controls;
@@ -35,7 +35,7 @@ public class CoreEvents {
 
   // Drivetrain
   /**
-   * Using lambda expression to pass updated forward & turn speeds for tank drive controller
+   * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
    */
   TankDriveController enabledDrive = TankDriveController.of(
       () -> -controls.driverStick().getAxis(Joystick.AxisType.kY),
@@ -43,16 +43,27 @@ public class CoreEvents {
   );
 
   /**
-   * Initializes hardware for events
+   * Initializes hardware for events.
    */
   public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;
 
-    this.disabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.DISABLED);
-    this.autonomousStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.AUTONOMOUS);
-    this.enabledStateEvent = new InGameState(controls.driverStation(), InGameState.GameState.ENABLED);
+    this.disabledStateEvent = new InGameState(
+        controls.driverStation(),
+        InGameState.GameState.DISABLED
+    );
+
+    this.autonomousStateEvent = new InGameState(
+        controls.driverStation(),
+        InGameState.GameState.AUTONOMOUS
+    );
+
+    this.enabledStateEvent = new InGameState(
+        controls.driverStation(),
+        InGameState.GameState.ENABLED
+    );
 
     initEventMappings();
   }
@@ -72,9 +83,16 @@ public class CoreEvents {
   }
 
   private static Function<Double, Double> trapezoidalCurve(double maxSpeed, double extraScale) {
-    return progress -> clamp(-maxSpeed, maxSpeed, extraScale * maxSpeed * (1 - (Math.abs(0.5 - progress) * 2)));
+    return progress -> clamp(
+        -maxSpeed,
+        maxSpeed,
+        extraScale * maxSpeed * (1 - (Math.abs(0.5 - progress) * 2))
+    );
   }
 
+  /**
+   * Initializes all of the mappings, such as joysticks, autonomous, and vision.
+   */
   public void initEventMappings() {
     // Camera Streaming
     NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -110,15 +128,42 @@ public class CoreEvents {
 
     autonomousStateEvent.forEach(() -> {
       double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().z();
-      new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain)
-          .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 270, hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 360, hardware, drivetrain));
+      new AbsoluteHeadingTimedDrive(1500,
+                                    trapezoidalCurve(0.3, 1.5),
+                                    currentAngle + 0,
+                                    hardware, drivetrain)
+          .then(new AbsoluteHeadingTimedDrive(600,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 90,
+                                              hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 180,
+                                              hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(600,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 90,
+                                              hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 0,
+                                              hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(600,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 90,
+                                              hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 180,
+                                              hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 270,
+                                              hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500,
+                                              trapezoidalCurve(0.3, 1.5),
+                                              currentAngle + 360,
+                                              hardware, drivetrain));
     });
 
     autonomousStateEvent.forEach(() -> {
@@ -134,23 +179,23 @@ public class CoreEvents {
       hardware.drivetrainHardware().imu().angleUpdate();
     });
 
-    RobotConstants.dashboard().datasetGroup("drivetrain").
-        addDataset(new TimeSeriesNumeric<>(
+    RobotConstants.dashboard().datasetGroup("drivetrain")
+        .addDataset(new TimeSeriesNumeric<>(
             "Gyro Velocity",
             () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
 
-    RobotConstants.dashboard().datasetGroup("drivetrain").
-        addDataset(new TimeSeriesNumeric<>(
+    RobotConstants.dashboard().datasetGroup("drivetrain")
+        .addDataset(new TimeSeriesNumeric<>(
             "Gyro Position",
             () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
 
-    RobotConstants.dashboard().datasetGroup("drivetrain").
-        addDataset(new TimeSeriesNumeric<>(
+    RobotConstants.dashboard().datasetGroup("drivetrain")
+        .addDataset(new TimeSeriesNumeric<>(
             "IMU Velocity Z",
             () -> hardware.drivetrainHardware().imu().currentVelocity().z()));
 
-    RobotConstants.dashboard().datasetGroup("drivetrain").
-        addDataset(new TimeSeriesNumeric<>(
+    RobotConstants.dashboard().datasetGroup("drivetrain")
+        .addDataset(new TimeSeriesNumeric<>(
             "IMU Position",
             () -> hardware.drivetrainHardware().imu().currentPosition().z()));
 
