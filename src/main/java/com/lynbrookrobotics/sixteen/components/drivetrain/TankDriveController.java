@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 public abstract class TankDriveController extends DrivetrainController {
   /**
-   * Creates a new tank-drive style controller based on two suppliers
+   * Creates a new tank-drive style controller based on two suppliers.
    *
    * @param forwardSpeed the speed to move forward
    * @param turnSpeed    the speed to turn at where positive is to the right
@@ -24,11 +24,13 @@ public abstract class TankDriveController extends DrivetrainController {
   }
 
   /**
+   * Gets the forward speed.
    * @return the speed to move forward
    */
   public abstract double forwardSpeed();
 
   /**
+   * Gets the turning speed.
    * @return the speed to turn at where positive is to the right
    */
   public abstract double turnSpeed();

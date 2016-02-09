@@ -13,18 +13,14 @@ public class DriveOnHeadingController extends TankDriveController {
   static double forward = 0;
 
   static {
-    RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
-        addDataset(new TimeSeriesNumeric<>("PID error", () -> lastError));
+    RobotConstants.dashboard().datasetGroup("drivetrain-controllers")
+        .addDataset(new TimeSeriesNumeric<>("PID error", () -> lastError));
 
-    RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
-        addDataset(new TimeSeriesNumeric<>("PID integral", () -> integral));
+    RobotConstants.dashboard().datasetGroup("drivetrain-controllers")
+        .addDataset(new TimeSeriesNumeric<>("PID integral", () -> integral));
 
-    RobotConstants.dashboard().datasetGroup("drivetrain-controllers").
-        addDataset(new TimeSeriesNumeric<>("Forward speed", () -> forward));
-  }
-
-  private static double IIR_DECAY(double freq) {
-    return 2 * Math.PI * freq / 50;
+    RobotConstants.dashboard().datasetGroup("drivetrain-controllers")
+        .addDataset(new TimeSeriesNumeric<>("Forward speed", () -> forward));
   }
 
   private static final double iMemory = 0.4/* IIR_DECAY(5.0) */;
@@ -35,6 +31,12 @@ public class DriveOnHeadingController extends TankDriveController {
   double targetAngle;
   Supplier<Double> forwardSpeed;
 
+  /**
+   * Constructs a new controller that drives on a fixed heading.
+   * @param angle the absolute angle to drive on
+   * @param speed a function that produces speeds to drive at
+   * @param hardware the robot hardware to use
+   */
   public DriveOnHeadingController(double angle, Supplier<Double> speed, RobotHardware hardware) {
     this.hardware = hardware;
     this.gyro = hardware.drivetrainHardware().mainGyro();
@@ -42,24 +44,25 @@ public class DriveOnHeadingController extends TankDriveController {
     this.forwardSpeed = speed;
   }
 
-  public double difference() {
+  private double difference() {
     double ret = targetAngle - gyro.currentPosition().z();
     lastError = ret;
     return ret;
   }
 
   private double updateIntegral(double value) {
-    runningIntegral = (runningIntegral * iMemory) + ((1 - iMemory) * value * RobotConstants.TICK_PERIOD);
+    runningIntegral = (runningIntegral * iMemory)
+        + ((1 - iMemory) * value * RobotConstants.TICK_PERIOD);
     integral = runningIntegral;
 
     return runningIntegral;
   }
 
   private double piOutput() {
-    double pOut = difference() * (1D / (4 * 90));
-    double iOut = updateIntegral(difference()) * (1.5D / (90));
+    double proportionalOut = difference() * (1D / (4 * 90));
+    double integralOut = updateIntegral(difference()) * (1.5D / (90));
 
-    return pOut + iOut;
+    return proportionalOut + integralOut;
   }
 
   @Override
