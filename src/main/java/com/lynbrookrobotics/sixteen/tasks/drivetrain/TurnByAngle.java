@@ -13,6 +13,12 @@ public class TurnByAngle extends FiniteTask {
 
   TurnByAngleController controller;
 
+  /**
+   * Constructs a task to turn by a fixed angle.
+   * @param angle the number of degrees to turn
+   * @param hardware the hardware to use
+   * @param drivetrain the drivetrain to use
+   */
   public TurnByAngle(double angle, RobotHardware hardware, Drivetrain drivetrain) {
     this.hardware = hardware;
     this.drivetrain = drivetrain;

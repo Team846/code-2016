@@ -18,7 +18,19 @@ public class AbsoluteHeadingTimedDrive extends FiniteTask {
   long duration;
   long endTime;
 
-  public AbsoluteHeadingTimedDrive(long duration, Function<Double, Double> forward, double absoluteHeading, RobotHardware hardware, Drivetrain drivetrain) {
+  /**
+   * Constructs a task to drive on a fixed heading.
+   * @param duration the duration to drive
+   * @param forward a function giving the speed as a function of progress
+   * @param absoluteHeading the heading to drive on
+   * @param hardware the robot hardware to use
+   * @param drivetrain the drivetrain component to use
+   */
+  public AbsoluteHeadingTimedDrive(long duration,
+                                   Function<Double, Double> forward,
+                                   double absoluteHeading,
+                                   RobotHardware hardware,
+                                   Drivetrain drivetrain) {
     this.duration = duration;
     this.absoluteHeading = absoluteHeading;
     this.forward = forward;

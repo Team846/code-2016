@@ -14,7 +14,19 @@ public class TimedDrive extends FiniteTask {
   long duration;
   long endTime;
 
-  public TimedDrive(long duration, Supplier<Double> forward, Supplier<Double> turn, RobotHardware hardware, Drivetrain drivetrain) {
+  /**
+   * Constructs a fixed duration drive.
+   * @param duration the time to drive
+   * @param forward a supplier of forward speed
+   * @param turn a supplier of turn speed
+   * @param hardware the robot hardware to use
+   * @param drivetrain the drivetrain to use
+   */
+  public TimedDrive(long duration,
+                    Supplier<Double> forward,
+                    Supplier<Double> turn,
+                    RobotHardware hardware,
+                    Drivetrain drivetrain) {
     this.duration = duration;
     this.controller = TankDriveController.of(forward, turn);
     this.hardware = hardware;
