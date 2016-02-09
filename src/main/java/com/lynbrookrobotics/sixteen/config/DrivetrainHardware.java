@@ -7,8 +7,8 @@ import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 import edu.wpi.first.wpilibj.Jaguar;
 
 /**
- * Contains all the hardware components for the drivetrain including motors and gyros for angle and
- * acceleration measurement
+ * Contains all the hardware components for the drivetrain.
+ * Includes motors and gyros for angle and acceleration measurement.
  */
 public class DrivetrainHardware {
   private Jaguar frontLeftMotor;
@@ -19,6 +19,10 @@ public class DrivetrainHardware {
   private GyroL3GD20H gyro;
   private ADIS16448 imu;
 
+  /**
+   * Constructs a new default DrivetrainHardware object.
+   * @param config the config to load interfaces from
+   */
   public DrivetrainHardware(VariableConfiguration config) {
     frontLeftMotor = new Jaguar(config.drivetrainPorts().portFrontLeft());
     frontRightMotor = new Jaguar(config.drivetrainPorts().portFrontRight());

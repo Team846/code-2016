@@ -1,10 +1,10 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import akka.actor.ActorSystem;
+
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
-
-import akka.actor.ActorSystem;
 
 public class RobotConstants {
   public static double TICK_PERIOD = 1D / 50; // every 20ms, matches IterativeRobot
@@ -25,6 +25,10 @@ public class RobotConstants {
     return System.getProperty("user.name").equals("lvuser");
   }
 
+  /**
+   * Gets the current FunkyDashboard instance.
+   * @return the FunkyDashboard instance
+   */
   public static FunkyDashboard dashboard() {
     if (dashboard == null) {
       dashboard = new FunkyDashboard();

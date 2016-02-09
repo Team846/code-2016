@@ -3,11 +3,11 @@ package com.lynbrookrobotics.sixteen.config;
 import edu.wpi.first.wpilibj.Jaguar;
 
 /**
- * Created by Vikranth on 2/5/2016.
+ * Aggregation of all intake hardware components.
  */
 public class IntakeHardware {
-  Jaguar Rightjaguar;
-  Jaguar LeftJaguar;
+  Jaguar rightJaguar;
+  Jaguar leftJaguar;
   RobotHardware robotHardware;
   DrivetrainHardware drivetrainHardware;
 
@@ -15,10 +15,4 @@ public class IntakeHardware {
     this.drivetrainHardware = drivetrainHardware;
     this.robotHardware = robotHardware;
   }
-
-  public void IntakePorts() {
-
-  }
-
-
 }
