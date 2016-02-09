@@ -1,6 +1,5 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import com.lynbrookrobotics.sixteen.config.DrivetrainPorts;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 

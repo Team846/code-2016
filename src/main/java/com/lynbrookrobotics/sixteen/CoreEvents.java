@@ -2,9 +2,6 @@ package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
-import com.lynbrookrobotics.potassium.events.SteadyEventHandler;
-import com.lynbrookrobotics.potassium.tasks.FiniteTask;
-import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
@@ -13,14 +10,13 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.ni.vision.NIVision;
 
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.vision.USBCamera;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
-import java.util.function.Supplier;
+
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * CoreEvents class creates events and maps these to handlers
@@ -161,8 +157,8 @@ public class CoreEvents {
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
-      () -> drivetrain.setController(enabledDrive),
-      () -> drivetrain.resetToDefault()
+        () -> drivetrain.setController(enabledDrive),
+        () -> drivetrain.resetToDefault()
     );
   }
 }

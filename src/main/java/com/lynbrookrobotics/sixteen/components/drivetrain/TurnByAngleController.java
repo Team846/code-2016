@@ -2,7 +2,6 @@ package com.lynbrookrobotics.sixteen.components.drivetrain;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
-import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 
 public class TurnByAngleController extends TankDriveController {
   RobotHardware hardware;

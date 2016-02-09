@@ -2,9 +2,6 @@ package com.lynbrookrobotics.sixteen.config;
 
 import edu.wpi.first.wpilibj.Jaguar;
 
-import java.beans.Encoder;
-import java.time.chrono.JapaneseChronology;
-
 /**
  * Created by Vikranth on 2/5/2016.
  */

@@ -1,8 +1,8 @@
 package com.lynbrookrobotics.sixteen.components.manipulator;
 
 import com.lynbrookrobotics.potassium.components.Component;
-import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.ManipulatorHardware;
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 public class Manipulator extends Component<ManipulatorController> {
   private ManipulatorHardware hardware;

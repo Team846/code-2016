@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.sensors.imu;
 
-import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
+import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 
 /**
  * An interface for communicating with the ADIS16448 IMU

@@ -1,18 +1,17 @@
 package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
-import javax.swing.*;
-
-import java.awt.Color;
-import java.awt.Font;
-
+import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.ShooterHardware;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
-import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.config.ShooterHardware;
+import javax.swing.*;
 
 /**
  * A swing-based interface for validating JavaScript routines
