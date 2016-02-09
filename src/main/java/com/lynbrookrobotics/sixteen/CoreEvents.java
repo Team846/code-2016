@@ -102,75 +102,40 @@ public class CoreEvents {
 
     // Drivetrain
     // Drivetrain - Gyro
-    disabledStateEvent.forEach(new SteadyEventHandler() {
-      @Override
-      public void onStart() {
-      }
-
-      @Override
-      public void onRunning() {
-        if (!initialCalibrationDone) {
-          hardware.drivetrainHardware().gyro().calibrateUpdate();
-          hardware.drivetrainHardware().imu().calibrateUpdate();
-        } else {
-          hardware.drivetrainHardware().gyro().angleUpdate();
-          hardware.drivetrainHardware().imu().angleUpdate();
-        }
-      }
-
-      @Override
-      public void onEnd() {
-      }
-    });
-
-    autonomousStateEvent.forEach(new SteadyEventHandler() {
-      FiniteTask auto;
-
-      @Override
-      public void onStart() {
-        double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().z();
-        auto = new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain)
-            .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
-            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
-            .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
-            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain))
-            .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
-            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
-            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 270, hardware, drivetrain))
-            .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 360, hardware, drivetrain));
-        Task.executeTask(auto);
-      }
-
-      @Override
-      public void onRunning() {
-        initialCalibrationDone = true;
+    disabledStateEvent.forEach(() -> {
+      if (!initialCalibrationDone) {
+        hardware.drivetrainHardware().gyro().calibrateUpdate();
+        hardware.drivetrainHardware().imu().calibrateUpdate();
+      } else {
         hardware.drivetrainHardware().gyro().angleUpdate();
         hardware.drivetrainHardware().imu().angleUpdate();
       }
+    });
 
-      @Override
-      public void onEnd() {
-        Task.abortTask(auto);
-        auto = null;
-      }
+    autonomousStateEvent.forEach(() -> {
+      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().z();
+      new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain)
+          .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 0, hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(600, trapezoidalCurve(0.3, 1.5), currentAngle + 90, hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 180, hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 270, hardware, drivetrain))
+          .then(new AbsoluteHeadingTimedDrive(1500, trapezoidalCurve(0.3, 1.5), currentAngle + 360, hardware, drivetrain));
+    });
+
+    autonomousStateEvent.forEach(() -> {
+      initialCalibrationDone = true;
+      hardware.drivetrainHardware().gyro().angleUpdate();
+      hardware.drivetrainHardware().imu().angleUpdate();
     });
 
 
-    enabledStateEvent.forEach(new SteadyEventHandler() {
-      @Override
-      public void onStart() {
-      }
-
-      @Override
-      public void onRunning() {
-        initialCalibrationDone = true;
-        hardware.drivetrainHardware().gyro().angleUpdate();
-        hardware.drivetrainHardware().imu().angleUpdate();
-      }
-
-      @Override
-      public void onEnd() {
-      }
+    enabledStateEvent.forEach(() -> {
+      initialCalibrationDone = true;
+      hardware.drivetrainHardware().gyro().angleUpdate();
+      hardware.drivetrainHardware().imu().angleUpdate();
     });
 
     RobotConstants.dashboard().datasetGroup("drivetrain").
@@ -182,16 +147,6 @@ public class CoreEvents {
         addDataset(new TimeSeriesNumeric<>(
             "Gyro Position",
             () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
-
-//        RobotConstants.dashboard().datasetGroup("drivetrain").
-//                addDataset(new TimeSeriesNumeric<>(
-//                        "IMU Velocity X",
-//                        () -> hardware.drivetrainHardware().imu().currentVelocity().x()));
-//
-//        RobotConstants.dashboard().datasetGroup("drivetrain").
-//                addDataset(new TimeSeriesNumeric<>(
-//                        "IMU Velocity Y",
-//                        () -> hardware.drivetrainHardware().imu().currentVelocity().y()));
 
     RobotConstants.dashboard().datasetGroup("drivetrain").
         addDataset(new TimeSeriesNumeric<>(
@@ -205,20 +160,9 @@ public class CoreEvents {
 
 
     // Drivetrain - Joystick
-    enabledStateEvent.forEach(new SteadyEventHandler() {
-      @Override
-      public void onStart() {
-        drivetrain.setController(enabledDrive);
-      }
-
-      @Override
-      public void onRunning() {
-      }
-
-      @Override
-      public void onEnd() {
-        drivetrain.resetToDefault();
-      }
-    });
+    enabledStateEvent.forEach(
+      () -> drivetrain.setController(enabledDrive),
+      () -> drivetrain.resetToDefault()
+    );
   }
 }
