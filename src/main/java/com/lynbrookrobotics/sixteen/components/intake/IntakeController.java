@@ -6,4 +6,10 @@ public abstract class IntakeController {
    * @return the current intake speed as a normalized value
    */
   public abstract double speed();
+
+  /**
+   *
+   * @return whether the ball is in
+   */
+  public abstract boolean isBallIn();
 }

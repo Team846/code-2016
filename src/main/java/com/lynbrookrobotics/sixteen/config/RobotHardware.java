@@ -11,15 +11,16 @@ public class RobotHardware {
   DrivetrainHardware drivetrainHardware;
   ShooterHardware shooterHardware;
   ManipulatorHardware armHardware;
-
+  IntakeHardware intakeHardware;
   public RobotHardware(VariableConfiguration config) {
     drivetrainHardware = new DrivetrainHardware(config);
     shooterHardware = new ShooterHardware(config);
   }
 
-  public RobotHardware(DrivetrainHardware drivetrainHardware, ShooterHardware shooterHardware) {
+  public RobotHardware(DrivetrainHardware drivetrainHardware, ShooterHardware shooterHardware,IntakeHardware intakeHardware) {
     this.drivetrainHardware = drivetrainHardware;
     this.shooterHardware = shooterHardware;
+    this.intakeHardware=intakeHardware;
   }
 
   public DrivetrainHardware drivetrainHardware() {
@@ -33,4 +34,6 @@ public class RobotHardware {
   public ManipulatorHardware manipulatorHardware() {
     return armHardware;
   }
+
+  public IntakeHardware intakeHardware(){return intakeHardware;}
 }
