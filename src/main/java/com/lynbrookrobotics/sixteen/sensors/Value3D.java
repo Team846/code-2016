@@ -4,29 +4,29 @@ package com.lynbrookrobotics.sixteen.sensors;
  * Represents a value with X, Y and Z parts.
  */
 public class Value3D {
-  double xValue;
-  double yValue;
-  double zValue;
+  double valueX;
+  double valueY;
+  double valueZ;
 
   /**
    * Constructs a new 3D value given X, Y, and Z axes.
    */
-  public Value3D(double xValue, double yValue, double zValue) {
-    this.xValue = xValue;
-    this.yValue = yValue;
-    this.zValue = zValue;
+  public Value3D(double valueX, double valueY, double valueZ) {
+    this.valueX = valueX;
+    this.valueY = valueY;
+    this.valueZ = valueZ;
   }
 
-  public double x() {
-    return xValue;
+  public double valueX() {
+    return valueX;
   }
 
-  public double y() {
-    return yValue;
+  public double valueY() {
+    return valueY;
   }
 
-  public double z() {
-    return zValue;
+  public double valueZ() {
+    return valueZ;
   }
 
   /**
@@ -36,9 +36,9 @@ public class Value3D {
    */
   public Value3D plus(Value3D toAdd) {
     return new Value3D(
-        this.x() + toAdd.x(),
-        this.y() + toAdd.y(),
-        this.z() + toAdd.z()
+        this.valueX() + toAdd.valueX(),
+        this.valueY() + toAdd.valueY(),
+        this.valueZ() + toAdd.valueZ()
     );
   }
 
@@ -49,9 +49,9 @@ public class Value3D {
    */
   public Value3D times(double scalar) {
     return new Value3D(
-        scalar * this.x(),
-        scalar * this.y(),
-        scalar * this.z()
+        scalar * this.valueX(),
+        scalar * this.valueY(),
+        scalar * this.valueZ()
     );
   }
 }

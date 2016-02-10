@@ -45,7 +45,7 @@ public class DriveOnHeadingController extends TankDriveController {
   }
 
   private double difference() {
-    double ret = targetAngle - gyro.currentPosition().z();
+    double ret = targetAngle - gyro.currentPosition().valueZ();
     lastError = ret;
     return ret;
   }

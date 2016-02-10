@@ -127,7 +127,7 @@ public class CoreEvents {
     });
 
     autonomousStateEvent.forEach(() -> {
-      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().z();
+      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
       new AbsoluteHeadingTimedDrive(1500,
                                     trapezoidalCurve(0.3, 1.5),
                                     currentAngle + 0,
@@ -182,22 +182,22 @@ public class CoreEvents {
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
             "Gyro Velocity",
-            () -> hardware.drivetrainHardware().gyro().currentVelocity().z()));
+            () -> hardware.drivetrainHardware().gyro().currentVelocity().valueZ()));
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
             "Gyro Position",
-            () -> hardware.drivetrainHardware().gyro().currentPosition().z()));
+            () -> hardware.drivetrainHardware().gyro().currentPosition().valueZ()));
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
             "IMU Velocity Z",
-            () -> hardware.drivetrainHardware().imu().currentVelocity().z()));
+            () -> hardware.drivetrainHardware().imu().currentVelocity().valueZ()));
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
             "IMU Position",
-            () -> hardware.drivetrainHardware().imu().currentPosition().z()));
+            () -> hardware.drivetrainHardware().imu().currentPosition().valueZ()));
 
 
     // Drivetrain - Joystick

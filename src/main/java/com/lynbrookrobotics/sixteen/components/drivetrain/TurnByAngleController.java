@@ -19,11 +19,11 @@ public class TurnByAngleController extends TankDriveController {
   public TurnByAngleController(double angle, RobotHardware hardware) {
     this.hardware = hardware;
     this.gyro = hardware.drivetrainHardware().mainGyro();
-    this.targetAngle = gyro.currentPosition().z() + angle;
+    this.targetAngle = gyro.currentPosition().valueZ() + angle;
   }
 
   public double difference() {
-    return targetAngle - gyro.currentPosition().z();
+    return targetAngle - gyro.currentPosition().valueZ();
   }
 
   @Override
