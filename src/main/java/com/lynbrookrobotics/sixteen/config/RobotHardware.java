@@ -12,6 +12,7 @@ public class RobotHardware {
   ShooterHardware shooterHardware;
   ManipulatorHardware armHardware;
   IntakeHardware intakeHardware;
+
   public RobotHardware(VariableConfiguration config) {
     drivetrainHardware = new DrivetrainHardware(config);
     shooterHardware = new ShooterHardware(config);
@@ -20,7 +21,7 @@ public class RobotHardware {
   public RobotHardware(DrivetrainHardware drivetrainHardware, ShooterHardware shooterHardware,IntakeHardware intakeHardware) {
     this.drivetrainHardware = drivetrainHardware;
     this.shooterHardware = shooterHardware;
-    this.intakeHardware=intakeHardware;
+    this.intakeHardware = intakeHardware;
   }
 
   public DrivetrainHardware drivetrainHardware() {

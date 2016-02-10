@@ -1,27 +1,28 @@
 package com.lynbrookrobotics.sixteen.config;
 
 import com.typesafe.config.Config;
+
 /**
- * Created by Vikranth on 2/8/2016.
+ * Creates some ports for the Intake
  */
 public class IntakePorts {
-  int rightPort,leftPort;
+  int rightPort;
+  int leftPort;
 
   public IntakePorts(int rightPort,int leftPort) {
-    this.leftPort=leftPort;
-    this.rightPort=rightPort;
+    this.leftPort = leftPort;
+    this.rightPort = rightPort;
   }
 
   public IntakePorts(Config config) {
     this(config.getInt("rightPort"), config.getInt("leftPort"));
   }
 
-
-  public int RightPort() {
+  public int rightPort() {
     return rightPort;
   }
 
-  public int LeftPort() {
+  public int leftPort() {
     return leftPort;
   }
 }

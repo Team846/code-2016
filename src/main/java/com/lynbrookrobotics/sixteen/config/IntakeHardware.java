@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.config;
 import edu.wpi.first.wpilibj.Jaguar;
 
 /**
- * Aggregation of all intake hardware components.
+ * Aggregation of all intake hardware.
  */
 public class IntakeHardware {
   Jaguar rightJaguar;
@@ -14,10 +14,14 @@ public class IntakeHardware {
     this.leftJaguar = leftJaguar;
   }
 
+  /**
+   * Constructs an IntakeHardware given a configuration object
+   * @param configuration the configuration to load ports from
+   */
   public IntakeHardware(VariableConfiguration configuration) {
     this(
-        new Jaguar(configuration.intakePorts().RightPort()),
-        new Jaguar(configuration.intakePorts().LeftPort())
+        new Jaguar(configuration.intakePorts().rightPort()),
+        new Jaguar(configuration.intakePorts().leftPort())
     );
   }
 
