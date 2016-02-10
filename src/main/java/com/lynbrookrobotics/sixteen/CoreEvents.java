@@ -12,13 +12,14 @@ import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.ni.vision.NIVision;
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
+
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * CoreEvents class creates events and maps these to handlers
@@ -200,22 +201,22 @@ public class CoreEvents {
                         "IMU Velocity Z",
                         () -> hardware.drivetrainHardware().imu().currentVelocity().z()));*/
 
-        RobotConstants.dashboard().datasetGroup("drivetrain").
+/*        RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Back Left Motor speed",
                         () -> hardware.drivetrainHardware().getBackLeftEncoder().getSpeed() ));
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Back Right Motor speed",
-                        () -> hardware.drivetrainHardware().getBackRightEncoder().getSpeed() ));
+                        () -> hardware.drivetrainHardware().getBackRightEncoder().getSpeed() ));*/
         RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
-                        "Front Left Motor speed",
-                        () -> hardware.drivetrainHardware().getFrontLeftEncoder().getPosition() ));
-        RobotConstants.dashboard().datasetGroup("drivetrain").
+                        "Front Left Encoder ticks",
+                        () -> hardware.drivetrainHardware().getFrontLeftEncoder().getPosition()) );
+       /* RobotConstants.dashboard().datasetGroup("drivetrain").
                 addDataset(new TimeSeriesNumeric<>(
                         "Front Right Motor speed",
-                        () -> hardware.drivetrainHardware().getFrontRightEncoder().getSpeed() ));
+                        () -> hardware.drivetrainHardware().getFrontRightEncoder().getSpeed() ));*/
 
 
         // Drivetrain - Joystick

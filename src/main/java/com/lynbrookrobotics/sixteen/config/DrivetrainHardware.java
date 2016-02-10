@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.config;
 
 import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
-import com.lynbrookrobotics.sixteen.sensors.encoders.LRTEncoder;
+import com.lynbrookrobotics.sixteen.sensors.encoder.*;
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -21,10 +21,10 @@ public class DrivetrainHardware {
     private Jaguar backLeftMotor;
     private Jaguar backRightMotor;
 
-    private LRTEncoder frontLeftEncoder;
-    private LRTEncoder frontRightEncoder;
-    private LRTEncoder backLeftEncoder;
-    private LRTEncoder backRightEncoder;
+    private Encoder frontLeftEncoder;
+    private Encoder frontRightEncoder;
+    private Encoder backLeftEncoder;
+    private Encoder backRightEncoder;
 
     private GyroL3GD20H gyro;
     private ADIS16448 imu;
@@ -40,10 +40,10 @@ public class DrivetrainHardware {
         backLeftTalon = new CANTalon(2);
         backRightTalon = new CANTalon(3);
 
-        frontLeftEncoder = new LRTEncoder(frontLeftTalon, false);
-        frontRightEncoder = new LRTEncoder(frontRightTalon, false);
-        backLeftEncoder = new LRTEncoder(backLeftTalon, false);
-        backRightEncoder = new LRTEncoder(backRightTalon, false);
+        frontLeftEncoder = Encoder.talonEncoder(frontLeftTalon);
+        frontRightEncoder = Encoder.talonEncoder(frontRightTalon);
+        backLeftEncoder = Encoder.talonEncoder(backLeftTalon);
+        backRightEncoder = Encoder.talonEncoder(backRightTalon);
                 
         gyro = new GyroL3GD20H();
         imu = new ADIS16448();
@@ -93,19 +93,19 @@ public class DrivetrainHardware {
         return imu();
     }
 
-    public LRTEncoder getFrontLeftEncoder(){
+    public Encoder getFrontLeftEncoder(){
         return frontLeftEncoder;
     }
 
-    public LRTEncoder getFrontRightEncoder(){
+    public Encoder getFrontRightEncoder(){
         return frontRightEncoder;
     }
 
-    public LRTEncoder getBackLeftEncoder(){
+    public Encoder getBackLeftEncoder(){
         return backLeftEncoder;
     }
 
-    public LRTEncoder getBackRightEncoder(){
+    public Encoder getBackRightEncoder(){
         return backRightEncoder;
     }
 }
