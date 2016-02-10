@@ -1,9 +1,10 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
+import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Jaguar;
 
 /**
@@ -16,6 +17,16 @@ public class DrivetrainHardware {
   private Jaguar backLeftMotor;
   private Jaguar backRightMotor;
 
+  private CANTalon frontLeftTalon;
+  private CANTalon frontRightTalon;
+  private CANTalon backLeftTalon;
+  private CANTalon backRightTalon;
+
+  private Encoder frontLeftEncoder;
+  private Encoder frontRightEncoder;
+  private Encoder backLeftEncoder;
+  private Encoder backRightEncoder;
+
   private GyroL3GD20H gyro;
   private ADIS16448 imu;
 
@@ -27,12 +38,26 @@ public class DrivetrainHardware {
                             Jaguar frontRightMotor,
                             Jaguar backLeftMotor,
                             Jaguar backRightMotor,
+                            CANTalon frontLeftTalon,
+                            CANTalon frontRightTalon,
+                            CANTalon backLeftTalon,
+                            CANTalon backRightTalon,
                             GyroL3GD20H gyro,
                             ADIS16448 imu) {
     this.frontLeftMotor = frontLeftMotor;
     this.frontRightMotor = frontRightMotor;
     this.backLeftMotor = backLeftMotor;
     this.backRightMotor = backRightMotor;
+
+    this.frontLeftTalon = frontLeftTalon;
+    this.frontRightTalon = frontRightTalon();
+    this.backLeftTalon = backLeftTalon();
+    this.backRightTalon = backRightTalon;
+
+    this.frontLeftEncoder = Encoder.talonEncoder(frontLeftTalon);
+    this.frontRightEncoder = Encoder.talonEncoder(frontRightTalon);
+    this.backLeftEncoder = Encoder.talonEncoder(backLeftTalon);
+    this.backRightEncoder = Encoder.talonEncoder(backRightTalon);
 
     this.gyro = gyro;
     this.imu = imu;
@@ -48,6 +73,10 @@ public class DrivetrainHardware {
         new Jaguar(config.drivetrainPorts().portFrontRight()),
         new Jaguar(config.drivetrainPorts().portBackLeft()),
         new Jaguar(config.drivetrainPorts().portBackRight()),
+        new CANTalon(0),
+        new CANTalon(1),
+        new CANTalon(2),
+        new CANTalon(3),
         new GyroL3GD20H(),
         new ADIS16448()
     );
@@ -77,7 +106,31 @@ public class DrivetrainHardware {
     return imu;
   }
 
-  public DigitalGyro mainGyro() {
-    return imu();
+  public CANTalon frontLeftTalon() {
+    return frontLeftTalon;
+  }
+
+  public CANTalon frontRightTalon() {
+    return frontRightTalon;
+  }
+
+  public CANTalon backLeftTalon() {
+    return backLeftTalon;
+  }
+
+  public Encoder getFrontLeftEncoder(){
+    return frontLeftEncoder;
+  }
+
+  public Encoder getFrontRightEncoder(){
+    return frontRightEncoder;
+  }
+
+  public Encoder getBackLeftEncoder(){
+    return backLeftEncoder;
+  }
+
+  public Encoder getBackRightEncoder(){
+    return backRightEncoder;
   }
 }
