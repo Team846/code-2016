@@ -19,18 +19,38 @@ public class DrivetrainHardware {
   private GyroL3GD20H gyro;
   private ADIS16448 imu;
 
+
+  /**
+   * Constructs a new default DrivetrainHardware object given the interfaces.
+   */
+  public DrivetrainHardware(Jaguar frontLeftMotor,
+                            Jaguar frontRightMotor,
+                            Jaguar backLeftMotor,
+                            Jaguar backRightMotor,
+                            GyroL3GD20H gyro,
+                            ADIS16448 imu) {
+    this.frontLeftMotor = frontLeftMotor;
+    this.frontRightMotor = frontRightMotor;
+    this.backLeftMotor = backLeftMotor;
+    this.backRightMotor = backRightMotor;
+
+    this.gyro = gyro;
+    this.imu = imu;
+  }
+
   /**
    * Constructs a new default DrivetrainHardware object.
    * @param config the config to load interfaces from
    */
   public DrivetrainHardware(VariableConfiguration config) {
-    frontLeftMotor = new Jaguar(config.drivetrainPorts().portFrontLeft());
-    frontRightMotor = new Jaguar(config.drivetrainPorts().portFrontRight());
-    backLeftMotor = new Jaguar(config.drivetrainPorts().portBackLeft());
-    backRightMotor = new Jaguar(config.drivetrainPorts().portBackRight());
-
-    gyro = new GyroL3GD20H();
-    imu = new ADIS16448();
+    this(
+        new Jaguar(config.drivetrainPorts().portFrontLeft()),
+        new Jaguar(config.drivetrainPorts().portFrontRight()),
+        new Jaguar(config.drivetrainPorts().portBackLeft()),
+        new Jaguar(config.drivetrainPorts().portBackRight()),
+        new GyroL3GD20H(),
+        new ADIS16448()
+    );
   }
 
   public Jaguar frontLeftMotor() {
