@@ -11,5 +11,5 @@ public abstract class IntakeController {
    *
    * @return whether the ball is in
    */
-  public abstract boolean isBallIn();
+  public abstract boolean checkIsBallIn();
 }
