@@ -28,7 +28,10 @@ public class LoadJavascriptFile {
    * @param drive    the robot's drivetrain
    * @return the FiniteTask constructed by the JavaScript program
    */
-  public static FiniteTask loadReader(BufferedReader script, RobotHardware hardware, Drivetrain drive) { // TODO: load task list and expose in JS scope
+  public static FiniteTask loadReader(BufferedReader script,
+                                      RobotHardware hardware,
+                                      Drivetrain drive) {
+    // TODO: load task list and expose in JS scope
     try {
       Context ctx = Context.enter();
       Scriptable scope = ctx.initStandardObjects();
@@ -42,14 +45,17 @@ public class LoadJavascriptFile {
         scope.put(task.getSimpleName(), scope, wrappedTask);
       }
 
-      NativeJavaObject task = (NativeJavaObject) ctx.evaluateReader(scope, script, "", 1, null); // TODO: find purpose of file name (arg 3)
+      NativeJavaObject task = (NativeJavaObject) ctx.evaluateReader(
+          scope, script,
+          "", 1, null
+      ); // TODO: find purpose of file name (arg 3)
+
       Context.exit();
       return (FiniteTask) task.unwrap();
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException exception) {
+      exception.printStackTrace();
       return null;
     }
-
   }
 
   /**
@@ -76,8 +82,8 @@ public class LoadJavascriptFile {
   public static FiniteTask loadPath(Path path, RobotHardware hardware, Drivetrain drive) {
     try {
       return loadReader(Files.newBufferedReader(path, StandardCharsets.UTF_8), hardware, drive);
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException exception) {
+      exception.printStackTrace();
       return null;
     }
   }
@@ -104,6 +110,7 @@ public class LoadJavascriptFile {
    * @return the FiniteTask constructed by the JavaScript program
    */
   public static FiniteTask loadScript(String scriptName, RobotHardware hardware, Drivetrain drive) {
-    return loadStringPath(scriptName, hardware, drive); // TODO: prefix scripts location to scriptName
+    // TODO: prefix scripts location to scriptName
+    return loadStringPath(scriptName, hardware, drive);
   }
 }
