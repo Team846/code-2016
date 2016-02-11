@@ -102,6 +102,7 @@ public class DrivetrainHardware {
   public DigitalGyro mainGyro() {
     return imu();
   }
+
   public GyroL3GD20H gyro() {
     return gyro;
   }
@@ -122,19 +123,19 @@ public class DrivetrainHardware {
     return backLeftTalon;
   }
 
-  public Encoder getFrontLeftEncoder(){
+  public Encoder getFrontLeftEncoder() {
     return frontLeftEncoder;
   }
 
-  public Encoder getFrontRightEncoder(){
+  public Encoder getFrontRightEncoder() {
     return frontRightEncoder;
   }
 
-  public Encoder getBackLeftEncoder(){
+  public Encoder getBackLeftEncoder() {
     return backLeftEncoder;
   }
 
-  public Encoder getBackRightEncoder(){
+  public Encoder getBackRightEncoder() {
     return backRightEncoder;
   }
 }

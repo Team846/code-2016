@@ -9,8 +9,8 @@ public abstract class Encoder {
 
   /**
    * Returns an encoder wired to a Talon. The Talon communicates with CAN
-   * @param talon
-   * @return
+   * @param talon The talon that the encoder is wired to
+   * @return An encoder wired to a Talon. The Talon communicates with CAN
    */
   public static Encoder talonEncoder(CANTalon talon) {
     return new Encoder() {
