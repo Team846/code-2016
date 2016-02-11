@@ -23,7 +23,7 @@ public class JSValidator extends JFrame {
   private DrivetrainHardware drivetrainHardware = new DrivetrainHardware(
       null,null, null, null, null, null
   );
-  private ShooterHardware shooterHardware = new ShooterHardware();
+  private ShooterHardware shooterHardware = new ShooterHardware(null, null);
   private RobotHardware robotHardware = new RobotHardware(drivetrainHardware, shooterHardware);
   private Drivetrain drivetrain = new Drivetrain(robotHardware, null);
 
