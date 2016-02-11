@@ -14,12 +14,11 @@ public class VariableConfiguration {
 
   private DrivetrainPorts drivetrainPorts = new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
   private ShooterPorts shooterPorts = new ShooterPorts(loadedConfig.getConfig("shooter"));
-
   private IntakePorts intakePorts = new IntakePorts(loadedConfig.getConfig("intake"));
   /**
    * Returns the pre-loaded config for the four drivetrain ports.
    */
-  public DrivetrainPorts drivetrainPorts() {
+  public DrivetrainPorts drivetrainPorts(){
     return drivetrainPorts;
   }
 
@@ -31,6 +30,6 @@ public class VariableConfiguration {
   }
 
   public IntakePorts intakePorts() {
-         return intakePorts;
+   return intakePorts;
   }
 }
