@@ -3,6 +3,8 @@ package com.lynbrookrobotics.sixteen;
 import com.lynbrookrobotics.potassium.Potassium;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.shooter.ConstantVelocityController;
+import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
@@ -21,8 +23,9 @@ public class CoreRobot {
   DriverControls controls = new DriverControls();
 
   Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
+  Shooter shooter = new Shooter(hardware, ConstantVelocityController.of(() -> 0.0));
 
-  CoreEvents events = new CoreEvents(controls, hardware, drivetrain);
+  CoreEvents events = new CoreEvents(controls, hardware, drivetrain, shooter);
 
   /**
    * Sets up tick function with timer.

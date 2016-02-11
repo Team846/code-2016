@@ -4,6 +4,8 @@ import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.shooter.ConstantVelocityController;
+import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
@@ -25,6 +27,7 @@ public class CoreEvents {
   DriverControls controls;
   RobotHardware hardware;
   Drivetrain drivetrain;
+  Shooter shooter;
 
   boolean initialCalibrationDone = false;
 
@@ -42,13 +45,19 @@ public class CoreEvents {
       () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
   );
 
+  // Shooter
+  ConstantVelocityController enabledShooter = ConstantVelocityController.of(
+      () -> controls.operatorStick().getAxis(Joystick.AxisType.kY)
+  );
+
   /**
    * Initializes hardware for events.
    */
-  public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain) {
+  public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain, Shooter shooter) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;
+    this.shooter = shooter;
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation(),
@@ -202,8 +211,14 @@ public class CoreEvents {
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
-        () -> drivetrain.setController(enabledDrive),
-        () -> drivetrain.resetToDefault()
+        () -> {
+          drivetrain.setController(enabledDrive);
+          shooter.setController(enabledShooter);
+        },
+        () -> {
+          drivetrain.resetToDefault();
+          shooter.resetToDefault();
+        }
     );
   }
 }
