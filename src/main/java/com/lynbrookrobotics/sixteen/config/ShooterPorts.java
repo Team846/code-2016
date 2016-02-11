@@ -3,16 +3,21 @@ package com.lynbrookrobotics.sixteen.config;
 import com.typesafe.config.Config;
 
 /**
- * Contains ports for shooter wheels
+ * All of the ports for shooter wheels.
  */
 public class ShooterPorts {
-  private int frontWheelPort, backWheelPort;
+  private int frontWheelPort;
+  private int backWheelPort;
 
   public ShooterPorts(int frontWheelPort, int backWheelPort) {
     this.frontWheelPort = frontWheelPort;
     this.backWheelPort = backWheelPort;
   }
 
+  /**
+   * Grabs shooter ports from configuration.
+   * @param config the config to use
+   */
   public ShooterPorts(Config config) {
     this(
         config.getInt("front-wheel-port"),

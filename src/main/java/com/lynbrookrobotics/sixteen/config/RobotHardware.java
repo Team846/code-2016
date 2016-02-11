@@ -11,15 +11,27 @@ public class RobotHardware {
   ManipulatorHardware armHardware;
   IntakeHardware intakeHardware;
 
-  public RobotHardware(VariableConfiguration config) {
-    drivetrainHardware = new DrivetrainHardware(config);
-    shooterHardware = new ShooterHardware(config);
-  }
-
-  public RobotHardware(DrivetrainHardware drivetrainHardware, ShooterHardware shooterHardware,IntakeHardware intakeHardware) {
+  /**
+   * Constructs a RobotHardware given the individual hardware classes.
+   */
+  public RobotHardware(DrivetrainHardware drivetrainHardware,
+                       ShooterHardware shooterHardware,
+                       IntakeHardware intakeHardware) {
     this.drivetrainHardware = drivetrainHardware;
     this.shooterHardware = shooterHardware;
     this.intakeHardware = intakeHardware;
+  }
+
+  /**
+   * Constructs a RobotHardware given a configuration object.
+   * @param config the config to use
+   */
+  public RobotHardware(VariableConfiguration config) {
+    this(
+        new DrivetrainHardware(config),
+        new ShooterHardware(config),
+        new IntakeHardware(config)
+    );
   }
 
   public DrivetrainHardware drivetrainHardware() {
@@ -34,5 +46,7 @@ public class RobotHardware {
     return armHardware;
   }
 
-  public IntakeHardware intakeHardware(){return intakeHardware;}
+  public IntakeHardware intakeHardware() {
+    return intakeHardware;
+  }
 }

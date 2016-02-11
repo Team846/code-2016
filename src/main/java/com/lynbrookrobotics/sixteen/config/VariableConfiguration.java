@@ -12,24 +12,26 @@ import java.io.File;
 public class VariableConfiguration {
   private Config loadedConfig = ConfigFactory.parseFile(new File("/home/lvuser/robot.conf"));
 
-  private DrivetrainPorts drivetrainPorts = new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
+  private DrivetrainPorts drivetrainPorts =
+      new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
   private ShooterPorts shooterPorts = new ShooterPorts(loadedConfig.getConfig("shooter"));
   private IntakePorts intakePorts = new IntakePorts(loadedConfig.getConfig("intake"));
+
   /**
    * Returns the pre-loaded config for the four drivetrain ports.
    */
-  public DrivetrainPorts drivetrainPorts(){
+  public DrivetrainPorts drivetrainPorts() {
     return drivetrainPorts;
   }
 
   /**
-   * Returns the pre-loaded config for the shooter components
+   * Returns the pre-loaded config for the shooter components.
    */
   public ShooterPorts shooterPorts() {
     return shooterPorts;
   }
 
   public IntakePorts intakePorts() {
-   return intakePorts;
+    return intakePorts;
   }
 }

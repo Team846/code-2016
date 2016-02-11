@@ -11,6 +11,10 @@ public class ShooterHardware {
     backWheelMotor = backWheel;
   }
 
+  /**
+   * Constructs a ShooterHardware given a configuration object.
+   * @param config the config to use
+   */
   public ShooterHardware(VariableConfiguration config) {
     this(
       new Talon(config.shooterPorts().portFrontWheel()),

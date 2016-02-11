@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.config;
 import com.typesafe.config.Config;
 
 /**
- * Creates some ports for the Intake
+ * Aggregation of all device ports for the intake.
  */
 public class IntakePorts {
   int rightPort;

@@ -4,27 +4,23 @@ import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**
- * Created the Component for Intake
+ * Represents the intake component, which pulls in balls.
  */
 public class Intake extends Component<IntakeController> {
   RobotHardware robotHardware;
   IntakeController intakeController;
 
   /**
-   *  Creates the constructor for Intake
+   * Constructs an intake component.
    * @param robotHardware Passes the robot Hardware so you can do some
    * @param defaultController Gives the defualt IntakeController
    */
   public Intake(RobotHardware robotHardware, IntakeController defaultController) {
-     super(defaultController);
-     this.robotHardware = robotHardware;
-     this.intakeController = defaultController;
+    super(defaultController);
+    this.robotHardware = robotHardware;
+    this.intakeController = defaultController;
   }
 
-  /**
-   * Sets the speed for Right and left controller
-   * @param intakeController the controller to pull intake data from
-   */
   @Override
   protected void setOutputs(IntakeController intakeController) {
     robotHardware.intakeHardware().leftJaguar().set(intakeController.leftSpeed());

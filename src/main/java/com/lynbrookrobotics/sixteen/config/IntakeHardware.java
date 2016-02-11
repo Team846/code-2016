@@ -15,7 +15,7 @@ public class IntakeHardware {
   }
 
   /**
-   * Constructs an IntakeHardware given a configuration object
+   * Constructs an IntakeHardware given a configuration object.
    * @param configuration the configuration to load ports from
    */
   public IntakeHardware(VariableConfiguration configuration) {

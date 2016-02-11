@@ -22,12 +22,16 @@ import javax.swing.WindowConstants;
  */
 public class JSValidator extends JFrame {
   private DrivetrainHardware drivetrainHardware = new DrivetrainHardware(
-      null,null, null, null, null, null
+      null, null, null, null, null, null
   );
 
   private ShooterHardware shooterHardware = new ShooterHardware(null, null);
   private IntakeHardware intakeHardware = new IntakeHardware(null, null);
-  private RobotHardware robotHardware = new RobotHardware(drivetrainHardware, shooterHardware, intakeHardware);
+  private RobotHardware robotHardware = new RobotHardware(
+      drivetrainHardware,
+      shooterHardware,
+      intakeHardware
+  );
 
   private Drivetrain drivetrain = new Drivetrain(robotHardware, null);
 
