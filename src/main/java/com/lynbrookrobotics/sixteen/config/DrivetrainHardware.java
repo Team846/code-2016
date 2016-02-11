@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
@@ -98,6 +99,9 @@ public class DrivetrainHardware {
     return backRightMotor;
   }
 
+  public DigitalGyro mainGyro() {
+    return imu();
+  }
   public GyroL3GD20H gyro() {
     return gyro;
   }
