@@ -55,7 +55,10 @@ public class CoreEvents {
   /**
    * Initializes hardware for events.
    */
-  public CoreEvents(DriverControls controls, RobotHardware hardware, Drivetrain drivetrain, Shooter shooter) {
+  public CoreEvents(DriverControls controls,
+                    RobotHardware hardware,
+                    Drivetrain drivetrain,
+                    Shooter shooter) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;

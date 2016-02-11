@@ -5,7 +5,7 @@ package com.lynbrookrobotics.sixteen.components.shooter;
  */
 public abstract class ShooterController {
   /**
-   * @return the current speed of the shooter as a normalized value
+   * Gets the current speed of the shooter as a normalized value.
    */
   public abstract double shooterSpeed();
 }
