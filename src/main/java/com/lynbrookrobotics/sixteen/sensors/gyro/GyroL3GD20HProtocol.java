@@ -92,15 +92,10 @@ class GyroL3GD20HProtocol {
   public Value3D getGyroValue() {
     if (mode == CollectionMode.STREAM) {
       if (isFIFOFull()) {
-        Queue<Value3D> gyroValues = new LinkedList<>();
+        Value3D sum = new Value3D(0, 0, 0);
         for (int i = 0; i < SIZE_GYRO_QUEUE; i++) {
-          gyroValues.add(getOneValue());
+          sum.plus(getOneValue());
         }
-
-        Value3D sum = gyroValues.stream().reduce(
-            new Value3D(0, 0, 0), // inital value of acc
-            Value3D::plus // (acc, cur) -> acc.plus(cur)
-        );
 
         return sum.times(1D / SIZE_GYRO_QUEUE);
       } else {
