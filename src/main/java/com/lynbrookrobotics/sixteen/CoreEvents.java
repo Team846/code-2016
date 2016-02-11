@@ -58,11 +58,13 @@ public class CoreEvents {
   public CoreEvents(DriverControls controls,
                     RobotHardware hardware,
                     Drivetrain drivetrain,
-                    Shooter shooter) {
+                    Shooter shooter,
+                    Intake intake) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;
     this.shooter = shooter;
+    this.intake = intake;
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation(),
@@ -132,12 +134,9 @@ public class CoreEvents {
     // Drivetrain - Gyro
     disabledStateEvent.forEach(() -> {
       if (!initialCalibrationDone) {
-        hardware.drivetrainHardware().gyro().calibrateUpdate();
-        hardware.drivetrainHardware().imu().calibrateUpdate();
-
+        hardware.drivetrainHardware().mainGyro().calibrateUpdate();
       } else {
-        hardware.drivetrainHardware().gyro().angleUpdate();
-        hardware.drivetrainHardware().imu().angleUpdate();
+        hardware.drivetrainHardware().mainGyro().angleUpdate();
       }
     });
 
@@ -155,35 +154,23 @@ public class CoreEvents {
 
     autonomousStateEvent.forEach(() -> {
       initialCalibrationDone = true;
-      hardware.drivetrainHardware().gyro().angleUpdate();
-      hardware.drivetrainHardware().imu().angleUpdate();
+      hardware.drivetrainHardware().mainGyro().angleUpdate();
     });
 
     enabledStateEvent.forEach(() -> {
       initialCalibrationDone = true;
-      hardware.drivetrainHardware().gyro().angleUpdate();
-      hardware.drivetrainHardware().imu().angleUpdate();
+      hardware.drivetrainHardware().mainGyro().angleUpdate();
     });
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
-            "Gyro Velocity",
-            () -> hardware.drivetrainHardware().gyro().currentVelocity().valueZ()));
+            "Angular Velocity",
+            () -> hardware.drivetrainHardware().mainGyro().currentVelocity().valueZ()));
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
-            "Gyro Position",
-            () -> hardware.drivetrainHardware().gyro().currentPosition().valueZ()));
-
-    RobotConstants.dashboard().datasetGroup("drivetrain")
-        .addDataset(new TimeSeriesNumeric<>(
-            "IMU Velocity Z",
-            () -> hardware.drivetrainHardware().imu().currentVelocity().valueZ()));
-
-    RobotConstants.dashboard().datasetGroup("drivetrain")
-        .addDataset(new TimeSeriesNumeric<>(
-            "IMU Position",
-            () -> hardware.drivetrainHardware().imu().currentPosition().valueZ()));
+            "Angular Position",
+            () -> hardware.drivetrainHardware().mainGyro().currentPosition().valueZ()));
 
 
     // Drivetrain - Joystick

@@ -5,6 +5,7 @@ import com.lynbrookrobotics.potassium.events.Event;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.intake.Intake;
 import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
@@ -24,8 +25,9 @@ public class CoreRobot {
 
   Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
   Shooter shooter = null; // new Shooter(hardware, ConstantVelocityController.of(() -> 0.0));
+  Intake intake = null;
 
-  CoreEvents events = new CoreEvents(controls, hardware, drivetrain, shooter);
+  CoreEvents events = new CoreEvents(controls, hardware, drivetrain, shooter, intake);
 
   /**
    * Sets up tick function with timer.
@@ -33,7 +35,10 @@ public class CoreRobot {
   public CoreRobot() {
     Notifier componentNotifier = new Notifier(() -> {
       long start = System.currentTimeMillis();
+
+      Event.updateEvents();
       Component.updateComponents();
+
       long diff = System.currentTimeMillis() - start;
       if (diff > RobotConstants.TICK_PERIOD * 1000L) {
         System.out.println("AYOO TOOK too long: " + diff);
@@ -44,7 +49,6 @@ public class CoreRobot {
     Notifier slowNotifier = new Notifier(() -> {
       long start = System.currentTimeMillis();
 
-      Event.updateEvents();
       Task.updateCurrentTask();
 
       long diff = System.currentTimeMillis() - start;
