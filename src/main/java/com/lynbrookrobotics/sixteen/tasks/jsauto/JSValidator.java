@@ -3,6 +3,7 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
+import com.lynbrookrobotics.sixteen.config.IntakeHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.ShooterHardware;
 
@@ -23,8 +24,11 @@ public class JSValidator extends JFrame {
   private DrivetrainHardware drivetrainHardware = new DrivetrainHardware(
       null,null, null, null, null, null
   );
+
   private ShooterHardware shooterHardware = new ShooterHardware(null, null);
-  private RobotHardware robotHardware = new RobotHardware(drivetrainHardware, shooterHardware);
+  private IntakeHardware intakeHardware = new IntakeHardware(null, null);
+  private RobotHardware robotHardware = new RobotHardware(drivetrainHardware, shooterHardware, intakeHardware);
+
   private Drivetrain drivetrain = new Drivetrain(robotHardware, null);
 
   private FileSelector fileSelector = new FileSelector();

@@ -6,6 +6,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.ConstantVelocityController;
 import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
+import com.lynbrookrobotics.sixteen.components.intake.Intake;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
@@ -28,6 +29,7 @@ public class CoreEvents {
   RobotHardware hardware;
   Drivetrain drivetrain;
   Shooter shooter;
+  Intake intake;
 
   boolean initialCalibrationDone = false;
 
