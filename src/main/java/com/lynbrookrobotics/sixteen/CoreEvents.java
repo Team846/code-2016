@@ -11,15 +11,15 @@ import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
-
 import com.ni.vision.NIVision;
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
+
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * CoreEvents class creates events and maps these to handlers.
@@ -134,6 +134,7 @@ public class CoreEvents {
       if (!initialCalibrationDone) {
         hardware.drivetrainHardware().gyro().calibrateUpdate();
         hardware.drivetrainHardware().imu().calibrateUpdate();
+
       } else {
         hardware.drivetrainHardware().gyro().angleUpdate();
         hardware.drivetrainHardware().imu().angleUpdate();
@@ -142,41 +143,13 @@ public class CoreEvents {
 
     autonomousStateEvent.forEach(() -> {
       double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
-      new AbsoluteHeadingTimedDrive(1500,
-                                    trapezoidalCurve(0.3, 1.5),
-                                    currentAngle + 0,
-                                    hardware, drivetrain)
-          .then(new AbsoluteHeadingTimedDrive(600,
+      return new AbsoluteHeadingTimedDrive(3500,
+                                           trapezoidalCurve(0.3, 1.5),
+                                           currentAngle + 0,
+                                           hardware, drivetrain)
+          .then(new AbsoluteHeadingTimedDrive(3000,
                                               trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 90,
-                                              hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 180,
-                                              hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(600,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 90,
-                                              hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 0,
-                                              hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(600,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 90,
-                                              hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 180,
-                                              hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 270,
-                                              hardware, drivetrain))
-          .then(new AbsoluteHeadingTimedDrive(1500,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 360,
+                                              currentAngle + 45,
                                               hardware, drivetrain));
     });
 
@@ -185,7 +158,6 @@ public class CoreEvents {
       hardware.drivetrainHardware().gyro().angleUpdate();
       hardware.drivetrainHardware().imu().angleUpdate();
     });
-
 
     enabledStateEvent.forEach(() -> {
       initialCalibrationDone = true;
@@ -218,11 +190,11 @@ public class CoreEvents {
     enabledStateEvent.forEach(
         () -> {
           drivetrain.setController(enabledDrive);
-          shooter.setController(enabledShooter);
+//          shooter.setController(enabledShooter);
         },
         () -> {
           drivetrain.resetToDefault();
-          shooter.resetToDefault();
+//          shooter.resetToDefault();
         }
     );
   }

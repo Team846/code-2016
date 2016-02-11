@@ -7,7 +7,8 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 
 public class RobotConstants {
-  public static double TICK_PERIOD = 1D / 50; // every 20ms, matches IterativeRobot
+  public static double TICK_PERIOD = 1D / 100; // every 10ms
+  public static double SLOW_PERIOD = 1D / 50; // every 20ms, matches IterativeRobot
 
   public static int DRIVER_STICK = 0;
   public static int OPERATOR_STICK = 1;
@@ -33,11 +34,13 @@ public class RobotConstants {
     if (dashboard == null) {
       dashboard = new FunkyDashboard();
 
-      if (onRobot()) {
-        dashboard.bindRoute("roborio-846-frc.local", 8080, system);
-      } else {
-        dashboard.bindRoute("localhost", 8080, system);
-      }
+      new Thread(() -> {
+        if (onRobot()) {
+          dashboard.bindRoute("roborio-846-frc.local", 8080, system);
+        } else {
+          dashboard.bindRoute("localhost", 8080, system);
+        }
+      }).run();
     }
 
     return dashboard;

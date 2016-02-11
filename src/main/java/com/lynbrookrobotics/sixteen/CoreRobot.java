@@ -1,17 +1,17 @@
 package com.lynbrookrobotics.sixteen;
 
-import com.lynbrookrobotics.potassium.Potassium;
+import com.lynbrookrobotics.potassium.components.Component;
+import com.lynbrookrobotics.potassium.events.Event;
+import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
-import com.lynbrookrobotics.sixteen.components.shooter.ConstantVelocityController;
 import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.VariableConfiguration;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import edu.wpi.first.wpilibj.Notifier;
 
 /**
  * CoreRobot class loads config and creates components.
@@ -23,7 +23,7 @@ public class CoreRobot {
   DriverControls controls = new DriverControls();
 
   Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
-  Shooter shooter = new Shooter(hardware, ConstantVelocityController.of(() -> 0.0));
+  Shooter shooter = null; // new Shooter(hardware, ConstantVelocityController.of(() -> 0.0));
 
   CoreEvents events = new CoreEvents(controls, hardware, drivetrain, shooter);
 
@@ -31,13 +31,27 @@ public class CoreRobot {
    * Sets up tick function with timer.
    */
   public CoreRobot() {
-    Timer updateTimer = new Timer("update-loop");
-
-    updateTimer.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        Potassium.updateAll();
+    Notifier componentNotifier = new Notifier(() -> {
+      long start = System.currentTimeMillis();
+      Component.updateComponents();
+      long diff = System.currentTimeMillis() - start;
+      if (diff > RobotConstants.TICK_PERIOD * 1000L) {
+        System.out.println("AYOO TOOK too long: " + diff);
       }
-    }, 0, (long) (RobotConstants.TICK_PERIOD * 1000));
+    });
+    componentNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
+
+    Notifier slowNotifier = new Notifier(() -> {
+      long start = System.currentTimeMillis();
+
+      Event.updateEvents();
+      Task.updateCurrentTask();
+
+      long diff = System.currentTimeMillis() - start;
+      if (diff > RobotConstants.SLOW_PERIOD * 1000L) {
+        System.out.println("AYOO slow TOOK too long: " + diff);
+      }
+    });
+    slowNotifier.startPeriodic(RobotConstants.SLOW_PERIOD);
   }
 }

@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen.sensors.digitalgyro;
 
+import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
 
 import java.util.LinkedList;
@@ -85,6 +86,6 @@ public abstract class DigitalGyro {
    * @return The angle gotten by taking the integral of the angular velocity
    */
   private double trapaziodalIntegration(double velocity, double previousVelocity) {
-    return (20 * ((velocity + previousVelocity) / 2) / 1000);
+    return (RobotConstants.SLOW_PERIOD * ((velocity + previousVelocity) / 2));
   }
 }
