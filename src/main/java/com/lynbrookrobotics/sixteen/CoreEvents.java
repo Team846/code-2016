@@ -43,8 +43,8 @@ public class CoreEvents {
    * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
    */
   TankDriveController enabledDrive = TankDriveController.of(
-      () -> -controls.driverStick().getAxis(Joystick.AxisType.kY),
-      () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
+      () -> -controls.driverStick().getY(),
+      () -> controls.driverWheel().getX()
   );
 
   // Shooter
