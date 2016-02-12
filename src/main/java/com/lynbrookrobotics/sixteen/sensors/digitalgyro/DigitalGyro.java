@@ -32,7 +32,7 @@ public abstract class DigitalGyro {
 
     calibrationValues.add(currentVelocity);
     currentSum = currentSum.plus(currentVelocity);
-    currentDrift = currentSum.times(1D/calibrationValues.size());
+    currentDrift = currentSum.times(-1D/calibrationValues.size());
   }
 
   /**
@@ -40,7 +40,7 @@ public abstract class DigitalGyro {
    */
   public void angleUpdate() {
     Value3D previousVelocity = currentVelocity;
-    currentVelocity = retrieveVelocity().plus(currentDrift.times(-1));
+    currentVelocity = retrieveVelocity().plus(currentDrift);
 
     Value3D integratedDifference = new Value3D(
         trapaziodalIntegration(currentVelocity.valueX(), previousVelocity.valueX()),
@@ -68,6 +68,6 @@ public abstract class DigitalGyro {
    * @return The angle gotten by taking the integral of the angular velocity
    */
   private double trapaziodalIntegration(double velocity, double previousVelocity) {
-    return (RobotConstants.SLOW_PERIOD * ((velocity + previousVelocity) / 2));
+    return (RobotConstants.TICK_PERIOD * ((velocity + previousVelocity) / 2));
   }
 }

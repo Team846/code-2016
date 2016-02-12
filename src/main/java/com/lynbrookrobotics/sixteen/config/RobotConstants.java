@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 
 public class RobotConstants {
-  public static double TICK_PERIOD = 1D / 100; // every 10ms
+  public static double TICK_PERIOD = 1D / 200; // every 10ms
   public static double SLOW_PERIOD = 1D / 50; // every 20ms, matches IterativeRobot
 
   public static int DRIVER_STICK = 0;

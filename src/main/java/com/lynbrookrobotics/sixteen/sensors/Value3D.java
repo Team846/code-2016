@@ -4,9 +4,9 @@ package com.lynbrookrobotics.sixteen.sensors;
  * Represents a value with X, Y and Z parts.
  */
 public class Value3D {
-  double valueX;
-  double valueY;
-  double valueZ;
+  final double valueX;
+  final double valueY;
+  final double valueZ;
 
   /**
    * Constructs a new 3D value given X, Y, and Z axes.

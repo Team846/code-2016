@@ -50,15 +50,16 @@ class ADIS16448Protocol {
     Registers.SENS_AVG.write(0b10000000000, spi); // TODO: Magic Number
   }
 
-  private static final byte[] X_GYRO_OUT = new byte[]{X_GYRO_REG, 0};
-  private static final byte[] Y_GYRO_OUT = new byte[]{Y_GYRO_REG, 0};
-  private static final byte[] Z_GYRO_OUT = new byte[]{Z_GYRO_REG, 0};
+  private final ByteBuffer gyroBuffer = ByteBuffer.allocateDirect(2);
 
-  private short readGyroRegister(byte[] outData) {
-    byte[] gyroData = new byte[2];
-    spi.write(outData, 2);
-    spi.read(false, gyroData, 2);
-    ByteBuffer gyroBuffer = ByteBuffer.wrap(gyroData);
+  private short readGyroRegister(byte register) {
+    gyroBuffer.clear();
+    gyroBuffer.put(register);
+    gyroBuffer.put((byte) 0);
+    spi.write(gyroBuffer, 2);
+
+    gyroBuffer.clear();
+    spi.read(false, gyroBuffer, 2);
 
     return gyroBuffer.getShort();
   }
@@ -68,9 +69,9 @@ class ADIS16448Protocol {
    */
   public IMUValue currentData() {
     Value3D gyro = new Value3D(
-        readGyroRegister(X_GYRO_OUT),
-        readGyroRegister(Y_GYRO_OUT),
-        readGyroRegister(Z_GYRO_OUT)
+        readGyroRegister(X_GYRO_REG),
+        readGyroRegister(Y_GYRO_REG),
+        readGyroRegister(Z_GYRO_REG)
     ).times(Constants.DegreePerSecondPerLSB);
 
     return new IMUValue(gyro, null, null);
