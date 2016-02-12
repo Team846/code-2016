@@ -13,6 +13,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.ni.vision.NIVision;
 
+import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
@@ -156,6 +157,11 @@ public class CoreEvents {
         .addDataset(new TimeSeriesNumeric<>(
             "Angular Position",
             () -> hardware.drivetrainHardware().mainGyro().currentPosition().valueZ()));
+
+    RobotConstants.dashboard().datasetGroup("shooter")
+        .addDataset((new TimeSeriesNumeric<>(
+            "Hall Effect Period",
+            () -> hardware.shooterHardware().hallEffect().getPeriod())));
 
 
     // Drivetrain - Joystick
