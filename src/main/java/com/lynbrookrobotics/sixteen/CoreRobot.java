@@ -4,7 +4,7 @@ import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.potassium.events.Event;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeController;
 import com.lynbrookrobotics.sixteen.components.intake.Intake;
 import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
@@ -23,7 +23,7 @@ public class CoreRobot {
 
   DriverControls controls = new DriverControls();
 
-  Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
+  Drivetrain drivetrain = new Drivetrain(hardware, ArcadeController.of(() -> 0.0, () -> 0.0));
   Shooter shooter = null; // new Shooter(hardware, ConstantVelocityController.of(() -> 0.0));
   Intake intake = null;
 

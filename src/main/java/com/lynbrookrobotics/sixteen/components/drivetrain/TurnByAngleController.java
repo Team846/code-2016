@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 /**
  * A controller that turns a specific number of degrees.
  */
-public class TurnByAngleController extends TankDriveController {
+public class TurnByAngleController extends ArcadeController {
   RobotHardware hardware;
   DigitalGyro gyro;
   double targetAngle;

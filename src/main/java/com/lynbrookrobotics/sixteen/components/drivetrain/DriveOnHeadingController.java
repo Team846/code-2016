@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 
 import java.util.function.Supplier;
 
-public class DriveOnHeadingController extends TankDriveController {
+public class DriveOnHeadingController extends ArcadeController {
   static double lastError = 0;
   static double integral = 0;
   static double forward = 0;
