@@ -131,15 +131,6 @@ public class CoreEvents {
     }, 0, (long) (100));
 
     // Drivetrain
-    // Drivetrain - Gyro
-    disabledStateEvent.forEach(() -> {
-      if (!initialCalibrationDone) {
-        hardware.drivetrainHardware().mainGyro().calibrateUpdate();
-      } else {
-        hardware.drivetrainHardware().mainGyro().angleUpdate();
-      }
-    });
-
     autonomousStateEvent.forEach(() -> {
       double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
       return new AbsoluteHeadingTimedDrive(3500,
@@ -152,15 +143,9 @@ public class CoreEvents {
                                               hardware, drivetrain));
     });
 
-    autonomousStateEvent.forEach(() -> {
-      initialCalibrationDone = true;
-      hardware.drivetrainHardware().mainGyro().angleUpdate();
-    });
+    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
 
-    enabledStateEvent.forEach(() -> {
-      initialCalibrationDone = true;
-      hardware.drivetrainHardware().mainGyro().angleUpdate();
-    });
+    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(

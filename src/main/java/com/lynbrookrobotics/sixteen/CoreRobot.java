@@ -36,7 +36,12 @@ public class CoreRobot {
     Notifier componentNotifier = new Notifier(() -> {
       long start = System.currentTimeMillis();
 
-      Event.updateEvents();
+      if (!events.initialCalibrationDone) {
+        hardware.drivetrainHardware().mainGyro().calibrateUpdate();
+      } else {
+        hardware.drivetrainHardware().mainGyro().angleUpdate();
+      }
+
       Component.updateComponents();
 
       long diff = System.currentTimeMillis() - start;
@@ -49,6 +54,7 @@ public class CoreRobot {
     Notifier slowNotifier = new Notifier(() -> {
       long start = System.currentTimeMillis();
 
+      Event.updateEvents();
       Task.updateCurrentTask();
 
       long diff = System.currentTimeMillis() - start;
