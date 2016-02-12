@@ -10,6 +10,7 @@ public abstract class DigitalGyro {
   Value3D currentVelocity = new Value3D(0, 0, 0);
   Value3D currentPosition = new Value3D(0, 0, 0);
 
+  Value3D currentSum = new Value3D(0, 0, 0);
   Value3D currentDrift;
 
   Queue<Value3D> calibrationValues = new LinkedList<>();
@@ -26,12 +27,12 @@ public abstract class DigitalGyro {
     currentVelocity = retrieveVelocity();
 
     if (calibrationValues.size() == 200) {
-      calibrationValues.remove();
+      currentSum = currentSum.plus(calibrationValues.remove().times(-1));
     }
 
     calibrationValues.add(currentVelocity);
-
-    currentDrift = averageGyroVelocity(calibrationValues);
+    currentSum = currentSum.plus(currentVelocity);
+    currentDrift = currentSum.times(1D/calibrationValues.size());
   }
 
   /**
@@ -48,25 +49,6 @@ public abstract class DigitalGyro {
     );
 
     currentPosition = currentPosition.plus(integratedDifference);
-  }
-
-  /**
-   * Gets the drift by taking the average of values that are read when the gyro is not moving.
-   *
-   * @param values values that are read when the gyro not moving
-   * @return the drift calculated from the values read when the gyro is not moving
-   */
-  public static Value3D averageGyroVelocity(Queue<Value3D> values) {
-    Value3D sum = values.stream().reduce(
-        new Value3D(0, 0, 0), // inital value of acc
-        Value3D::plus // (acc, cur) -> acc.plus(cur)
-    );
-
-    return new Value3D(
-        sum.valueX() / (double) values.size(),
-        sum.valueY() / (double) values.size(),
-        sum.valueZ() / (double) values.size()
-    );
   }
 
   public Value3D currentPosition() {
