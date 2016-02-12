@@ -2,7 +2,7 @@ package com.lynbrookrobotics.sixteen.tasks.drivetrain;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public class TimedDrive extends FiniteTask {
   RobotHardware hardware;
   Drivetrain drivetrain;
-  TankDriveController controller;
+  ArcadeController controller;
   long duration;
   long endTime;
 
@@ -28,7 +28,7 @@ public class TimedDrive extends FiniteTask {
                     RobotHardware hardware,
                     Drivetrain drivetrain) {
     this.duration = duration;
-    this.controller = TankDriveController.of(forward, turn);
+    this.controller = ArcadeController.of(forward, turn);
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }

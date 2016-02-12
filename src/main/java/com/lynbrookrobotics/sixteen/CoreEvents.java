@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen;
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeController;
 import com.lynbrookrobotics.sixteen.components.intake.Intake;
 import com.lynbrookrobotics.sixteen.components.shooter.ConstantVelocityController;
 import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
@@ -42,7 +42,7 @@ public class CoreEvents {
   /**
    * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
    */
-  TankDriveController enabledDrive = TankDriveController.of(
+  ArcadeController enabledDrive = ArcadeController.of(
       () -> -controls.driverStick().getAxis(Joystick.AxisType.kY),
       () -> controls.driverWheel().getAxis(Joystick.AxisType.kX)
   );
@@ -143,9 +143,11 @@ public class CoreEvents {
                                               hardware, drivetrain));
     });
 
-    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
+    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {
+    });
 
-    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
+    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> {
+    });
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
