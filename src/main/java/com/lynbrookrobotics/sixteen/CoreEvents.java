@@ -18,7 +18,6 @@ import java.util.TimerTask;
 import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
@@ -132,6 +131,22 @@ public class CoreEvents {
     }, 0, (long) (100));
 
     // Drivetrain
+    // Drivetrain - Gyro
+    disabledStateEvent.forEach(() -> {
+      if (!initialCalibrationDone) {
+        hardware.drivetrainHardware().gyro().calibrateUpdate();
+        hardware.drivetrainHardware().imu().calibrateUpdate();
+      } else {
+        hardware.drivetrainHardware().gyro().angleUpdate();
+        hardware.drivetrainHardware().imu().angleUpdate();
+      }
+
+      RobotConstants.dashboard().datasetGroup("Shooter")
+          .addDataset(new TimeSeriesNumeric<>(
+              "Potentiometer Average Value",
+              () -> hardware.shooterHardware().potentiometer.getDistanceAverageValue()));
+    });
+
     autonomousStateEvent.forEach(() -> {
       double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
       return new AbsoluteHeadingTimedDrive(3500,

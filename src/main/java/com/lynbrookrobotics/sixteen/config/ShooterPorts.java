@@ -10,6 +10,7 @@ public class ShooterPorts {
   private int backWheelPort;
   private int frontHallPort;
   private int backHallPort;
+  private int potentiometerPort;
 
   /**
    * Constructors for ShooterPorts.
@@ -18,11 +19,12 @@ public class ShooterPorts {
    * @param frontHallPort front Hall Effect sensor port
    * @param backHallPort back Hall Effect sensor port
    */
-  public ShooterPorts(int frontWheelPort, int backWheelPort, int frontHallPort, int backHallPort) {
+  public ShooterPorts(int frontWheelPort, int backWheelPort, int frontHallPort, int backHallPort, int potentiometerPort) {
     this.frontWheelPort = frontWheelPort;
     this.backWheelPort = backWheelPort;
     this.frontHallPort = frontHallPort;
     this.backHallPort = backHallPort;
+    this.potentiometerPort = potentiometerPort;
   }
 
   /**
@@ -34,7 +36,8 @@ public class ShooterPorts {
         config.getInt("front-wheel-port"),
         config.getInt("back-wheel-port"),
         config.getInt("front-hall-port"),
-        config.getInt("back-hall-port")
+        config.getInt("back-hall-port"),
+        config.getInt("pot-port")
     );
   }
 
@@ -43,6 +46,7 @@ public class ShooterPorts {
   }
 
   public int portBackWheel() {
+
     return backWheelPort;
   }
 
@@ -52,5 +56,8 @@ public class ShooterPorts {
 
   public int portBackHall() {
     return backHallPort;
+  }
+  public int potentiometerPort() {
+    return potentiometerPort;
   }
 }
