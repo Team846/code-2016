@@ -6,18 +6,20 @@ import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 
+import java.util.function.Supplier;
+
 public class RobotConstants {
-  public static double TICK_PERIOD = 1D / 200; // every 10ms
-  public static double SLOW_PERIOD = 1D / 50; // every 20ms, matches IterativeRobot
+  public final static double TICK_PERIOD = 1D / 200; // every 10ms
+  public final static double SLOW_PERIOD = 1D / 50; // every 20ms, matches IterativeRobot
 
-  public static int DRIVER_STICK = 0;
-  public static int OPERATOR_STICK = 1;
-  public static int DRIVER_WHEEL = 2;
+  public final static int DRIVER_STICK = 0;
+  public final static int OPERATOR_STICK = 1;
+  public final static int DRIVER_WHEEL = 2;
 
-  public static ActorSystem system = ActorSystem.create();
+  public final static ActorSystem system = ActorSystem.create();
   public static FunkyDashboard dashboard = null;
 
-  public static Class[] taskList = {
+  public final static Class[] taskList = {
       TimedDrive.class,
       TurnByAngle.class
   };
@@ -44,5 +46,18 @@ public class RobotConstants {
     }
 
     return dashboard;
+  }
+
+  public static <T> T time(Supplier<T> thunk, String msg) {
+    long start = System.nanoTime();
+    T ret = thunk.get();
+    System.out.println(msg + " took " + (System.nanoTime() - start)/1000000D);
+    return ret;
+  }
+
+  public static void time(Runnable thunk, String msg) {
+    long start = System.nanoTime();
+    thunk.run();
+    System.out.println(msg + " took " + (System.nanoTime() - start)/1000000D);
   }
 }

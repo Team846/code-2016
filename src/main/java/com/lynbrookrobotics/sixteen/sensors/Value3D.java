@@ -4,9 +4,9 @@ package com.lynbrookrobotics.sixteen.sensors;
  * Represents a value with X, Y and Z parts.
  */
 public class Value3D {
-  final double valueX;
-  final double valueY;
-  final double valueZ;
+  double valueX;
+  double valueY;
+  double valueZ;
 
   /**
    * Constructs a new 3D value given X, Y, and Z axes.
@@ -42,6 +42,12 @@ public class Value3D {
     );
   }
 
+  public void plusMutable(double addX, double addY, double addZ) {
+    valueX += addX;
+    valueY += addY;
+    valueZ += addZ;
+  }
+
   /**
    * Multiplies this 3D value by a scalar.
    * @param scalar the value to multiply the axes by
@@ -53,5 +59,15 @@ public class Value3D {
         scalar * this.valueY(),
         scalar * this.valueZ()
     );
+  }
+
+  /**
+   * Multiplies this 3D value by a scalar.
+   * @param scalar the value to multiply the axes by
+   */
+  public void timesMutable(double scalar) {
+    valueX *= scalar;
+    valueY *= scalar;
+    valueZ *= scalar;
   }
 }

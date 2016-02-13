@@ -3,6 +3,7 @@ package com.lynbrookrobotics.sixteen.sensors.digitalgyro;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -13,7 +14,9 @@ public abstract class DigitalGyro {
   Value3D currentSum = new Value3D(0, 0, 0);
   Value3D currentDrift;
 
-  Queue<Value3D> calibrationValues = new LinkedList<>();
+  ArrayList<Value3D> values = new ArrayList<>(200);
+  int index = 0;
+  boolean calibrating = true;
 
   /**
    * Gets the current velocity.
@@ -25,30 +28,35 @@ public abstract class DigitalGyro {
    */
   public void calibrateUpdate() {
     currentVelocity = retrieveVelocity();
+    values.add(index++, currentVelocity);
 
-    if (calibrationValues.size() == 200) {
-      currentSum = currentSum.plus(calibrationValues.remove().times(-1));
+    if (index > 200) {
+      index = 0;
     }
-
-    calibrationValues.add(currentVelocity);
-    currentSum = currentSum.plus(currentVelocity);
-    currentDrift = currentSum.times(-1D/calibrationValues.size());
   }
 
   /**
    * Updates values for the angle on the gyro.
    */
   public void angleUpdate() {
-    Value3D previousVelocity = currentVelocity;
-    currentVelocity = retrieveVelocity().plus(currentDrift);
+    if (calibrating) {
+      Value3D sum = new Value3D(0, 0, 0);
+      values.forEach(value3D -> sum.plusMutable(value3D.valueX(), value3D.valueY(), value3D.valueZ()));
+      currentDrift = sum.times(-1D/values.size());
+      values = null;
 
-    Value3D integratedDifference = new Value3D(
+      calibrating = false;
+    }
+
+    Value3D previousVelocity = currentVelocity;
+    currentVelocity = retrieveVelocity();
+    currentVelocity.plusMutable(currentDrift.valueX(), currentDrift.valueY(), currentDrift.valueZ());
+
+    currentPosition.plusMutable(
         trapaziodalIntegration(currentVelocity.valueX(), previousVelocity.valueX()),
         trapaziodalIntegration(currentVelocity.valueY(), previousVelocity.valueY()),
         trapaziodalIntegration(currentVelocity.valueZ(), previousVelocity.valueZ())
     );
-
-    currentPosition = currentPosition.plus(integratedDifference);
   }
 
   public Value3D currentPosition() {

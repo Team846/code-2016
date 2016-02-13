@@ -1,5 +1,7 @@
 package com.lynbrookrobotics.sixteen.sensors.imu;
 
+import com.lynbrookrobotics.sixteen.CoreRobot;
+import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.sensors.ConstantBufferSPI;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
 import com.lynbrookrobotics.sixteen.sensors.imu.IMURegister;
@@ -50,29 +52,28 @@ class ADIS16448Protocol {
     Registers.SENS_AVG.write(0b10000000000, spi); // TODO: Magic Number
   }
 
-  private final ByteBuffer gyroBuffer = ByteBuffer.allocateDirect(2);
-
-  private short readGyroRegister(byte register) {
-    gyroBuffer.clear();
-    gyroBuffer.put(register);
-    gyroBuffer.put((byte) 0);
-    spi.write(gyroBuffer, 2);
-
-    gyroBuffer.clear();
-    spi.read(false, gyroBuffer, 2);
-
-    return gyroBuffer.getShort();
+  private static final ByteBuffer globBuffer = ByteBuffer.allocateDirect(26);
+  static {
+    globBuffer.put((byte) 0x3E);
+    globBuffer.put((byte) 0);
   }
+
+  private final ByteBuffer outBuffer = ByteBuffer.allocateDirect(26);
 
   /**
    * Gets the current gyro, accel, and magneto data from the IMU.
    */
   public IMUValue currentData() {
-    Value3D gyro = new Value3D(
-        readGyroRegister(X_GYRO_REG),
-        readGyroRegister(Y_GYRO_REG),
-        readGyroRegister(Z_GYRO_REG)
-    ).times(Constants.DegreePerSecondPerLSB);
+    Value3D gyro = RobotConstants.time(() -> {
+      outBuffer.clear();
+      spi.transaction(globBuffer, outBuffer, 26);
+
+      return new Value3D(
+          outBuffer.getShort(4) * Constants.DegreePerSecondPerLSB,
+          outBuffer.getShort(6) * Constants.DegreePerSecondPerLSB,
+          outBuffer.getShort(8) * Constants.DegreePerSecondPerLSB
+      );
+    }, "gyro-all-values");
 
     return new IMUValue(gyro, null, null);
   }
