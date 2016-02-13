@@ -80,7 +80,7 @@ class GyroL3GD20HProtocol {
       gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
 
       out[0] = L3GD20_REGISTER_FIFO_CTRL;
-      out[1] = (byte) (0b01010000);//byte that sets to stream mode, and set queue to 16
+      out[1] = (byte) (0b01000100);//byte that sets to stream mode, and set queue to 4 units
       gyro.transaction(out, in, SETTING_BYTES_SENT_RECEIVED);
     }
 
