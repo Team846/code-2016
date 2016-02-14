@@ -49,7 +49,7 @@ public class CoreEvents {
 
   // Shooter
   ConstantVelocityController enabledShooter = ConstantVelocityController.of(
-      () -> controls.operatorStick().getAxis(Joystick.AxisType.kY)
+      () -> controls.operatorStick().getY()
   );
 
   /**
@@ -121,7 +121,7 @@ public class CoreEvents {
 
     Timer updateTimer = new Timer("update-loop");
 
-    CameraServer.getInstance().setQuality(50);
+    CameraServer.getInstance().setQuality(10);
     updateTimer.schedule(new TimerTask() {
       @Override
       public void run() {
@@ -157,16 +157,25 @@ public class CoreEvents {
             "Angular Position",
             () -> hardware.drivetrainHardware().mainGyro().currentPosition().valueZ()));
 
+    RobotConstants.dashboard().datasetGroup("shooter")
+        .addDataset((new TimeSeriesNumeric<>(
+            "Front Wheel RPM",
+            () -> hardware.shooterHardware().frontHallEffect().getRPM())));
+
+    RobotConstants.dashboard().datasetGroup("shooter")
+        .addDataset((new TimeSeriesNumeric<>(
+            "Back Wheel RPM",
+            () -> hardware.shooterHardware().backHallEffect().getRPM())));
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
         () -> {
           drivetrain.setController(enabledDrive);
-//          shooter.setController(enabledShooter);
+          shooter.setController(enabledShooter);
         },
         () -> {
           drivetrain.resetToDefault();
-//          shooter.resetToDefault();
+          shooter.resetToDefault();
         }
     );
   }
