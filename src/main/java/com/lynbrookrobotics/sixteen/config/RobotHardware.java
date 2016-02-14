@@ -8,7 +8,6 @@ package com.lynbrookrobotics.sixteen.config;
 public class RobotHardware {
   DrivetrainHardware drivetrainHardware;
   ShooterHardware shooterHardware;
-  ManipulatorHardware armHardware;
   IntakeHardware intakeHardware;
 
   /**
@@ -40,10 +39,6 @@ public class RobotHardware {
 
   public ShooterHardware shooterHardware() {
     return shooterHardware;
-  }
-
-  public ManipulatorHardware manipulatorHardware() {
-    return armHardware;
   }
 
   public IntakeHardware intakeHardware() {

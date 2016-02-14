@@ -47,13 +47,11 @@ public class CoreRobot {
         }, "update-gyro");
       }
 
-      RobotConstants.time(() -> {
-        Component.updateComponents();
-      }, "component");
+      RobotConstants.time(() -> Component.updateComponents(), "component");
 
       long diff = System.currentTimeMillis() - start;
       if (diff > RobotConstants.TICK_PERIOD * 1000L) {
-        System.out.println("AYOO TOOK too long: " + diff);
+        System.out.println("AYOO TOOK too long ---------------------- : " + diff);
       }
     });
     componentNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
