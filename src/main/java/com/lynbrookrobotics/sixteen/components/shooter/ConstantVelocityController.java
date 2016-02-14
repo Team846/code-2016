@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 public abstract class ConstantVelocityController extends ShooterController {
   /**
-   * Creates a constant velocity controll based on a supplier.
+   * Creates a constant velocity control based on a supplier.
    * @param shooterSpeed the speed to move the wheel motors at
    * @return the controller built with the given supplier
    */
