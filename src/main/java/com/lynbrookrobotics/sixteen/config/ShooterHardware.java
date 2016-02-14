@@ -13,7 +13,10 @@ public class ShooterHardware {
   /**
    * Constructs a new default ShooterHardware object given the interfaces.
    */
-  public ShooterHardware(Talon frontWheel, Talon backWheel, HallEffect frontHall, HallEffect backHall) {
+  public ShooterHardware(Talon frontWheel,
+                         Talon backWheel,
+                         HallEffect frontHall,
+                         HallEffect backHall) {
     frontWheelMotor = frontWheel;
     backWheelMotor = backWheel;
     frontHallEffect = frontHall;
@@ -44,7 +47,7 @@ public class ShooterHardware {
     return frontHallEffect;
   }
 
-  public HallEffect backHallEffect(){
+  public HallEffect backHallEffect() {
     return backHallEffect;
   }
 }
