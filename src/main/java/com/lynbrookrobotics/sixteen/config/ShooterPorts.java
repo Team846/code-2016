@@ -12,7 +12,7 @@ public class ShooterPorts {
   private int backHallPort;
 
   /**
-   * Constructors for ShooterPorts
+   * Constructors for ShooterPorts.
    * @param frontWheelPort front wheel port
    * @param backWheelPort back wheel port
    * @param frontHallPort front Hall Effect sensor port
