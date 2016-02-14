@@ -7,15 +7,17 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterHardware {
   private Talon frontWheelMotor;
   private Talon backWheelMotor;
-  private HallEffect hallEffect;
+  private HallEffect frontHallEffect;
+  private HallEffect backHallEffect;
 
   /**
    * Constructs a new default ShooterHardware object given the interfaces.
    */
-  public ShooterHardware(Talon frontWheel, Talon backWheel, HallEffect hall) {
+  public ShooterHardware(Talon frontWheel, Talon backWheel, HallEffect frontHall, HallEffect backHall) {
     frontWheelMotor = frontWheel;
     backWheelMotor = backWheel;
-    hallEffect = hall;
+    frontHallEffect = frontHall;
+    backHallEffect = backHall;
   }
 
   /**
@@ -26,8 +28,8 @@ public class ShooterHardware {
     this(
       new Talon(config.shooterPorts().portFrontWheel()),
       new Talon(config.shooterPorts().portBackWheel()),
-        new HallEffect(0)
-    );
+      new HallEffect(config.shooterPorts().portFrontHall()),
+      new HallEffect(config.shooterPorts().portBackHall()));
   }
 
   public Talon frontWheelMotor() {
@@ -38,7 +40,11 @@ public class ShooterHardware {
     return backWheelMotor;
   }
 
-  public HallEffect hallEffect() {
-    return hallEffect;
+  public HallEffect frontHallEffect() {
+    return frontHallEffect;
+  }
+
+  public HallEffect backHallEffect(){
+    return backHallEffect;
   }
 }

@@ -157,16 +157,15 @@ public class CoreEvents {
             "Angular Position",
             () -> hardware.drivetrainHardware().mainGyro().currentPosition().valueZ()));
 
-    System.out.println(hardware);
-    System.out.println(hardware.shooterHardware());
-    System.out.println(hardware.shooterHardware().hallEffect());
-    System.out.println(hardware.shooterHardware().hallEffect().getPeriod());
+    RobotConstants.dashboard().datasetGroup("shooter")
+        .addDataset((new TimeSeriesNumeric<>(
+            "Front Wheel RPM",
+            () -> hardware.shooterHardware().frontHallEffect().getRPM())));
 
     RobotConstants.dashboard().datasetGroup("shooter")
         .addDataset((new TimeSeriesNumeric<>(
-            "Hall Effect Period",
-            () -> hardware.shooterHardware().hallEffect().getRPM())));
-
+            "Back Wheel RPM",
+            () -> hardware.shooterHardware().backHallEffect().getRPM())));
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
