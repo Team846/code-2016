@@ -8,4 +8,8 @@ public class HallEffect extends Counter{
     this.setUpSource(channel);
     this.setUpDownCounterMode();
   }
+
+  public double getRPM(){
+    return 60/getPeriod();
+  }
 }

@@ -29,7 +29,7 @@ public class RobotHardware {
   public RobotHardware(VariableConfiguration config) {
     this(
         new DrivetrainHardware(config),
-        null, // new ShooterHardware(config),
+        new ShooterHardware(config),
         null // new IntakeHardware(config)
     );
   }

@@ -50,7 +50,7 @@ public class CoreEvents {
 
   // Shooter
   ConstantVelocityController enabledShooter = ConstantVelocityController.of(
-      () -> controls.operatorStick().getAxis(Joystick.AxisType.kY)
+      () -> controls.operatorStick().getY()
   );
 
   /**
@@ -122,7 +122,7 @@ public class CoreEvents {
 
     Timer updateTimer = new Timer("update-loop");
 
-    CameraServer.getInstance().setQuality(50);
+    CameraServer.getInstance().setQuality(10);
     updateTimer.schedule(new TimerTask() {
       @Override
       public void run() {
@@ -158,21 +158,26 @@ public class CoreEvents {
             "Angular Position",
             () -> hardware.drivetrainHardware().mainGyro().currentPosition().valueZ()));
 
+    System.out.println(hardware);
+    System.out.println(hardware.shooterHardware());
+    System.out.println(hardware.shooterHardware().hallEffect());
+    System.out.println(hardware.shooterHardware().hallEffect().getPeriod());
+
     RobotConstants.dashboard().datasetGroup("shooter")
         .addDataset((new TimeSeriesNumeric<>(
             "Hall Effect Period",
-            () -> hardware.shooterHardware().hallEffect().getPeriod())));
+            () -> hardware.shooterHardware().hallEffect().getRPM())));
 
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
         () -> {
           drivetrain.setController(enabledDrive);
-//          shooter.setController(enabledShooter);
+          shooter.setController(enabledShooter);
         },
         () -> {
           drivetrain.resetToDefault();
-//          shooter.resetToDefault();
+          shooter.resetToDefault();
         }
     );
   }
