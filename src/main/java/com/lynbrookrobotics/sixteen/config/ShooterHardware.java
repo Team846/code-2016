@@ -1,6 +1,6 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import com.lynbrookrobotics.sixteen.sensors.hallEffects.HallEffect;
+import com.lynbrookrobotics.sixteen.sensors.halleffects.HallEffect;
 
 import edu.wpi.first.wpilibj.Talon;
 
@@ -9,6 +9,9 @@ public class ShooterHardware {
   private Talon backWheelMotor;
   private HallEffect hallEffect;
 
+  /**
+   * Constructs a new default ShooterHardware object given the interfaces.
+   */
   public ShooterHardware(Talon frontWheel, Talon backWheel, HallEffect hall) {
     frontWheelMotor = frontWheel;
     backWheelMotor = backWheel;
@@ -35,7 +38,7 @@ public class ShooterHardware {
     return backWheelMotor;
   }
 
-  public HallEffect hallEffect(){
+  public HallEffect hallEffect() {
     return hallEffect;
   }
 }

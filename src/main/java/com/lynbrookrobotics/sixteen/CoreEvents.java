@@ -13,7 +13,6 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.ni.vision.NIVision;
 
-import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
