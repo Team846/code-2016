@@ -1,6 +1,6 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import com.lynbrookrobotics.sixteen.sensors.halleffects.HallEffect;
+import com.lynbrookrobotics.sixteen.sensors.halleffect.HallEffect;
 
 import edu.wpi.first.wpilibj.Talon;
 

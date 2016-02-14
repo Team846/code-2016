@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.sensors.halleffects;
+package com.lynbrookrobotics.sixteen.sensors.halleffect;
 
 import edu.wpi.first.wpilibj.Counter;
 
