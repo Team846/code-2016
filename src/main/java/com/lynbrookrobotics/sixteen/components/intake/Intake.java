@@ -23,7 +23,7 @@ public class Intake extends Component<IntakeController> {
 
   @Override
   protected void setOutputs(IntakeController intakeController) {
-    robotHardware.intakeHardware().leftJaguar().set(intakeController.leftSpeed());
-    robotHardware.intakeHardware().rightJaguar().set(intakeController.rightSpeed());
+    robotHardware.intakeHardware().leftTalon().set(intakeController.leftSpeed());
+    robotHardware.intakeHardware().rightTalon().set(intakeController.rightSpeed());
   }
 }

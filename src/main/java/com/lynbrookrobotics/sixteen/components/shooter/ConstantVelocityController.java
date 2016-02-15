@@ -11,7 +11,7 @@ public abstract class ConstantVelocityController extends ShooterController {
   public static ConstantVelocityController of(Supplier<Double> shooterSpeed) {
     return new ConstantVelocityController() {
       @Override
-      public double wheelSpeed() {
+      public double flyWheelSpeed() {
         return shooterSpeed.get();
       }
     };
@@ -20,13 +20,13 @@ public abstract class ConstantVelocityController extends ShooterController {
   /**
    * Gets the speed that the wheels should spin at.
    */
-  public abstract double wheelSpeed();
+  public abstract double flyWheelSpeed();
 
   /**
    * Gets the speed that the shooter wheels should go at.
    */
   @Override
-  public double shooterSpeed() {
-    return wheelSpeed();
+  public double flyWheelLoader() {
+    return flyWheelSpeed();
   }
 }
