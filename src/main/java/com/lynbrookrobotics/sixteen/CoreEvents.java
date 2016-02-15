@@ -1,7 +1,9 @@
 package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
+import com.lynbrookrobotics.potassium.defaults.events.ButtonPress;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
+import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.intake.Intake;
@@ -18,7 +20,6 @@ import java.util.TimerTask;
 import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
@@ -37,6 +38,9 @@ public class CoreEvents {
   InGameState disabledStateEvent;
   InGameState autonomousStateEvent;
   InGameState enabledStateEvent;
+
+  // Buttons
+  ButtonPress abortTaskEvent;
 
   // Drivetrain
   public double stickY = 0;
@@ -80,6 +84,12 @@ public class CoreEvents {
     this.enabledStateEvent = new InGameState(
         controls.driverStation,
         InGameState.GameState.ENABLED
+    );
+
+
+    this.abortTaskEvent = new ButtonPress(
+        controls.operatorStick,
+        RobotConstants.OperatorButtonAssignments.ABORT_CURRENT_TASK
     );
 
     initEventMappings();
@@ -192,6 +202,13 @@ public class CoreEvents {
         () -> {
           drivetrain.resetToDefault();
           shooter.resetToDefault();
+        }
+    );
+
+    // Abort on button press
+    abortTaskEvent.forEach(
+        () -> {
+          Task.abortCurrentTask();
         }
     );
   }

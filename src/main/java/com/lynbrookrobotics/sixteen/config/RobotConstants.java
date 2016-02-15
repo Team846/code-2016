@@ -24,6 +24,12 @@ public class RobotConstants {
       TurnByAngle.class
   };
 
+  public static class OperatorButtonAssignments {
+    public static final int COLLECT = 2;
+    public static final int LOW_BAR = 15;
+    public static final int ABORT_CURRENT_TASK = 16;
+  };
+
   public static boolean onRobot() {
     return System.getProperty("user.name").equals("lvuser");
   }
