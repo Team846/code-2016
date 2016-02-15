@@ -1,10 +1,13 @@
 package com.lynbrookrobotics.sixteen.sensors.halleffect;
 
+import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
+import com.lynbrookrobotics.sixteen.config.RobotConstants;
+
 import edu.wpi.first.wpilibj.Counter;
 
 public class HallEffect extends Counter {
-  double averageSoFar = 0;
-  double lastRPM = 0;
+  double lastLast = 0;
+  double last = 0;
 
   public HallEffect(int channel) {
     this.setUpSource(channel);
@@ -12,14 +15,10 @@ public class HallEffect extends Counter {
   }
 
   public double getRPM() {
-    double curRPM = 60/getPeriod();
+    double ret = lastLast;
 
-    if (Math.abs(curRPM - averageSoFar) <= 1000) {
-      lastRPM = curRPM;
-    }
+    if ((last - lastLast) > 1000 && ())
 
-    averageSoFar = (averageSoFar + lastRPM)/2;
-
-    return lastRPM;
+    return ret;
   }
 }

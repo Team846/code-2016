@@ -10,7 +10,9 @@ import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
+import com.lynbrookrobotics.sixteen.tasks.shooter.SpinAtRPM;
 import com.ni.vision.NIVision;
 
 import java.util.Timer;
@@ -133,15 +135,16 @@ public class CoreEvents {
 
     // Drivetrain
     autonomousStateEvent.forEach(() -> {
-      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
-      return new AbsoluteHeadingTimedDrive(3500,
-                                           trapezoidalCurve(0.3, 1.5),
-                                           currentAngle + 0,
-                                           hardware, drivetrain)
-          .then(new AbsoluteHeadingTimedDrive(3000,
-                                              trapezoidalCurve(0.3, 1.5),
-                                              currentAngle + 45,
-                                              hardware, drivetrain));
+      return new FixedTime(10000).andUntilDone(new SpinAtRPM(1000, shooter, hardware));
+//      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
+//      return new AbsoluteHeadingTimedDrive(3500,
+//                                           trapezoidalCurve(0.3, 1.5),
+//                                           currentAngle + 0,
+//                                           hardware, drivetrain)
+//          .then(new AbsoluteHeadingTimedDrive(3000,
+//                                              trapezoidalCurve(0.3, 1.5),
+//                                              currentAngle + 45,
+//                                              hardware, drivetrain));
     });
 
     autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});

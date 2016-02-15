@@ -22,11 +22,13 @@ public abstract class ConstantVelocityController extends ShooterController {
    */
   public abstract double wheelSpeed();
 
-  /**
-   * Gets the speed that the shooter wheels should go at.
-   */
   @Override
-  public double shooterSpeed() {
+  public double shooterSpeedFront() {
+    return wheelSpeed();
+  }
+
+  @Override
+  public double shooterSpeedBack() {
     return wheelSpeed();
   }
 }
