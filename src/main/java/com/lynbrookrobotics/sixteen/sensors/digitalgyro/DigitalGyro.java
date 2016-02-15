@@ -11,7 +11,6 @@ public abstract class DigitalGyro {
   Value3D currentVelocity = new Value3D(0, 0, 0);
   Value3D currentPosition = new Value3D(0, 0, 0);
 
-  Value3D currentSum = new Value3D(0, 0, 0);
   Value3D currentDrift;
 
   ArrayList<Value3D> values = new ArrayList<>(200);

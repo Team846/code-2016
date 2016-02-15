@@ -8,7 +8,7 @@ import com.lynbrookrobotics.sixteen.config.ShooterHardware;
  * Represents the shooter component on the robot.
  */
 public class Shooter extends Component<ShooterController> {
-  private ShooterHardware hardware;
+  private final ShooterHardware hardware;
 
   /**
    * Constructs a new shooter component.
@@ -23,7 +23,8 @@ public class Shooter extends Component<ShooterController> {
 
   @Override
   protected void setOutputs(ShooterController shooterController) {
-    hardware.frontWheelMotor().set(shooterController.shooterSpeed());
-    hardware.backWheelMotor().set(shooterController.shooterSpeed());
+    double speed = shooterController.shooterSpeed();
+    hardware.frontWheelMotor.set(speed);
+    hardware.backWheelMotor.set(speed);
   }
 }

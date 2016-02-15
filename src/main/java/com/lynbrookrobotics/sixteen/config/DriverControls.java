@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class DriverControls {
-  DriverStation driverStation;
+  public final DriverStation driverStation;
 
-  Joystick driverStick;
-  Joystick driverWheel;
-  Joystick operatorStick;
+  public final Joystick driverStick;
+  public final Joystick driverWheel;
+  public final Joystick operatorStick;
 
   /**
    * Constructs a DriverControls object with instances of all control inputs.
@@ -38,21 +38,5 @@ public class DriverControls {
         new Joystick(RobotConstants.DRIVER_WHEEL),
         new Joystick(RobotConstants.OPERATOR_STICK)
     );
-  }
-
-  public DriverStation driverStation() {
-    return driverStation;
-  }
-
-  public Joystick driverStick() {
-    return driverStick;
-  }
-
-  public Joystick driverWheel() {
-    return driverWheel;
-  }
-
-  public Joystick operatorStick() {
-    return operatorStick;
   }
 }

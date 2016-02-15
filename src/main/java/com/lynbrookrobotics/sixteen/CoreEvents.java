@@ -39,17 +39,18 @@ public class CoreEvents {
   InGameState enabledStateEvent;
 
   // Drivetrain
+  public double stickY = 0;
+  public double wheelX = 0;
+
   /**
    * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
    */
-  TankDriveController enabledDrive = TankDriveController.of(
-      () -> -controls.driverStick().getY(),
-      () -> controls.driverWheel().getX()
-  );
+  TankDriveController enabledDrive = TankDriveController.of(() -> stickY, () -> wheelX);
 
   // Shooter
+  double operatorY = 0;
   ConstantVelocityController enabledShooter = ConstantVelocityController.of(
-      () -> controls.operatorStick().getY()
+      () -> operatorY
   );
 
   /**
@@ -67,17 +68,17 @@ public class CoreEvents {
     this.intake = intake;
 
     this.disabledStateEvent = new InGameState(
-        controls.driverStation(),
+        controls.driverStation,
         InGameState.GameState.DISABLED
     );
 
     this.autonomousStateEvent = new InGameState(
-        controls.driverStation(),
+        controls.driverStation,
         InGameState.GameState.AUTONOMOUS
     );
 
     this.enabledStateEvent = new InGameState(
-        controls.driverStation(),
+        controls.driverStation,
         InGameState.GameState.ENABLED
     );
 
@@ -146,6 +147,11 @@ public class CoreEvents {
     autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
 
     enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
+    enabledStateEvent.forEach(() -> {
+      stickY = controls.driverStick.getRawAxis(1);
+      wheelX = controls.driverWheel.getRawAxis(0);
+      operatorY = controls.operatorStick.getRawAxis(1);
+    });
 
     RobotConstants.dashboard().datasetGroup("drivetrain")
         .addDataset(new TimeSeriesNumeric<>(
@@ -160,12 +166,12 @@ public class CoreEvents {
     RobotConstants.dashboard().datasetGroup("shooter")
         .addDataset((new TimeSeriesNumeric<>(
             "Front Wheel RPM",
-            () -> hardware.shooterHardware().frontHallEffect().getRPM())));
+            () -> hardware.shooterHardware().frontHallEffect.getRPM())));
 
     RobotConstants.dashboard().datasetGroup("shooter")
         .addDataset((new TimeSeriesNumeric<>(
             "Back Wheel RPM",
-            () -> hardware.shooterHardware().backHallEffect().getRPM())));
+            () -> hardware.shooterHardware().backHallEffect.getRPM())));
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(

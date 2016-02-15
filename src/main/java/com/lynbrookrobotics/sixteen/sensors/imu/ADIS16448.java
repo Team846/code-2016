@@ -16,6 +16,7 @@ public class ADIS16448 extends DigitalGyro {
 
   @Override
   public Value3D retrieveVelocity() {
-    return imuCom.currentData().gyro();
+    return new Value3D(0, 0, 0);
+//    return imuCom.currentData().gyro();
   }
 }
