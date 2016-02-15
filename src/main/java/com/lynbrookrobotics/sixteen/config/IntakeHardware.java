@@ -1,17 +1,17 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * Aggregation of all intake hardware.
  */
 public class IntakeHardware {
-  Jaguar rightJaguar;
-  Jaguar leftJaguar;
+  Talon rightWheel;
+  Talon leftWheel;
 
-  public IntakeHardware(Jaguar rightJaguar, Jaguar leftJaguar) {
-    this.rightJaguar = rightJaguar;
-    this.leftJaguar = leftJaguar;
+  public IntakeHardware(Talon rightWheel, Talon leftWheel) {
+    this.rightWheel = rightWheel;
+    this.leftWheel = leftWheel;
   }
 
   /**
@@ -20,16 +20,16 @@ public class IntakeHardware {
    */
   public IntakeHardware(VariableConfiguration configuration) {
     this(
-        new Jaguar(configuration.intakePorts().rightPort()),
-        new Jaguar(configuration.intakePorts().leftPort())
+        new Talon(configuration.intakePorts().rightPort()),
+        new Talon(configuration.intakePorts().leftPort())
     );
   }
 
-  public Jaguar rightJaguar() {
-    return rightJaguar;
+  public Talon rightTalon() {
+    return rightWheel;
   }
 
-  public Jaguar leftJaguar() {
-    return leftJaguar;
+  public Talon leftTalon() {
+    return leftWheel;
   }
 }
