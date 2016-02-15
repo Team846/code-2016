@@ -176,12 +176,12 @@ public class CoreEvents {
     RobotConstants.dashboard().datasetGroup("shooter")
         .addDataset((new TimeSeriesNumeric<>(
             "Proximity Sensor Average Value",
-            () -> hardware.shooterHardware().proximitySensor().getAverageValue())));
+            () -> hardware.shooterHardware().proximitySensor.getAverageValue())));
 
     RobotConstants.dashboard().datasetGroup("shooter")
         .addDataset((new TimeSeriesNumeric<>(
             "Proximity Sensor Average Voltage",
-            () -> hardware.shooterHardware().proximitySensor().getAverageVoltage())));
+            () -> hardware.shooterHardware().proximitySensor.getAverageVoltage())));
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
