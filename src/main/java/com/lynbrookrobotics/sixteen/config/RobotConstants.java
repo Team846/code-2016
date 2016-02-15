@@ -1,8 +1,11 @@
 package com.lynbrookrobotics.sixteen.config;
 
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.RelativeHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+import com.lynbrookrobotics.sixteen.tasks.shooter.SpinAtRPM;
 
 import java.util.function.Supplier;
 
@@ -20,8 +23,11 @@ public class RobotConstants {
   public static FunkyDashboard dashboard = null;
 
   public final static Class[] taskList = {
+      AbsoluteHeadingTimedDrive.class,
+      RelativeHeadingTimedDrive.class,
       TimedDrive.class,
-      TurnByAngle.class
+      TurnByAngle.class,
+      SpinAtRPM.class
   };
 
   public static class OperatorButtonAssignments {
