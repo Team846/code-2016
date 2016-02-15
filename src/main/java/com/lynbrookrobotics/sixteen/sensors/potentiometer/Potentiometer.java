@@ -3,16 +3,16 @@ package com.lynbrookrobotics.sixteen.sensors.potentiometer;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
- * Created by Philip on 2/12/2016.
+ * Class for a ten turn Bournes potentiometer
  */
-public class Potentiometer{
+public class Potentiometer {
   AnalogInput input;
   double conversionFactor = 726;
   double offset = 2.658691068;
 
   /**
-   * Class for a ten turn potentiometer
-   * @param channel The input channel of the pot on the robotrio's analog input
+   * Class for a ten turn potentiometer.
+   * @param channel The input channel of the pot on the roborio's analog input
    * @param offSet The value by which the potentiometer's values are offset by
    */
   public Potentiometer(int channel,  double offSet) {

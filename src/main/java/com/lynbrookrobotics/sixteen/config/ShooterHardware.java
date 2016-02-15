@@ -43,7 +43,8 @@ public class ShooterHardware {
       new HallEffect(config.shooterPorts().portFrontHall()),
       new HallEffect(config.shooterPorts().portBackHall()),
       new ProximitySensor(0),
-      new Potentiometer(config.shooterPorts().potentiometerPort(), config.shooterSensorConfig().getPotOffset())
+      new Potentiometer(config.shooterPorts().potentiometerPort(),
+          config.shooterSensorConfig().getPotOffset())
     );
   }
 }

@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.config;
 import com.typesafe.config.Config;
 
 /**
- * Created by Philip on 2/14/2016.
+ * A config class for the sensers used by the shooter
  */
 public class ShooterSensorConfig {
   private double potOffset;

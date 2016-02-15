@@ -19,7 +19,8 @@ public class ShooterPorts {
    * @param frontHallPort front Hall Effect sensor port
    * @param backHallPort back Hall Effect sensor port
    */
-  public ShooterPorts(int frontWheelPort, int backWheelPort, int frontHallPort, int backHallPort, int potentiometerPort) {
+  public ShooterPorts(int frontWheelPort, int backWheelPort, int frontHallPort, int backHallPort,
+                      int potentiometerPort) {
     this.frontWheelPort = frontWheelPort;
     this.backWheelPort = backWheelPort;
     this.frontHallPort = frontHallPort;
@@ -58,6 +59,7 @@ public class ShooterPorts {
   public int portBackHall() {
     return backHallPort;
   }
+
   public int potentiometerPort() {
     return potentiometerPort;
   }
