@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 import com.lynbrookrobotics.sixteen.sensors.halleffect.HallEffect;
+import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
 import edu.wpi.first.wpilibj.Talon;
 
