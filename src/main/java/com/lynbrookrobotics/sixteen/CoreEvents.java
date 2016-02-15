@@ -145,7 +145,7 @@ public class CoreEvents {
     RobotConstants.dashboard().datasetGroup("Shooter")
         .addDataset(new TimeSeriesNumeric<>(
             "Potentiometer Average Voltage",
-            () -> hardware.shooterHardware().potentiometer.getDistance()));
+            () -> hardware.shooterHardware().potentiometer.getAngle()));
     autonomousStateEvent.forEach(() -> {
       double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
       return new AbsoluteHeadingTimedDrive(3500,
