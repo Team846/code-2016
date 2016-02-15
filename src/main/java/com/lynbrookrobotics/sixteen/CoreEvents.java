@@ -173,6 +173,16 @@ public class CoreEvents {
             "Back Wheel RPM",
             () -> hardware.shooterHardware().backHallEffect.getRPM())));
 
+    RobotConstants.dashboard().datasetGroup("shooter")
+        .addDataset((new TimeSeriesNumeric<>(
+            "Proximity Sensor Average Value",
+            () -> hardware.shooterHardware().proximitySensor.getAverageValue())));
+
+    RobotConstants.dashboard().datasetGroup("shooter")
+        .addDataset((new TimeSeriesNumeric<>(
+            "Proximity Sensor Average Voltage",
+            () -> hardware.shooterHardware().proximitySensor.getAverageVoltage())));
+
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
         () -> {
