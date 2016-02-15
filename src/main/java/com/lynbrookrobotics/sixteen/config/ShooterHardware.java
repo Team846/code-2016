@@ -37,6 +37,6 @@ public class ShooterHardware {
       new Talon(config.shooterPorts().portBackWheel()),
       new HallEffect(config.shooterPorts().portFrontHall()),
       new HallEffect(config.shooterPorts().portBackHall()),
-        new ProximitySensor(0));
+      new ProximitySensor(config.shooterPorts().portProximity()));
   }
 }
