@@ -6,23 +6,36 @@ import com.typesafe.config.Config;
  * Aggregation of all device ports for the intake.
  */
 public class IntakePorts {
-  int rightPort;
-  int leftPort;
+  int frontRightPort;
+  int frontLeftPort;
+  int backRightPort;
+  int backLeftPort;
 
-  public IntakePorts(int rightPort,int leftPort) {
-    this.leftPort = leftPort;
-    this.rightPort = rightPort;
+  public IntakePorts(int frontRightPort,int frontLeftPort, int backLeftPort, int backRightPort) {
+    this.frontLeftPort = frontLeftPort;
+    this.frontRightPort = frontRightPort;
+    this.backLeftPort = backLeftPort;
+    this.backRightPort = backRightPort;
   }
 
   public IntakePorts(Config config) {
-    this(config.getInt("rightPort"), config.getInt("leftPort"));
+    this(config.getInt("front-right-port") , config.getInt("front-left-port") ,
+        config.getInt("back-left-port") , config.getInt("back-right-port")) ;
   }
 
-  public int rightPort() {
-    return rightPort;
+  public int frontRightPort() {
+    return frontRightPort;
   }
 
-  public int leftPort() {
-    return leftPort;
+  public int frontLeftPort() {
+    return frontLeftPort;
+  }
+
+  public int backRightPort() {
+    return backRightPort;
+  }
+
+  public int backLeftPort() {
+    return backLeftPort;
   }
 }

@@ -1,17 +1,24 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * Aggregation of all intake hardware.
  */
 public class IntakeHardware {
-  Jaguar rightJaguar;
-  Jaguar leftJaguar;
+  Talon frontRightWheel;
+  Talon frontLeftWheel;
+  Talon backRightWheel;
+  Talon backLeftWheel;
 
-  public IntakeHardware(Jaguar rightJaguar, Jaguar leftJaguar) {
-    this.rightJaguar = rightJaguar;
-    this.leftJaguar = leftJaguar;
+
+  public IntakeHardware(Talon frontRightWheel, Talon frontleftWheel,
+                        Talon backLeftWheel,Talon backRightWheel) {
+    this.frontLeftWheel=frontleftWheel;
+    this.frontRightWheel=frontRightWheel;
+    this.backLeftWheel=backLeftWheel;
+    this.backRightWheel=backRightWheel;
+
   }
 
   /**
@@ -20,16 +27,26 @@ public class IntakeHardware {
    */
   public IntakeHardware(VariableConfiguration configuration) {
     this(
-        new Jaguar(configuration.intakePorts().rightPort()),
-        new Jaguar(configuration.intakePorts().leftPort())
+        new Talon(configuration.intakePorts().frontRightPort()),
+        new Talon(configuration.intakePorts().frontLeftPort()),
+        new Talon(configuration.intakePorts().backLeftPort()),
+        new Talon(configuration.intakePorts().backRightPort())
     );
   }
 
-  public Jaguar rightJaguar() {
-    return rightJaguar;
+  public Talon frontRightWheel() {
+    return frontRightWheel;
   }
 
-  public Jaguar leftJaguar() {
-    return leftJaguar;
+  public Talon frontLeftWheel() {
+    return frontLeftWheel;
+  }
+
+  public Talon backRightWheel() {
+    return backRightWheel;
+  }
+
+  public Talon backLeftWheel() {
+    return backLeftWheel;
   }
 }
