@@ -28,7 +28,7 @@ public class RobotConstants {
       TimedDrive.class,
       TurnByAngle.class,
       SpinAtRPM.class
-  };
+  }; // used by LoadJavascriptFile
 
   public static class OperatorButtonAssignments {
     public static final int COLLECT = 2;
