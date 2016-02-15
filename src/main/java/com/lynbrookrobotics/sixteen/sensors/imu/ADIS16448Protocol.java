@@ -1,7 +1,5 @@
 package com.lynbrookrobotics.sixteen.sensors.imu;
 
-import com.lynbrookrobotics.sixteen.CoreRobot;
-import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.sensors.ConstantBufferSPI;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
 import com.lynbrookrobotics.sixteen.sensors.imu.IMURegister;
@@ -32,6 +30,8 @@ class ADIS16448Protocol {
     static final double MilligaussPerLSB = 1.0 / 7.0;
   }
 
+  // TODO: what is the global command doing?
+  private static final byte[] globalCommand = {0x08, 0};
   private ConstantBufferSPI spi;
 
   public ADIS16448Protocol() {
@@ -52,29 +52,30 @@ class ADIS16448Protocol {
     Registers.SENS_AVG.write(0b10000000000, spi); // TODO: Magic Number
   }
 
-  private static final ByteBuffer globBuffer = ByteBuffer.allocateDirect(26);
-  static {
-    globBuffer.put((byte) 0x3E);
-    globBuffer.put((byte) 0);
-  }
+  private static final byte[] X_GYRO_OUT = new byte[]{X_GYRO_REG, 0};
+  private static final byte[] Y_GYRO_OUT = new byte[]{Y_GYRO_REG, 0};
+  private static final byte[] Z_GYRO_OUT = new byte[]{Z_GYRO_REG, 0};
 
-  private final ByteBuffer outBuffer = ByteBuffer.allocateDirect(26);
+  private short readGyroRegister(byte[] outData) {
+    byte[] gyroData = new byte[2];
+    spi.write(outData, 2);
+    spi.read(false, gyroData, 2);
+    ByteBuffer gyroBuffer = ByteBuffer.wrap(gyroData);
+
+    return gyroBuffer.getShort();
+  }
 
   /**
    * Gets the current gyro, accel, and magneto data from the IMU.
    */
   public IMUValue currentData() {
-    Value3D gyro = RobotConstants.time(() -> {
-      outBuffer.clear();
-      spi.transaction(globBuffer, outBuffer, 26);
+    Value3D gyro = new Value3D(
+        readGyroRegister(X_GYRO_OUT),
+        readGyroRegister(Y_GYRO_OUT),
+        readGyroRegister(Z_GYRO_OUT)
+    ).times(Constants.DegreePerSecondPerLSB);
 
-      return new Value3D(
-          outBuffer.getShort(4) * Constants.DegreePerSecondPerLSB,
-          outBuffer.getShort(6) * Constants.DegreePerSecondPerLSB,
-          outBuffer.getShort(8) * Constants.DegreePerSecondPerLSB
-      );
-    }, "gyro-all-values");
-
+    // TODO: kalman calculation?
     return new IMUValue(gyro, null, null);
   }
 }

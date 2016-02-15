@@ -38,16 +38,12 @@ public class CoreRobot {
       long start = System.currentTimeMillis();
 
       if (!events.initialCalibrationDone) {
-        RobotConstants.time(() -> {
-          hardware.drivetrainHardware().mainGyro().calibrateUpdate();
-        }, "calibrate-gyro");
+        hardware.drivetrainHardware().mainGyro().calibrateUpdate();
       } else {
-        RobotConstants.time(() -> {
-          hardware.drivetrainHardware().mainGyro().angleUpdate();
-        }, "update-gyro");
+        hardware.drivetrainHardware().mainGyro().angleUpdate();
       }
 
-      RobotConstants.time(() -> Component.updateComponents(), "component");
+      Component.updateComponents();
 
       long diff = System.currentTimeMillis() - start;
       if (diff > RobotConstants.TICK_PERIOD * 1000L) {

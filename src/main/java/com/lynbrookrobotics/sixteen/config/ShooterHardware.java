@@ -5,10 +5,10 @@ import com.lynbrookrobotics.sixteen.sensors.halleffect.HallEffect;
 import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterHardware {
-  private Talon frontWheelMotor;
-  private Talon backWheelMotor;
-  private HallEffect frontHallEffect;
-  private HallEffect backHallEffect;
+  public final Talon frontWheelMotor;
+  public final Talon backWheelMotor;
+  public final HallEffect frontHallEffect;
+  public final HallEffect backHallEffect;
 
   /**
    * Constructs a new default ShooterHardware object given the interfaces.
@@ -33,21 +33,5 @@ public class ShooterHardware {
       new Talon(config.shooterPorts().portBackWheel()),
       new HallEffect(config.shooterPorts().portFrontHall()),
       new HallEffect(config.shooterPorts().portBackHall()));
-  }
-
-  public Talon frontWheelMotor() {
-    return frontWheelMotor;
-  }
-
-  public Talon backWheelMotor() {
-    return backWheelMotor;
-  }
-
-  public HallEffect frontHallEffect() {
-    return frontHallEffect;
-  }
-
-  public HallEffect backHallEffect() {
-    return backHallEffect;
   }
 }
