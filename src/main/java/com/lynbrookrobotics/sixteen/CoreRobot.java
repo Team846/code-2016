@@ -5,7 +5,6 @@ import com.lynbrookrobotics.potassium.events.Event;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
-import com.lynbrookrobotics.sixteen.components.intake.Intake;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocitySpinnersController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
@@ -26,9 +25,8 @@ public class CoreRobot {
 
   Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
   ShooterSpinners shooterSpinners = new ShooterSpinners(hardware, ConstantVelocitySpinnersController.of(() -> 0.0));
-  Intake intake = null;
 
-  CoreEvents events = new CoreEvents(controls, hardware, drivetrain, shooterSpinners, intake);
+  CoreEvents events = new CoreEvents(controls, hardware, drivetrain, shooterSpinners);
 
   /**
    * Sets up tick function with timer.

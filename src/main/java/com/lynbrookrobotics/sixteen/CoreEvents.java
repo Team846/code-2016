@@ -6,7 +6,6 @@ import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
-import com.lynbrookrobotics.sixteen.components.intake.Intake;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocitySpinnersController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
@@ -31,7 +30,6 @@ public class CoreEvents {
   RobotHardware hardware;
   Drivetrain drivetrain;
   ShooterSpinners shooterSpinners;
-  Intake intake;
 
   boolean initialCalibrationDone = false;
 
@@ -60,13 +58,11 @@ public class CoreEvents {
   public CoreEvents(DriverControls controls,
                     RobotHardware hardware,
                     Drivetrain drivetrain,
-                    ShooterSpinners shooterSpinners,
-                    Intake intake) {
+                    ShooterSpinners shooterSpinners) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;
     this.shooterSpinners = shooterSpinners;
-    this.intake = intake;
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation,
