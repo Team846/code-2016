@@ -5,7 +5,12 @@ package com.lynbrookrobotics.sixteen.components.shooter;
  */
 public abstract class ShooterController {
   /**
-   * Gets the current speed of the shooter as a normalized value.
+   * Gets the current speed of the front wheel as a normalized value.
    */
-  public abstract double shooterSpeed();
+  public abstract double shooterSpeedFront();
+
+  /**
+   * Gets the current speed of the back wheel as a normalized value.
+   */
+  public abstract double shooterSpeedBack();
 }

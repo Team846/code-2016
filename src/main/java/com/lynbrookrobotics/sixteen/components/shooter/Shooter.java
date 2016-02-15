@@ -23,8 +23,7 @@ public class Shooter extends Component<ShooterController> {
 
   @Override
   protected void setOutputs(ShooterController shooterController) {
-    double speed = shooterController.shooterSpeed();
-    hardware.frontWheelMotor.set(speed);
-    hardware.backWheelMotor.set(speed);
+    hardware.frontWheelMotor.set(shooterController.shooterSpeedFront());
+    hardware.backWheelMotor.set(shooterController.shooterSpeedBack());
   }
 }
