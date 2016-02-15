@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.components.shooter;
+package com.lynbrookrobotics.sixteen.components.shooter.spinners;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.sensors.halleffect.HallEffect;

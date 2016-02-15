@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.components.shooter;
+package com.lynbrookrobotics.sixteen.components.shooter.spinners;
 
 import java.util.function.Supplier;
 

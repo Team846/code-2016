@@ -7,13 +7,12 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.intake.Intake;
-import com.lynbrookrobotics.sixteen.components.shooter.ConstantVelocityController;
-import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocityController;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.shooter.SpinAtRPM;
 import com.ni.vision.NIVision;
 
@@ -31,7 +30,7 @@ public class CoreEvents {
   DriverControls controls;
   RobotHardware hardware;
   Drivetrain drivetrain;
-  Shooter shooter;
+  ShooterSpinners shooterSpinners;
   Intake intake;
 
   boolean initialCalibrationDone = false;
@@ -61,12 +60,12 @@ public class CoreEvents {
   public CoreEvents(DriverControls controls,
                     RobotHardware hardware,
                     Drivetrain drivetrain,
-                    Shooter shooter,
+                    ShooterSpinners shooterSpinners,
                     Intake intake) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;
-    this.shooter = shooter;
+    this.shooterSpinners = shooterSpinners;
     this.intake = intake;
 
     this.disabledStateEvent = new InGameState(
@@ -141,7 +140,7 @@ public class CoreEvents {
 
     // Drivetrain
     autonomousStateEvent.forEach(() -> {
-      return new FixedTime(10000).andUntilDone(new SpinAtRPM(1000, shooter, hardware));
+      return new FixedTime(10000).andUntilDone(new SpinAtRPM(1000, shooterSpinners, hardware));
 //      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
 //      return new AbsoluteHeadingTimedDrive(3500,
 //                                           trapezoidalCurve(0.3, 1.5),
@@ -196,11 +195,11 @@ public class CoreEvents {
     enabledStateEvent.forEach(
         () -> {
           drivetrain.setController(enabledDrive);
-          shooter.setController(enabledShooter);
+          shooterSpinners.setController(enabledShooter);
         },
         () -> {
           drivetrain.resetToDefault();
-          shooter.resetToDefault();
+          shooterSpinners.resetToDefault();
         }
     );
 

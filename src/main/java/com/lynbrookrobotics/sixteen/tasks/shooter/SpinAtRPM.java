@@ -1,24 +1,24 @@
 package com.lynbrookrobotics.sixteen.tasks.shooter;
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
-import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
-import com.lynbrookrobotics.sixteen.components.shooter.ShooterVelocityController;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterVelocityController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 public class SpinAtRPM extends ContinuousTask {
   double targetRPM;
-  Shooter shooter;
+  ShooterSpinners shooterSpinners;
   RobotHardware hardware;
 
-  public SpinAtRPM(double targetRPM, Shooter shooter, RobotHardware hardware) {
+  public SpinAtRPM(double targetRPM, ShooterSpinners shooterSpinners, RobotHardware hardware) {
     this.targetRPM = targetRPM;
-    this.shooter = shooter;
+    this.shooterSpinners = shooterSpinners;
     this.hardware = hardware;
   }
 
   @Override
   protected void startTask() {
-    shooter.setController(new ShooterVelocityController(targetRPM, hardware));
+    shooterSpinners.setController(new ShooterVelocityController(targetRPM, hardware));
   }
 
   @Override
@@ -28,6 +28,6 @@ public class SpinAtRPM extends ContinuousTask {
 
   @Override
   protected void endTask() {
-    shooter.resetToDefault();
+    shooterSpinners.resetToDefault();
   }
 }
