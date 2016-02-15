@@ -5,7 +5,7 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.RelativeHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
-import com.lynbrookrobotics.sixteen.tasks.shooter.SpinAtRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
 
 import java.util.function.Supplier;
 
