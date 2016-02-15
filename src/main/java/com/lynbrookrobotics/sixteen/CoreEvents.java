@@ -140,13 +140,12 @@ public class CoreEvents {
         hardware.drivetrainHardware().gyro().angleUpdate();
         hardware.drivetrainHardware().imu().angleUpdate();
       }
-
-      RobotConstants.dashboard().datasetGroup("Shooter")
-          .addDataset(new TimeSeriesNumeric<>(
-              "Potentiometer Average Value",
-              () -> hardware.shooterHardware().potentiometer.getDistanceAverageValue()));
     });
 
+    RobotConstants.dashboard().datasetGroup("Shooter")
+        .addDataset(new TimeSeriesNumeric<>(
+            "Potentiometer Average Voltage",
+            () -> hardware.shooterHardware().potentiometer.getDistance()));
     autonomousStateEvent.forEach(() -> {
       double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
       return new AbsoluteHeadingTimedDrive(3500,

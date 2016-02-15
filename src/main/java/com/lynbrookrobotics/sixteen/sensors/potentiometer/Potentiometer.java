@@ -7,16 +7,16 @@ import edu.wpi.first.wpilibj.AnalogInput;
  */
 public class Potentiometer{
   AnalogInput input;
+  double conversionFactor = 726;
+  double offset = 2.658691068;
 
-  public Potentiometer(int channel) {
-    input = new AnalogInput(channel);
+  public Potentiometer(int channel,  double offSet) {
+    this.input = new AnalogInput(channel);
+    this.offset = offSet;
   }
 
-  public double getDistanceAverageVoltage() {
-    return input.getAverageVoltage();
+  public double getDistance() {
+    return conversionFactor * input.getAverageVoltage() - offset;
   }
 
-  public double getDistanceAverageValue(){
-    return input.getAverageValue();
-  }
 }
