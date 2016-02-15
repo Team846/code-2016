@@ -41,18 +41,14 @@ public class CoreEvents {
   InGameState enabledStateEvent;
 
   // Drivetrain
-  public double stickY = 0;
-  public double wheelX = 0;
-
   /**
    * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
    */
-  TankDriveController enabledDrive = TankDriveController.of(() -> stickY, () -> wheelX);
+  TankDriveController enabledDrive = TankDriveController.of(() -> controls.driverStick.y(), () -> controls.driverWheel.x());
 
   // Shooter
-  double operatorY = 0;
   ConstantVelocityController enabledShooter = ConstantVelocityController.of(
-      () -> operatorY
+      () -> controls.operatorStick.y()
   );
 
   /**
@@ -151,9 +147,9 @@ public class CoreEvents {
 
     enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
     enabledStateEvent.forEach(() -> {
-      stickY = controls.driverStick.getRawAxis(1);
-      wheelX = controls.driverWheel.getRawAxis(0);
-      operatorY = controls.operatorStick.getRawAxis(1);
+      controls.driverStick.update();
+      controls.driverWheel.update();
+      controls.operatorStick.update();
     });
 
     RobotConstants.dashboard().datasetGroup("drivetrain")

@@ -1,14 +1,16 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import com.lynbrookrobotics.sixteen.inputs.PollingJoystick;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class DriverControls {
   public final DriverStation driverStation;
 
-  public final Joystick driverStick;
-  public final Joystick driverWheel;
-  public final Joystick operatorStick;
+  public final PollingJoystick driverStick;
+  public final PollingJoystick driverWheel;
+  public final PollingJoystick operatorStick;
 
   /**
    * Constructs a DriverControls object with instances of all control inputs.
@@ -23,9 +25,9 @@ public class DriverControls {
                         Joystick operatorStick) {
     this.driverStation = driverStation;
 
-    this.driverStick = driverStick;
-    this.driverWheel = driverWheel;
-    this.operatorStick = operatorStick;
+    this.driverStick = new PollingJoystick(driverStick);
+    this.driverWheel = new PollingJoystick(driverWheel);
+    this.operatorStick = new PollingJoystick(operatorStick);
   }
 
   /**
