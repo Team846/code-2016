@@ -86,7 +86,7 @@ public class CoreEvents {
 
 
     this.abortTaskEvent = new ButtonPress(
-        controls.operatorStick,
+        controls.operatorStick.underlying,
         RobotConstants.OperatorButtonAssignments.ABORT_CURRENT_TASK
     );
 

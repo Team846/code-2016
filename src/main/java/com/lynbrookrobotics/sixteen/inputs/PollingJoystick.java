@@ -7,7 +7,7 @@ public class PollingJoystick {
   private double y;
   private double z;
 
-  private Joystick underlying;
+  public final Joystick underlying;
 
   public PollingJoystick(Joystick underlying) {
     this.underlying = underlying;
