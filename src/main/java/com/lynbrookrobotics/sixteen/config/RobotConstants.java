@@ -1,12 +1,12 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import akka.actor.ActorSystem;
-
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 
 import java.util.function.Supplier;
+
+import akka.actor.ActorSystem;
 
 public class RobotConstants {
   public final static double TICK_PERIOD = 1D / 200; // every 10ms
@@ -24,12 +24,19 @@ public class RobotConstants {
       TurnByAngle.class
   };
 
+  public static class OperatorButtonAssignments {
+    public static final int COLLECT = 2;
+    public static final int LOW_BAR = 15;
+    public static final int ABORT_CURRENT_TASK = 16;
+  }
+
   public static boolean onRobot() {
     return System.getProperty("user.name").equals("lvuser");
   }
 
   /**
    * Gets the current FunkyDashboard instance.
+   *
    * @return the FunkyDashboard instance
    */
   public static FunkyDashboard dashboard() {
@@ -51,13 +58,13 @@ public class RobotConstants {
   public static <T> T time(Supplier<T> thunk, String msg) {
     long start = System.nanoTime();
     T ret = thunk.get();
-    System.out.println(msg + " took " + (System.nanoTime() - start)/1000000D);
+    System.out.println(msg + " took " + (System.nanoTime() - start) / 1000000D);
     return ret;
   }
 
   public static void time(Runnable thunk, String msg) {
     long start = System.nanoTime();
     thunk.run();
-    System.out.println(msg + " took " + (System.nanoTime() - start)/1000000D);
+    System.out.println(msg + " took " + (System.nanoTime() - start) / 1000000D);
   }
 }
