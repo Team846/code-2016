@@ -7,17 +7,17 @@ package com.lynbrookrobotics.sixteen.config;
  */
 public class RobotHardware {
   DrivetrainHardware drivetrainHardware;
-  ShooterHardware shooterHardware;
+  ShooterSpinnersHardware shooterSpinnersHardware;
   IntakeHardware intakeHardware;
 
   /**
    * Constructs a RobotHardware given the individual hardware classes.
    */
   public RobotHardware(DrivetrainHardware drivetrainHardware,
-                       ShooterHardware shooterHardware,
+                       ShooterSpinnersHardware shooterSpinnersHardware,
                        IntakeHardware intakeHardware) {
     this.drivetrainHardware = drivetrainHardware;
-    this.shooterHardware = shooterHardware;
+    this.shooterSpinnersHardware = shooterSpinnersHardware;
     this.intakeHardware = intakeHardware;
   }
 
@@ -28,7 +28,7 @@ public class RobotHardware {
   public RobotHardware(VariableConfiguration config) {
     this(
         new DrivetrainHardware(config),
-        new ShooterHardware(config),
+        new ShooterSpinnersHardware(config),
         null // new IntakeHardware(config)
     );
   }
@@ -37,8 +37,8 @@ public class RobotHardware {
     return drivetrainHardware;
   }
 
-  public ShooterHardware shooterHardware() {
-    return shooterHardware;
+  public ShooterSpinnersHardware shooterHardware() {
+    return shooterSpinnersHardware;
   }
 
   public IntakeHardware intakeHardware() {

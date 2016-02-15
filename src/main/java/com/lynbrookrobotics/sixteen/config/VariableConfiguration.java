@@ -14,7 +14,7 @@ public class VariableConfiguration {
 
   private DrivetrainPorts drivetrainPorts =
       new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
-  private ShooterPorts shooterPorts = new ShooterPorts(loadedConfig.getConfig("shooter"));
+  private ShooterSpinnersPorts shooterSpinnersPorts = new ShooterSpinnersPorts(loadedConfig.getConfig("shooter"));
   private IntakePorts intakePorts = new IntakePorts(loadedConfig.getConfig("intake"));
 
   /**
@@ -27,8 +27,8 @@ public class VariableConfiguration {
   /**
    * Returns the pre-loaded config for the shooter components.
    */
-  public ShooterPorts shooterPorts() {
-    return shooterPorts;
+  public ShooterSpinnersPorts shooterPorts() {
+    return shooterSpinnersPorts;
   }
 
   public IntakePorts intakePorts() {

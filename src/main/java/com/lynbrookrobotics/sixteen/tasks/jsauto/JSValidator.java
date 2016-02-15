@@ -5,7 +5,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.IntakeHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.ShooterHardware;
+import com.lynbrookrobotics.sixteen.config.ShooterSpinnersHardware;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,11 +25,11 @@ public class JSValidator extends JFrame {
       null, null, null, null, null, null, null, null, null, null
   );
 
-  private ShooterHardware shooterHardware = new ShooterHardware(null, null, null, null, null);
+  private ShooterSpinnersHardware shooterSpinnersHardware = new ShooterSpinnersHardware(null, null, null, null, null);
   private IntakeHardware intakeHardware = new IntakeHardware(null, null);
   private RobotHardware robotHardware = new RobotHardware(
       drivetrainHardware,
-      shooterHardware,
+      shooterSpinnersHardware,
       intakeHardware
   );
 

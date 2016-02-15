@@ -2,28 +2,28 @@ package com.lynbrookrobotics.sixteen.components.shooter.spinners;
 
 import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.ShooterHardware;
+import com.lynbrookrobotics.sixteen.config.ShooterSpinnersHardware;
 
 /**
  * Represents the shooter component on the robot.
  */
-public class ShooterSpinners extends Component<ShooterController> {
-  private final ShooterHardware hardware;
+public class ShooterSpinners extends Component<ShooterSpinnersController> {
+  private final ShooterSpinnersHardware hardware;
 
   /**
    * Constructs a new shooter component.
    * @param robotHardware the robot hardware to use
    * @param defaultController the no-op default controller
    */
-  public ShooterSpinners(RobotHardware robotHardware, ShooterController defaultController) {
+  public ShooterSpinners(RobotHardware robotHardware, ShooterSpinnersController defaultController) {
     super(defaultController);
 
     this.hardware = robotHardware.shooterHardware();
   }
 
   @Override
-  protected void setOutputs(ShooterController shooterController) {
-    hardware.frontWheelMotor.set(shooterController.shooterSpeedFront());
-    hardware.backWheelMotor.set(shooterController.shooterSpeedBack());
+  protected void setOutputs(ShooterSpinnersController controller) {
+    hardware.frontWheelMotor.set(controller.shooterSpeedFront());
+    hardware.backWheelMotor.set(controller.shooterSpeedBack());
   }
 }

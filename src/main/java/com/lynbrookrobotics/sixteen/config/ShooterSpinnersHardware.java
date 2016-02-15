@@ -5,7 +5,7 @@ import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
 import edu.wpi.first.wpilibj.Talon;
 
-public class ShooterHardware {
+public class ShooterSpinnersHardware {
   public final Talon frontWheelMotor;
   public final Talon backWheelMotor;
   public final HallEffect frontHallEffect;
@@ -15,11 +15,11 @@ public class ShooterHardware {
   /**
    * Constructs a new default ShooterHardware object given the interfaces.
    */
-  public ShooterHardware(Talon frontWheel,
-                         Talon backWheel,
-                         HallEffect frontHall,
-                         HallEffect backHall,
-                         ProximitySensor proximity) {
+  public ShooterSpinnersHardware(Talon frontWheel,
+                                 Talon backWheel,
+                                 HallEffect frontHall,
+                                 HallEffect backHall,
+                                 ProximitySensor proximity) {
     frontWheelMotor = frontWheel;
     backWheelMotor = backWheel;
     frontHallEffect = frontHall;
@@ -31,12 +31,13 @@ public class ShooterHardware {
    * Constructs a ShooterHardware given a configuration object.
    * @param config the config to use
    */
-  public ShooterHardware(VariableConfiguration config) {
+  public ShooterSpinnersHardware(VariableConfiguration config) {
     this(
       new Talon(config.shooterPorts().portFrontWheel()),
       new Talon(config.shooterPorts().portBackWheel()),
       new HallEffect(config.shooterPorts().portFrontHall()),
       new HallEffect(config.shooterPorts().portBackHall()),
-      new ProximitySensor(config.shooterPorts().portProximity()));
+      new ProximitySensor(config.shooterPorts().portProximity())
+    );
   }
 }

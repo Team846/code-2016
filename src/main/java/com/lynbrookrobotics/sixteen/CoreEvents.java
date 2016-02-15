@@ -7,13 +7,13 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.intake.Intake;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocityController;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocitySpinnersController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
-import com.lynbrookrobotics.sixteen.tasks.shooter.SpinAtRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
 import com.ni.vision.NIVision;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -50,7 +50,7 @@ public class CoreEvents {
   TankDriveController enabledDrive = TankDriveController.of(() -> controls.driverStick.y(), () -> controls.driverWheel.x());
 
   // Shooter
-  ConstantVelocityController enabledShooter = ConstantVelocityController.of(
+  ConstantVelocitySpinnersController enabledShooter = ConstantVelocitySpinnersController.of(
       () -> controls.operatorStick.y()
   );
 

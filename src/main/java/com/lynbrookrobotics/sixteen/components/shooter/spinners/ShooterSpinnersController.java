@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.components.shooter.spinners;
 /**
  * The controller for the shooter component.
  */
-public abstract class ShooterController {
+public abstract class ShooterSpinnersController {
   /**
    * Gets the current speed of the front wheel as a normalized value.
    */
