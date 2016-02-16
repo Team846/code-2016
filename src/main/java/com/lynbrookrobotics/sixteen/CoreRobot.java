@@ -18,23 +18,20 @@ import edu.wpi.first.wpilibj.Notifier;
  * CoreRobot class loads config and creates components.
  */
 public class CoreRobot {
-  VariableConfiguration config = new VariableConfiguration();
-  RobotHardware hardware = new RobotHardware(config);
-
-  DriverControls controls = new DriverControls();
+  VariableConfiguration config = RobotConstants.time(VariableConfiguration::new, "Config loading ");
+  RobotHardware hardware = RobotConstants.time(() -> new RobotHardware(config), "Robot hardware loading ");
+  DriverControls controls = RobotConstants.time(() -> new DriverControls(), "Driver controls loading ");
 
   Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
   ShooterSpinners shooterSpinners = new ShooterSpinners(hardware, ConstantVelocitySpinnersController.of(() -> 0.0));
 
-  CoreEvents events = new CoreEvents(controls, hardware, drivetrain, shooterSpinners);
+  CoreEvents events = RobotConstants.time(() -> new CoreEvents(controls, hardware, drivetrain, shooterSpinners), "Core events loading ");
 
   /**
    * Sets up tick function with timer.
    */
   public CoreRobot() {
     Notifier componentNotifier = new Notifier(() -> {
-      long start = System.currentTimeMillis();
-
       if (!events.initialCalibrationDone) {
         hardware.drivetrainHardware.mainGyro().calibrateUpdate();
       } else {
@@ -42,24 +39,12 @@ public class CoreRobot {
       }
 
       Component.updateComponents();
-
-      long diff = System.currentTimeMillis() - start;
-      if (diff > RobotConstants.TICK_PERIOD * 1000L) {
-        System.out.println("AYOO TOOK too long ---------------------- : " + diff);
-      }
     });
     componentNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
 
     Notifier slowNotifier = new Notifier(() -> {
-      long start = System.currentTimeMillis();
-
       Event.updateEvents();
       Task.updateCurrentTask();
-
-      long diff = System.currentTimeMillis() - start;
-      if (diff > RobotConstants.SLOW_PERIOD * 1000L) {
-        System.out.println("AYOO slow TOOK too long: " + diff);
-      }
     });
     slowNotifier.startPeriodic(RobotConstants.SLOW_PERIOD);
   }

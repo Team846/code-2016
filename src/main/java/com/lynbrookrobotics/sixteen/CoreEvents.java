@@ -115,35 +115,17 @@ public class CoreEvents {
    */
   public void initEventMappings() {
     // Camera Streaming
-    NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-
     USBCamera camera = new USBCamera();
     camera.setBrightness(50);
     camera.setExposureAuto();
     camera.updateSettings();
     camera.startCapture();
 
-    Timer updateTimer = new Timer("update-loop");
-
-    CameraServer.getInstance().setQuality(10);
-    updateTimer.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        camera.getImage(image);
-        CameraServer.getInstance().setImage(image);
-      }
-    }, 0, (long) (100));
+    CameraServer.getInstance().setQuality(30);
+    CameraServer.getInstance().startAutomaticCapture(camera);
 
     // Drivetrain
     // Drivetrain - Gyro
-    disabledStateEvent.forEach(() -> {
-      if (!initialCalibrationDone) {
-        hardware.drivetrainHardware.mainGyro().calibrateUpdate();
-      } else {
-        hardware.drivetrainHardware.mainGyro().angleUpdate();
-      }
-    });
-
     RobotConstants.dashboard.thenAccept(dashboard ->
         dashboard.datasetGroup("Shooter")
             .addDataset(new TimeSeriesNumeric<>(
