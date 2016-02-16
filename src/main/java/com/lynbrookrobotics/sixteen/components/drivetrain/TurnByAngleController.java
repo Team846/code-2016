@@ -21,6 +21,10 @@ public class TurnByAngleController extends TankDriveController {
     ).withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
   }
 
+  public double difference() {
+    return angleControl.difference();
+  }
+
   @Override
   public double forwardSpeed() {
     return 0;

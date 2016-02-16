@@ -42,6 +42,10 @@ public class PID {
     return this;
   }
 
+  public double difference() {
+    return target - input.get();
+  }
+
   public double get() {
     double in = input.get();
     double error = target - in;
