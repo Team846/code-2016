@@ -1,11 +1,9 @@
 package com.lynbrookrobotics.sixteen.sensors.digitalgyro;
 
-import com.lynbrookrobotics.sixteen.config.RobotConstants;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public abstract class DigitalGyro {
   Value3D currentVelocity = new Value3D(0, 0, 0);

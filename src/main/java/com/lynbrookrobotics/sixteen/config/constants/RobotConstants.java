@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.config;
+package com.lynbrookrobotics.sixteen.config.constants;
 
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
@@ -10,8 +10,6 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.function.Supplier;
 
 import akka.actor.ActorSystem;
@@ -24,8 +22,6 @@ public class RobotConstants {
   public final static int OPERATOR_STICK = 1;
   public final static int DRIVER_WHEEL = 2;
 
-  public final static ActorSystem system = ActorSystem.create();
-
   public final static Class[] taskList = {
       AbsoluteHeadingTimedDrive.class,
       RelativeHeadingTimedDrive.class,
@@ -34,21 +30,12 @@ public class RobotConstants {
       SpinAtRPM.class
   };
 
-  public static class OperatorButtonAssignments {
-    public static final int COLLECT = 2;
-    public static final int LOW_BAR = 15;
-    public static final int ABORT_CURRENT_TASK = 16;
-  }
-
-  public static boolean onRobot() {
-    return System.getProperty("user.name").equals("lvuser");
-  }
-
   public final static Executor executor = Executors.newFixedThreadPool(2);
-
+  public final static ActorSystem system = ActorSystem.create();
   public final static CompletableFuture<FunkyDashboard> dashboard = CompletableFuture.supplyAsync(() -> {
+    boolean onRobot = System.getProperty("user.name").equals("lvuser");
     FunkyDashboard ret = new FunkyDashboard();
-    if (onRobot()) {
+    if (onRobot) {
       ret.bindRoute("roborio-846-frc.local", 8080, system);
     } else {
       ret.bindRoute("localhost", 8080, system);

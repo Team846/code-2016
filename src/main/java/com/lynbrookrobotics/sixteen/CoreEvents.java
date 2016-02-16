@@ -9,14 +9,12 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocitySpinnersController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
-import com.lynbrookrobotics.sixteen.config.RobotConstants;
+import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
-import com.ni.vision.NIVision;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -82,7 +80,7 @@ public class CoreEvents {
 
     this.abortTaskEvent = new ButtonPress(
         controls.operatorStick.underlying,
-        RobotConstants.OperatorButtonAssignments.ABORT_CURRENT_TASK
+        OperatorButtonAssignments.ABORT_CURRENT_TASK
     );
 
     initEventMappings();

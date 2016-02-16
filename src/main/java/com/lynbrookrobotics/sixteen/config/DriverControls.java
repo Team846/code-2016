@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.inputs.PollingJoystick;
 
 import edu.wpi.first.wpilibj.DriverStation;

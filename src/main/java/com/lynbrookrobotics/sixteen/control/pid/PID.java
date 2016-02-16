@@ -1,6 +1,6 @@
 package com.lynbrookrobotics.sixteen.control.pid;
 
-import com.lynbrookrobotics.sixteen.config.RobotConstants;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
 import java.util.function.Supplier;
 
