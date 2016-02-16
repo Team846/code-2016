@@ -12,10 +12,9 @@ import java.io.File;
 public class VariableConfiguration {
   private Config loadedConfig = ConfigFactory.parseFile(new File("/home/lvuser/robot.conf"));
 
-  public final DrivetrainPorts drivetrainPorts =
-      new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
+  public final DrivetrainPorts drivetrainPorts = new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
+  public final ShooterArmPorts shooterArmPorts = new ShooterArmPorts(loadedConfig.getConfig("drivetrain"));
   public final ShooterSpinnersPorts shooterSpinnersPorts = new ShooterSpinnersPorts(loadedConfig.getConfig("shooter"));
-  public final ShooterSensorConfig shooterSensorConfig = new ShooterSensorConfig(
-      loadedConfig.getConfig("shooter-sensors"));
+  public final ShooterSensorConfig shooterSensorConfig = new ShooterSensorConfig(loadedConfig.getConfig("shooter-sensors"));
   public final IntakePorts intakePorts = new IntakePorts(loadedConfig.getConfig("intake"));
 }
