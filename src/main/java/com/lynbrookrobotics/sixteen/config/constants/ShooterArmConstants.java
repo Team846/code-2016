@@ -1,7 +1,10 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
-/**
- * Created by BowtieMod on 2/15/2016.
- */
 public class ShooterArmConstants {
+  public final static double P_GAIN = 0.0d;
+
+  public final static double I_GAIN = 0.0d;
+  public final static int I_MEMORY = 1;
+
+  public final static double CONVERSION_FACTOR = 0.0d;
 }
