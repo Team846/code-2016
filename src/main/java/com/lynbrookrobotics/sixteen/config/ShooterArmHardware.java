@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterArmHardware {
   public final Talon armMotor;
-  public final Potentiometer armPoteniomenter; // TODO: change object to potentiometer
+  public final Potentiometer potentiometer; // TODO: change object to potentiometer
 
   /**
    * Constructs a new default ShooterArmHardware object given the interfaces.
    */
   public ShooterArmHardware(Talon armMotor,
-                            Potentiometer armPoteniomenter) {
+                            Potentiometer potentiometer) {
     this.armMotor = armMotor;
-    this.armPoteniomenter = armPoteniomenter;
+    this.potentiometer = potentiometer;
   }
 
   /**

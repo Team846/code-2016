@@ -2,18 +2,18 @@ package com.lynbrookrobotics.sixteen.components.shooter.arm;
 
 import java.util.function.Supplier;
 
-public abstract class ArmPositionController extends ArmController {
+public abstract class ShooterArmAngleController extends ShooterArmController {
   /**
    * Creates an ArmAngleController that tries to maintain the angle of the shooter arm.
    *
-   * @param potPosition a supplier giving the desired potentiometer position of the shooter arm
+   * @param armAngle a supplier giving the desired potentiometer position of the shooter arm
    * @return the controller
    */
-  public static ArmPositionController of(Supplier<Integer> potPosition) {
-    return new ArmPositionController() {
+  public static ShooterArmAngleController of(Supplier<Integer> armAngle) {
+    return new ShooterArmAngleController() {
       @Override
       public double calculatedMotorSpeed() {
-        return 0; // TODO: implement position control for arm
+        return 0.0; // TODO
       }
     };
   }
@@ -27,6 +27,6 @@ public abstract class ArmPositionController extends ArmController {
 
   @Override
   public double crankMotorSpeed() {
-    return crankMotorSpeed();
+    return calculatedMotorSpeed();
   }
 }

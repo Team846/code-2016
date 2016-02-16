@@ -2,7 +2,6 @@ package com.lynbrookrobotics.sixteen.components.shooter.spinners;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
-import com.lynbrookrobotics.sixteen.sensors.halleffect.HallEffect;
 
 public class SpinnersSpeedController extends ShooterSpinnersController {
   PID frontPID;
@@ -15,12 +14,12 @@ public class SpinnersSpeedController extends ShooterSpinnersController {
     this.backPID = new PID(
         () -> hardware.shooterSpinnersHardware.backHallEffect.getRPM(),
         targetRPM
-    ).withP(1D/8000).withI(8D/125, 0.9);
+    ).withP(1D / 8000).withI(8D / 125, 0.9);
 
     this.frontPID = new PID(
         () -> hardware.shooterSpinnersHardware.frontHallEffect.getRPM(),
         targetRPM
-    ).withP(1D/8000).withI(8D/125, 0.9);
+    ).withP(1D / 8000).withI(8D / 125, 0.9);
 
     this.targetRPM = targetRPM;
   }

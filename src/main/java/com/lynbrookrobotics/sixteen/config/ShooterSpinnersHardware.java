@@ -12,7 +12,6 @@ public class ShooterSpinnersHardware {
   public final HallEffect frontHallEffect;
   public final HallEffect backHallEffect;
   public final ProximitySensor proximitySensor;
-  public final Potentiometer potentiometer;
 
   /**
    * Constructs a new default ShooterHardware object given the interfaces.
@@ -21,14 +20,12 @@ public class ShooterSpinnersHardware {
                          Talon backWheel,
                          HallEffect frontHall,
                          HallEffect backHall,
-                         ProximitySensor proximity,
-                         Potentiometer potentiometer) {
+                         ProximitySensor proximity) {
     this.frontWheelMotor = frontWheel;
     this.backWheelMotor = backWheel;
     this.frontHallEffect = frontHall;
     this.backHallEffect = backHall;
     this.proximitySensor = proximity;
-    this.potentiometer = potentiometer;
   }
 
   /**
@@ -41,9 +38,7 @@ public class ShooterSpinnersHardware {
       new Talon(config.shooterSpinnersPorts.backWheelPort),
       new HallEffect(config.shooterSpinnersPorts.frontHallPort),
       new HallEffect(config.shooterSpinnersPorts.backHallPort),
-      new ProximitySensor(config.shooterSpinnersPorts.proximityPort),
-      new Potentiometer(config.shooterSpinnersPorts.potentiometerPort,
-          config.shooterSensorConfig.potOffset)
+      new ProximitySensor(config.shooterSpinnersPorts.proximityPort)
     );
   }
 }

@@ -125,17 +125,13 @@ public class CoreEvents {
     CameraServer.getInstance().startAutomaticCapture(camera);
 
     // Drivetrain
-    // Drivetrain - Gyro
-    RobotConstants.dashboard.thenAccept(dashboard ->
-        dashboard.datasetGroup("Shooter")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Potentiometer Average Voltage",
-                () -> hardware.shooterSpinnersHardware.potentiometer.getAngle()
-            ))
-    );
 
-    autonomousStateEvent.forEach(() -> {
-      return new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterSpinners, hardware));
+    RobotConstants.dashboard.thenAccept(dashboard -> {
+      dashboard.datasetGroup("shooter")
+          .addDataset(new TimeSeriesNumeric<>(
+              "Potentiometer Average Voltage",
+              () -> hardware.shooterArmHardware.potentiometer.getAngle()));
+    });
 //      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
 //      return new AbsoluteHeadingTimedDrive(3500,
 //                                           trapezoidalCurve(0.3, 1.5),
@@ -145,7 +141,6 @@ public class CoreEvents {
 //                                              trapezoidalCurve(0.3, 1.5),
 //                                              currentAngle + 45,
 //                                              hardware, drivetrain));
-    });
 
     autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
 
@@ -187,8 +182,6 @@ public class CoreEvents {
               "Proximity Sensor Average Voltage",
               () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
     });
-
-
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
