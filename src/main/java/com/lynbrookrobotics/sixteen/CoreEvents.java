@@ -135,6 +135,21 @@ public class CoreEvents {
     }, 0, (long) (100));
 
     // Drivetrain
+    // Drivetrain - Gyro
+    disabledStateEvent.forEach(() -> {
+      if (!initialCalibrationDone) {
+        hardware.drivetrainHardware().gyro().calibrateUpdate();
+        hardware.drivetrainHardware().imu().calibrateUpdate();
+      } else {
+        hardware.drivetrainHardware().gyro().angleUpdate();
+        hardware.drivetrainHardware().imu().angleUpdate();
+      }
+    });
+
+    RobotConstants.dashboard().datasetGroup("Shooter")
+        .addDataset(new TimeSeriesNumeric<>(
+            "Potentiometer Average Voltage",
+            () -> hardware.shooterHardware().potentiometer.getAngle()));
     autonomousStateEvent.forEach(() -> {
       return new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterSpinners, hardware));
 //      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();

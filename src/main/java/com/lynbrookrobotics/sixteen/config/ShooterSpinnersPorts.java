@@ -11,6 +11,7 @@ public class ShooterSpinnersPorts {
   private int frontHallPort;
   private int backHallPort;
   private int proximityPort;
+  private int potentiometerPort;
 
   /**
    * Constructors for ShooterPorts.
@@ -24,12 +25,14 @@ public class ShooterSpinnersPorts {
                               int backWheelPort,
                               int frontHallPort,
                               int backHallPort,
-                              int proximityPort) {
+                              int proximityPort,
+                              int potentiometerPort) {
     this.frontWheelPort = frontWheelPort;
     this.backWheelPort = backWheelPort;
     this.frontHallPort = frontHallPort;
     this.backHallPort = backHallPort;
     this.proximityPort = proximityPort;
+    this.potentiometerPort = potentiometerPort;
   }
 
   /**
@@ -42,15 +45,18 @@ public class ShooterSpinnersPorts {
         config.getInt("back-wheel-port"),
         config.getInt("front-hall-port"),
         config.getInt("back-hall-port"),
-        config.getInt("proximity-port")
+        config.getInt("proximity-port"),
+        config.getInt("pot-port")
     );
   }
+
 
   public int portFrontWheel() {
     return frontWheelPort;
   }
 
   public int portBackWheel() {
+
     return backWheelPort;
   }
 
@@ -64,5 +70,9 @@ public class ShooterSpinnersPorts {
 
   public int portProximity() {
     return proximityPort;
+  }
+
+  public int potentiometerPort() {
+    return potentiometerPort;
   }
 }
