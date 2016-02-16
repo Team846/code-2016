@@ -2,8 +2,7 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.intake.Intake;
-import com.lynbrookrobotics.sixteen.components.shooter.Shooter;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.IntakeHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
@@ -36,8 +35,7 @@ public class JSValidator extends JFrame {
   );
 
   private Drivetrain drivetrain = new Drivetrain(robotHardware, null);
-  private Intake intake = new Intake(robotHardware, null);
-  private Shooter shooter = new Shooter(robotHardware, null);
+  private ShooterSpinners spinners = new ShooterSpinners(robotHardware, null);
 
   private FileSelector fileSelector = new FileSelector();
   private JTextArea validationOutput;
@@ -47,7 +45,7 @@ public class JSValidator extends JFrame {
       FileReader fileReader = new FileReader(routineFile);
       BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-      FiniteTask task = LoadJavascriptFile.loadReader(bufferedReader, robotHardware, drivetrain, intake, shooter);
+      FiniteTask task = LoadJavascriptFile.loadReader(bufferedReader, robotHardware, drivetrain, spinners);
 
       validationOutput.setText("Success \n" + task + "\n");
     } catch (Exception loadException) {
