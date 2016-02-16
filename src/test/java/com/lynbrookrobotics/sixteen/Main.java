@@ -25,8 +25,7 @@ public class Main {
   static Jaguar backRightMotor = mock(Jaguar.class, withSettings().verboseLogging());
 
   public static void main(String[] args) {
-    System.out.println(RobotConstants.dashboard());
-    when(hardware.drivetrainHardware()).thenReturn(drivetrainHardware);
+    when(hardware.drivetrainHardware).thenReturn(drivetrainHardware);
 
     when(drivetrainHardware.frontLeftMotor()).thenReturn(frontLeftMotor);
     when(drivetrainHardware.frontRightMotor()).thenReturn(frontRightMotor);

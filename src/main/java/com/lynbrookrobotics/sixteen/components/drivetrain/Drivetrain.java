@@ -20,7 +20,7 @@ public class Drivetrain extends Component<DrivetrainController> {
                     DrivetrainController defaultController) {
     super(defaultController);
 
-    this.hardware = robotHardware.drivetrainHardware();
+    this.hardware = robotHardware.drivetrainHardware;
   }
 
   @Override

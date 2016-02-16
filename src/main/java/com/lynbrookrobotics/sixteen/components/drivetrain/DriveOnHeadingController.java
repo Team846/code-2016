@@ -22,12 +22,12 @@ public class DriveOnHeadingController extends TankDriveController {
    */
   public DriveOnHeadingController(double angle, Supplier<Double> speed, RobotHardware hardware) {
     this.hardware = hardware;
-    this.gyro = hardware.drivetrainHardware().mainGyro();
+    this.gyro = hardware.drivetrainHardware.mainGyro();
     this.targetAngle = angle;
     this.forwardSpeed = speed;
 
     this.angleControl = new PID(
-        () -> hardware.drivetrainHardware().mainGyro().currentPosition().valueZ(),
+        () -> hardware.drivetrainHardware.mainGyro().currentPosition().valueZ(),
         angle
     ).withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
   }

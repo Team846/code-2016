@@ -18,7 +18,7 @@ public class ShooterSpinners extends Component<ShooterSpinnersController> {
   public ShooterSpinners(RobotHardware robotHardware, ShooterSpinnersController defaultController) {
     super(defaultController);
 
-    this.hardware = robotHardware.shooterHardware();
+    this.hardware = robotHardware.shooterSpinnersHardware;
   }
 
   @Override

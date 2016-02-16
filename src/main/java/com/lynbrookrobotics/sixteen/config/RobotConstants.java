@@ -7,6 +7,11 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.function.Supplier;
 
 import akka.actor.ActorSystem;
@@ -20,7 +25,6 @@ public class RobotConstants {
   public final static int DRIVER_WHEEL = 2;
 
   public final static ActorSystem system = ActorSystem.create();
-  public static FunkyDashboard dashboard = null;
 
   public final static Class[] taskList = {
       AbsoluteHeadingTimedDrive.class,
@@ -40,26 +44,18 @@ public class RobotConstants {
     return System.getProperty("user.name").equals("lvuser");
   }
 
-  /**
-   * Gets the current FunkyDashboard instance.
-   *
-   * @return the FunkyDashboard instance
-   */
-  public static FunkyDashboard dashboard() {
-    if (dashboard == null) {
-      dashboard = new FunkyDashboard();
+  public final static Executor executor = Executors.newFixedThreadPool(2);
 
-      new Thread(() -> {
-        if (onRobot()) {
-          dashboard.bindRoute("roborio-846-frc.local", 8080, system);
-        } else {
-          dashboard.bindRoute("localhost", 8080, system);
-        }
-      }).run();
+  public final static CompletableFuture<FunkyDashboard> dashboard = CompletableFuture.supplyAsync(() -> {
+    FunkyDashboard ret = new FunkyDashboard();
+    if (onRobot()) {
+      ret.bindRoute("roborio-846-frc.local", 8080, system);
+    } else {
+      ret.bindRoute("localhost", 8080, system);
     }
 
-    return dashboard;
-  }
+    return ret;
+  }, executor);
 
   public static <T> T time(Supplier<T> thunk, String msg) {
     long start = System.nanoTime();

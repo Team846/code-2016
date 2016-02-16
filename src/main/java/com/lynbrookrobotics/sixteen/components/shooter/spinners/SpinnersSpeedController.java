@@ -13,12 +13,12 @@ public class SpinnersSpeedController extends ShooterSpinnersController {
 
   public SpinnersSpeedController(double targetRPM, RobotHardware hardware) {
     this.backPID = new PID(
-        () -> hardware.shooterHardware().backHallEffect.getRPM(),
+        () -> hardware.shooterSpinnersHardware.backHallEffect.getRPM(),
         targetRPM
     ).withP(1D/8000).withI(8D/125, 0.9);
 
     this.frontPID = new PID(
-        () -> hardware.shooterHardware().frontHallEffect.getRPM(),
+        () -> hardware.shooterSpinnersHardware.frontHallEffect.getRPM(),
         targetRPM
     ).withP(1D/8000).withI(8D/125, 0.9);
 

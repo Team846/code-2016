@@ -37,13 +37,13 @@ public class ShooterSpinnersHardware {
    */
   public ShooterSpinnersHardware(VariableConfiguration config) {
     this(
-      new Talon(config.shooterPorts().portFrontWheel()),
-      new Talon(config.shooterPorts().portBackWheel()),
-      new HallEffect(config.shooterPorts().portFrontHall()),
-      new HallEffect(config.shooterPorts().portBackHall()),
-      new ProximitySensor(config.shooterPorts().portProximity()),
-      new Potentiometer(config.shooterPorts().potentiometerPort(),
-          config.shooterSensorConfig().getPotOffset())
+      new Talon(config.shooterSpinnersPorts.frontWheelPort),
+      new Talon(config.shooterSpinnersPorts.backWheelPort),
+      new HallEffect(config.shooterSpinnersPorts.frontHallPort),
+      new HallEffect(config.shooterSpinnersPorts.backHallPort),
+      new ProximitySensor(config.shooterSpinnersPorts.proximityPort),
+      new Potentiometer(config.shooterSpinnersPorts.potentiometerPort,
+          config.shooterSensorConfig.potOffset)
     );
   }
 }

@@ -15,7 +15,7 @@ public class VariableConfiguration {
   public final DrivetrainPorts drivetrainPorts =
       new DrivetrainPorts(loadedConfig.getConfig("drivetrain"));
   public final ShooterSpinnersPorts shooterSpinnersPorts = new ShooterSpinnersPorts(loadedConfig.getConfig("shooter"));
-  public final ShooterSensorConfig ShooterSensorConfig = new ShooterSensorConfig(
+  public final ShooterSensorConfig shooterSensorConfig = new ShooterSensorConfig(
       loadedConfig.getConfig("shooter-sensors"));
   public final IntakePorts intakePorts = new IntakePorts(loadedConfig.getConfig("intake"));
 }

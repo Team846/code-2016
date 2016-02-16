@@ -70,10 +70,10 @@ public class DrivetrainHardware {
    */
   public DrivetrainHardware(VariableConfiguration config) {
     this(
-        new Jaguar(config.drivetrainPorts().portFrontLeft()),
-        new Jaguar(config.drivetrainPorts().portFrontRight()),
-        new Jaguar(config.drivetrainPorts().portBackLeft()),
-        new Jaguar(config.drivetrainPorts().portBackRight()),
+        new Jaguar(config.drivetrainPorts.portFrontLeft),
+        new Jaguar(config.drivetrainPorts.portFrontRight),
+        new Jaguar(config.drivetrainPorts.portBackLeft),
+        new Jaguar(config.drivetrainPorts.portBackRight),
         new CANTalon(0),
         new CANTalon(1),
         new CANTalon(2),

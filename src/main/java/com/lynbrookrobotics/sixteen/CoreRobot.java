@@ -36,9 +36,9 @@ public class CoreRobot {
       long start = System.currentTimeMillis();
 
       if (!events.initialCalibrationDone) {
-        hardware.drivetrainHardware().mainGyro().calibrateUpdate();
+        hardware.drivetrainHardware.mainGyro().calibrateUpdate();
       } else {
-        hardware.drivetrainHardware().mainGyro().angleUpdate();
+        hardware.drivetrainHardware.mainGyro().angleUpdate();
       }
 
       Component.updateComponents();

@@ -15,12 +15,12 @@ import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
 import com.ni.vision.NIVision;
 
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.vision.USBCamera;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
+
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * CoreEvents class creates events and maps these to handlers.
@@ -138,18 +138,20 @@ public class CoreEvents {
     // Drivetrain - Gyro
     disabledStateEvent.forEach(() -> {
       if (!initialCalibrationDone) {
-        hardware.drivetrainHardware().gyro().calibrateUpdate();
-        hardware.drivetrainHardware().imu().calibrateUpdate();
+        hardware.drivetrainHardware.mainGyro().calibrateUpdate();
       } else {
-        hardware.drivetrainHardware().gyro().angleUpdate();
-        hardware.drivetrainHardware().imu().angleUpdate();
+        hardware.drivetrainHardware.mainGyro().angleUpdate();
       }
     });
 
-    RobotConstants.dashboard().datasetGroup("Shooter")
-        .addDataset(new TimeSeriesNumeric<>(
-            "Potentiometer Average Voltage",
-            () -> hardware.shooterHardware().potentiometer.getAngle()));
+    RobotConstants.dashboard.thenAccept(dashboard ->
+        dashboard.datasetGroup("Shooter")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Potentiometer Average Voltage",
+                () -> hardware.shooterSpinnersHardware.potentiometer.getAngle()
+            ))
+    );
+
     autonomousStateEvent.forEach(() -> {
       return new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterSpinners, hardware));
 //      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
@@ -172,35 +174,39 @@ public class CoreEvents {
       controls.operatorStick.update();
     });
 
-    RobotConstants.dashboard().datasetGroup("drivetrain")
-        .addDataset(new TimeSeriesNumeric<>(
-            "Angular Velocity",
-            () -> hardware.drivetrainHardware().mainGyro().currentVelocity().valueZ()));
+    RobotConstants.dashboard.thenAccept(dashboard -> {
+      dashboard.datasetGroup("drivetrain")
+          .addDataset(new TimeSeriesNumeric<>(
+              "Angular Velocity",
+              () -> hardware.drivetrainHardware.mainGyro().currentVelocity().valueZ()));
 
-    RobotConstants.dashboard().datasetGroup("drivetrain")
-        .addDataset(new TimeSeriesNumeric<>(
-            "Angular Position",
-            () -> hardware.drivetrainHardware().mainGyro().currentPosition().valueZ()));
+      dashboard.datasetGroup("drivetrain")
+          .addDataset(new TimeSeriesNumeric<>(
+              "Angular Position",
+              () -> hardware.drivetrainHardware.mainGyro().currentPosition().valueZ()));
 
-    RobotConstants.dashboard().datasetGroup("shooter")
-        .addDataset((new TimeSeriesNumeric<>(
-            "Front Wheel RPM",
-            () -> hardware.shooterHardware().frontHallEffect.getRPM())));
+      dashboard.datasetGroup("shooter")
+          .addDataset((new TimeSeriesNumeric<>(
+              "Front Wheel RPM",
+              () -> hardware.shooterSpinnersHardware.frontHallEffect.getRPM())));
 
-    RobotConstants.dashboard().datasetGroup("shooter")
-        .addDataset((new TimeSeriesNumeric<>(
-            "Back Wheel RPM",
-            () -> hardware.shooterHardware().backHallEffect.getRPM())));
+      dashboard.datasetGroup("shooter")
+          .addDataset((new TimeSeriesNumeric<>(
+              "Back Wheel RPM",
+              () -> hardware.shooterSpinnersHardware.backHallEffect.getRPM())));
 
-    RobotConstants.dashboard().datasetGroup("shooter")
-        .addDataset((new TimeSeriesNumeric<>(
-            "Proximity Sensor Average Value",
-            () -> hardware.shooterHardware().proximitySensor.getAverageValue())));
+      dashboard.datasetGroup("shooter")
+          .addDataset((new TimeSeriesNumeric<>(
+              "Proximity Sensor Average Value",
+              () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
 
-    RobotConstants.dashboard().datasetGroup("shooter")
-        .addDataset((new TimeSeriesNumeric<>(
-            "Proximity Sensor Average Voltage",
-            () -> hardware.shooterHardware().proximitySensor.getAverageVoltage())));
+      dashboard.datasetGroup("shooter")
+          .addDataset((new TimeSeriesNumeric<>(
+              "Proximity Sensor Average Voltage",
+              () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+    });
+
+
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(

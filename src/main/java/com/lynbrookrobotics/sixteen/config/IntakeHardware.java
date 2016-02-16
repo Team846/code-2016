@@ -20,8 +20,8 @@ public class IntakeHardware {
    */
   public IntakeHardware(VariableConfiguration configuration) {
     this(
-        new Jaguar(configuration.intakePorts().rightPort),
-        new Jaguar(configuration.intakePorts().leftPort)
+        new Jaguar(configuration.intakePorts.rightPort),
+        new Jaguar(configuration.intakePorts.leftPort)
     );
   }
 }

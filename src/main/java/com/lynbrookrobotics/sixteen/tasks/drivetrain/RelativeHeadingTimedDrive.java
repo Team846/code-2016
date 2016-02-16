@@ -45,7 +45,7 @@ public class RelativeHeadingTimedDrive extends FiniteTask {
         () -> forward.apply((endTime - System.currentTimeMillis()) / (double) duration);
     controller = new DriveOnHeadingController(
         relativeHeading
-            + hardware.drivetrainHardware().mainGyro().currentPosition().valueZ(),
+            + hardware.drivetrainHardware.mainGyro().currentPosition().valueZ(),
         progressForward, hardware);
     drivetrain.setController(controller);
     endTime = System.currentTimeMillis() + duration;
