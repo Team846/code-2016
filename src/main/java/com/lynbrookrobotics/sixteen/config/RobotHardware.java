@@ -33,7 +33,7 @@ public class RobotHardware {
     this(
         new DrivetrainHardware(config),
         new ShooterSpinnersHardware(config),
-        new ShooterArmHardware(config),
+        null, //new ShooterArmHardware(config),
         null // new IntakeHardware(config)
     );
   }

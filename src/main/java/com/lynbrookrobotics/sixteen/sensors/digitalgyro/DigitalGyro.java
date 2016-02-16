@@ -46,14 +46,13 @@ public abstract class DigitalGyro {
     }
 
     Value3D previousVelocity = currentVelocity;
-    currentVelocity = retrieveVelocity();
-    currentVelocity.plusMutable(currentDrift.valueX(), currentDrift.valueY(), currentDrift.valueZ());
-
-    currentPosition.plusMutable(
-        trapaziodalIntegration(currentVelocity.valueX(), previousVelocity.valueX()),
-        trapaziodalIntegration(currentVelocity.valueY(), previousVelocity.valueY()),
-        trapaziodalIntegration(currentVelocity.valueZ(), previousVelocity.valueZ())
-    );
+    currentVelocity = retrieveVelocity().plus(currentDrift);
+    currentPosition = currentPosition
+        .plus(new Value3D(
+            trapaziodalIntegration(currentVelocity.valueX(), previousVelocity.valueX()),
+            trapaziodalIntegration(currentVelocity.valueY(), previousVelocity.valueY()),
+            trapaziodalIntegration(currentVelocity.valueZ(), previousVelocity.valueZ())
+        ));
   }
 
   public Value3D currentPosition() {

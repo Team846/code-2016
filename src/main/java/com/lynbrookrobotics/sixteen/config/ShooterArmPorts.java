@@ -22,7 +22,7 @@ public class ShooterArmPorts {
 
   public ShooterArmPorts(Config config) {
     this(
-        config.getInt("arm-motor-port"),
+        config.getInt("motor-port"),
         config.getInt("pot-port")
     );
   }

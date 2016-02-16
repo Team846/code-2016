@@ -31,16 +31,17 @@ public class CoreRobot {
    * Sets up tick function with timer.
    */
   public CoreRobot() {
-    Notifier componentNotifier = new Notifier(() -> {
+    Notifier componentNotifier = new Notifier(Component::updateComponents);
+    componentNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
+
+    Notifier gyroNotifier = new Notifier(() ->  {
       if (!events.initialCalibrationDone) {
         hardware.drivetrainHardware.mainGyro().calibrateUpdate();
       } else {
         hardware.drivetrainHardware.mainGyro().angleUpdate();
       }
-
-      Component.updateComponents();
     });
-    componentNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
+    gyroNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
 
     Notifier slowNotifier = new Notifier(() -> {
       Event.updateEvents();

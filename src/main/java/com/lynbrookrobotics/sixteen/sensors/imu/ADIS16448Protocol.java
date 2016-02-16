@@ -36,7 +36,7 @@ class ADIS16448Protocol {
 
   public ADIS16448Protocol() {
     spi = new ConstantBufferSPI(SPI.Port.kMXP, 2);
-    spi.setClockRate(2000000); // TODO: check if this is a random number
+    spi.setClockRate(3000000); // TODO: check if this is a random number
     spi.setMSBFirst();
     spi.setSampleDataOnFalling();
     spi.setClockActiveLow();
@@ -52,17 +52,18 @@ class ADIS16448Protocol {
     Registers.SENS_AVG.write(0b10000000000, spi); // TODO: Magic Number
   }
 
-  private static final byte[] X_GYRO_OUT = new byte[]{X_GYRO_REG, 0};
-  private static final byte[] Y_GYRO_OUT = new byte[]{Y_GYRO_REG, 0};
-  private static final byte[] Z_GYRO_OUT = new byte[]{Z_GYRO_REG, 0};
+  private ByteBuffer outBuffer = ByteBuffer.allocateDirect(2);
+  private ByteBuffer inBuffer = ByteBuffer.allocateDirect(2);
 
-  private short readGyroRegister(byte[] outData) {
-    byte[] gyroData = new byte[2];
-    spi.write(outData, 2);
-    spi.read(false, gyroData, 2);
-    ByteBuffer gyroBuffer = ByteBuffer.wrap(gyroData);
+  private short readGyroRegister(byte register) {
+    outBuffer.put(0, register);
+    outBuffer.put(1, (byte) 0);
+    spi.write(outBuffer, 2);
 
-    return gyroBuffer.getShort();
+    inBuffer.clear();
+    spi.read(false, inBuffer, 2);
+
+    return inBuffer.getShort();
   }
 
   /**
@@ -70,9 +71,9 @@ class ADIS16448Protocol {
    */
   public IMUValue currentData() {
     Value3D gyro = new Value3D(
-        readGyroRegister(X_GYRO_OUT),
-        readGyroRegister(Y_GYRO_OUT),
-        readGyroRegister(Z_GYRO_OUT)
+        readGyroRegister(X_GYRO_REG),
+        readGyroRegister(Y_GYRO_REG),
+        readGyroRegister(Z_GYRO_REG)
     ).times(Constants.DegreePerSecondPerLSB);
 
     // TODO: kalman calculation?
