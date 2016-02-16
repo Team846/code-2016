@@ -3,34 +3,35 @@ package com.lynbrookrobotics.sixteen.components.shooter.spinners;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
-public class SpinnersSpeedController extends ShooterSpinnersController {
-  PID frontPID;
-  PID backPID;
+import static com.lynbrookrobotics.sixteen.config.constants.ShooterSpinnersConstants.*;
 
-  double maxRPM = 8328.128253175099;
-  double targetRPM;
+public class SpinnersSpeedController extends ShooterSpinnersController {
+  private PID frontPID;
+  private PID backPID;
+
+  private double targetRPM;
 
   public SpinnersSpeedController(double targetRPM, RobotHardware hardware) {
     this.backPID = new PID(
-        () -> hardware.shooterSpinnersHardware.backHallEffect.getRPM(),
+        hardware.shooterSpinnersHardware.backHallEffect::getRPM,
         targetRPM
-    ).withP(1D / 8000).withI(8D / 125, 0.9);
+    ).withP(P_GAIN).withI(I_GAIN, I_MEMORY);
 
     this.frontPID = new PID(
-        () -> hardware.shooterSpinnersHardware.frontHallEffect.getRPM(),
+        hardware.shooterSpinnersHardware.frontHallEffect::getRPM,
         targetRPM
-    ).withP(1D / 8000).withI(8D / 125, 0.9);
+    ).withP(P_GAIN).withI(I_GAIN, I_MEMORY);
 
     this.targetRPM = targetRPM;
   }
 
   @Override
   public double shooterSpeedBack() {
-    return (targetRPM / maxRPM) + backPID.get();
+    return (targetRPM / MAX_RPM) + backPID.get();
   }
 
   @Override
   public double shooterSpeedFront() {
-    return (targetRPM / maxRPM) + frontPID.get();
+    return (targetRPM / MAX_RPM) + frontPID.get();
   }
 }
