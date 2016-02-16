@@ -136,7 +136,7 @@ public class CoreEvents {
 
     // Drivetrain
     autonomousStateEvent.forEach(() -> {
-      return new FixedTime(10000).andUntilDone(new SpinAtRPM(1000, shooterSpinners, hardware));
+      return new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterSpinners, hardware));
 //      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
 //      return new AbsoluteHeadingTimedDrive(3500,
 //                                           trapezoidalCurve(0.3, 1.5),
@@ -200,10 +200,6 @@ public class CoreEvents {
     );
 
     // Abort on button press
-    abortTaskEvent.forEach(
-        () -> {
-          Task.abortCurrentTask();
-        }
-    );
+    abortTaskEvent.forEach(Task::abortCurrentTask);
   }
 }
