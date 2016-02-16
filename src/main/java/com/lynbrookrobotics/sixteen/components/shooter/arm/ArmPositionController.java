@@ -3,6 +3,12 @@ package com.lynbrookrobotics.sixteen.components.shooter.arm;
 import java.util.function.Supplier;
 
 public abstract class ArmPositionController extends ArmController {
+  /**
+   * Creates an ArmAngleController that tries to maintain the angle of the shooter arm.
+   *
+   * @param potPosition a supplier giving the desired potentiometer position of the shooter arm
+   * @return the controller
+   */
   public static ArmPositionController of(Supplier<Integer> potPosition) {
     return new ArmPositionController() {
       @Override

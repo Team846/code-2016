@@ -16,6 +16,11 @@ public class ShooterArmHardware {
     this.armPoteniomenter = armPoteniomenter;
   }
 
+  /**
+   * Constructs a ShooterArmHardware given a configuration object.
+   *
+   * @param config the config to use
+   */
   public ShooterArmHardware(VariableConfiguration config) {
     this(
 //      new Talon(),

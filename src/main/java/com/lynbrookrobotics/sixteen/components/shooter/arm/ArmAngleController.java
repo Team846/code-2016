@@ -3,6 +3,13 @@ package com.lynbrookrobotics.sixteen.components.shooter.arm;
 import java.util.function.Supplier;
 
 public abstract class ArmAngleController extends ArmPositionController {
+
+  /**
+   * Creates an ArmAngleController that tries to maintain the angle of the shooter arm.
+   *
+   * @param armAngle a supplier gi  ving the desired angle of the shooter arm
+   * @return the controller
+   */
   public static ArmAngleController of(Supplier<Integer> armAngle) {
     int calculatedPotPosition = 0;
 
@@ -19,7 +26,7 @@ public abstract class ArmAngleController extends ArmPositionController {
   }
 
   /**
-   * Gets the normalized speed that the arm motor should spin at to reach the angle
+   * Gets the normalized speed that the arm motor should spin at to reach the angle.
    *
    * @return the motor power output calculated by the arm control loop
    */
