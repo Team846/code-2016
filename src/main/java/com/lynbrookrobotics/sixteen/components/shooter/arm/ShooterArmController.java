@@ -12,7 +12,7 @@ public abstract class ShooterArmController {
   public static ShooterArmController of(Supplier<Double> crankSpeed) {
     return new ShooterArmController() {
       @Override
-      public double crankMotorSpeed() {
+      public double armMotorSpeed() {
         return crankSpeed.get();
       }
     };
@@ -21,5 +21,5 @@ public abstract class ShooterArmController {
   /**
    * Gets the current speed of the crank motor as a normalized value
    */
-  public abstract double crankMotorSpeed();
+  public abstract double armMotorSpeed();
 }
