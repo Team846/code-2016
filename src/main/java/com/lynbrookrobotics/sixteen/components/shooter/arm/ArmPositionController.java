@@ -14,6 +14,7 @@ public abstract class ArmPositionController extends ArmController {
 
   /**
    * Gets the normalized speed that the arm motor should spin at
+   *
    * @return the motor power output calculated by the arm control loop
    */
   public abstract double calculatedMotorSpeed();
