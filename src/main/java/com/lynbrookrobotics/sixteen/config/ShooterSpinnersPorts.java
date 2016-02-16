@@ -6,12 +6,12 @@ import com.typesafe.config.Config;
  * All of the ports for shooter wheels.
  */
 public class ShooterSpinnersPorts {
-  private int frontWheelPort;
-  private int backWheelPort;
-  private int frontHallPort;
-  private int backHallPort;
-  private int proximityPort;
-  private int potentiometerPort;
+  public final int frontWheelPort;
+  public final int backWheelPort;
+  public final int frontHallPort;
+  public final int backHallPort;
+  public final int proximityPort;
+  public final int potentiometerPort;
 
   /**
    * Constructors for ShooterPorts.
@@ -48,31 +48,5 @@ public class ShooterSpinnersPorts {
         config.getInt("proximity-port"),
         config.getInt("pot-port")
     );
-  }
-
-
-  public int portFrontWheel() {
-    return frontWheelPort;
-  }
-
-  public int portBackWheel() {
-
-    return backWheelPort;
-  }
-
-  public int portFrontHall() {
-    return frontHallPort;
-  }
-
-  public int portBackHall() {
-    return backHallPort;
-  }
-
-  public int portProximity() {
-    return proximityPort;
-  }
-
-  public int potentiometerPort() {
-    return potentiometerPort;
   }
 }

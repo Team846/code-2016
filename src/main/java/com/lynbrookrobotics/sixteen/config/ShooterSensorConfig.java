@@ -6,7 +6,7 @@ import com.typesafe.config.Config;
  * A config class for the sensers used by the shooter
  */
 public class ShooterSensorConfig {
-  private double potOffset;
+  public final double potOffset;
 
   public ShooterSensorConfig(double potOffset) {
     this.potOffset = potOffset;
@@ -17,9 +17,4 @@ public class ShooterSensorConfig {
          config.getDouble("pot-offset")
      );
   }
-
-  public  double getPotOffset() {
-    return potOffset;
-  }
-
 }

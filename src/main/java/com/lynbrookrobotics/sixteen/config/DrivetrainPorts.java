@@ -6,10 +6,10 @@ import com.typesafe.config.Config;
  * Contains ports for all 4 drivetrain motors.
  */
 public class DrivetrainPorts {
-  private int portFrontLeft;
-  private int portFrontRight;
-  private int portBackLeft;
-  private int portBackRight;
+  public final int portFrontLeft;
+  public final int portFrontRight;
+  public final int portBackLeft;
+  public final int portBackRight;
 
   /**
    * Constructs a set of drivetrain ports.
@@ -39,21 +39,5 @@ public class DrivetrainPorts {
         config.getInt("back-left-port"),
         config.getInt("back-right-port")
     );
-  }
-
-  public int portFrontLeft() {
-    return portFrontLeft;
-  }
-
-  public int portFrontRight() {
-    return portFrontRight;
-  }
-
-  public int portBackLeft() {
-    return portBackLeft;
-  }
-
-  public int portBackRight() {
-    return portBackRight;
   }
 }

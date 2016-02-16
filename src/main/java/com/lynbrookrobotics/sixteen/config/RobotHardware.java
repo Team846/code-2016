@@ -6,9 +6,9 @@ package com.lynbrookrobotics.sixteen.config;
  * components and their respected getters.
  */
 public class RobotHardware {
-  DrivetrainHardware drivetrainHardware;
-  ShooterSpinnersHardware shooterSpinnersHardware;
-  IntakeHardware intakeHardware;
+  public final DrivetrainHardware drivetrainHardware;
+  public final ShooterSpinnersHardware shooterSpinnersHardware;
+  public final IntakeHardware intakeHardware;
 
   /**
    * Constructs a RobotHardware given the individual hardware classes.
@@ -31,17 +31,5 @@ public class RobotHardware {
         new ShooterSpinnersHardware(config),
         null // new IntakeHardware(config)
     );
-  }
-
-  public DrivetrainHardware drivetrainHardware() {
-    return drivetrainHardware;
-  }
-
-  public ShooterSpinnersHardware shooterHardware() {
-    return shooterSpinnersHardware;
-  }
-
-  public IntakeHardware intakeHardware() {
-    return intakeHardware;
   }
 }
