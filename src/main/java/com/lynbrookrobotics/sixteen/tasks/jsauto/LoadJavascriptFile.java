@@ -2,6 +2,7 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
@@ -26,18 +27,21 @@ public class LoadJavascriptFile {
    * @param script   a Reader associated with the source of the JavaScript program
    * @param hardware the robot's hardware
    * @param drive    the robot's drivetrain
+   * @param spinners the robot's shooter spinners
    * @return the FiniteTask constructed by the JavaScript program
    */
   public static FiniteTask loadReader(BufferedReader script,
                                       RobotHardware hardware,
-                                      Drivetrain drive) {
+                                      Drivetrain drive,
+                                      ShooterSpinners spinners) {
     // TODO: load task list and expose in JS scope
     try {
       Context ctx = Context.enter();
       Scriptable scope = ctx.initStandardObjects();
 
       scope.put("robotHardware", scope, hardware);
-      scope.put("driveTrain", scope, drive);
+      scope.put("drivetrain", scope, drive);
+      scope.put("shooterSpinners", scope, spinners);
 
       // add task classes to javascript scope
       for (Class task : RobotConstants.taskList) {
@@ -64,10 +68,14 @@ public class LoadJavascriptFile {
    * @param path     the string form of the path
    * @param hardware the robot's hardware
    * @param drive    the robot's drivetrain
+   * @param spinners the robot's shooter spinners
    * @return the FiniteTask constructed by the JavaScript program
    */
-  public static FiniteTask loadStringPath(String path, RobotHardware hardware, Drivetrain drive) {
-    return loadPath(Paths.get(path), hardware, drive);
+  public static FiniteTask loadStringPath(String path,
+                                          RobotHardware hardware,
+                                          Drivetrain drive,
+                                          ShooterSpinners spinners) {
+    return loadPath(Paths.get(path), hardware, drive, spinners);
   }
 
   /**
@@ -77,11 +85,23 @@ public class LoadJavascriptFile {
    * @param path     the {@link Path} representing the location of the JavaScript source file
    * @param hardware the robot's hardware
    * @param drive    the robot's drivetrain
+   * @param spinners the robot's shooter spinners
    * @return the FiniteTask constructed by the JavaScript program
    */
-  public static FiniteTask loadPath(Path path, RobotHardware hardware, Drivetrain drive) {
+  public static FiniteTask loadPath(Path path,
+                                    RobotHardware hardware,
+                                    Drivetrain drive,
+                                    ShooterSpinners spinners) {
     try {
-      return loadReader(Files.newBufferedReader(path, StandardCharsets.UTF_8), hardware, drive);
+      return loadReader(
+          Files.newBufferedReader(
+              path,
+              StandardCharsets.UTF_8
+          ),
+          hardware,
+          drive,
+          spinners
+      );
     } catch (IOException exception) {
       exception.printStackTrace();
       return null;
@@ -94,10 +114,19 @@ public class LoadJavascriptFile {
    * @param script   the source of the JavaScript program
    * @param hardware the robot's hardware
    * @param drive    the robot's drivetrain
+   * @param spinners the robot's shooter spinners
    * @return the FiniteTask constructed by the JavaScript program
    */
-  public static FiniteTask loadString(String script, RobotHardware hardware, Drivetrain drive) {
-    return loadReader(new BufferedReader(new StringReader(script)), hardware, drive);
+  public static FiniteTask loadString(String script,
+                                      RobotHardware hardware,
+                                      Drivetrain drive,
+                                      ShooterSpinners spinners) {
+    return loadReader(
+        new BufferedReader(new StringReader(script)),
+        hardware,
+        drive,
+        spinners
+    );
   }
 
   /**
@@ -107,10 +136,14 @@ public class LoadJavascriptFile {
    * @param scriptName the name of the JavaScript script to be executed
    * @param hardware   the robot's hardware
    * @param drive      the robot's drivetrain
+   * @param spinners the robot's shooter spinners
    * @return the FiniteTask constructed by the JavaScript program
    */
-  public static FiniteTask loadScript(String scriptName, RobotHardware hardware, Drivetrain drive) {
+  public static FiniteTask loadScript(String scriptName,
+                                      RobotHardware hardware,
+                                      Drivetrain drive,
+                                      ShooterSpinners spinners) {
     // TODO: prefix scripts location to scriptName
-    return loadStringPath(scriptName, hardware, drive);
+    return loadStringPath(scriptName, hardware, drive, spinners);
   }
 }
