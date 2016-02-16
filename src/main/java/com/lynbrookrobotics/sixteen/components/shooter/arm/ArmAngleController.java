@@ -7,7 +7,7 @@ public abstract class ArmAngleController extends ArmPositionController {
   /**
    * Creates an ArmAngleController that tries to maintain the angle of the shooter arm.
    *
-   * @param armAngle a supplier gi  ving the desired angle of the shooter arm
+   * @param armAngle a supplier giving the desired angle of the shooter arm
    * @return the controller
    */
   public static ArmAngleController of(Supplier<Integer> armAngle) {
