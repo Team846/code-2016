@@ -8,7 +8,7 @@ package com.lynbrookrobotics.sixteen.config;
 public class RobotHardware {
   public final DrivetrainHardware drivetrainHardware;
   public final ShooterSpinnersHardware shooterSpinnersHardware;
-  public final IntakeHardware intakeHardware;
+  public final IntakeRollerHardware intakeRollerHardware;
   public final ShooterArmHardware shooterArmHardware;
 
   /**
@@ -17,11 +17,11 @@ public class RobotHardware {
   public RobotHardware(DrivetrainHardware drivetrainHardware,
                        ShooterSpinnersHardware shooterSpinnersHardware,
                        ShooterArmHardware shooterArmHardware,
-                       IntakeHardware intakeHardware) {
+                       IntakeRollerHardware intakeRollerHardware) {
     this.drivetrainHardware = drivetrainHardware;
     this.shooterSpinnersHardware = shooterSpinnersHardware;
     this.shooterArmHardware = shooterArmHardware;
-    this.intakeHardware = intakeHardware;
+    this.intakeRollerHardware = intakeRollerHardware;
   }
 
   /**
@@ -34,7 +34,7 @@ public class RobotHardware {
         new DrivetrainHardware(config),
         new ShooterSpinnersHardware(config),
         null, //new ShooterArmHardware(config),
-        null // new IntakeHardware(config)
+        null // new IntakeRollerHardware(config)
     );
   }
 }
