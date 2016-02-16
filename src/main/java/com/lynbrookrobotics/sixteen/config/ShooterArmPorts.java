@@ -6,17 +6,17 @@ import com.typesafe.config.Config;
  * All of the ports for the shooter arm
  */
 public class ShooterArmPorts {
-  private int armMotorPort;
-  private int potentiometerPort;
+  public final int motorPort;
+  public final int potentiometerPort;
 
   /**
    * Constructor for ShooterArmPorts
-   * @param armMotorPort      arm motor (crank) port
+   * @param motorPort      arm motor (crank) port
    * @param potentiometerPort potentiometer port
    */
-  public ShooterArmPorts(int armMotorPort,
+  public ShooterArmPorts(int motorPort,
                          int potentiometerPort) {
-    this.armMotorPort = armMotorPort;
+    this.motorPort = motorPort;
     this.potentiometerPort = potentiometerPort;
   }
 
@@ -26,8 +26,4 @@ public class ShooterArmPorts {
         config.getInt("pot-port")
     );
   }
-
-  public int armMotorPort() { return armMotorPort; }
-
-  public int potentiometerPort() { return potentiometerPort; }
 }

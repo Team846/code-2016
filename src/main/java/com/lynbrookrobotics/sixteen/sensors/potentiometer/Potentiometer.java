@@ -13,11 +13,11 @@ public class Potentiometer {
   /**
    * Class for a ten turn potentiometer.
    * @param channel The input channel of the pot on the roborio's analog input
-   * @param offSet The value by which the potentiometer's values are offset by
+   * @param offset The value by which the potentiometer's values are offset by
    */
-  public Potentiometer(int channel,  double offSet) {
+  public Potentiometer(int channel, double offset) {
     this.input = new AnalogInput(channel);
-    this.offset = offSet;
+    this.offset = offset;
   }
 
   /**

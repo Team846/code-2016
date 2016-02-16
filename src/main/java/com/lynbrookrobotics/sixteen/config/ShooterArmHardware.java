@@ -2,12 +2,11 @@ package com.lynbrookrobotics.sixteen.config;
 
 import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterArmHardware {
   public final Talon armMotor;
-  public final Potentiometer potentiometer; // TODO: change object to potentiometer
+  public final Potentiometer potentiometer;
 
   /**
    * Constructs a new default ShooterArmHardware object given the interfaces.
@@ -25,10 +24,11 @@ public class ShooterArmHardware {
    */
   public ShooterArmHardware(VariableConfiguration config) {
     this(
-//      new Talon(),
-//      new Object()
-        null,
-        null // TODO: create port assignments once we have a robot
+      new Talon(config.shooterArmPorts.motorPort),
+      new Potentiometer(
+          config.shooterArmPorts.potentiometerPort,
+          config.shooterSensorConfig.potOffset
+      )
     );
   }
 }
