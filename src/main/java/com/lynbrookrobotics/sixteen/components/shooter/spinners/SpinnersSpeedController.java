@@ -25,6 +25,10 @@ public class SpinnersSpeedController extends ShooterSpinnersController {
     this.targetRPM = targetRPM;
   }
 
+  public double difference() {
+    return (frontPID.difference() + backPID.difference())/2;
+  }
+
   @Override
   public double shooterSpeedBack() {
     return (targetRPM / MAX_RPM) + backPID.get();
