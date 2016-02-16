@@ -23,10 +23,8 @@ public class DrivetrainHardware {
   private CANTalon backLeftTalon;
   private CANTalon backRightTalon;
 
-  private Encoder frontLeftEncoder;
-  private Encoder frontRightEncoder;
-  private Encoder backLeftEncoder;
-  private Encoder backRightEncoder;
+  private Encoder leftEncoder;
+  private Encoder rightEncoder;
 
   private GyroL3GD20H gyro;
   private ADIS16448 imu;
@@ -55,10 +53,8 @@ public class DrivetrainHardware {
     this.backLeftTalon = backLeftTalon();
     this.backRightTalon = backRightTalon;
 
-    this.frontLeftEncoder = Encoder.talonEncoder(frontLeftTalon);
-    this.frontRightEncoder = Encoder.talonEncoder(frontRightTalon);
-    this.backLeftEncoder = Encoder.talonEncoder(backLeftTalon);
-    this.backRightEncoder = Encoder.talonEncoder(backRightTalon);
+    this.leftEncoder = Encoder.talonEncoder(frontLeftTalon);
+    this.rightEncoder = Encoder.talonEncoder(frontRightTalon);
 
     this.gyro = gyro;
     this.imu = imu;
@@ -123,19 +119,12 @@ public class DrivetrainHardware {
     return backLeftTalon;
   }
 
-  public Encoder getFrontLeftEncoder() {
-    return frontLeftEncoder;
+  public Encoder getLeftEncoder() {
+    return leftEncoder;
   }
 
-  public Encoder getFrontRightEncoder() {
-    return frontRightEncoder;
+  public Encoder getRightEncoder() {
+    return rightEncoder;
   }
 
-  public Encoder getBackLeftEncoder() {
-    return backLeftEncoder;
-  }
-
-  public Encoder getBackRightEncoder() {
-    return backRightEncoder;
-  }
 }
