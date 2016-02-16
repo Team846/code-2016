@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.components.shooter.arm;
 import java.util.function.Supplier;
 
 /**
- * The controller for the shooter arm component
+ * The controller for the shooter arm component.
  */
 public abstract class ShooterArmController {
   /**
@@ -19,7 +19,7 @@ public abstract class ShooterArmController {
   }
 
   /**
-   * Gets the current speed of the crank motor as a normalized value
+   * Gets the current speed of the crank motor as a normalized value.
    */
   public abstract double armMotorSpeed();
 }
