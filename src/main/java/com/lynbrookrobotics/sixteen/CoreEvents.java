@@ -125,22 +125,16 @@ public class CoreEvents {
     CameraServer.getInstance().startAutomaticCapture(camera);
 
     // Drivetrain
-
     RobotConstants.dashboard.thenAccept(dashboard -> {
       dashboard.datasetGroup("shooter")
           .addDataset(new TimeSeriesNumeric<>(
               "Potentiometer Average Voltage",
               () -> hardware.shooterArmHardware.potentiometer.getAngle()));
     });
-//      double currentAngle = hardware.drivetrainHardware().mainGyro().currentPosition().valueZ();
-//      return new AbsoluteHeadingTimedDrive(3500,
-//                                           trapezoidalCurve(0.3, 1.5),
-//                                           currentAngle + 0,
-//                                           hardware, drivetrain)
-//          .then(new AbsoluteHeadingTimedDrive(3000,
-//                                              trapezoidalCurve(0.3, 1.5),
-//                                              currentAngle + 45,
-//                                              hardware, drivetrain));
+
+    autonomousStateEvent.forEach(
+      new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterSpinners, hardware))
+    );
 
     autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
 
