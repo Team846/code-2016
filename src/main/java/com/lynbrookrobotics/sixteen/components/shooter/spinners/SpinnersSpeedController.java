@@ -25,6 +25,10 @@ public class SpinnersSpeedController extends ShooterSpinnersController {
     this.targetRPM = targetRPM;
   }
 
+  public double error() {
+    return flywheelPID.difference();
+  }
+
   @Override
   public double shooterSpeed() {
     return (targetRPM / ShooterSpinnersConstants.MAX_RPM) + flywheelPID.get();
