@@ -5,13 +5,15 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
-import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.EcmaError;
 
 public class LoadJavascriptFileTest {
 
+  private ErrorCollector collector = new ErrorCollector();
   private static String correctCode = "new TurnByAngle(137.3, robotHardware, drivetrain);";
-  private static String incorrectCode = "new TurnByAngle(137.3, drivetrain, robotHardware);";
+  private static String incorrectCode = "new TurnByAngle(137.3, robotHardware, Drivetrain);";
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -29,7 +31,7 @@ public class LoadJavascriptFileTest {
 
   }
 
-  @Test(expected = EvaluatorException.class)
+  @Test(expected = EcmaError.class)
   public void testLoadStringIncorrect() {
     LoadJavascriptFile loader = new LoadJavascriptFile();
     String result = loader.loadString(incorrectCode, hardware, drivetrain, spinners).toString();
