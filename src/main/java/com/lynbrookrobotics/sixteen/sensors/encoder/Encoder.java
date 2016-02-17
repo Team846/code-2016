@@ -30,7 +30,7 @@ public abstract class Encoder {
        * @return The position of the encoder in degrees
        */
       @Override
-      public double getPosition() {
+      public double getAngle() {
         return talon.getPosition() * conversionFactor;
       }
     };
@@ -46,5 +46,5 @@ public abstract class Encoder {
    *  Returns the position of the encoder in degrees.
    * @return The position of the encoder in degrees
    */
-  public abstract double getPosition();
+  public abstract double getAngle();
 }

@@ -1,20 +1,30 @@
 package com.lynbrookrobotics.sixteen.config;
 
-import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
+import com.lynbrookrobotics.sixteen.sensors.planetaryencoder.PlanetaryEncoder;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CANTalon;
 
 public class ShooterArmHardware {
-  public final Talon armMotor;
-  public final Potentiometer potentiometer;
+  public final CANTalon armMotor;
+  public final PlanetaryEncoder encoder;
 
   /**
    * Constructs a new default ShooterArmHardware object given the interfaces.
    */
-  public ShooterArmHardware(Talon armMotor,
-                            Potentiometer potentiometer) {
+  public ShooterArmHardware(CANTalon armMotor,
+                            PlanetaryEncoder encoder) {
     this.armMotor = armMotor;
-    this.potentiometer = potentiometer;
+    this.encoder = encoder;
+  }
+
+  /**
+   * Constructs a new default ShooterArmHardware object given the interfaces.
+   */
+  public ShooterArmHardware(CANTalon armMotor) {
+    this(
+        armMotor,
+        new PlanetaryEncoder(armMotor)
+    );
   }
 
   /**
@@ -23,12 +33,6 @@ public class ShooterArmHardware {
    * @param config the config to use
    */
   public ShooterArmHardware(VariableConfiguration config) {
-    this(
-      new Talon(config.shooterArmPorts.motorPort),
-      new Potentiometer(
-          config.shooterArmPorts.potentiometerPort,
-          config.shooterSensorConfig.potOffset
-      )
-    );
+    this( new CANTalon(config.shooterArmPorts.motorPort));
   }
 }

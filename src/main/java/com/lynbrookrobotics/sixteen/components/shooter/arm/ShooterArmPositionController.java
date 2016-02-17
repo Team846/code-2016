@@ -29,7 +29,7 @@ public abstract class ShooterArmPositionController extends ShooterArmController 
    */
   @Override
   public double armMotorSpeed() {
-    currentPosition = (int) hardware.shooterArmHardware.potentiometer.getAngle();
+    currentPosition = (int) hardware.shooterArmHardware.encoder.getAngle();
     return pid.get() * ShooterArmConstants.CONVERSION_FACTOR;
   }
 }
