@@ -1,73 +1,38 @@
 package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
-import org.junit.Test;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import static org.junit.Assert.*;
+import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 
-/**
- * Created by Aubhro Sengupta on 2/13/16. This class is meant to test all the methods in LoadJavaScriptFile class.
- */
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mozilla.javascript.EvaluatorException;
+
 public class LoadJavascriptFileTest {
 
-  @Test
-  public void testLoadReader() throws Exception {
+  private static String correctCode = "new TurnByAngle(137.3, robotHardware, driveTrain);";
+  private static String incorrectCode = "new TurnByAngle(137.3, driveTrain, robotHardware);";
 
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
+  RobotHardware hardware = new RobotHardware(null, null, null);
+  Drivetrain drivetrain = new Drivetrain(hardware, null);
+
+  @Test
+  public void testLoadStringCorrect() {
     LoadJavascriptFile loader = new LoadJavascriptFile();
-    InputStream stream;
-    InputStreamReader reader;
-    BufferedReader readerFile = null;
-
-    File jsFile = new File("correct.js");
-
-    try{
-      stream = new FileInputStream(jsFile.getAbsolutePath());
-      reader = new InputStreamReader(stream);
-      readerFile = new BufferedReader(reader);
-
-    } catch(Exception err){
-      System.out.println("File not found");
-      err.printStackTrace();
-    }
-
-    String result = loader.loadReader(readerFile, null , null).toString().substring(0,57);
-    assertEquals("Result:", "com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle", result );
+    String result = loader.loadString(correctCode, null , null).toString();
+    assert result.startsWith("com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle");
 
 
   }
 
-  @Test
-  public void testLoadStringPath() throws Exception {
+  @Test(expected = EvaluatorException.class)
+  public void testLoadStringIncorrect() {
     LoadJavascriptFile loader = new LoadJavascriptFile();
-    File jsFile = new File("correct.js");
-
-    String result = loader.loadStringPath(jsFile.getAbsolutePath(), null , null).toString().substring(0,57);
-    assertEquals("Result:", "com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle", result );
-
-  }
-
-  @Test
-  public void testLoadPath() throws Exception {
-    LoadJavascriptFile loader = new LoadJavascriptFile();
-    Path jsFile = Paths.get("correct.js");
-
-    String result = loader.loadPath(jsFile, null , null).toString().substring(0,57);
-    assertEquals("Result:", "com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle", result );
-
-  }
-
-  @Test
-  public void testLoadString() throws Exception {
-    //TODO: Test LoadString()
-  }
-
-  @Test
-  public void testLoadScript() throws Exception {
-    //TODO: Test LoadScript()
+    String result = loader.loadString(incorrectCode, hardware , drivetrain).toString();
+    assert result.startsWith("com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle");
   }
 }
