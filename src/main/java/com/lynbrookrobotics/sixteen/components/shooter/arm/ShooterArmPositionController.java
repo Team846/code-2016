@@ -2,7 +2,6 @@ package com.lynbrookrobotics.sixteen.components.shooter.arm;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
-import com.lynbrookrobotics.sixteen.config.constants.ShooterSpinnersConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 public abstract class ShooterArmPositionController extends ShooterArmController {

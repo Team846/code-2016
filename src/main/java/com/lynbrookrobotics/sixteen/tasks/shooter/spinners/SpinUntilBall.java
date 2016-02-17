@@ -4,30 +4,25 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants;
 import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
 public class SpinUntilBall extends FiniteTask {
-
-  double distance;
   ProximitySensor sensor;
   ShooterFlywheelController controller;
   ShooterFlywheel shooterFlywheel;
 
   /**
    * Task that spins until proximity sensor detects a ball.
-   * @param distance Distance at which proximity sensor detects ball.
-   * @param velocity How fast the motors should spin
    * @param hardware Robot Hardware
    * @param shooterFlywheel Shooter spinners component
    */
-  public SpinUntilBall(double distance,
-                       double velocity,
-                       RobotHardware hardware,
+  public SpinUntilBall(RobotHardware hardware,
                        ShooterFlywheel shooterFlywheel) {
-    this.distance = distance;
     this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
     this.controller = ShooterFlywheelController.of(
-        () -> velocity); //TODO: Change velocity to a constant
+        () -> ShooterFlywheelConstants.INTAKE_POWER);
     this.shooterFlywheel = shooterFlywheel;
   }
 
@@ -39,7 +34,7 @@ public class SpinUntilBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if (sensor.getAverageVoltage() <= distance) {
+    if (sensor.getAverageVoltage() <= ShooterConstants.BALL_PROXIMITY_THRESHOLD) {
       finished();
     }
   }

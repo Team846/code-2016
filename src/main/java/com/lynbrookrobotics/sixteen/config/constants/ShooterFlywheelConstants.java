@@ -1,6 +1,6 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
-public class ShooterSpinnersConstants {
+public class ShooterFlywheelConstants {
   public static final double P_GAIN = 1D / 8000;
 
   public static final double I_GAIN = 8D / 125;
@@ -11,4 +11,6 @@ public class ShooterSpinnersConstants {
   public static final double THRESHOLD_RPM = 50;
 
   public static final double SHOOT_RPM = 2000;
+
+  public static final double INTAKE_POWER = 0.2;
 }
