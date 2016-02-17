@@ -2,7 +2,7 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.FlywheelShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.IntakeRollerHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
@@ -41,7 +41,7 @@ public class JSValidator extends JFrame {
   );
 
   private Drivetrain drivetrain = new Drivetrain(robotHardware);
-  private ShooterSpinners spinners = new ShooterSpinners(robotHardware);
+  private FlywheelShooterSpinners spinners = new FlywheelShooterSpinners(robotHardware);
 
   private FileSelector fileSelector = new FileSelector();
   private JTextArea validationOutput;

@@ -2,7 +2,7 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.FlywheelShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
@@ -33,7 +33,7 @@ public class LoadJavascriptFile {
   public static FiniteTask loadReader(BufferedReader script,
                                       RobotHardware hardware,
                                       Drivetrain drive,
-                                      ShooterSpinners spinners) {
+                                      FlywheelShooterSpinners spinners) {
     // TODO: load task list and expose in JS scope
     try {
       Context ctx = Context.enter();
@@ -74,7 +74,7 @@ public class LoadJavascriptFile {
   public static FiniteTask loadStringPath(String path,
                                           RobotHardware hardware,
                                           Drivetrain drive,
-                                          ShooterSpinners spinners) {
+                                          FlywheelShooterSpinners spinners) {
     return loadPath(Paths.get(path), hardware, drive, spinners);
   }
 
@@ -91,7 +91,7 @@ public class LoadJavascriptFile {
   public static FiniteTask loadPath(Path path,
                                     RobotHardware hardware,
                                     Drivetrain drive,
-                                    ShooterSpinners spinners) {
+                                    FlywheelShooterSpinners spinners) {
     try {
       return loadReader(
           Files.newBufferedReader(
@@ -120,7 +120,7 @@ public class LoadJavascriptFile {
   public static FiniteTask loadString(String script,
                                       RobotHardware hardware,
                                       Drivetrain drive,
-                                      ShooterSpinners spinners) {
+                                      FlywheelShooterSpinners spinners) {
     return loadReader(
         new BufferedReader(new StringReader(script)),
         hardware,
@@ -142,7 +142,7 @@ public class LoadJavascriptFile {
   public static FiniteTask loadScript(String scriptName,
                                       RobotHardware hardware,
                                       Drivetrain drive,
-                                      ShooterSpinners spinners) {
+                                      FlywheelShooterSpinners spinners) {
     // TODO: prefix scripts location to scriptName
     return loadStringPath(scriptName, hardware, drive, spinners);
   }
