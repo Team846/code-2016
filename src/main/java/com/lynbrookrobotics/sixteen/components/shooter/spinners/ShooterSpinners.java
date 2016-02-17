@@ -24,7 +24,6 @@ public class ShooterSpinners extends Component<ShooterSpinnersController> {
 
   @Override
   protected void setOutputs(ShooterSpinnersController controller) {
-    hardware.frontWheelMotor.set(controller.shooterSpeedFront());
-    hardware.backWheelMotor.set(controller.shooterSpeedBack());
+    hardware.flywheelMotor.set(controller.shooterSpeed());
   }
 }
