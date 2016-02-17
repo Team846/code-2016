@@ -21,7 +21,8 @@ public class SpinAtRPM extends ContinuousTask {
 
   @Override
   protected void startTask() {
-    flywheelShooterSpinners.setController(new SpinnersSpeedControllerFlywheel(targetRPM, hardware));
+    flywheelShooterSpinners.setController(
+        new SpinnersSpeedControllerFlywheel(targetRPM, hardware));
   }
 
   @Override

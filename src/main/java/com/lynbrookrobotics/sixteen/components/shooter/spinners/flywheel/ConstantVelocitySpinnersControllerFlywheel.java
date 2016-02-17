@@ -2,7 +2,8 @@ package com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel;
 
 import java.util.function.Supplier;
 
-public abstract class ConstantVelocitySpinnersControllerFlywheel extends FlywheelShooterSpinnersController {
+public abstract class ConstantVelocitySpinnersControllerFlywheel
+    extends FlywheelShooterSpinnersController {
   /**
    * Creates a constant velocity control based on a supplier.
    *

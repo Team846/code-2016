@@ -49,7 +49,8 @@ public class CoreEvents {
   );
 
   // Shooter
-  ConstantVelocitySpinnersControllerFlywheel enabledShooter = ConstantVelocitySpinnersControllerFlywheel.of(
+  ConstantVelocitySpinnersControllerFlywheel enabledShooter =
+      ConstantVelocitySpinnersControllerFlywheel.of(
       () -> controls.operatorStick.getY()
   );
 

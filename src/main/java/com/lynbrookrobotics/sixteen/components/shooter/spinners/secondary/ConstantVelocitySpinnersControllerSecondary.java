@@ -2,9 +2,15 @@ package com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary;
 
 import java.util.function.Supplier;
 
-public abstract class ConstantVelocitySpinnersControllerSecondary extends SecondaryShooterSpinnersController {
-
-  public static ConstantVelocitySpinnersControllerSecondary of(Supplier<Double> shooterSpeed){
+public abstract class ConstantVelocitySpinnersControllerSecondary
+    extends SecondaryShooterSpinnersController {
+  /**
+   * Creates a constant velocity control based on a supplier.
+   *
+   * @param shooterSpeed the speed to move the wheel motors at
+   * @return the controller built with the given supplier
+   */
+  public static ConstantVelocitySpinnersControllerSecondary of(Supplier<Double> shooterSpeed) {
     return new ConstantVelocitySpinnersControllerSecondary() {
 
       @Override
@@ -17,7 +23,7 @@ public abstract class ConstantVelocitySpinnersControllerSecondary extends Second
   public abstract double wheelSpeed();
 
   @Override
-  public double secondarySpeed(){
+  public double secondarySpeed() {
     return wheelSpeed();
   }
 

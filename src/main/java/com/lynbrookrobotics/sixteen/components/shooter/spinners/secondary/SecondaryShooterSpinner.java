@@ -9,7 +9,7 @@ public class SecondaryShooterSpinner extends Component<SecondaryShooterSpinnersC
   private ShooterSpinnersHardware hardware;
 
   /**
-   * Representation of secondary wheel component on the shooter
+   * Representation of secondary wheel component on the shooter.
    */
   public SecondaryShooterSpinner(RobotHardware hardware) {
     super(ConstantVelocitySpinnersControllerSecondary.of(() -> 0.0));

@@ -17,7 +17,9 @@ public class SpinToRPM extends FiniteTask {
   /**
    * Spins the spinner up to a given RPM and then ends.
    */
-  public SpinToRPM(double targetRPM, FlywheelShooterSpinners flywheelShooterSpinners, RobotHardware hardware) {
+  public SpinToRPM(double targetRPM,
+                   FlywheelShooterSpinners flywheelShooterSpinners,
+                   RobotHardware hardware) {
     this.targetRPM = targetRPM;
     this.flywheelShooterSpinners = flywheelShooterSpinners;
     this.hardware = hardware;
