@@ -1,6 +1,7 @@
 package com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary;
 
 import com.lynbrookrobotics.potassium.components.Component;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.ShooterSpinnersHardware;
 
@@ -12,7 +13,7 @@ public class ShooterSecondary extends Component<ShooterSecondaryController> {
    * Representation of secondary wheel component on the shooter.
    */
   public ShooterSecondary(RobotHardware hardware) {
-    super(ConstantVelocitySpinnersControllerSecondary.of(() -> 0.0));
+    super(ShooterSecondaryController.of(() -> 0.0));
     this.hardware = hardware.shooterSpinnersHardware;
   }
 

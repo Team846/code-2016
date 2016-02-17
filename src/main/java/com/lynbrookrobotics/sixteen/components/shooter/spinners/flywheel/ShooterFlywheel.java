@@ -16,7 +16,7 @@ public class ShooterFlywheel extends Component<ShooterFlywheelController> {
    * @param robotHardware     the robot hardware to use
    */
   public ShooterFlywheel(RobotHardware robotHardware) {
-    super(ConstantVelocitySpinnersControllerFlywheel.of(() -> 0.0));
+    super(ShooterFlywheelController.of(() -> 0.0));
 
     this.hardware = robotHardware.shooterSpinnersHardware;
   }
