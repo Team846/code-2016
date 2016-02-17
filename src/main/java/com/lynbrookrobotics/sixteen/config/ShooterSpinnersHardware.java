@@ -7,20 +7,20 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterSpinnersHardware {
   public final Talon flywheelMotor;
-  public final HallEffect frontHallEffect;
-  public final HallEffect backHallEffect;
+  public final Talon secondary;
+  public final HallEffect hallEffect;
   public final ProximitySensor proximitySensor;
 
   /**
    * Constructs a new default ShooterHardware object given the interfaces.
    */
   public ShooterSpinnersHardware(Talon flywheel,
-                         HallEffect frontHall,
-                         HallEffect backHall,
-                         ProximitySensor proximity) {
+                                 Talon secondary,
+                                 HallEffect hallEffect,
+                                 ProximitySensor proximity) {
     this.flywheelMotor = flywheel;
-    this.frontHallEffect = frontHall;
-    this.backHallEffect = backHall;
+    this.secondary = secondary;
+    this.hallEffect = hallEffect;
     this.proximitySensor = proximity;
   }
 
@@ -30,10 +30,10 @@ public class ShooterSpinnersHardware {
    */
   public ShooterSpinnersHardware(VariableConfiguration config) {
     this(
-      new Talon(config.shooterSpinnersPorts.frontWheelPort),
-      new HallEffect(config.shooterSpinnersPorts.frontHallPort),
-      new HallEffect(config.shooterSpinnersPorts.backHallPort),
-      new ProximitySensor(config.shooterSpinnersPorts.proximityPort)
+        new Talon(config.shooterSpinnersPorts.flywheelPort),
+        new Talon(config.shooterSpinnersPorts.secondaryWheelPort),
+        new HallEffect(config.shooterSpinnersPorts.hallEffectPort),
+        new ProximitySensor(config.shooterSpinnersPorts.proximityPort)
     );
   }
 }

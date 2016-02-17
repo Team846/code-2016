@@ -6,30 +6,26 @@ import com.typesafe.config.Config;
  * All of the ports for shooter wheels.
  */
 public class ShooterSpinnersPorts {
-  public final int frontWheelPort;
-  public final int backWheelPort;
-  public final int frontHallPort;
-  public final int backHallPort;
+  public final int flywheelPort;
+  public final int secondaryWheelPort;
+  public final int hallEffectPort;
   public final int proximityPort;
 
   /**
    * Constructors for ShooterSpinnersPorts.
    *
-   * @param frontWheelPort front wheel port
-   * @param backWheelPort  back wheel port
-   * @param frontHallPort  front Hall Effect sensor port
-   * @param backHallPort   back Hall Effect sensor port
+   * @param flywheelPort flywheel port
+   * @param secondaryWheelPort  secondary wheel port
+   * @param hallEffectPort  Hall Effect sensor port
    * @param proximityPort  proximity sensor port
    */
-  public ShooterSpinnersPorts(int frontWheelPort,
-                              int backWheelPort,
-                              int frontHallPort,
-                              int backHallPort,
+  public ShooterSpinnersPorts(int flywheelPort,
+                              int secondaryWheelPort,
+                              int hallEffectPort,
                               int proximityPort) {
-    this.frontWheelPort = frontWheelPort;
-    this.backWheelPort = backWheelPort;
-    this.frontHallPort = frontHallPort;
-    this.backHallPort = backHallPort;
+    this.flywheelPort = flywheelPort;
+    this.secondaryWheelPort = secondaryWheelPort;
+    this.hallEffectPort = hallEffectPort;
     this.proximityPort = proximityPort;
   }
 
@@ -40,10 +36,9 @@ public class ShooterSpinnersPorts {
    */
   public ShooterSpinnersPorts(Config config) {
     this(
-        config.getInt("front-wheel-port"),
-        config.getInt("back-wheel-port"),
-        config.getInt("front-hall-port"),
-        config.getInt("back-hall-port"),
+        config.getInt("flywheel-port"),
+        config.getInt("secondary-wheel-port"),
+        config.getInt("hall-effect-port"),
         config.getInt("proximity-port")
     );
   }
