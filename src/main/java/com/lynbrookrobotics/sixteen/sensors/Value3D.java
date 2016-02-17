@@ -42,6 +42,9 @@ public class Value3D {
     );
   }
 
+  /**
+   * Adds the given values to each axis.
+   */
   public void plusMutable(double addX, double addY, double addZ) {
     valueX += addX;
     valueY += addY;

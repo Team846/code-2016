@@ -11,7 +11,7 @@ public abstract class ShooterArmPositionController extends ShooterArmController 
   private RobotHardware hardware;
 
   /**
-   * Constructor for the ShooterArmPositionController
+   * Constructor for the ShooterArmPositionController.
    * @param targetPotPosition the target pot position
    * @param hardware          the robot hardware
    */
@@ -22,16 +22,14 @@ public abstract class ShooterArmPositionController extends ShooterArmController 
                         .withP(ShooterArmConstants.P_GAIN)
                         .withI(ShooterArmConstants.I_GAIN,
                             ShooterArmConstants.I_MEMORY);
-    // TODO: experimentally determine PID factors
   }
 
   /**
-   * @return the normalized speed at which the arm motor must spin
+   * Gets the normalized speed at which the arm motor must spin.
    */
   @Override
   public double armMotorSpeed() {
     currentPosition = (int) hardware.shooterArmHardware.potentiometer.getAngle();
     return pid.get() * ShooterArmConstants.CONVERSION_FACTOR;
-    // TODO: experimentally determine conversion factor
   }
 }

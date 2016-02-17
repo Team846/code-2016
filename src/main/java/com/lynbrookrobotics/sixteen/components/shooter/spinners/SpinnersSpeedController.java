@@ -1,9 +1,9 @@
 package com.lynbrookrobotics.sixteen.components.shooter.spinners;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.control.pid.PID;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterSpinnersConstants;
 
-import static com.lynbrookrobotics.sixteen.config.constants.ShooterSpinnersConstants.*;
+import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 public class SpinnersSpeedController extends ShooterSpinnersController {
   private PID flywheelPID;
@@ -19,13 +19,14 @@ public class SpinnersSpeedController extends ShooterSpinnersController {
     this.flywheelPID = new PID(
         hardware.shooterSpinnersHardware.frontHallEffect::getRPM,
         targetRPM
-    ).withP(P_GAIN).withI(I_GAIN, I_MEMORY);
+    ).withP(ShooterSpinnersConstants.P_GAIN)
+        .withI(ShooterSpinnersConstants.I_GAIN, ShooterSpinnersConstants.I_MEMORY);
 
     this.targetRPM = targetRPM;
   }
 
   @Override
   public double shooterSpeed() {
-    return (targetRPM / MAX_RPM) + flywheelPID.get();
+    return (targetRPM / ShooterSpinnersConstants.MAX_RPM) + flywheelPID.get();
   }
 }

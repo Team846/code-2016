@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.sensors.potentiometer;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
- * Class for a ten turn Bournes potentiometer
+ * Class for a ten turn Bournes potentiometer.
  */
 public class Potentiometer {
   AnalogInput input;
@@ -21,7 +21,7 @@ public class Potentiometer {
   }
 
   /**
-   * Finds the angle that the pot has turned in degrees
+   * Finds the angle that the pot has turned in degrees.
    * @return angle that the pot has turned in degrees
    */
   public double getAngle() {

@@ -13,21 +13,24 @@ public class PollingJoystick {
     this.underlying = underlying;
   }
 
+  /**
+   * Updates the joystick value.
+   */
   public synchronized void update() {
     x = underlying.getX();
     y = underlying.getY();
     z = underlying.getZ();
   }
 
-  public synchronized double x() {
+  public synchronized double getX() {
     return x;
   }
 
-  public synchronized double y() {
+  public synchronized double getY() {
     return y;
   }
 
-  public synchronized double z() {
+  public synchronized double getZ() {
     return z;
   }
 }

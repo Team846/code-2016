@@ -11,8 +11,11 @@ public class HallEffect extends Counter {
     super(channel);
   }
 
+  /**
+   * Gets the RPM measured by the sensor.
+   */
   public double getRPM() {
-    double curRPM = 60/getPeriod();
+    double curRPM = 60 / getPeriod();
     if (getStopped()) {
       curRPM = 0;
     }

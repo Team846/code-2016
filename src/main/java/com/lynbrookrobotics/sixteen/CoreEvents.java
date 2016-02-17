@@ -9,16 +9,16 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocitySpinnersController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
-import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
 
-import java.util.function.Function;
-
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
+
+import java.util.function.Function;
 
 /**
  * CoreEvents class creates events and maps these to handlers.
@@ -43,11 +43,14 @@ public class CoreEvents {
   /**
    * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
    */
-  TankDriveController enabledDrive = TankDriveController.of(() -> controls.driverStick.y(), () -> controls.driverWheel.x());
+  TankDriveController enabledDrive = TankDriveController.of(
+      () -> -controls.driverStick.getY(),
+      () -> controls.driverWheel.getX()
+  );
 
   // Shooter
   ConstantVelocitySpinnersController enabledShooter = ConstantVelocitySpinnersController.of(
-      () -> controls.operatorStick.y()
+      () -> controls.operatorStick.getY()
   );
 
   /**
@@ -122,21 +125,17 @@ public class CoreEvents {
     CameraServer.getInstance().setQuality(30);
     CameraServer.getInstance().startAutomaticCapture(camera);
 
+    // Shooter
+    if (RobotConstants.HAS_SHOOTER) {
+      autonomousStateEvent.forEach(
+          new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterSpinners, hardware))
+      );
+    }
+
     // Drivetrain
-    RobotConstants.dashboard.thenAccept(dashboard -> {
-      dashboard.datasetGroup("shooter")
-          .addDataset(new TimeSeriesNumeric<>(
-              "Potentiometer Average Voltage",
-              () -> hardware.shooterArmHardware.potentiometer.getAngle()));
-    });
+    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
 
-    autonomousStateEvent.forEach(
-      new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterSpinners, hardware))
-    );
-
-    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
-
-    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> {});
+    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
     enabledStateEvent.forEach(() -> {
       controls.driverStick.update();
       controls.driverWheel.update();
@@ -154,36 +153,49 @@ public class CoreEvents {
               "Angular Position",
               () -> hardware.drivetrainHardware.mainGyro().currentPosition().valueZ()));
 
-      dashboard.datasetGroup("shooter")
-          .addDataset((new TimeSeriesNumeric<>(
-              "Front Wheel RPM",
-              () -> hardware.shooterSpinnersHardware.frontHallEffect.getRPM())));
+      if (RobotConstants.HAS_SHOOTER) {
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Front Wheel RPM",
+                () -> hardware.shooterSpinnersHardware.frontHallEffect.getRPM())));
 
-      dashboard.datasetGroup("shooter")
-          .addDataset((new TimeSeriesNumeric<>(
-              "Back Wheel RPM",
-              () -> hardware.shooterSpinnersHardware.backHallEffect.getRPM())));
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Back Wheel RPM",
+                () -> hardware.shooterSpinnersHardware.backHallEffect.getRPM())));
 
-      dashboard.datasetGroup("shooter")
-          .addDataset((new TimeSeriesNumeric<>(
-              "Proximity Sensor Average Value",
-              () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Proximity Sensor Average Value",
+                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
 
-      dashboard.datasetGroup("shooter")
-          .addDataset((new TimeSeriesNumeric<>(
-              "Proximity Sensor Average Voltage",
-              () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Proximity Sensor Average Voltage",
+                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+
+        dashboard.datasetGroup("shooter")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Potentiometer Angle",
+                () -> hardware.shooterArmHardware.potentiometer.getAngle()));
+      }
     });
 
     // Drivetrain - Joystick
     enabledStateEvent.forEach(
         () -> {
           drivetrain.setController(enabledDrive);
-          shooterSpinners.setController(enabledShooter);
+
+          if (RobotConstants.HAS_SHOOTER) {
+            shooterSpinners.setController(enabledShooter);
+          }
         },
         () -> {
           drivetrain.resetToDefault();
-          shooterSpinners.resetToDefault();
+
+          if (RobotConstants.HAS_SHOOTER) {
+            shooterSpinners.resetToDefault();
+          }
         }
     );
 

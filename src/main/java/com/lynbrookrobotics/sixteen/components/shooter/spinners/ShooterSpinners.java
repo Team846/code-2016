@@ -14,10 +14,9 @@ public class ShooterSpinners extends Component<ShooterSpinnersController> {
    * Constructs a new shooter component.
    *
    * @param robotHardware     the robot hardware to use
-   * @param defaultController the no-op default controller
    */
-  public ShooterSpinners(RobotHardware robotHardware, ShooterSpinnersController defaultController) {
-    super(defaultController);
+  public ShooterSpinners(RobotHardware robotHardware) {
+    super(ConstantVelocitySpinnersController.of(() -> 0.0));
 
     this.hardware = robotHardware.shooterSpinnersHardware;
   }

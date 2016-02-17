@@ -19,7 +19,7 @@ public class PID {
   private double runningIntegral;
 
   /**
-   * Constructs a new PID controller
+   * Constructs a new PID controller.
    * @param input the function producing input data
    * @param target the target value for the input
    */
@@ -29,7 +29,7 @@ public class PID {
   }
 
   /**
-   * Adds a proportional component to the controller
+   * Adds a proportional component to the controller.
    * @param gain the gain to apply to error
    */
   public PID withP(double gain) {
@@ -39,7 +39,7 @@ public class PID {
   }
 
   /**
-   * Adds an integration component to the controller
+   * Adds an integration component to the controller.
    * @param gain the gain to apply to integrated error
    * @param memory the memory of the integration
    */
@@ -51,7 +51,7 @@ public class PID {
   }
 
   /**
-   * Adds a derivative component to the controller
+   * Adds a derivative component to the controller.
    * @param gain the gain to apply to the derivative of error
    */
   public PID withD(double gain) {
@@ -61,14 +61,14 @@ public class PID {
   }
 
   /**
-   * Gets the difference to the target value
+   * Gets the difference to the target value.
    */
   public double difference() {
     return target - input.get();
   }
 
   /**
-   * Gets the output of the PID controller
+   * Gets the output of the PID controller.
    */
   public double get() {
     double in = input.get();
@@ -77,12 +77,12 @@ public class PID {
     runningIntegral = (runningIntegral * iMemory)
         + ((1 - iMemory) * error * RobotConstants.TICK_PERIOD);
 
-    double pOut = error * pGain;
-    double iOut = runningIntegral * iGain;
-    double dOut = (error - lastError) * dGain;
+    double propOut = error * pGain;
+    double intOut = runningIntegral * iGain;
+    double derOut = (error - lastError) * dGain;
 
     lastError = error;
 
-    return pOut + iOut + dOut;
+    return propOut + intOut + derOut;
   }
 }

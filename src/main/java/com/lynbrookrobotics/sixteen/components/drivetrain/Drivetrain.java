@@ -14,11 +14,9 @@ public class Drivetrain extends Component<DrivetrainController> {
   /**
    * Constructs a new drivetrain component.
    * @param robotHardware the hardware to use
-   * @param defaultController the no-op controller to default to
    */
-  public Drivetrain(RobotHardware robotHardware,
-                    DrivetrainController defaultController) {
-    super(defaultController);
+  public Drivetrain(RobotHardware robotHardware) {
+    super(TankDriveController.of(() -> 0.0, () -> 0.0));
 
     this.hardware = robotHardware.drivetrainHardware;
   }

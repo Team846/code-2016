@@ -8,9 +8,10 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocitySpinnersController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
-import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.VariableConfiguration;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
+
 
 import edu.wpi.first.wpilibj.Notifier;
 
@@ -18,14 +19,31 @@ import edu.wpi.first.wpilibj.Notifier;
  * CoreRobot class loads config and creates components.
  */
 public class CoreRobot {
-  VariableConfiguration config = RobotConstants.time(VariableConfiguration::new, "Config loading ");
-  RobotHardware hardware = RobotConstants.time(() -> new RobotHardware(config), "Robot hardware loading ");
-  DriverControls controls = RobotConstants.time(() -> new DriverControls(), "Driver controls loading ");
+  private static ShooterSpinners spinnersOrNull(RobotHardware hardware) {
+    if (RobotConstants.HAS_SHOOTER) {
+      return new ShooterSpinners(hardware);
+    } else {
+      return null;
+    }
+  }
 
-  Drivetrain drivetrain = new Drivetrain(hardware, TankDriveController.of(() -> 0.0, () -> 0.0));
-  ShooterSpinners shooterSpinners = new ShooterSpinners(hardware, ConstantVelocitySpinnersController.of(() -> 0.0));
+  VariableConfiguration config = Timing.time(VariableConfiguration::new, "Config loading ");
+  RobotHardware hardware = Timing.time(
+      () -> new RobotHardware(config),
+      "Robot hardware loading "
+  );
+  DriverControls controls = Timing.time(
+      () -> new DriverControls(),
+      "Driver controls loading "
+  );
 
-  CoreEvents events = RobotConstants.time(() -> new CoreEvents(controls, hardware, drivetrain, shooterSpinners), "Core events loading ");
+  Drivetrain drivetrain = new Drivetrain(hardware);
+  ShooterSpinners shooterSpinners = spinnersOrNull(hardware);
+
+  CoreEvents events = Timing.time(
+      () -> new CoreEvents(controls, hardware, drivetrain, shooterSpinners),
+      "Core events loading "
+  );
 
   /**
    * Sets up tick function with timer.

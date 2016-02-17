@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.Talon;
 public class ShooterArm extends Component<ShooterArmController> {
   private final Talon armMotor;
 
+  /**
+   * Constructs a shooter arm component.
+   */
   public ShooterArm(RobotHardware hardware, ShooterArmController defaultController) {
     super(defaultController);
 

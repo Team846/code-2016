@@ -3,8 +3,8 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
-import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaClass;

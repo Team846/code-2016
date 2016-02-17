@@ -15,6 +15,6 @@ public class IntakeRollerPorts {
   }
 
   public IntakeRollerPorts(Config config) {
-    this(config.getInt("roller-motor-port"),config.getInt("proximity-port"));
+    this(config.getInt("roller-motor-port"), config.getInt("proximity-port"));
   }
 }

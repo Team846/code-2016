@@ -38,8 +38,11 @@ public abstract class DigitalGyro {
   public void angleUpdate() {
     if (calibrating) {
       Value3D sum = new Value3D(0, 0, 0);
-      values.forEach(value3D -> sum.plusMutable(value3D.valueX(), value3D.valueY(), value3D.valueZ()));
-      currentDrift = sum.times(-1D/values.size());
+      values.forEach(value3D -> sum.plusMutable(
+          value3D.valueX(),
+          value3D.valueY(),
+          value3D.valueZ()));
+      currentDrift = sum.times(-1D / values.size());
       values = null;
 
       calibrating = false;

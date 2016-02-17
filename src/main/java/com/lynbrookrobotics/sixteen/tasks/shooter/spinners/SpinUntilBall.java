@@ -39,7 +39,7 @@ public class SpinUntilBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if((sensor.getAverageVoltage() <= distance)) {
+    if (sensor.getAverageVoltage() <= distance) {
       finished();
     }
   }
