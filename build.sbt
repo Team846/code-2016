@@ -7,7 +7,7 @@ name := "code-2016"
 
 version := "0.1-SNAPSHOT"
 
-autoScalaLibrary := false
+scalaVersion := "2.11.7"
 
 resolvers += "WPILib-Maven" at "http://team846.github.io/wpilib-maven"
 resolvers += "Funky-Repo" at "http://team846.github.io/repo"
@@ -21,6 +21,10 @@ libraryDependencies += "com.typesafe" % "config" % "1.3.0"
 libraryDependencies += "org.mozilla" % "rhino" % "1.7R4"
 
 libraryDependencies += "org.mockito" % "mockito-core" % "1.10.19" % Test
+
+libraryDependencies += "junit" % "junit" % "4.12"
+
+libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 
 import com.etsy.sbt.checkstyle._
 Checkstyle.xsltTransformations := {
