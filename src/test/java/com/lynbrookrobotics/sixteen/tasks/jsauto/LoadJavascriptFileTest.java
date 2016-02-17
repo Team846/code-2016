@@ -28,7 +28,6 @@ public class LoadJavascriptFileTest {
     String result = loader.loadString(correctCode, hardware, drivetrain, flywheel).toString();
     assert result.startsWith("com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle");
 
-
   }
 
   @Test(expected = EcmaError.class)
