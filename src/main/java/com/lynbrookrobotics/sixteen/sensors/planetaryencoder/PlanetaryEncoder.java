@@ -5,9 +5,9 @@ import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 import edu.wpi.first.wpilibj.CANTalon;
 
 /**
- * Class for magnetic planetary encoder
+ * Class for magnetic planetary encoder.
  */
-public class PlanetaryEncoder extends Encoder{
+public class PlanetaryEncoder extends Encoder {
   CANTalon talon;
   double conversionFactor = 1D;
 
@@ -21,7 +21,8 @@ public class PlanetaryEncoder extends Encoder{
    */
   @Override
   public double getSpeed() {
-    return talon.getPulseWidthPosition() * conversionFactor; //We use PWM values because they are less noisy
+    return talon.getPulseWidthPosition() * conversionFactor; //We use PWM values because they are
+                                                             // less noisy
   }
 
   /**
