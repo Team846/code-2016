@@ -22,8 +22,8 @@ public class IntakeRollerHardware {
    */
   public IntakeRollerHardware(VariableConfiguration configuration) {
     this(
-            new Talon(configuration.intakeRollerPorts.rollerMotorPort()),
-            new ProximitySensor(configuration.intakeRollerPorts.proximityPort())
+            new Talon(configuration.intakeRollerPorts.motorPort),
+            new ProximitySensor(configuration.intakeRollerPorts.proximityPort)
     );
   }
 }

@@ -24,6 +24,6 @@ public class IntakeRoller extends Component<IntakeRollerController> {
 
   @Override
   protected void setOutputs(IntakeRollerController intakeRollerController) {
-    robotHardware.intakeRollerHardware.intakeMotor().set(intakeRollerController.motorSpeed());
+    robotHardware.intakeRollerHardware.rollerMotor.set(intakeRollerController.motorSpeed());
   }
 }
