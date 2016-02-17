@@ -1,8 +1,8 @@
 package com.lynbrookrobotics.sixteen.tasks.shooter.spinners;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ConstantVelocitySpinnersControllerFlywheel;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.FlywheelShooterSpinners;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
@@ -10,31 +10,31 @@ public class SpinUntilBall extends FiniteTask {
 
   double distance;
   ProximitySensor sensor;
-  ConstantVelocitySpinnersControllerFlywheel controller;
-  FlywheelShooterSpinners flywheelShooterSpinners;
+  ShooterFlywheelController controller;
+  ShooterFlywheel shooterFlywheel;
 
   /**
    * Task that spins until proximity sensor detects a ball.
    * @param distance Distance at which proximity sensor detects ball.
    * @param velocity How fast the motors should spin
    * @param hardware Robot Hardware
-   * @param flywheelShooterSpinners Shooter spinners component
+   * @param shooterFlywheel Shooter spinners component
    */
   public SpinUntilBall(double distance,
                        double velocity,
                        RobotHardware hardware,
-                       FlywheelShooterSpinners flywheelShooterSpinners) {
+                       ShooterFlywheel shooterFlywheel) {
     this.distance = distance;
     this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
-    this.controller = ConstantVelocitySpinnersControllerFlywheel.of(
+    this.controller = ShooterFlywheelController.of(
         () -> velocity); //TODO: Change velocity to a constant
-    this.flywheelShooterSpinners = flywheelShooterSpinners;
+    this.shooterFlywheel = shooterFlywheel;
   }
 
 
   @Override
   protected void startTask() {
-    flywheelShooterSpinners.setController(controller);
+    shooterFlywheel.setController(controller);
   }
 
   @Override
@@ -46,6 +46,6 @@ public class SpinUntilBall extends FiniteTask {
 
   @Override
   protected void endTask() {
-    flywheelShooterSpinners.resetToDefault();
+    shooterFlywheel.resetToDefault();
   }
 }

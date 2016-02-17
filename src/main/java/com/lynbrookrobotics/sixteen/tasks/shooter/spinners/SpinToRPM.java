@@ -3,32 +3,32 @@ package com.lynbrookrobotics.sixteen.tasks.shooter.spinners;
 import static com.lynbrookrobotics.sixteen.config.constants.ShooterSpinnersConstants.THRESHOLD_RPM;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.FlywheelShooterSpinners;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.SpinnersSpeedControllerFlywheel;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelSpeedController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 public class SpinToRPM extends FiniteTask {
   double targetRPM;
-  FlywheelShooterSpinners flywheelShooterSpinners;
+  ShooterFlywheel shooterFlywheel;
   RobotHardware hardware;
 
-  SpinnersSpeedControllerFlywheel controller;
+  ShooterFlywheelSpeedController controller;
 
   /**
    * Spins the spinner up to a given RPM and then ends.
    */
   public SpinToRPM(double targetRPM,
-                   FlywheelShooterSpinners flywheelShooterSpinners,
+                   ShooterFlywheel shooterFlywheel,
                    RobotHardware hardware) {
     this.targetRPM = targetRPM;
-    this.flywheelShooterSpinners = flywheelShooterSpinners;
+    this.shooterFlywheel = shooterFlywheel;
     this.hardware = hardware;
-    this.controller = new SpinnersSpeedControllerFlywheel(targetRPM, hardware);
+    this.controller = new ShooterFlywheelSpeedController(targetRPM, hardware);
   }
 
   @Override
   protected void startTask() {
-    flywheelShooterSpinners.setController(controller);
+    shooterFlywheel.setController(controller);
   }
 
   @Override
@@ -40,6 +40,6 @@ public class SpinToRPM extends FiniteTask {
 
   @Override
   protected void endTask() {
-    flywheelShooterSpinners.resetToDefault();
+    shooterFlywheel.resetToDefault();
   }
 }

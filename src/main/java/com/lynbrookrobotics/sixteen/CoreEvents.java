@@ -6,8 +6,8 @@ import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ConstantVelocitySpinnersControllerFlywheel;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.FlywheelShooterSpinners;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
@@ -27,7 +27,7 @@ public class CoreEvents {
   DriverControls controls;
   RobotHardware hardware;
   Drivetrain drivetrain;
-  FlywheelShooterSpinners flywheelShooterSpinners;
+  ShooterFlywheel shooterFlywheel;
 
   boolean initialCalibrationDone = false;
 
@@ -49,8 +49,8 @@ public class CoreEvents {
   );
 
   // Shooter
-  ConstantVelocitySpinnersControllerFlywheel enabledShooter =
-      ConstantVelocitySpinnersControllerFlywheel.of(
+  ShooterFlywheelController enabledShooter =
+      ShooterFlywheelController.of(
       () -> controls.operatorStick.getY()
   );
 
@@ -60,11 +60,11 @@ public class CoreEvents {
   public CoreEvents(DriverControls controls,
                     RobotHardware hardware,
                     Drivetrain drivetrain,
-                    FlywheelShooterSpinners flywheelShooterSpinners) {
+                    ShooterFlywheel shooterFlywheel) {
     this.controls = controls;
     this.drivetrain = drivetrain;
     this.hardware = hardware;
-    this.flywheelShooterSpinners = flywheelShooterSpinners;
+    this.shooterFlywheel = shooterFlywheel;
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation,
@@ -129,7 +129,7 @@ public class CoreEvents {
     // Shooter
     if (RobotConstants.HAS_SHOOTER) {
       autonomousStateEvent.forEach(
-          new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, flywheelShooterSpinners, hardware))
+          new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterFlywheel, hardware))
       );
     }
 
@@ -184,14 +184,14 @@ public class CoreEvents {
           drivetrain.setController(enabledDrive);
 
           if (RobotConstants.HAS_SHOOTER) {
-            flywheelShooterSpinners.setController(enabledShooter);
+            shooterFlywheel.setController(enabledShooter);
           }
         },
         () -> {
           drivetrain.resetToDefault();
 
           if (RobotConstants.HAS_SHOOTER) {
-            flywheelShooterSpinners.resetToDefault();
+            shooterFlywheel.resetToDefault();
           }
         }
     );

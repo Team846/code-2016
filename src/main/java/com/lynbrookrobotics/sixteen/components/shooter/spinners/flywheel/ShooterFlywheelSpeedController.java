@@ -5,7 +5,7 @@ import com.lynbrookrobotics.sixteen.config.constants.ShooterSpinnersConstants;
 
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
-public class SpinnersSpeedControllerFlywheel extends FlywheelShooterSpinnersController {
+public class ShooterFlywheelSpeedController extends ShooterFlywheelController {
   private PID flywheelPID;
 
   private double targetRPM;
@@ -15,7 +15,7 @@ public class SpinnersSpeedControllerFlywheel extends FlywheelShooterSpinnersCont
    * @param targetRPM RPM that should be achieved
    * @param hardware RobotHardware
    */
-  public SpinnersSpeedControllerFlywheel(double targetRPM, RobotHardware hardware) {
+  public ShooterFlywheelSpeedController(double targetRPM, RobotHardware hardware) {
     this.flywheelPID = new PID(
         hardware.shooterSpinnersHardware.hallEffect::getRPM,
         targetRPM

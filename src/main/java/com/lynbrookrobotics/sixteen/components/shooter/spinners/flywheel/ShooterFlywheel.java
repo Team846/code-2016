@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.config.ShooterSpinnersHardware;
 /**
  * Represents the flywheel component on the robot.
  */
-public class FlywheelShooterSpinners extends Component<FlywheelShooterSpinnersController> {
+public class ShooterFlywheel extends Component<ShooterFlywheelController> {
   private final ShooterSpinnersHardware hardware;
 
   /**
@@ -15,14 +15,14 @@ public class FlywheelShooterSpinners extends Component<FlywheelShooterSpinnersCo
    *
    * @param robotHardware     the robot hardware to use
    */
-  public FlywheelShooterSpinners(RobotHardware robotHardware) {
+  public ShooterFlywheel(RobotHardware robotHardware) {
     super(ConstantVelocitySpinnersControllerFlywheel.of(() -> 0.0));
 
     this.hardware = robotHardware.shooterSpinnersHardware;
   }
 
   @Override
-  protected void setOutputs(FlywheelShooterSpinnersController controller) {
+  protected void setOutputs(ShooterFlywheelController controller) {
     hardware.flywheelMotor.set(controller.flywheelSpeed());
   }
 }

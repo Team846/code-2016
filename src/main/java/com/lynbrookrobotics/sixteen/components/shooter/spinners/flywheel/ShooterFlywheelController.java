@@ -5,9 +5,9 @@ import java.util.function.Supplier;
 /**
  * The controller for the shooter component.
  */
-public abstract class FlywheelShooterSpinnersController {
-  public static FlywheelShooterSpinnersController of(Supplier<Double> speed) {
-    return new FlywheelShooterSpinnersController() {
+public abstract class ShooterFlywheelController {
+  public static ShooterFlywheelController of(Supplier<Double> speed) {
+    return new ShooterFlywheelController() {
       @Override
       public double flywheelSpeed() {
         return speed.get();

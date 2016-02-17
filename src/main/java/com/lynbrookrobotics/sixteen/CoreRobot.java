@@ -4,7 +4,7 @@ import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.potassium.events.Event;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.FlywheelShooterSpinners;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.VariableConfiguration;
@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.Notifier;
  * CoreRobot class loads config and creates components.
  */
 public class CoreRobot {
-  private static FlywheelShooterSpinners spinnersOrNull(RobotHardware hardware) {
+  private static ShooterFlywheel spinnersOrNull(RobotHardware hardware) {
     if (RobotConstants.HAS_SHOOTER) {
-      return new FlywheelShooterSpinners(hardware);
+      return new ShooterFlywheel(hardware);
     } else {
       return null;
     }
@@ -36,10 +36,10 @@ public class CoreRobot {
   );
 
   Drivetrain drivetrain = new Drivetrain(hardware);
-  FlywheelShooterSpinners flywheelShooterSpinners = spinnersOrNull(hardware);
+  ShooterFlywheel shooterFlywheel = spinnersOrNull(hardware);
 
   CoreEvents events = Timing.time(
-      () -> new CoreEvents(controls, hardware, drivetrain, flywheelShooterSpinners),
+      () -> new CoreEvents(controls, hardware, drivetrain, shooterFlywheel),
       "Core events loading "
   );
 
