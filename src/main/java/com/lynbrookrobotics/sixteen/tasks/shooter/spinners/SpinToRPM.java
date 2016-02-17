@@ -28,7 +28,7 @@ public class SpinToRPM extends FiniteTask {
 
   @Override
   protected void update() {
-    if (controller.shooterSpeed() <= THRESHOLD_RPM) {
+    if (Math.abs(controller.shooterSpeed()) <= THRESHOLD_RPM) {
       finished();
     }
   }

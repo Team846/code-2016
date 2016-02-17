@@ -4,11 +4,12 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ConstantVelocitySpinnersController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
 public class SpinUntilBall extends FiniteTask {
 
   double distance;
-  RobotHardware hardware;
+  ProximitySensor sensor;
   ConstantVelocitySpinnersController controller;
   ShooterSpinners shooterSpinners;
 
@@ -24,7 +25,7 @@ public class SpinUntilBall extends FiniteTask {
                        RobotHardware hardware,
                        ShooterSpinners shooterSpinners) {
     this.distance = distance;
-    this.hardware = hardware;
+    this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
     this.controller = ConstantVelocitySpinnersController.of(
         () -> velocity); //TODO: Change velocity to a constant
     this.shooterSpinners = shooterSpinners;
@@ -38,8 +39,7 @@ public class SpinUntilBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if((hardware.shooterSpinnersHardware.proximitySensor
-        .getAverageVoltage() <= distance)) {
+    if((sensor.getAverageVoltage() <= distance)) {
       finished();
     }
   }
