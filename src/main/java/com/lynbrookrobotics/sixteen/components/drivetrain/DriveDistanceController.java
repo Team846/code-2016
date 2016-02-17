@@ -2,12 +2,9 @@ package com.lynbrookrobotics.sixteen.components.drivetrain;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
-import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
-
-import java.util.function.Supplier;
 
 /**
- * A controller that drives to an absolute position.
+ * A controller that drives to an absolute position of the robot, AKA origin.
  */
 public class DriveDistanceController extends DrivetrainController {
   RobotHardware hardware;
@@ -26,7 +23,7 @@ public class DriveDistanceController extends DrivetrainController {
     this.hardware = hardware;
 
     this.leftSpeedControl = new PID(
-        () -> hardware.drivetrainHardware.getLeftEncoder().getAngle(),
+        () -> hardware.drivetrainHardware.leftEncoder().getAngle(),
         leftTargetPosition)
         .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
 
@@ -44,6 +41,11 @@ public class DriveDistanceController extends DrivetrainController {
   @Override
   public double rightSpeed() {
     return rightSpeedControl.get();
+  }
+
+  public double error() {
+    return ( Math.abs(leftSpeedControl.difference()) + Math.abs(rightSpeedControl.difference()) )
+        / 2;
   }
 
 }
