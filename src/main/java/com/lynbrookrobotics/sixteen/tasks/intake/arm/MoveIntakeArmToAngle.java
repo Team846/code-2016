@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.tasks.intake;
+package com.lynbrookrobotics.sixteen.tasks.intake.arm;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 
