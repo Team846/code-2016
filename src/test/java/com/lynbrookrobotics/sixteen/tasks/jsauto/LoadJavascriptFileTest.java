@@ -3,8 +3,6 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.ShooterSpinners;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
