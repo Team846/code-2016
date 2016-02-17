@@ -119,7 +119,7 @@ public class DrivetrainHardware {
     return backLeftTalon;
   }
 
-  public Encoder getLeftEncoder() {
+  public Encoder leftEncoder() {
     return leftEncoder;
   }
 
