@@ -12,13 +12,21 @@ public class SpinUntilBall extends FiniteTask {
   ConstantVelocitySpinnersController controller;
   ShooterSpinners shooterSpinners;
 
+  /**
+   * Task that spins until proximity sensor detects a ball.
+   * @param distance Distance at which proximity sensor detects ball.
+   * @param velocity How fast the motors should spin
+   * @param hardware Robot Hardware
+   * @param shooterSpinners Shooter spinners component
+   */
   public SpinUntilBall(double distance,
                        double velocity,
                        RobotHardware hardware,
-                       ShooterSpinners shooterSpinners){
+                       ShooterSpinners shooterSpinners) {
     this.distance = distance;
     this.hardware = hardware;
-    this.controller = ConstantVelocitySpinnersController.of(() -> velocity); //TODO: Change velocity to a constant
+    this.controller = ConstantVelocitySpinnersController.of(
+        () -> velocity); //TODO: Change velocity to a constant
     this.shooterSpinners = shooterSpinners;
   }
 
@@ -31,7 +39,7 @@ public class SpinUntilBall extends FiniteTask {
   @Override
   protected void update() {
     if((hardware.shooterSpinnersHardware.proximitySensor
-        .getAverageVoltage() <= distance)){
+        .getAverageVoltage() <= distance)) {
       finished();
     }
   }

@@ -10,6 +10,11 @@ public class SpinnersSpeedController extends ShooterSpinnersController {
 
   private double targetRPM;
 
+  /**
+   * Constructs a Controller that keeps a stable RPM.
+   * @param targetRPM RPM that should be achieved
+   * @param hardware RobotHardware
+   */
   public SpinnersSpeedController(double targetRPM, RobotHardware hardware) {
     this.flywheelPID = new PID(
         hardware.shooterSpinnersHardware.frontHallEffect::getRPM,
@@ -18,6 +23,7 @@ public class SpinnersSpeedController extends ShooterSpinnersController {
 
     this.targetRPM = targetRPM;
   }
+
   @Override
   public double shooterSpeed() {
     return (targetRPM / MAX_RPM) + flywheelPID.get();
