@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**
- * Finite task to drive to some position relative to the starting position of the robot, AKA origin
+ * Finite task to drive to some position relative to the starting position of the robot, AKA origin.
  */
 public class DriveAbsolute extends FiniteTask {
   double leftAngleTarget;

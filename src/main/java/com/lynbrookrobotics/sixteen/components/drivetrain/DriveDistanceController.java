@@ -4,7 +4,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 /**
- * A controller that drives to an absolute position of the robot, AKA origin
+ * A controller that drives to an absolute position of the robot, AKA origin.
  */
 public class DriveDistanceController extends DrivetrainController {
   RobotHardware hardware;
@@ -44,7 +44,8 @@ public class DriveDistanceController extends DrivetrainController {
   }
 
   public double error() {
-    return ( Math.abs(leftSpeedControl.difference()) + Math.abs(rightSpeedControl.difference()) )/2;
+    return ( Math.abs(leftSpeedControl.difference()) + Math.abs(rightSpeedControl.difference()) )
+        / 2;
   }
 
 }
