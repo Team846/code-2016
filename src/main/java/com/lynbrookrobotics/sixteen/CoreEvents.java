@@ -43,7 +43,7 @@ public class CoreEvents {
 
   // Drivetrain
   /**
-   * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
+   * Cube input for greater precision control at lower speeds
    */
   DriveOnLiveHeadingController enabledDrive;
 
@@ -68,12 +68,12 @@ public class CoreEvents {
     this.enabledDrive = new DriveOnLiveHeadingController(hardware) {
       @Override
       public double forward() {
-        return -controls.driverStick.getY();
+        return 20 * Math.pow(-controls.driverStick.getY(), 3);
       }
 
       @Override
       public double angleSpeed() {
-        return controls.driverWheel.getX();
+        return 20 * Math.pow(controls.driverWheel.getX(), 3);
       }
     };
 
@@ -157,8 +157,8 @@ public class CoreEvents {
     RobotConstants.dashboard.thenAccept(dashboard -> {
       dashboard.datasetGroup("drivetrain")
           .addDataset(new TimeSeriesNumeric<>(
-              "Angular Velocity",
-              () -> hardware.drivetrainHardware.mainGyro().currentVelocity().valueZ()));
+              "Turning gain",
+              () -> 20 * controls.operatorStick.getY()));
 
       dashboard.datasetGroup("drivetrain")
           .addDataset(new TimeSeriesNumeric<>(
