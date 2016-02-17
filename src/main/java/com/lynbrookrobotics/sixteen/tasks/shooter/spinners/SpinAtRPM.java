@@ -13,7 +13,9 @@ public class SpinAtRPM extends ContinuousTask {
   /**
    * Spins the spinner at a given RPM continually.
    */
-  public SpinAtRPM(double targetRPM, FlywheelShooterSpinners flywheelShooterSpinners, RobotHardware hardware) {
+  public SpinAtRPM(double targetRPM,
+                   FlywheelShooterSpinners flywheelShooterSpinners,
+                   RobotHardware hardware) {
     this.targetRPM = targetRPM;
     this.flywheelShooterSpinners = flywheelShooterSpinners;
     this.hardware = hardware;
