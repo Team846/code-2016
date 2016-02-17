@@ -24,8 +24,9 @@ public class JSValidator extends JFrame {
   );
 
   private ShooterSpinnersHardware shooterSpinnersHardware = new ShooterSpinnersHardware(
-      null, null, null, null, null
+      null, null, null, null
   );
+
   private IntakeRollerHardware intakeRollerHardware = new IntakeRollerHardware(null, null);
   private ShooterArmHardware shooterArmHardware = new ShooterArmHardware(null, null);
   private RobotHardware robotHardware = new RobotHardware(

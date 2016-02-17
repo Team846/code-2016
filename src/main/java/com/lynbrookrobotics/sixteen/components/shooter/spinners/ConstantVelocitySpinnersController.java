@@ -24,12 +24,7 @@ public abstract class ConstantVelocitySpinnersController extends ShooterSpinners
   public abstract double wheelSpeed();
 
   @Override
-  public double shooterSpeedFront() {
-    return wheelSpeed();
-  }
-
-  @Override
-  public double shooterSpeedBack() {
+  public double shooterSpeed() {
     return wheelSpeed();
   }
 }
