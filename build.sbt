@@ -8,7 +8,7 @@ name := "code-2016"
 version := "0.1-SNAPSHOT"
 
 autoScalaLibrary := false
-scalaVersion:="2.11.7"
+
 resolvers += "WPILib-Maven" at "http://team846.github.io/wpilib-maven"
 resolvers += "Funky-Repo" at "http://team846.github.io/repo"
 
