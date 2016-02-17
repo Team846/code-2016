@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.Talon;
  * Aggregation of all intake hardware.
  */
 public class IntakeRollerHardware {
-  Talon rollerMotor;
-  ProximitySensor proximitySensor;
+  public final Talon rollerMotor;
+  public final ProximitySensor proximitySensor;
 
   public IntakeRollerHardware(Talon rollerMotor, ProximitySensor proximitySensor) {
     this.rollerMotor = rollerMotor;
@@ -26,10 +26,4 @@ public class IntakeRollerHardware {
             new ProximitySensor(configuration.intakeRollerPorts.proximityPort())
     );
   }
-
-  public Talon intakeMotor() {
-    return rollerMotor;
-  }
-
-  public ProximitySensor proximitySensor(){return proximitySensor;}
 }
