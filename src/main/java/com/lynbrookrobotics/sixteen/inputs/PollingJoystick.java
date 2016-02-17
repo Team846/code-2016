@@ -7,6 +7,8 @@ public class PollingJoystick {
   private double y;
   private double z;
 
+  private double inputScalingFactor = 1D;
+
   public final Joystick underlying;
 
   public PollingJoystick(Joystick underlying) {
@@ -25,6 +27,7 @@ public class PollingJoystick {
   public synchronized double getX() {
     return x;
   }
+
 
   public synchronized double getY() {
     return y;
