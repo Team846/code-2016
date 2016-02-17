@@ -26,12 +26,12 @@ public class DriveDistanceController extends DrivetrainController {
     this.hardware = hardware;
 
     this.leftSpeedControl = new PID(
-        () -> hardware.drivetrainHardware.getLeftEncoder().getPosition(),
+        () -> hardware.drivetrainHardware.getLeftEncoder().getAngle(),
         leftTargetPosition)
         .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
 
     this.rightSpeedControl = new PID(
-        () -> hardware.drivetrainHardware.getRightEncoder().getPosition(),
+        () -> hardware.drivetrainHardware.getRightEncoder().getAngle(),
         rightTargetPosition)
         .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
   }

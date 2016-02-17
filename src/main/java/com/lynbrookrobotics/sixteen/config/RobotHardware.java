@@ -1,5 +1,7 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import com.lynbrookrobotics.sixteen.sensors.planetaryencoder.PlanetaryEncoder;
+
 /**
  * Aggregation of subsystem hardware interfaces.contains instances of each subsystem hardware and
  * their respective getters. Subsystem hardware groups should contain each individual hardware
