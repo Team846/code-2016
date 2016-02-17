@@ -6,6 +6,9 @@ import java.util.function.Supplier;
  * The controller for the shooter component.
  */
 public abstract class ShooterFlywheelController {
+  /**
+   * Constructs the controller given a supplier of motor speeds.
+   */
   public static ShooterFlywheelController of(Supplier<Double> speed) {
     return new ShooterFlywheelController() {
       @Override
