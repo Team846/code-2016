@@ -3,7 +3,6 @@ package com.lynbrookrobotics.sixteen.tasks.intake.roller;
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.sixteen.components.intake.roller.ConstantRollerSpeedController;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
-import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**
  * Sets the Intake Rollers to a constant speed.
@@ -14,9 +13,8 @@ public class ConstantIntakeSpeed extends ContinuousTask {
 
   /**
    * Sets the Intake Rollers to a constant speed.
-   *
-   * @param targetSpeed  Target speed for intake roller motors
-   * @param intakeRoller Component intake roller
+   * @param targetSpeed  Target speed for intake roller motors.
+   * @param intakeRoller Component intake roller.
    */
   public ConstantIntakeSpeed(double targetSpeed, IntakeRoller intakeRoller) {
     this.targetSpeed = targetSpeed;
