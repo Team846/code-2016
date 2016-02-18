@@ -1,8 +1,8 @@
 package com.lynbrookrobotics.sixteen.tasks.intake.roller;
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
-import com.lynbrookrobotics.sixteen.components.intake.roller.ConstantRollerSpeedController;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
+import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRollerController;
 
 /**
  * Sets the Intake Rollers to a constant speed.
@@ -23,7 +23,7 @@ public class ConstantIntakeSpeed extends ContinuousTask {
 
   @Override
   protected void startTask() {
-    intakeRoller.setController(new ConstantRollerSpeedController(targetSpeed));
+    intakeRoller.setController(IntakeRollerController.of(() -> targetSpeed));
   }
 
   @Override
