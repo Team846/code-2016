@@ -4,11 +4,13 @@ import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRollerController;
 
+import java.util.function.Supplier;
+
 /**
  * Sets the Intake Rollers to a constant speed.
  */
 public class ConstantIntakeSpeed extends ContinuousTask {
-  double targetSpeed;
+  Supplier<Double> targetSpeed;
   IntakeRoller intakeRoller;
 
   /**
@@ -16,14 +18,14 @@ public class ConstantIntakeSpeed extends ContinuousTask {
    * @param targetSpeed  Target speed for intake roller motors.
    * @param intakeRoller Component intake roller.
    */
-  public ConstantIntakeSpeed(double targetSpeed, IntakeRoller intakeRoller) {
+  public ConstantIntakeSpeed(Supplier<Double> targetSpeed, IntakeRoller intakeRoller) {
     this.targetSpeed = targetSpeed;
     this.intakeRoller = intakeRoller;
   }
 
   @Override
   protected void startTask() {
-    intakeRoller.setController(IntakeRollerController.of(() -> targetSpeed));
+    intakeRoller.setController(IntakeRollerController.of(targetSpeed));
   }
 
   @Override
