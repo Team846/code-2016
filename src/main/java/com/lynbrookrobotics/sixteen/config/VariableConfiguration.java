@@ -22,4 +22,5 @@ public class VariableConfiguration {
       new ShooterSensorConfig(loadedConfig.getConfig("shooter-sensors"));
   public final IntakeRollerPorts intakeRollerPorts =
       new IntakeRollerPorts(loadedConfig.getConfig("intake-roller"));
+  public final IntakeArmPorts armPorts = new IntakeArmPorts(loadedConfig.getConfig("intake-arm"));
 }

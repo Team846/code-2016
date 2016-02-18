@@ -12,6 +12,7 @@ public class RobotHardware {
   public final ShooterSpinnersHardware shooterSpinnersHardware;
   public final IntakeRollerHardware intakeRollerHardware;
   public final ShooterArmHardware shooterArmHardware;
+  public final IntakeArmHardware intakeArmHardware;
 
   /**
    * Constructs a RobotHardware given the individual hardware classes.
@@ -19,11 +20,13 @@ public class RobotHardware {
   public RobotHardware(DrivetrainHardware drivetrainHardware,
                        ShooterSpinnersHardware shooterSpinnersHardware,
                        ShooterArmHardware shooterArmHardware,
-                       IntakeRollerHardware intakeRollerHardware) {
+                       IntakeRollerHardware intakeRollerHardware,
+                       IntakeArmHardware intakeArmHardware) {
     this.drivetrainHardware = drivetrainHardware;
     this.shooterSpinnersHardware = shooterSpinnersHardware;
     this.shooterArmHardware = shooterArmHardware;
     this.intakeRollerHardware = intakeRollerHardware;
+    this.intakeArmHardware = intakeArmHardware;
   }
 
   /**
@@ -36,7 +39,8 @@ public class RobotHardware {
         new DrivetrainHardware(config),
         new ShooterSpinnersHardware(config),
         null, //new ShooterArmHardware(config),
-        null // new IntakeRollerHardware(config)
+        null, // new IntakeRollerHardware(config)
+        null//IntakeArmHardware
     );
   }
 }
