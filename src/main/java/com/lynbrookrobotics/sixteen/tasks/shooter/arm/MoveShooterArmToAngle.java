@@ -31,7 +31,8 @@ public class MoveShooterArmToAngle extends FiniteTask {
   }
 
   /**
-   * Creates a ShooterArmPositionController object with the target angle and robotHardware,
+   * Creates a ShooterArmPositionController object with
+   * the target angle and robotHardware,
    * and sets the controller of the shooterArm to it.
    */
   @Override
