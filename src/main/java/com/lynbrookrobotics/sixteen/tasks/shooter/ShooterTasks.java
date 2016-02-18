@@ -6,6 +6,8 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.Shooter
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterSecondaryConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
@@ -28,22 +30,25 @@ public class ShooterTasks {
   public static FiniteTask shoot(ShooterFlywheel shooterFlywheel,
                                  ShooterSecondary shooterSecondary,
                                  ShooterArm shooterArm,
-                                 RobotHardware hardware,
-                                 double targetRPM,
-                                 double speed) {
+                                 RobotHardware hardware) {
     SpinFlywheelAtRPM flywheelTask
-        = new SpinFlywheelAtRPM(targetRPM, shooterFlywheel, hardware);
+        = new SpinFlywheelAtRPM(ShooterFlywheelConstants.SHOOT_RPM,
+                                shooterFlywheel,
+                                hardware);
     return new MoveShooterArmToAngle(ShooterArmConstants.SHOOT_ANGLE,
                                      hardware,
                                      shooterArm)
-        .and(new SpinFlywheelToRPM(targetRPM, shooterFlywheel, hardware))
-        .then(new SpinSecondaryNoBall(speed,
+        .and(new SpinFlywheelToRPM(ShooterFlywheelConstants.SHOOT_RPM,
+                                   shooterFlywheel,
+                                   hardware))
+        .then(new SpinSecondaryNoBall(ShooterSecondaryConstants.SHOOT_SPEED,
                                       shooterSecondary,
                                       hardware)
         .andUntilDone(flywheelTask)
           .then(new FixedTime(1000)
               .andUntilDone(flywheelTask)
-              .andUntilDone(new SpinSecondary(shooterSecondary, speed))));
+              .andUntilDone(new SpinSecondary(shooterSecondary,
+                                              ShooterSecondaryConstants.SHOOT_SPEED))));
   }
 
 }
