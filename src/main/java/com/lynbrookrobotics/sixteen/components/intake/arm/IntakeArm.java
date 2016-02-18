@@ -12,6 +12,7 @@ public class IntakeArm extends Component<IntakeArmController> {
 
   /**
    * Creates a new component representing the intake arm.
+   *
    * @param robotHardware RobotHardware used for setting output.
    */
   public IntakeArm(RobotHardware robotHardware) {

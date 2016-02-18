@@ -6,6 +6,7 @@ public abstract class IntakeArmController {
 
   /**
    * Sets the arm speed to the Supplier passed.
+   *
    * @param speed The method passed with the IntakeArm speed.
    * @return the intake arm speed.
    */
