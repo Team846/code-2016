@@ -20,22 +20,19 @@ public class ShooterTasks {
    * @param hardware Robot Hardware
    * @param targetRPM RPM of the Flywheel
    * @param speed Speed of the secondary wheel
-   * @param distance distance threshold TODO: Change to an absolute value
    * @return FiniteTask for shooting
    */
   public static FiniteTask shoot(ShooterFlywheel shooterFlywheel,
                                  ShooterSecondary shooterSecondary,
                                  RobotHardware hardware,
                                  double targetRPM,
-                                 double speed,
-                                 double distance) {
+                                 double speed) {
     SpinFlywheelAtRPM flywheelTask
         = new SpinFlywheelAtRPM(targetRPM, shooterFlywheel, hardware);
     return new SpinFlywheelToRPM(targetRPM,
                                  shooterFlywheel,
                                  hardware)
         .then(new SpinSecondaryNoBall(speed,
-                                      distance,
                                       shooterSecondary,
                                       hardware)
         .andUntilDone(flywheelTask)
