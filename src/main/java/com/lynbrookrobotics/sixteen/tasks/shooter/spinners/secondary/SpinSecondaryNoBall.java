@@ -17,6 +17,7 @@ public class SpinSecondaryNoBall extends FiniteTask {
   double distance;
   ProximitySensor sensor;
   ShooterSecondaryController controller;
+  
   /**
    * Spins the secondary wheels of the shooter that push the ball into the
    * flywheel while there is no ball detected.
