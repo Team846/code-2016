@@ -1,8 +1,8 @@
 package com.lynbrookrobotics.sixteen.components.intake.arm;
 
-import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.control.pid.PID;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
+import com.lynbrookrobotics.sixteen.control.pid.PID;
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**
  * The Controller that moves the intake arm to a certain angle.
@@ -13,10 +13,10 @@ public class IntakeArmAngleController extends IntakeArmController {
   double currentPosition;
 
   /**
-   * The IntakeArmAngleController uses
-   *
-   * @param targetAngle   Target Angle for the intake component
-   * @param robotHardware the intake g
+   * The IntakeArmAngleController uses the target angle, and robotHardware
+   * to create Controller.
+   * @param targetAngle   Target Angle for the intake component.
+   * @param robotHardware The RobotHardware to get current angle of comp..
    */
   public IntakeArmAngleController(double targetAngle, RobotHardware robotHardware) {
     this.robotHardware = robotHardware;
