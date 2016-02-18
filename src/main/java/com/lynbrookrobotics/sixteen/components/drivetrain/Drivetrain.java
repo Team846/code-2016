@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**
  * The component representing the drivetrain of the robot.
- * Made up of two independently controlled sides that allows for tank-style control.
+ * Made up of two independently controlled sides that allows for arcade-style control.
  */
 public class Drivetrain extends Component<DrivetrainController> {
   private final DrivetrainHardware hardware;
@@ -16,7 +16,7 @@ public class Drivetrain extends Component<DrivetrainController> {
    * @param robotHardware the hardware to use
    */
   public Drivetrain(RobotHardware robotHardware) {
-    super(TankDriveController.of(() -> 0.0, () -> 0.0));
+    super(ArcadeDriveController.of(() -> 0.0, () -> 0.0));
 
     this.hardware = robotHardware.drivetrainHardware;
   }

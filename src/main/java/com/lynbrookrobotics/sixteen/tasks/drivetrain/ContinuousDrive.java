@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.tasks.drivetrain;
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeDriveController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 public class ContinuousDrive extends ContinuousTask {
   RobotHardware hardware;
   Drivetrain drivetrain;
-  TankDriveController controller;
+  ArcadeDriveController controller;
 
   /**
    * Constructs a fixed duration drive.
@@ -24,7 +24,7 @@ public class ContinuousDrive extends ContinuousTask {
                          Supplier<Double> turn,
                          RobotHardware hardware,
                          Drivetrain drivetrain) {
-    this.controller = TankDriveController.of(forward, turn);
+    this.controller = ArcadeDriveController.of(forward, turn);
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }

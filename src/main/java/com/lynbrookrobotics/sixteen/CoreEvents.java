@@ -7,7 +7,7 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnLiveHeadingController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
