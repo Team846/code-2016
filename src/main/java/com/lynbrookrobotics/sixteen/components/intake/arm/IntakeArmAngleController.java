@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.components.intake.arm;
 
-import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 /**
