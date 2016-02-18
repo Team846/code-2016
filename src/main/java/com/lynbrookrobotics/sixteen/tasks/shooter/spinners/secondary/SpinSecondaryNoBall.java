@@ -39,7 +39,7 @@ public class SpinSecondaryNoBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if (sensor.isWithinDistance(ShooterConstants.BALL_PROXIMITY_THRESHOLD)) { //TODO: Change sensor API
+    if (sensor.isWithinDistance(ShooterConstants.BALL_PROXIMITY_THRESHOLD)) {
       finished();
     }
   }
