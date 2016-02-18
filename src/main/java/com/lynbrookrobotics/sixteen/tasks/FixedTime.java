@@ -2,7 +2,7 @@ package com.lynbrookrobotics.sixteen.tasks;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeDriveController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
