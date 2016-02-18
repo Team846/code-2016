@@ -6,7 +6,11 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.Shoote
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
-public class SpinSecondaryNoBall extends FiniteTask{
+/**
+ * Spins the secondary wheels of the shooter that push the ball into the
+ * flywheel while there is no ball detected
+ */
+public class SpinSecondaryNoBall extends FiniteTask {
 
   ShooterSecondary shooterSecondary;
   double speed;
@@ -17,7 +21,7 @@ public class SpinSecondaryNoBall extends FiniteTask{
   public SpinSecondaryNoBall(double speed,
                              double distance,
                              ShooterSecondary shooterSecondary,
-                             RobotHardware hardware){
+                             RobotHardware hardware) {
     this.speed = speed;
     this.distance = distance;
     this.shooterSecondary = shooterSecondary;
@@ -33,7 +37,7 @@ public class SpinSecondaryNoBall extends FiniteTask{
 
   @Override
   protected void update() {
-    if(sensor.getAverageVoltage() <= distance){//TODO: Change sensor API
+    if (sensor.getAverageVoltage() <= distance) { //TODO: Change sensor API
       finished();
     }
   }
