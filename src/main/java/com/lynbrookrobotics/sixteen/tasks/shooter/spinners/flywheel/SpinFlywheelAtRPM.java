@@ -1,11 +1,11 @@
-package com.lynbrookrobotics.sixteen.tasks.shooter.spinners;
+package com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel;
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelSpeedController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
-public class SpinAtRPM extends ContinuousTask {
+public class SpinFlywheelAtRPM extends ContinuousTask {
   double targetRPM;
   ShooterFlywheel shooterFlywheel;
   RobotHardware hardware;
@@ -13,9 +13,9 @@ public class SpinAtRPM extends ContinuousTask {
   /**
    * Spins the spinner at a given RPM continually.
    */
-  public SpinAtRPM(double targetRPM,
-                   ShooterFlywheel shooterFlywheel,
-                   RobotHardware hardware) {
+  public SpinFlywheelAtRPM(double targetRPM,
+                           ShooterFlywheel shooterFlywheel,
+                           RobotHardware hardware) {
     this.targetRPM = targetRPM;
     this.shooterFlywheel = shooterFlywheel;
     this.hardware = hardware;
