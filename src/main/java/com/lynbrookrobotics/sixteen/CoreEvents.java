@@ -6,7 +6,6 @@ import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnLiveHeadingController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
@@ -68,12 +67,12 @@ public class CoreEvents {
     this.enabledDrive = new DriveOnLiveHeadingController(hardware) {
       @Override
       public double forward() {
-        return 20 * Math.pow(-controls.driverStick.getY(), 3);
+        return 5.5 * Math.signum(-controls.driverStick.getY()) * Math.pow(-controls.driverStick.getY(), 2);
       }
 
       @Override
       public double angleSpeed() {
-        return 20 * Math.pow(controls.driverWheel.getX(), 3);
+        return 20 * -controls.operatorStick.getY() * Math.signum(controls.driverWheel.getX()) * Math.pow(controls.driverWheel.getX(), 2);
       }
     };
 
@@ -162,8 +161,8 @@ public class CoreEvents {
 
       dashboard.datasetGroup("drivetrain")
           .addDataset(new TimeSeriesNumeric<>(
-              "Angular Position",
-              () -> hardware.drivetrainHardware.mainGyro().currentPosition().valueZ()));
+              "Angular vel",
+              () -> hardware.drivetrainHardware.mainGyro().currentVelocity().valueZ()));
 
       if (RobotConstants.HAS_SHOOTER) {
 
