@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.config;
 import com.typesafe.config.Config;
 
 /**
- * Connects the Intake Arm to the motorPort
+ * Connects the Intake Arm to the motorPort.
  */
 public class IntakeArmPorts {
   public final int motorPort;
@@ -11,14 +11,14 @@ public class IntakeArmPorts {
   /**
    * Initializes the motor port with the motor port passed.
    *
-   * @param motorPort The motor port for the intake arm
+   * @param motorPort The motor port for the intake arm.
    */
   public IntakeArmPorts(int motorPort) {
     this.motorPort = motorPort;
   }
 
   /**
-   * Takes the configuration from robot.conf and passes it to the other constructor
+   * Takes the configuration from robot.conf and passes it to the other constructor.
    *
    * @param config the configuration from robot.conf
    */
