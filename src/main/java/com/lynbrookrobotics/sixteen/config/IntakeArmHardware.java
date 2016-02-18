@@ -14,8 +14,9 @@ public class IntakeArmHardware {
 
   /**
    * Hardware for the Intake arm.
-   * @param motor CANTalon used in Intake Arm Hardware
-   * @param encoder Encoder used to set the intake arm to certian angle.
+   *
+   * @param motor   CANTalon used in Intake Arm Hardware
+   * @param encoder Encoder used to set the intake arm to certain angle.
    */
   public IntakeArmHardware(CANTalon motor, PlanetaryEncoder encoder) {
     this.motor = motor;
@@ -23,8 +24,9 @@ public class IntakeArmHardware {
   }
 
   /**
-   *  Takes the motor passes it to the constructor
-   * @param motor
+   * Takes the motor and passes it to the constructor.
+   *
+   * @param motor the motor that is passed by RobotHardware.
    */
   public IntakeArmHardware(CANTalon motor) {
     this(

@@ -10,6 +10,7 @@ public class IntakeArmPorts {
 
   /**
    * Initializes the motor port with the motor port passed.
+   *
    * @param motorPort The motor port for the intake arm
    */
   public IntakeArmPorts(int motorPort) {
@@ -18,6 +19,7 @@ public class IntakeArmPorts {
 
   /**
    * Takes the configuration from robot.conf and passes it to the other constructor
+   *
    * @param config the configuration from robot.conf
    */
   public IntakeArmPorts(Config config) {
