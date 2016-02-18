@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.sixteen.tasks.shooter.spinners;
+package com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel;
 
 import static com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants.THRESHOLD_RPM;
 
@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.Shooter
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelSpeedController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
-public class SpinToRPM extends FiniteTask {
+public class SpinFlywheelToRPM extends FiniteTask {
   double targetRPM;
   ShooterFlywheel shooterFlywheel;
   RobotHardware hardware;
@@ -17,9 +17,9 @@ public class SpinToRPM extends FiniteTask {
   /**
    * Spins the spinner up to a given RPM and then ends.
    */
-  public SpinToRPM(double targetRPM,
-                   ShooterFlywheel shooterFlywheel,
-                   RobotHardware hardware) {
+  public SpinFlywheelToRPM(double targetRPM,
+                           ShooterFlywheel shooterFlywheel,
+                           RobotHardware hardware) {
     this.targetRPM = targetRPM;
     this.shooterFlywheel = shooterFlywheel;
     this.hardware = hardware;

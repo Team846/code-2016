@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.RelativeHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
-import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -27,7 +27,7 @@ public class RobotConstants {
       RelativeHeadingTimedDrive.class,
       ContinuousDrive.class,
       TurnByAngle.class,
-      SpinAtRPM.class
+      SpinFlywheelAtRPM.class
   };
 
   public static final Executor executor = Executors.newFixedThreadPool(2);

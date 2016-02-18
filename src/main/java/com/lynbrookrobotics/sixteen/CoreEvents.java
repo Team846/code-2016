@@ -13,7 +13,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
-import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinAtRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -129,7 +129,7 @@ public class CoreEvents {
     // Shooter
     if (RobotConstants.HAS_SHOOTER) {
       autonomousStateEvent.forEach(
-          new FixedTime(10000).andUntilDone(new SpinAtRPM(2000, shooterFlywheel, hardware))
+          new FixedTime(10000).andUntilDone(new SpinFlywheelAtRPM(2000, shooterFlywheel, hardware))
       );
     }
 
