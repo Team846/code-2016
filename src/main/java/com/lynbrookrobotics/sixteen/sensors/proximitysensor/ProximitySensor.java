@@ -17,4 +17,8 @@ public class ProximitySensor {
   public double getAverageVoltage() {
     return sensor.getAverageVoltage();
   }
+
+  public boolean isWithinDistance(double distance) {
+    return getAverageVoltage() >= distance;
+  }
 }
