@@ -43,7 +43,7 @@ public class CoreEvents {
 
   // Drivetrain
   /**
-   * Cube input for greater precision control at lower speeds
+   * Cube input for greater precision control at lower speeds.
    */
   DriveOnLiveHeadingController enabledDrive;
 
