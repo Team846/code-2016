@@ -14,8 +14,7 @@ import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 public class SpinSecondaryNoBall extends FiniteTask {
 
   ShooterSecondary shooterSecondary;
-  double speed;
-  double distance;
+  double speed;//TODO: Change to a configurable value
   ProximitySensor sensor;
   ShooterSecondaryController controller;
   
@@ -24,11 +23,9 @@ public class SpinSecondaryNoBall extends FiniteTask {
    * flywheel while there is no ball detected.
    */
   public SpinSecondaryNoBall(double speed,
-                             double distance,
                              ShooterSecondary shooterSecondary,
                              RobotHardware hardware) {
     this.speed = speed;
-    this.distance = distance;
     this.shooterSecondary = shooterSecondary;
     this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
     this.controller = ShooterSecondaryController.of(() -> speed);
