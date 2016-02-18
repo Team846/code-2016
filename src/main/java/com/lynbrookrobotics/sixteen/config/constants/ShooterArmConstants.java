@@ -10,4 +10,7 @@ public class ShooterArmConstants {
 
   // TODO: experimentally determine conversion factor
   public static final double CONVERSION_FACTOR = 0.0d;
+
+  //TODO: change to a legitimate value
+  public static final int SHOOT_ANGLE = 0;
 }

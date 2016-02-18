@@ -5,6 +5,7 @@ import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
@@ -20,9 +21,8 @@ public class ShooterTasks {
    * @param shooterFlywheel Flywheel component
    * @param shooterSecondary Secondary wheel component
    * @param hardware Robot Hardware
-   * @param targetRPM RPM of the Flywheel
-   * @param speed Speed of the secondary wheel
-   * @param angle Angle of the shooter arm
+   * @param targetRPM RPM of the Flywheel TODO: make constant
+   * @param speed Speed of the secondary wheel TODO: make constant
    * @return FiniteTask for shooting
    */
   public static FiniteTask shoot(ShooterFlywheel shooterFlywheel,
@@ -30,11 +30,12 @@ public class ShooterTasks {
                                  ShooterArm shooterArm,
                                  RobotHardware hardware,
                                  double targetRPM,
-                                 double speed,
-                                 int angle) {
+                                 double speed) {
     SpinFlywheelAtRPM flywheelTask
         = new SpinFlywheelAtRPM(targetRPM, shooterFlywheel, hardware);
-    return new MoveShooterArmToAngle(angle, hardware, shooterArm)
+    return new MoveShooterArmToAngle(ShooterArmConstants.SHOOT_ANGLE,
+                                     hardware,
+                                     shooterArm)
         .and(new SpinFlywheelToRPM(targetRPM, shooterFlywheel, hardware))
         .then(new SpinSecondaryNoBall(speed,
                                       shooterSecondary,
