@@ -26,8 +26,8 @@ public class LoadJavascriptFileTest {
   public void testLoadStringCorrect() {
     LoadJavascriptFile loader = new LoadJavascriptFile();
     String result = loader.loadString(correctCode, hardware, drivetrain, flywheel).toString();
-    assert result.startsWith("com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle");
 
+    assert result.startsWith("com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle");
 
   }
 
