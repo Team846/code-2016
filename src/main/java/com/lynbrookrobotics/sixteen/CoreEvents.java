@@ -54,6 +54,9 @@ public class CoreEvents {
       () -> controls.operatorStick.getY()
   );
 
+  double forwardGain = 4.0;
+  double angleGain = 4.0;
+
   /**
    * Initializes hardware for events.
    */
@@ -69,12 +72,12 @@ public class CoreEvents {
     this.enabledDrive = new DriveOnLiveHeadingController(hardware) {
       @Override
       public double forward() {
-        return 10 * Math.pow(-controls.driverStick.getY(), 3);
+        return forwardGain * Math.pow(-controls.driverStick.getY(), 3);
       }
 
       @Override
       public double angleSpeed() {
-        return 10 * Math.pow(controls.driverWheel.getX(), 3);
+        return angleGain * Math.pow(controls.driverWheel.getX(), 3);
       }
     };
 
@@ -82,6 +85,21 @@ public class CoreEvents {
         controls.driverStation,
         InGameState.GameState.DISABLED
     );
+
+    RobotConstants.dashboard.thenAccept(dashboard -> {
+      dashboard.datasetGroup("controls").addDataset(new TimeSeriesNumeric<>("POV", () -> controls.driverStick.underlying.getPOV()));
+    });
+    disabledStateEvent.forEach(() -> {
+      if (controls.driverStick.underlying.getPOV() == 90) {
+        forwardGain = 5.5;
+        angleGain = 4.8;
+        System.out.println("Switching to Elton's");
+      } else if (controls.driverStick.underlying.getPOV() == 270) {
+        forwardGain = 4.0;
+        angleGain = 4.0;
+        System.out.println("Switching to Rahul's");
+      }
+    });
 
     this.autonomousStateEvent = new InGameState(
         controls.driverStation,
