@@ -6,6 +6,7 @@ import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnLiveHeadingController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
+import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
@@ -45,7 +46,7 @@ public class CoreEvents {
   /**
    * Cube input for greater precision control at lower speeds.
    */
-  DriveOnLiveHeadingController enabledDrive;
+  DrivetrainController enabledDrive;
 
   // Shooter
   ShooterFlywheelController enabledShooter =
@@ -68,12 +69,12 @@ public class CoreEvents {
     this.enabledDrive = new DriveOnLiveHeadingController(hardware) {
       @Override
       public double forward() {
-        return 20 * Math.pow(-controls.driverStick.getY(), 3);
+        return 10 * Math.pow(-controls.driverStick.getY(), 3);
       }
 
       @Override
       public double angleSpeed() {
-        return 20 * Math.pow(controls.driverWheel.getX(), 3);
+        return 10 * Math.pow(controls.driverWheel.getX(), 3);
       }
     };
 
