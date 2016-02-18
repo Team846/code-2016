@@ -21,6 +21,7 @@ public class RobotConstants {
   public static final int DRIVER_STICK = 0;
   public static final int OPERATOR_STICK = 1;
   public static final int DRIVER_WHEEL = 2;
+  public static final int SHOOTER_ARM_ERROR = 3;
 
   public static final Class[] taskList = {
       AbsoluteHeadingTimedDrive.class,
