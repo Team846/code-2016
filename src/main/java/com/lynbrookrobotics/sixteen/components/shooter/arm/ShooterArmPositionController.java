@@ -4,7 +4,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
-public abstract class ShooterArmPositionController extends ShooterArmController {
+public class ShooterArmPositionController extends ShooterArmController {
   private PID pid;
   private int currentPosition;
   private RobotHardware hardware;
