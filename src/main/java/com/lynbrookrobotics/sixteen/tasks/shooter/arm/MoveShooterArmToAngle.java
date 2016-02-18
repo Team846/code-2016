@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 
 /**
- * Moves Shooter to specified angle with an accepted error range of 2 degrees
+ * Moves Shooter to specified angle with an accepted error range of 2 degrees.
  */
 public class MoveShooterArmToAngle extends FiniteTask {
   private RobotHardware robotHardware;
@@ -17,9 +17,9 @@ public class MoveShooterArmToAngle extends FiniteTask {
 
   /**
    * Constructor for the MoveShooterArmToAngle.
-   * @param angle         the target angle
-   * @param robotHardware the robot hardware
-   * @param shooterArm    the shooter arm that has to be moved
+   * @param angle         the target angle.
+   * @param robotHardware the robot hardware.
+   * @param shooterArm    the shooter arm that has to be moved.
    */
   public MoveShooterArmToAngle(int angle, RobotHardware robotHardware, ShooterArm shooterArm) {
     this.angle = angle;
@@ -32,7 +32,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
 
   /**
    * Creates a ShooterArmPositionController object with the target angle and robotHardware,
-   * and sets the controller of the shooterArm to it
+   * and sets the controller of the shooterArm to it.
    */
   @Override
   protected void startTask() {
@@ -42,7 +42,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
 
   /**
    * If the current angle of the shooter arm equals the target angle with an error of less than 3 degrees,
-   * the task is finished
+   * the task is finished.
    */
   @Override
   protected void update() {
@@ -52,7 +52,8 @@ public class MoveShooterArmToAngle extends FiniteTask {
   }
 
   /**
-   * Now that the task is finished, reset the shooter arm
+   * Now that the task is finished,
+   * reset the shooter arm.
    */
   @Override
   protected void endTask() {
