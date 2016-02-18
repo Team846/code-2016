@@ -28,7 +28,7 @@ public class ShooterArm extends Component<ShooterArmController> {
     armMotor.set(controller.armMotorSpeed());
   }
 
-  public boolean IsStowed() {
+  public boolean IsShooterArmStowed() {
     return robotHardware.shooterArmHardware.encoder.getAngle() == 0;
   }
 }

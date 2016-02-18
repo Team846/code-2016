@@ -24,4 +24,8 @@ public class IntakeArm extends Component<IntakeArmController> {
   protected void setOutputs(IntakeArmController intakeArmController) {
     robotHardware.intakeArmHardware.motor.set(intakeArmController.armSpeed());
   }
+
+  public boolean isIntakeArmStowed() {
+    return robotHardware.intakeArmHardware.encoder.getAngle() > 90;
+  }
 }
