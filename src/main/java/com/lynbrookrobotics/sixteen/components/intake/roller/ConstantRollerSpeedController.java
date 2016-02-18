@@ -16,7 +16,7 @@ public class ConstantRollerSpeedController extends IntakeRollerController {
   }
 
   /**
-   * @return Speed to set intake motors to
+   * @return Speed to set intake motors to ConstantRollerSpeedController.
    */
   @Override
   public double intakeMotorSpeed() {
