@@ -39,7 +39,7 @@ public class MoveIntakeArmToAngle extends FiniteTask {
   @Override
   protected void update() {
     if (Math.abs(robotHardware.intakeArmHardware.encoder.getAngle() - targetAngle)
-        > IntakeArmConstants.ARM_ERROR) {
+        < IntakeArmConstants.ARM_ERROR) {
       finished();
     }
   }
