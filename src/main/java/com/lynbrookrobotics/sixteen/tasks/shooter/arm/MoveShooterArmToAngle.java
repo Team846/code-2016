@@ -4,7 +4,7 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArmPositionController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 
 /**
@@ -49,7 +49,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
    */
   @Override
   protected void update() {
-    if ( Math.abs(encoder.getAngle() - angle) < RobotConstants.SHOOTER_ARM_ERROR) {
+    if ( Math.abs(encoder.getAngle() - angle) < ShooterArmConstants.SHOOTER_ARM_ERROR) {
       finished();
     }
   }
