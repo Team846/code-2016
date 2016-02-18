@@ -4,12 +4,14 @@ import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.ButtonPress;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.Task;
+import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnLiveHeadingController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
@@ -43,10 +45,7 @@ public class CoreEvents {
   /**
    * Using lambda expression to pass updated forward & turn speeds for tank drive controller.
    */
-  TankDriveController enabledDrive = TankDriveController.of(
-      () -> -controls.driverStick.getY(),
-      () -> controls.driverWheel.getX()
-  );
+  DriveOnLiveHeadingController enabledDrive;
 
   // Shooter
   ShooterFlywheelController enabledShooter =
@@ -65,6 +64,18 @@ public class CoreEvents {
     this.drivetrain = drivetrain;
     this.hardware = hardware;
     this.shooterFlywheel = shooterFlywheel;
+
+    this.enabledDrive = new DriveOnLiveHeadingController(hardware) {
+      @Override
+      public double forward() {
+        return -controls.driverStick.getY();
+      }
+
+      @Override
+      public double angleSpeed() {
+        return controls.driverWheel.getX();
+      }
+    };
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation,

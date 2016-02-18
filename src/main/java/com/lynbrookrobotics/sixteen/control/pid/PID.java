@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 public class PID {
   private Supplier<Double> input;
 
-  private double target;
+  private Supplier<Double> target;
 
   private double pGain = 0;
   private double iGain = 0;
@@ -23,9 +23,21 @@ public class PID {
    * @param input the function producing input data
    * @param target the target value for the input
    */
-  public PID(Supplier<Double> input, double target) {
+  public PID(Supplier<Double> input, Supplier<Double> target) {
     this.input = input;
     this.target = target;
+  }
+
+  /**
+   * Constructs a new PID controller.
+   * @param input the function producing input data
+   * @param target the target value for the input
+   */
+  public PID(Supplier<Double> input, double target) {
+    this(
+        input,
+        () -> target
+    );
   }
 
   /**
@@ -64,7 +76,7 @@ public class PID {
    * Gets the difference to the target value.
    */
   public double difference() {
-    return target - input.get();
+    return target.get() - input.get();
   }
 
   /**
@@ -72,7 +84,7 @@ public class PID {
    */
   public double get() {
     double in = input.get();
-    double error = target - in;
+    double error = target.get() - in;
 
     runningIntegral = (runningIntegral * iMemory)
         + ((1 - iMemory) * error * RobotConstants.TICK_PERIOD);
