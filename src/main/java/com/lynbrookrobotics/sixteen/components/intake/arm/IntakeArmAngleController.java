@@ -1,8 +1,8 @@
 package com.lynbrookrobotics.sixteen.components.intake.arm;
 
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
-import com.lynbrookrobotics.sixteen.control.pid.PID;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 /**
  * The Controller that moves the intake arm to a certain angle.
