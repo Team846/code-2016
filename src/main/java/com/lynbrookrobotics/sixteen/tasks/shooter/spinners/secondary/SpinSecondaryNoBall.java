@@ -4,6 +4,7 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondaryController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterConstants;
 import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
 /**
@@ -41,7 +42,7 @@ public class SpinSecondaryNoBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if (sensor.getAverageVoltage() <= distance) { //TODO: Change sensor API
+    if (sensor.isWithinDistance(ShooterConstants.BALL_PROXIMITY_THRESHOLD)) { //TODO: Change sensor API
       finished();
     }
   }
