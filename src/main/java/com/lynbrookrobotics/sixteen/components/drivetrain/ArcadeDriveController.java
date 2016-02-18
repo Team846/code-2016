@@ -9,7 +9,8 @@ public abstract class ArcadeDriveController extends DrivetrainController {
    * @param forwardSpeed the speed to move forward
    * @param turnSpeed    the speed to turn at where positive is to the right
    */
-  public static ArcadeDriveController of(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed) {
+  public static ArcadeDriveController of(Supplier<Double> forwardSpeed,
+                                         Supplier<Double> turnSpeed) {
     return new ArcadeDriveController() {
       @Override
       public double forwardSpeed() {

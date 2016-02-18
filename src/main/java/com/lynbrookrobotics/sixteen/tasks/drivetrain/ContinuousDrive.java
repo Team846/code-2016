@@ -1,8 +1,8 @@
 package com.lynbrookrobotics.sixteen.tasks.drivetrain;
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
-import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
