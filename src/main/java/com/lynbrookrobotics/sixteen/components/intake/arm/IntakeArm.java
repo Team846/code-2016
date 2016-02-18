@@ -1,19 +1,26 @@
 package com.lynbrookrobotics.sixteen.components.intake.arm;
 
 import com.lynbrookrobotics.potassium.components.Component;
+import com.lynbrookrobotics.sixteen.config.IntakeArmHardware;
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
+/**
+ * Intake Component that sets the arms speed
+ */
 public class IntakeArm extends Component<IntakeArmController> {
+  private RobotHardware robotHardware;
+
   /**
    * Creates a new component representing the intake arm.
-   *
-   * @param defaultController the controller to return to when resetToDefault() is called
    */
-  public IntakeArm(IntakeArmController defaultController) {
-    super(defaultController);
+  public IntakeArm(RobotHardware robotHardware) {
+    super(IntakeArmController.of(() -> 0.0));
+    this.robotHardware = robotHardware;
   }
+
 
   @Override
   protected void setOutputs(IntakeArmController intakeArmController) {
-
+    robotHardware.intakeArmHardware.motor.set(intakeArmController.armSpeed());
   }
 }

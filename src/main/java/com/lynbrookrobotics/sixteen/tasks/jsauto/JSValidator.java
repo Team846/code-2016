@@ -4,6 +4,7 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
+import com.lynbrookrobotics.sixteen.config.IntakeArmHardware;
 import com.lynbrookrobotics.sixteen.config.IntakeRollerHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.ShooterArmHardware;
@@ -32,12 +33,14 @@ public class JSValidator extends JFrame {
   );
 
   private IntakeRollerHardware intakeRollerHardware = new IntakeRollerHardware(null, null);
+  private IntakeArmHardware intakeArmHardware = new IntakeArmHardware(null);
   private ShooterArmHardware shooterArmHardware = new ShooterArmHardware(null, null);
   private RobotHardware robotHardware = new RobotHardware(
       drivetrainHardware,
       shooterSpinnersHardware,
       shooterArmHardware,
-          intakeRollerHardware
+      intakeRollerHardware,
+      intakeArmHardware
   );
 
   private Drivetrain drivetrain = new Drivetrain(robotHardware);
