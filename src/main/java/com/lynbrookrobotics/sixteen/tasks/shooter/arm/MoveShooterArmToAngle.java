@@ -42,8 +42,9 @@ public class MoveShooterArmToAngle extends FiniteTask {
   }
 
   /**
-   * If the current angle of the shooter arm equals the target angle with an error of less than 3 degrees,
-   * the task is finished.
+   * If the current angle of the shooter arm equals
+   * the target angle with an error of less
+   * than 3 degrees, the task is finished.
    */
   @Override
   protected void update() {
