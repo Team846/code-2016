@@ -13,6 +13,7 @@ public class RobotHardware {
   public final IntakeRollerHardware intakeRollerHardware;
   public final ShooterArmHardware shooterArmHardware;
   public final IntakeArmHardware intakeArmHardware;
+
   /**
    * Constructs a RobotHardware given the individual hardware classes.
    */
