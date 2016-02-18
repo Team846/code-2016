@@ -23,8 +23,6 @@ public class ShooterTasks {
    * @param shooterFlywheel Flywheel component
    * @param shooterSecondary Secondary wheel component
    * @param hardware Robot Hardware
-   * @param targetRPM RPM of the Flywheel TODO: make constant
-   * @param speed Speed of the secondary wheel TODO: make constant
    * @return FiniteTask for shooting
    */
   public static FiniteTask shoot(ShooterFlywheel shooterFlywheel,
