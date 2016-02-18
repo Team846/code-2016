@@ -2,15 +2,15 @@ package com.lynbrookrobotics.sixteen.components.drivetrain;
 
 import java.util.function.Supplier;
 
-public abstract class TankDriveController extends DrivetrainController {
+public abstract class ArcadeDriveController extends DrivetrainController {
   /**
    * Creates a new tank-drive style controller based on two suppliers.
    *
    * @param forwardSpeed the speed to move forward
    * @param turnSpeed    the speed to turn at where positive is to the right
    */
-  public static TankDriveController of(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed) {
-    return new TankDriveController() {
+  public static ArcadeDriveController of(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed) {
+    return new ArcadeDriveController() {
       @Override
       public double forwardSpeed() {
         return forwardSpeed.get();
