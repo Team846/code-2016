@@ -8,7 +8,7 @@ import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
 /**
  * Spins the secondary wheels of the shooter that push the ball into the
- * flywheel while there is no ball detected
+ * flywheel while there is no ball detected.
  */
 public class SpinSecondaryNoBall extends FiniteTask {
 
@@ -17,7 +17,10 @@ public class SpinSecondaryNoBall extends FiniteTask {
   double distance;
   ProximitySensor sensor;
   ShooterSecondaryController controller;
-
+  /**
+   * Spins the secondary wheels of the shooter that push the ball into the
+   * flywheel while there is no ball detected.
+   */
   public SpinSecondaryNoBall(double speed,
                              double distance,
                              ShooterSecondary shooterSecondary,
