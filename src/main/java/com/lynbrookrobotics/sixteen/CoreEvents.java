@@ -28,6 +28,10 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
+import com.ni.vision.NIVision;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -101,14 +105,24 @@ public class CoreEvents {
    */
   public void initEventMappings() {
     // Camera Streaming
-    USBCamera camera = new USBCamera();
+    NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+    USBCamera camera = new USBCamera("cam1");
     camera.setBrightness(50);
     camera.setExposureAuto();
     camera.updateSettings();
     camera.startCapture();
 
-    CameraServer.getInstance().setQuality(30);
-    CameraServer.getInstance().startAutomaticCapture(camera);
+    Timer updateTimer = new Timer("update-loop");
+
+    CameraServer.getInstance().setQuality(50);
+    updateTimer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        camera.getImage(image);
+        CameraServer.getInstance().setImage(image);
+      }
+    }, 0, (long) (50));
 
     // Driver Controls
     enabledStateEvent.forEach(() -> {

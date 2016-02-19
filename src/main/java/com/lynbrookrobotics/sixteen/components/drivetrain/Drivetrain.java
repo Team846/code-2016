@@ -24,17 +24,21 @@ public class Drivetrain extends Component<DrivetrainController> {
     this.hardware = robotHardware.drivetrainHardware;
     this.controls = controls;
 
-    this.enabledDrive = new DriveOnLiveHeadingController(robotHardware) {
-      @Override
-      public double forward() {
-        return 10 * Math.pow(-controls.driverStick.getY(), 3);
-      }
-
-      @Override
-      public double angleSpeed() {
-        return 10 * Math.pow(controls.driverWheel.getX(), 3);
-      }
-    };
+    this.enabledDrive = ArcadeDriveController.of(
+        () -> 10 * Math.pow(-controls.driverStick.getY(), 3),
+        () -> 10 * Math.pow(controls.driverWheel.getX(), 3)
+    );
+//    this.enabledDrive = new DriveOnLiveHeadingController(robotHardware) {
+//      @Override
+//      public double forward() {
+//        return 10 * Math.pow(-controls.driverStick.getY(), 3);
+//      }
+//
+//      @Override
+//      public double angleSpeed() {
+//        return 10 * Math.pow(controls.driverWheel.getX(), 3);
+//      }
+//    };
   }
 
   @Override
@@ -51,7 +55,8 @@ public class Drivetrain extends Component<DrivetrainController> {
 
   @Override
   public void resetToDefault() {
-    if (controls.driverStation.isEnabled()
+    if (controls != null
+        && controls.driverStation.isEnabled()
         && controls.driverStation.isOperatorControl()) {
       setController(enabledDrive);
     } else {
