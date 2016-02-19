@@ -1,7 +1,7 @@
 # Robot Tasks
 ## Combined
 - [ ] Cross each type of defense
-- [ ] Move collector and shooter into slightly upright position for moving around
+- [x] Move collector and shooter into slightly upright position for moving around
   - [ ] Optional: run after collect
 - [x] Shoot ball (low)
   - [x] Move collector to collecting setpoint and set rollers to purge direction
@@ -25,9 +25,9 @@
 - [x] Override shooter spinners
 - [x] Override shooter movement
 - [x] Move shooter to given position
-- [ ] Move shooter to given setpoint
-  - [ ] Collecting (transferring ball from collector)
-  - [ ] Stowed (facing down, safety should stop motion if collector is also stowed)
+- [x] Move shooter to given setpoint
+  - [x] Collecting (transferring ball from collector)
+  - [x] Stowed (facing down, safety should stop motion if collector is also stowed)
 - [x] Shoot ball (high)
   - [x] Roll flywheel to set RPM
   - [x] Simultaneously move to shooting setpoint

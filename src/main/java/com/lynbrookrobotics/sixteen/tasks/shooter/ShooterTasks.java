@@ -40,7 +40,7 @@ public class ShooterTasks {
                                  shooterFlywheel,
                                  hardware)
         .and(new MoveShooterArmToAngle(
-            ShooterArmConstants.TARGET_ANGLE,
+            ShooterArmConstants.SHOOT_ANGLE,
             hardware,
             shooterArm
         )))

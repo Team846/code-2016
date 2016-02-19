@@ -11,12 +11,18 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.Shooter
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
+import com.lynbrookrobotics.sixteen.tasks.shooter.ShooterTasks;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.DirectShooterArmSpeed;
+import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
@@ -166,6 +172,57 @@ public class CoreEvents {
               () -> -controls.operatorStick.getY(),
               shooterSecondary
           ));
+    }
+
+    if (RobotConstants.HAS_SHOOTER) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.SHOOT_HIGH)
+          .forEach(ShooterTasks.shootHigh(
+              shooterFlywheel,
+              shooterSecondary,
+              shooterArm,
+              hardware));
+    }
+
+    if (RobotConstants.HAS_INTAKE) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.COLLECT)
+          .forEach(IntakeTasks.collect(
+              intakeArm,
+              intakeRoller,
+              shooterArm,
+              shooterFlywheel,
+              shooterSecondary,
+              hardware
+          ));
+    }
+
+    if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.SHOOT_LOW)
+          .forEach(ShooterTasks.shootLow(
+              shooterFlywheel,
+              shooterSecondary,
+              shooterArm,
+              intakeArm,
+              intakeRoller,
+              hardware));
+
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.TRANSPORT_POSITION)
+          .forEach(
+              new MoveIntakeArmToAngle(
+                  IntakeArmConstants.TRANSPORT_SETPOINT,
+                  intakeArm,
+                  hardware
+              ).and(
+                  new MoveShooterArmToAngle(
+                      ShooterArmConstants.TRANSPORT_SETPOINT,
+                      hardware,
+                      shooterArm
+                  )
+              )
+          );
     }
 
     // Abort on button press
