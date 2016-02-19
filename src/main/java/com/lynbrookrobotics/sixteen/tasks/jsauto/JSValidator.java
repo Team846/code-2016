@@ -33,7 +33,7 @@ public class JSValidator extends JFrame {
   );
 
   private IntakeRollerHardware intakeRollerHardware = new IntakeRollerHardware(null, null);
-  private IntakeArmHardware intakeArmHardware = new IntakeArmHardware(null);
+  private IntakeArmHardware intakeArmHardware = new IntakeArmHardware(null,null);
   private ShooterArmHardware shooterArmHardware = new ShooterArmHardware(null, null);
   private RobotHardware robotHardware = new RobotHardware(
       drivetrainHardware,
