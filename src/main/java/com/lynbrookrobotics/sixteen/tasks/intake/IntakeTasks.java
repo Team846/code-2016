@@ -9,6 +9,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeRollerConstants;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
+import com.lynbrookrobotics.sixteen.tasks.intake.roller.CollectUntilBall;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinUntilBall;
 
@@ -19,14 +20,23 @@ public class IntakeTasks {
                                    ShooterSecondary secondary,
                                    RobotHardware hardware) {
     return
-        (new MoveIntakeArmToAngle(
+        ((new MoveIntakeArmToAngle(
             IntakeArmConstants.COLLECT_SETPOINT,
             arm,
             hardware
-        ).then(new SpinUntilBall(hardware, flywheel, secondary)))
+        ).and(
+            new CollectUntilBall(roller, hardware)
+        )).then(
+            new SpinUntilBall(hardware, flywheel, secondary))
             .andUntilDone(
                 new DirectIntakeRollerSpeed(
                     () -> IntakeRollerConstants.COLLECT_SPEED,
-                    roller));
+                    roller)
+            ).andUntilDone(
+                new MoveIntakeArmToAngle(
+                    IntakeArmConstants.COLLECT_TRANSFER_SETPOINT,
+                    arm, hardware).toContinuous()
+            )
+        );
   }
 }

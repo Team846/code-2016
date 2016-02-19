@@ -11,6 +11,7 @@ public class IntakeArmConstants {
   public static final double ARM_ERROR = 0.0;
 
   public static final double COLLECT_SETPOINT = 0.0;
+  public static final double COLLECT_TRANSFER_SETPOINT = 0.0;
   public static final double MIDWAY_SETPOINT = 0.0;
   public static final double STOWED_SETPOINT = 0.0;
   public static final double LOW_POSITON_PORTCULLIS = 0.0;
