@@ -11,14 +11,14 @@
 - [x] Override collector spinners
 - [x] Override collector movement
 - [x] Move collector to given position
-- [ ] Move collector to given setpoint
-  - [ ] Collecting
-  - [ ] Midway (for portcullis)
-  - [ ] Stowed (facing up, safety should stop motion if shooter is also stowed)
-- [ ] Collect ball
-  - [ ] Roll spinners to suck in ball
-  - [ ] Simultaneously move to collecting setpoint
-  - [ ] Have shooter ready and spinning to receive the ball
+- [x] Move collector to given setpoint
+  - [x] Collecting
+  - [x] Midway (for portcullis)
+  - [x] Stowed (facing up, safety should stop motion if shooter is also stowed)
+- [x] Collect ball
+  - [x] Roll spinners to suck in ball
+  - [x] Simultaneously move to collecting setpoint
+  - [x] Have shooter ready and spinning to receive the ball
   - [ ] When IR sensor detects ball, lift collector slightly to allow for easy passage into shooter
 
 ## Shooter
