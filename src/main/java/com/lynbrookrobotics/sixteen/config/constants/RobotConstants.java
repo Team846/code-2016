@@ -14,7 +14,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class RobotConstants {
+  public static final boolean HAS_INTAKE = false;
   public static final boolean HAS_SHOOTER = false;
+
   public static final double TICK_PERIOD = 1D / 200; // every 10ms
   public static final double SLOW_PERIOD = 1D / 50; // every 20ms, matches IterativeRobot
 

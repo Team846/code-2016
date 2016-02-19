@@ -1,18 +1,25 @@
 package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
-import com.lynbrookrobotics.potassium.defaults.events.ButtonPress;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
+import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
+import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
+import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
+import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
+import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
+import com.lynbrookrobotics.sixteen.tasks.shooter.arm.DirectShooterArmSpeed;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -23,8 +30,15 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 public class CoreEvents {
   DriverControls controls;
   RobotHardware hardware;
+
   Drivetrain drivetrain;
+
+  IntakeArm intakeArm;
+  IntakeRoller intakeRoller;
+
+  ShooterArm shooterArm;
   ShooterFlywheel shooterFlywheel;
+  ShooterSecondary shooterSecondary;
 
   boolean initialCalibrationDone = false;
 
@@ -39,11 +53,22 @@ public class CoreEvents {
   public CoreEvents(DriverControls controls,
                     RobotHardware hardware,
                     Drivetrain drivetrain,
-                    ShooterFlywheel shooterFlywheel) {
+                    IntakeArm intakeArm,
+                    IntakeRoller intakeRoller,
+                    ShooterArm shooterArm,
+                    ShooterFlywheel shooterFlywheel,
+                    ShooterSecondary shooterSecondary) {
     this.controls = controls;
-    this.drivetrain = drivetrain;
     this.hardware = hardware;
+
+    this.drivetrain = drivetrain;
+
+    this.intakeRoller = intakeRoller;
+    this.intakeArm = intakeArm;
+
+    this.shooterArm = shooterArm;
     this.shooterFlywheel = shooterFlywheel;
+    this.shooterSecondary = shooterSecondary;
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation,
@@ -102,25 +127,44 @@ public class CoreEvents {
     );
 
     // Overrides
-    controls.operatorStick
-        .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ARM)
-        .forEach(Task::abortCurrentTask);
+    if (RobotConstants.HAS_INTAKE) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ARM)
+          .forEach(new DirectIntakeArmSpeed(
+              () -> -controls.operatorStick.getY(),
+              intakeArm
+          ));
 
-    controls.operatorStick
-        .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ROLLER)
-        .forEach(Task::abortCurrentTask);
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ROLLER)
+          .forEach(new DirectIntakeRollerSpeed(
+              () -> -controls.operatorStick.getY(),
+              intakeRoller
+          ));
+    }
 
-    controls.operatorStick
-        .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_ARM)
-        .forEach(Task::abortCurrentTask);
+    if (RobotConstants.HAS_SHOOTER) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_ARM)
+          .forEach(new DirectShooterArmSpeed(
+              () -> -controls.operatorStick.getY(),
+              shooterArm
+          ));
 
-    controls.operatorStick
-        .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SECONDARY)
-        .forEach(Task::abortCurrentTask);
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_FLYWHEEL)
+          .forEach(new DirectFlywheelSpeed(
+              () -> -controls.operatorStick.getY(),
+              shooterFlywheel
+          ));
 
-    controls.operatorStick
-        .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SPINNER)
-        .forEach(Task::abortCurrentTask);
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SECONDARY)
+          .forEach(new SpinSecondary(
+              () -> -controls.operatorStick.getY(),
+              shooterSecondary
+          ));
+    }
 
     // Abort on button press
     controls.operatorStick
@@ -140,7 +184,6 @@ public class CoreEvents {
               () -> hardware.drivetrainHardware.mainGyro().currentPosition().valueZ()));
 
       if (RobotConstants.HAS_SHOOTER) {
-
         dashboard.datasetGroup("shooter")
             .addDataset((new TimeSeriesNumeric<>(
                 "Back Wheel RPM",

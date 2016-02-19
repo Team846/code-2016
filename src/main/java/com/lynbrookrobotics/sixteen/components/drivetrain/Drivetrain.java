@@ -4,7 +4,6 @@ import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 
 /**
  * The component representing the drivetrain of the robot.
@@ -19,13 +18,8 @@ public class Drivetrain extends Component<DrivetrainController> {
    * Constructs a new drivetrain component.
    * @param robotHardware the hardware to use
    */
-<<<<<<< Updated upstream
-  public Drivetrain(RobotHardware robotHardware) {
-    super(ArcadeDriveController.of(() -> 0.0, () -> 0.0));
-=======
   public Drivetrain(RobotHardware robotHardware, DriverControls controls) {
-    super(TankDriveController.of(() -> 0.0, () -> 0.0));
->>>>>>> Stashed changes
+    super(ArcadeDriveController.of(() -> 0.0, () -> 0.0));
 
     this.hardware = robotHardware.drivetrainHardware;
     this.controls = controls;

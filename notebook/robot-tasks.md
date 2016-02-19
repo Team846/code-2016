@@ -8,9 +8,9 @@
   - [ ] Transfer ball from shooter to collector
 
 ## Collector
-- [ ] Override collector spinners
-- [ ] Override collector movement
-- [ ] Move collector to given position
+- [x] Override collector spinners
+- [x] Override collector movement
+- [x] Move collector to given position
 - [ ] Move collector to given setpoint
   - [ ] Collecting
   - [ ] Midway (for portcullis)
@@ -22,13 +22,13 @@
   - [ ] When IR sensor detects ball, lift collector slightly to allow for easy passage into shooter
 
 ## Shooter
-- [ ] Override shooter spinners
-- [ ] Override shooter movement
-- [ ] Move shooter to given position
+- [x] Override shooter spinners
+- [x] Override shooter movement
+- [x] Move shooter to given position
 - [ ] Move shooter to given setpoint
   - [ ] Collecting (transferring ball from collector)
   - [ ] Stowed (facing down, safety should stop motion if collector is also stowed)
-- [ ] Shoot ball (high)
-  - [ ] Roll flywheel to set RPM
-  - [ ] Simultaneously move to shooting setpoint
-  - [ ] Once at target, push ball through flywheel
+- [x] Shoot ball (high)
+  - [x] Roll flywheel to set RPM
+  - [x] Simultaneously move to shooting setpoint
+  - [x] Once at target, push ball through flywheel

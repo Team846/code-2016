@@ -8,22 +8,19 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
  */
 public class IntakeRoller extends Component<IntakeRollerController> {
   RobotHardware robotHardware;
-  IntakeRollerController intakeRollerController;
 
   /**
    * Constructs an intake component.
    *
    * @param robotHardware     the robot hardware to use
-   * @param defaultController the default controller
    */
-  public IntakeRoller(RobotHardware robotHardware, IntakeRollerController defaultController) {
-    super(defaultController);
+  public IntakeRoller(RobotHardware robotHardware) {
+    super(IntakeRollerController.of(() -> 0.0));
     this.robotHardware = robotHardware;
-    this.intakeRollerController = defaultController;
   }
 
   @Override
-  protected void setOutputs(IntakeRollerController intakeRollerController) {
-    robotHardware.intakeRollerHardware.rollerMotor.set(intakeRollerController.intakeMotorSpeed());
+  protected void setOutputs(IntakeRollerController controller) {
+    robotHardware.intakeRollerHardware.rollerMotor.set(controller.intakeMotorSpeed());
   }
 }

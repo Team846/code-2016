@@ -12,8 +12,8 @@ public class ShooterArm extends Component<ShooterArmController> {
   /**
    * Constructs a shooter arm component.
    */
-  public ShooterArm(RobotHardware hardware, ShooterArmController defaultController) {
-    super(defaultController);
+  public ShooterArm(RobotHardware hardware) {
+    super(ShooterArmController.of(() -> 0.0));
 
     this.armMotor = hardware.shooterArmHardware.armMotor;
   }
