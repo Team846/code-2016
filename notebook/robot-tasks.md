@@ -19,7 +19,7 @@
   - [x] Roll spinners to suck in ball
   - [x] Simultaneously move to collecting setpoint
   - [x] Have shooter ready and spinning to receive the ball
-  - [ ] When IR sensor detects ball, lift collector slightly to allow for easy passage into shooter
+  - [x] When IR sensor detects ball, lift collector slightly to allow for easy passage into shooter
 
 ## Shooter
 - [x] Override shooter spinners
