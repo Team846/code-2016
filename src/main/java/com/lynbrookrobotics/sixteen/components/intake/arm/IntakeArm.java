@@ -1,7 +1,6 @@
 package com.lynbrookrobotics.sixteen.components.intake.arm;
 
 import com.lynbrookrobotics.potassium.components.Component;
-import com.lynbrookrobotics.sixteen.config.IntakeArmHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**

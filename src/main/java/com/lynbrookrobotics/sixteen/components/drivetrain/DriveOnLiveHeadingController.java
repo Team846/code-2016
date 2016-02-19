@@ -29,12 +29,11 @@ public abstract class DriveOnLiveHeadingController extends ArcadeDriveController
         () -> currentAngle
     ).withP(1D / 360).withI(1D / 90, 0.4).withD(1D / 180);
 
-    RobotConstants.dashboard.thenAccept(dashboard -> {
-      dashboard.datasetGroup("drivetrain")
-          .addDataset(new TimeSeriesNumeric<>(
-              "teleop error",
-              () -> angleControl.difference()));
-    });
+    RobotConstants.dashboard.thenAccept(dashboard ->
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "teleop error",
+                () -> angleControl.difference())));
   }
 
   public abstract double forward();
