@@ -22,7 +22,7 @@ import java.util.function.Supplier;
  * CoreRobot class loads config and creates components.
  */
 public class CoreRobot {
-  private static <T> T orNull(boolean cond, Supplier<T> getter) {
+  public static <T> T orNull(boolean cond, Supplier<T> getter) {
     if (cond) {
       return getter.get();
     } else {

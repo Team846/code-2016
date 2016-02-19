@@ -34,4 +34,13 @@ public class IntakeArmHardware {
         new PlanetaryEncoder(motor) // need to access through talon
     );
   }
+
+  /**
+   * Constructs intake arm hardware given configuration.
+   */
+  public IntakeArmHardware(VariableConfiguration config) {
+    this(
+        new CANTalon(config.intakeArmPorts.motorPort)
+    );
+  }
 }

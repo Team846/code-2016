@@ -1,5 +1,8 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import com.lynbrookrobotics.sixteen.CoreRobot;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
+
 /**
  * Aggregation of subsystem hardware interfaces.contains instances of each subsystem hardware and
  * their respective getters. Subsystem hardware groups should contain each individual hardware
@@ -35,10 +38,10 @@ public class RobotHardware {
   public RobotHardware(VariableConfiguration config) {
     this(
         new DrivetrainHardware(config),
-        new ShooterSpinnersHardware(config),
-        null, //new ShooterArmHardware(config),
-        null, // new IntakeRollerHardware(config)
-        null//IntakeArmHardware
+        CoreRobot.orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterSpinnersHardware(config)),
+        CoreRobot.orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterArmHardware(config)),
+        CoreRobot.orNull(RobotConstants.HAS_INTAKE, () -> new IntakeRollerHardware(config)),
+        CoreRobot.orNull(RobotConstants.HAS_INTAKE, () -> new IntakeArmHardware(config))
     );
   }
 }
