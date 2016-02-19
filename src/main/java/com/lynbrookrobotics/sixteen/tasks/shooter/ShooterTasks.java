@@ -1,13 +1,21 @@
 package com.lynbrookrobotics.sixteen.tasks.shooter;
 
+import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
+import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
+import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
+import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelToRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
@@ -15,26 +23,20 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSeconda
 
 public class ShooterTasks {
   /**
-   * Shooting task.
+   * Shooting high task.
    * @param shooterFlywheel Flywheel component
    * @param shooterSecondary Secondary wheel component
    * @param hardware Robot Hardware
-   * @param targetRPM RPM of the Flywheel
-   * @param speed Speed of the secondary wheel
-   * @param distance distance threshold TODO: Change to an absolute value
    * @return FiniteTask for shooting
    */
-  public static FiniteTask shoot(ShooterFlywheel shooterFlywheel,
+  public static FiniteTask shootHigh(ShooterFlywheel shooterFlywheel,
                                  ShooterSecondary shooterSecondary,
                                  ShooterArm shooterArm,
-                                 RobotHardware hardware,
-                                 double targetRPM,
-                                 double speed,
-                                 double distance) {
+                                 RobotHardware hardware) {
     SpinFlywheelAtRPM flywheelTask
-        = new SpinFlywheelAtRPM(targetRPM, shooterFlywheel, hardware);
+        = new SpinFlywheelAtRPM(ShooterFlywheelConstants.SHOOT_RPM, shooterFlywheel, hardware);
     return
-        (new SpinFlywheelToRPM(targetRPM,
+        (new SpinFlywheelToRPM(ShooterFlywheelConstants.SHOOT_RPM,
                                  shooterFlywheel,
                                  hardware)
         .and(new MoveShooterArmToAngle(
@@ -43,14 +45,61 @@ public class ShooterTasks {
             shooterArm
         )))
         .then(
-            new SpinSecondaryNoBall(speed,
-                                      distance,
+            new SpinSecondaryNoBall(ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+                                      ShooterFlywheelConstants.SHOOTER_HAS_THRESHOLD,
                                       shooterSecondary,
                                       hardware)
             .andUntilDone(flywheelTask)
         ).then(new FixedTime(1000)
               .andUntilDone(flywheelTask)
-              .andUntilDone(new SpinSecondary(() -> speed, shooterSecondary)));
+              .andUntilDone(new SpinSecondary(
+                  () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+                  shooterSecondary)));
   }
 
+  /**
+   * Shooting low task.
+   * @param shooterFlywheel Flywheel component
+   * @param shooterSecondary Secondary wheel component
+   * @param hardware Robot Hardware
+   * @return FiniteTask for shooting
+   */
+  public static FiniteTask shootLow(ShooterFlywheel shooterFlywheel,
+                                    ShooterSecondary shooterSecondary,
+                                    ShooterArm shooterArm,
+                                    IntakeArm intakeArm,
+                                    IntakeRoller intakeRoller,
+                                    RobotHardware hardware) {
+    FiniteTask prepareArms = new MoveIntakeArmToAngle(
+        IntakeArmConstants.COLLECT_SETPOINT,
+        intakeArm, hardware
+    ).and(new MoveShooterArmToAngle(
+        ShooterArmConstants.STOWED_SETPOINT,
+        hardware,
+        shooterArm
+    ));
+
+    ContinuousTask rolling = new DirectFlywheelSpeed(
+        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        shooterFlywheel
+    ).and(new SpinSecondary(
+        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        shooterSecondary
+    )).and(new DirectIntakeRollerSpeed(
+        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        intakeRoller
+    ));
+
+    FiniteTask rollOut = new SpinSecondaryNoBall(
+        ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        ShooterFlywheelConstants.SHOOTER_HAS_THRESHOLD,
+        shooterSecondary,
+        hardware
+    ).andUntilDone(rolling).then(
+        new FixedTime(1000)
+            .andUntilDone(rolling)
+    );
+
+    return prepareArms.then(rollOut);
+  }
 }

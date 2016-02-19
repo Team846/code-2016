@@ -3,9 +3,9 @@
 - [ ] Cross each type of defense
 - [ ] Move collector and shooter into slightly upright position for moving around
   - [ ] Optional: run after collect
-- [ ] Shoot ball (low)
-  - [ ] Move collector to collecting setpoint and set rollers to purge direction
-  - [ ] Transfer ball from shooter to collector
+- [x] Shoot ball (low)
+  - [x] Move collector to collecting setpoint and set rollers to purge direction
+  - [x] Transfer ball from shooter to collector
 
 ## Collector
 - [x] Override collector spinners

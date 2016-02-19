@@ -14,7 +14,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
   private RobotHardware robotHardware;
   private Encoder encoder;
   private ShooterArm shooterArm;
-  private int angle;
+  private double angle;
 
   /**
    * Constructor for the MoveShooterArmToAngle.
@@ -22,7 +22,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
    * @param robotHardware the robot hardware.
    * @param shooterArm    the shooter arm that has to be moved.
    */
-  public MoveShooterArmToAngle(int angle, RobotHardware robotHardware, ShooterArm shooterArm) {
+  public MoveShooterArmToAngle(double angle, RobotHardware robotHardware, ShooterArm shooterArm) {
     this.angle = angle;
     this.robotHardware = robotHardware;
     this.shooterArm = shooterArm;

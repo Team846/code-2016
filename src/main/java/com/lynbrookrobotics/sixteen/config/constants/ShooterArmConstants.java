@@ -12,4 +12,6 @@ public class ShooterArmConstants {
   public static final double CONVERSION_FACTOR = 0.0d;
 
   public static final int TARGET_ANGLE = 0;
+
+  public static final double STOWED_SETPOINT = 0.0;
 }
