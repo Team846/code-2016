@@ -2,7 +2,6 @@ package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.potassium.Potassium;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.TankDriveController;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;

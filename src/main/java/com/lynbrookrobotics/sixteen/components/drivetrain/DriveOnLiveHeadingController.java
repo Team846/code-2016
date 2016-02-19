@@ -2,14 +2,11 @@ package com.lynbrookrobotics.sixteen.components.drivetrain;
 
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 
-import java.util.function.Supplier;
-
-public abstract class DriveOnLiveHeadingController extends TankDriveController {
+public abstract class DriveOnLiveHeadingController extends ArcadeDriveController {
   private PID angleControl;
 
   RobotHardware hardware;

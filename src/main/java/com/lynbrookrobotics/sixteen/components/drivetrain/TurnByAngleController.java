@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 /**
  * A controller that turns a specific number of degrees.
  */
-public class TurnByAngleController extends TankDriveController {
+public class TurnByAngleController extends ArcadeDriveController {
   private PID angleControl;
 
   /**
