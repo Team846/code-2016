@@ -4,11 +4,9 @@ import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.ButtonPress;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.Task;
-import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnLiveHeadingController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelController;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
@@ -18,8 +16,6 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheel
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
-
-import java.util.function.Function;
 
 /**
  * CoreEvents class creates events and maps these to handlers.
@@ -37,21 +33,6 @@ public class CoreEvents {
   InGameState autonomousStateEvent;
   InGameState enabledStateEvent;
 
-  // Buttons
-  ButtonPress abortTaskEvent;
-
-  // Drivetrain
-  /**
-   * Cube input for greater precision control at lower speeds.
-   */
-  DrivetrainController enabledDrive;
-
-  // Shooter
-  ShooterFlywheelController enabledShooter =
-      ShooterFlywheelController.of(
-      () -> controls.operatorStick.getY()
-  );
-
   /**
    * Initializes hardware for events.
    */
@@ -63,18 +44,6 @@ public class CoreEvents {
     this.drivetrain = drivetrain;
     this.hardware = hardware;
     this.shooterFlywheel = shooterFlywheel;
-
-    this.enabledDrive = new DriveOnLiveHeadingController(hardware) {
-      @Override
-      public double forward() {
-        return 10 * Math.pow(-controls.driverStick.getY(), 3);
-      }
-
-      @Override
-      public double angleSpeed() {
-        return 10 * Math.pow(controls.driverWheel.getX(), 3);
-      }
-    };
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation,
@@ -91,35 +60,7 @@ public class CoreEvents {
         InGameState.GameState.ENABLED
     );
 
-
-    this.abortTaskEvent = new ButtonPress(
-        controls.operatorStick.underlying,
-        OperatorButtonAssignments.ABORT_CURRENT_TASK
-    );
-
     initEventMappings();
-  }
-
-  private static double clamp(double min, double max, double value) {
-    if (value < min) {
-      return min;
-    } else if (value > max) {
-      return max;
-    } else {
-      return value;
-    }
-  }
-
-  private static Function<Double, Double> triangleCurve(double maxSpeed) {
-    return progress -> maxSpeed * (1 - (Math.abs(0.5 - progress) * 2));
-  }
-
-  private static Function<Double, Double> trapezoidalCurve(double maxSpeed, double extraScale) {
-    return progress -> clamp(
-        -maxSpeed,
-        maxSpeed,
-        extraScale * maxSpeed * (1 - (Math.abs(0.5 - progress) * 2))
-    );
   }
 
   /**
@@ -136,6 +77,13 @@ public class CoreEvents {
     CameraServer.getInstance().setQuality(30);
     CameraServer.getInstance().startAutomaticCapture(camera);
 
+    // Driver Controls
+    enabledStateEvent.forEach(() -> {
+      controls.driverStick.update();
+      controls.driverWheel.update();
+      controls.operatorStick.update();
+    });
+
     // Shooter
     if (RobotConstants.HAS_SHOOTER) {
       autonomousStateEvent.forEach(
@@ -145,14 +93,41 @@ public class CoreEvents {
 
     // Drivetrain
     autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
-
     enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
-    enabledStateEvent.forEach(() -> {
-      controls.driverStick.update();
-      controls.driverWheel.update();
-      controls.operatorStick.update();
-    });
 
+    // Drivetrain - telop control
+    enabledStateEvent.forEach(
+        () -> drivetrain.resetToDefault(),
+        () -> drivetrain.resetToDefault()
+    );
+
+    // Overrides
+    controls.operatorStick
+        .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ARM)
+        .forEach(Task::abortCurrentTask);
+
+    controls.operatorStick
+        .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ROLLER)
+        .forEach(Task::abortCurrentTask);
+
+    controls.operatorStick
+        .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_ARM)
+        .forEach(Task::abortCurrentTask);
+
+    controls.operatorStick
+        .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SECONDARY)
+        .forEach(Task::abortCurrentTask);
+
+    controls.operatorStick
+        .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SPINNER)
+        .forEach(Task::abortCurrentTask);
+
+    // Abort on button press
+    controls.operatorStick
+        .onPress(OperatorButtonAssignments.ABORT_CURRENT_TASK)
+        .forEach(Task::abortCurrentTask);
+
+    // Dashboard data
     RobotConstants.dashboard.thenAccept(dashboard -> {
       dashboard.datasetGroup("drivetrain")
           .addDataset(new TimeSeriesNumeric<>(
@@ -187,26 +162,5 @@ public class CoreEvents {
                 () -> hardware.shooterArmHardware.encoder.getAngle()));
       }
     });
-
-    // Drivetrain - Joystick
-    enabledStateEvent.forEach(
-        () -> {
-          drivetrain.setController(enabledDrive);
-
-          if (RobotConstants.HAS_SHOOTER) {
-            shooterFlywheel.setController(enabledShooter);
-          }
-        },
-        () -> {
-          drivetrain.resetToDefault();
-
-          if (RobotConstants.HAS_SHOOTER) {
-            shooterFlywheel.resetToDefault();
-          }
-        }
-    );
-
-    // Abort on button press
-    abortTaskEvent.forEach(Task::abortCurrentTask);
   }
 }

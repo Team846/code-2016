@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 /**
  * Sets the Intake Rollers to a constant speed.
  */
-public class ConstantIntakeSpeed extends ContinuousTask {
+public class DirectIntakeSpeed extends ContinuousTask {
   Supplier<Double> targetSpeed;
   IntakeRoller intakeRoller;
 
@@ -18,7 +18,7 @@ public class ConstantIntakeSpeed extends ContinuousTask {
    * @param targetSpeed  Target speed for intake roller motors.
    * @param intakeRoller Component intake roller.
    */
-  public ConstantIntakeSpeed(Supplier<Double> targetSpeed, IntakeRoller intakeRoller) {
+  public DirectIntakeSpeed(Supplier<Double> targetSpeed, IntakeRoller intakeRoller) {
     this.targetSpeed = targetSpeed;
     this.intakeRoller = intakeRoller;
   }

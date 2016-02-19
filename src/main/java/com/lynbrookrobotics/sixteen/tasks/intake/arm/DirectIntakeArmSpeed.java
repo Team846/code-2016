@@ -6,11 +6,11 @@ import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArmController;
 
 import java.util.function.Supplier;
 
-public class ConstantIntakeArmSpeed extends ContinuousTask {
+public class DirectIntakeArmSpeed extends ContinuousTask {
   private IntakeArmController controller;
   private IntakeArm arm;
 
-  public ConstantIntakeArmSpeed(Supplier<Double> speed, IntakeArm arm) {
+  public DirectIntakeArmSpeed(Supplier<Double> speed, IntakeArm arm) {
     this.controller = IntakeArmController.of(speed);
     this.arm = arm;
   }

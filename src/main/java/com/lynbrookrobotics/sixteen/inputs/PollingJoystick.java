@@ -1,5 +1,7 @@
 package com.lynbrookrobotics.sixteen.inputs;
 
+import com.lynbrookrobotics.potassium.defaults.events.ButtonPress;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 public class PollingJoystick {
@@ -35,5 +37,12 @@ public class PollingJoystick {
 
   public synchronized double getZ() {
     return z;
+  }
+
+  public ButtonPress onPress(int button) {
+    return new ButtonPress(
+        underlying,
+        button
+    );
   }
 }
