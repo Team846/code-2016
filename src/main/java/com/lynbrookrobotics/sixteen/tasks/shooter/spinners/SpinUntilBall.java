@@ -44,7 +44,7 @@ public class SpinUntilBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if (sensor.getAverageVoltage() <= ShooterConstants.BALL_PROXIMITY_THRESHOLD) {
+    if (sensor.isWithinDistance(ShooterConstants.BALL_PROXIMITY_THRESHOLD)) {
       finished();
     }
   }

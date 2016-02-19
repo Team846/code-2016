@@ -41,7 +41,7 @@ public class SpinSecondaryNoBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if (sensor.getAverageVoltage() <= distance) { //TODO: Change sensor API
+    if (!sensor.isWithinDistance(distance)) {
       finished();
     }
   }
