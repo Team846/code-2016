@@ -10,15 +10,15 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 
 /**
- * The Routine for the ChevalDeFrise routine.
+ * The Routine for the ChevaldeFrise routine.
  */
-public class ChevalDeFrise {
+public class ChevaldeFrise {
   /**
-   * The Routine for crossing the ChevalDeFrise defense.
+   * The Routine for crossing the ChevaldeFrise defense.
    *
-   * @param intakeArm     The intake arm used to move the ChevalDeFrise down.
+   * @param intakeArm     The intake arm used to move the ChevaldeFrise down.
    * @param robotHardware Robot hardware used to access the robot ports.
-   * @param drivetrain    The Drivertrain is used to move through the defense, ChevalDeFrise.
+   * @param drivetrain    The Drivertrain is used to move through the defense, ChevaldeFrise.
    * @return A finite task used to cross the cheval de frise.
    */
   public static FiniteTask crossChevalDeFrise(IntakeArm intakeArm,
