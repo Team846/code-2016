@@ -26,7 +26,7 @@ public class IntakeArmConstants {
 
   public static final double CHEVAL_HIGH_POSITION = 0.0;
 
-  public static final double CHEVAL_DE_FRIZE_DRIVE_DISTANCE = 0.0;
+  public static final double CHEVAL_DE_FRISE_DRIVE_DISTANCE = 0.0;
 
   public static final double CHEVAL_DISTANCE_TO_PUSH_DOWN = 0.0;
 

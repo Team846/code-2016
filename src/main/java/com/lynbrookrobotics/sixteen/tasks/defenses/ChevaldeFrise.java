@@ -40,8 +40,8 @@ public class ChevaldeFrise {
         robotHardware)
     ).then(new DriveRelative(
         robotHardware,
-        IntakeArmConstants.CHEVAL_DE_FRIZE_DRIVE_DISTANCE,
-        IntakeArmConstants.CHEVAL_DE_FRIZE_DRIVE_DISTANCE,
+        IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
+        IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
         drivetrain));
   }
 
