@@ -26,6 +26,12 @@ public class PortcullisRoutine {
         intakeArm,
         robotHardware
     ).then(
+        new DriveRelative(robotHardware,
+            IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS,
+            IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS,
+            drivetrain
+        )
+    ).then(
         new MoveIntakeArmToAngle(
             IntakeArmConstants.HIGH_POSITION_PORTCULLIS,
             intakeArm,
