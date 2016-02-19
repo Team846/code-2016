@@ -2,6 +2,7 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
+import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,13 +20,11 @@ public class LoadJavascriptFileTest {
   public ExpectedException thrown = ExpectedException.none();
 
   RobotHardware hardware = new RobotHardware(null, null, null, null, null);
-  Drivetrain drivetrain = new Drivetrain(hardware, null);
-  ShooterFlywheel flywheel = new ShooterFlywheel(hardware);
 
   @Test
   public void testLoadStringCorrect() {
     LoadJavascriptFile loader = new LoadJavascriptFile();
-    String result = loader.loadString(correctCode, hardware, drivetrain, flywheel).toString();
+    String result = loader.loadString(correctCode, hardware, null, null).toString();
 
     assert result.startsWith("com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle");
 
@@ -34,7 +33,7 @@ public class LoadJavascriptFileTest {
   @Test(expected = EcmaError.class)
   public void testLoadStringIncorrect() {
     LoadJavascriptFile loader = new LoadJavascriptFile();
-    String result = loader.loadString(incorrectCode, hardware, drivetrain, flywheel).toString();
+    String result = loader.loadString(incorrectCode, hardware, null, null).toString();
     assert result.startsWith("com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle");
   }
 }
