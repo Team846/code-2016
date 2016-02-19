@@ -3,11 +3,29 @@ package com.lynbrookrobotics.sixteen.config.constants;
 import akka.actor.ActorSystem;
 
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
+import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.defenses.ChevaldeFrise;
+import com.lynbrookrobotics.sixteen.tasks.defenses.PortcullisRoutine;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousDrive;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveAbsolute;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.RelativeHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
+import com.lynbrookrobotics.sixteen.tasks.intake.roller.CollectUntilBall;
+import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
+import com.lynbrookrobotics.sixteen.tasks.shooter.ShooterTasks;
+import com.lynbrookrobotics.sixteen.tasks.shooter.arm.DirectShooterArmSpeed;
+import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinUntilBall;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelToRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondaryNoBall;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -26,11 +44,39 @@ public class RobotConstants {
   public static final int DRIVER_WHEEL = 2;
 
   public static final Class[] taskList = {
+      ChevaldeFrise.class,
+      PortcullisRoutine.class,
+
       AbsoluteHeadingTimedDrive.class,
-      RelativeHeadingTimedDrive.class,
       ContinuousDrive.class,
+      DriveAbsolute.class,
+      DriveRelative.class,
+      RelativeHeadingTimedDrive.class,
       TurnByAngle.class,
-      SpinFlywheelAtRPM.class
+
+      DirectIntakeArmSpeed.class,
+      MoveIntakeArmToAngle.class,
+
+      CollectUntilBall.class,
+      DirectIntakeRollerSpeed.class,
+
+      IntakeTasks.class,
+
+      DirectShooterArmSpeed.class,
+      MoveShooterArmToAngle.class,
+
+      DirectFlywheelSpeed.class,
+      SpinFlywheelAtRPM.class,
+      SpinFlywheelToRPM.class,
+
+      SpinSecondary.class,
+      SpinSecondaryNoBall.class,
+
+      SpinUntilBall.class,
+
+      ShooterTasks.class, // not a task, list of tasks
+
+      FixedTime.class
   };
 
   public static final Executor executor = Executors.newFixedThreadPool(2);
