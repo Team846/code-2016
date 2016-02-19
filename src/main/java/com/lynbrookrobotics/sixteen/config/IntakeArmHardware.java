@@ -28,7 +28,7 @@ public class IntakeArmHardware {
    *
    * @param motor the motor that is passed by RobotHardware.
    */
-  public IntakeArmHardware(CANTalon motor) {
+  private IntakeArmHardware(CANTalon motor) {
     this(
         motor,
         new PlanetaryEncoder(motor) // need to access through talon

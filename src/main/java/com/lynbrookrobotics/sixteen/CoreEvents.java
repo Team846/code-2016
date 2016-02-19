@@ -116,15 +116,17 @@ public class CoreEvents {
       );
     }
 
-    // Drivetrain
+    // Gyro
     autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
     enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
 
     // Drivetrain - telop control
-    enabledStateEvent.forEach(
-        () -> drivetrain.resetToDefault(),
-        () -> drivetrain.resetToDefault()
-    );
+    if (RobotConstants.HAS_DRIVETRAIN) {
+      enabledStateEvent.forEach(
+          () -> drivetrain.resetToDefault(),
+          () -> drivetrain.resetToDefault()
+      );
+    }
 
     // Overrides
     if (RobotConstants.HAS_INTAKE) {
@@ -173,15 +175,17 @@ public class CoreEvents {
 
     // Dashboard data
     RobotConstants.dashboard.thenAccept(dashboard -> {
-      dashboard.datasetGroup("drivetrain")
-          .addDataset(new TimeSeriesNumeric<>(
-              "Turning gain",
-              () -> 20 * controls.operatorStick.getY()));
+      if (RobotConstants.HAS_DRIVETRAIN) {
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Turning gain",
+                () -> 20 * controls.operatorStick.getY()));
 
-      dashboard.datasetGroup("drivetrain")
-          .addDataset(new TimeSeriesNumeric<>(
-              "Angular Position",
-              () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Angular Position",
+                () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+      }
 
       if (RobotConstants.HAS_SHOOTER) {
         dashboard.datasetGroup("shooter")

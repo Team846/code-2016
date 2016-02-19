@@ -37,7 +37,7 @@ public class RobotHardware {
    */
   public RobotHardware(VariableConfiguration config) {
     this(
-        new DrivetrainHardware(config),
+        CoreRobot.orNull(RobotConstants.HAS_DRIVETRAIN, () -> new DrivetrainHardware(config)),
         CoreRobot.orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterSpinnersHardware(config)),
         CoreRobot.orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterArmHardware(config)),
         CoreRobot.orNull(RobotConstants.HAS_INTAKE, () -> new IntakeRollerHardware(config)),

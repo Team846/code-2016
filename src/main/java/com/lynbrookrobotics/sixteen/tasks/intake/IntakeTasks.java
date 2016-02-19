@@ -14,6 +14,9 @@ import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinUntilBall;
 
 public class IntakeTasks {
+  /**
+   * Constructs the collection routine, which collects the ball and transfers it to the shooter.
+   */
   public static FiniteTask collect(IntakeArm arm,
                                    IntakeRoller roller,
                                    ShooterFlywheel flywheel,

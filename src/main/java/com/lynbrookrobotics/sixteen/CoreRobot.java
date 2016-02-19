@@ -22,6 +22,9 @@ import java.util.function.Supplier;
  * CoreRobot class loads config and creates components.
  */
 public class CoreRobot {
+  /**
+   * Returns the value of the getter if the condition is true, otherwise null.
+   */
   public static <T> T orNull(boolean cond, Supplier<T> getter) {
     if (cond) {
       return getter.get();
@@ -43,7 +46,7 @@ public class CoreRobot {
   CoreEvents events = Timing.time(
       () -> new CoreEvents(
           controls, hardware,
-          new Drivetrain(hardware, controls),
+          orNull(RobotConstants.HAS_DRIVETRAIN, () -> new Drivetrain(hardware, controls)),
           orNull(RobotConstants.HAS_INTAKE, () -> new IntakeArm(hardware)),
           orNull(RobotConstants.HAS_INTAKE, () -> new IntakeRoller(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterArm(hardware)),
