@@ -43,7 +43,7 @@ public class JSValidator extends JFrame {
       intakeArmHardware
   );
 
-  private Drivetrain drivetrain = new Drivetrain(robotHardware);
+  private Drivetrain drivetrain = new Drivetrain(robotHardware, null);
   private ShooterFlywheel spinners = new ShooterFlywheel(robotHardware);
 
   private FileSelector fileSelector = new FileSelector();

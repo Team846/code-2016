@@ -39,6 +39,9 @@ public class PollingJoystick {
     return z;
   }
 
+  /**
+   * Creates an event triggered when the button is pressed.
+   */
   public ButtonPress onPress(int button) {
     return new ButtonPress(
         underlying,
