@@ -19,7 +19,7 @@ public class LoadJavascriptFileTest {
   public ExpectedException thrown = ExpectedException.none();
 
   RobotHardware hardware = new RobotHardware(null, null, null, null, null);
-  Drivetrain drivetrain = new Drivetrain(hardware);
+  Drivetrain drivetrain = new Drivetrain(hardware, null);
   ShooterFlywheel flywheel = new ShooterFlywheel(hardware);
 
   @Test

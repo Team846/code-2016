@@ -30,7 +30,7 @@ public class Main {
     when(drivetrainHardware.backLeftMotor()).thenReturn(backLeftMotor);
     when(drivetrainHardware.backRightMotor()).thenReturn(backRightMotor);
 
-    Drivetrain drivetrain = new Drivetrain(hardware);
+    Drivetrain drivetrain = new Drivetrain(hardware, null);
 
     Timer updateTimer = new Timer("update-loop");
 
