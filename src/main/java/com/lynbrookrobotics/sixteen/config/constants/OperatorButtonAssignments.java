@@ -15,4 +15,7 @@ public class OperatorButtonAssignments {
   public static final int OVERRIDE_SHOOTER_ARM = -1;
   public static final int OVERRIDE_SHOOTER_FLYWHEEL = -1;
   public static final int OVERRIDE_SHOOTER_SECONDARY = -1;
+
+  public static final int CHEVAL = -1;
+  public static final int PORTCULLIS = -1;
 }

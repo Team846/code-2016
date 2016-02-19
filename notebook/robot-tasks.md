@@ -1,6 +1,6 @@
 # Robot Tasks
 ## Combined
-- [ ] Cross each type of defense
+- [x] Cross each type of defense
 - [x] Move collector and shooter into slightly upright position for moving around
   - [ ] Optional: run after collect
 - [x] Shoot ball (low)

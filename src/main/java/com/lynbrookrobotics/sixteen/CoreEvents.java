@@ -16,6 +16,8 @@ import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.defenses.ChevaldeFrise;
+import com.lynbrookrobotics.sixteen.tasks.defenses.PortcullisRoutine;
 import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
@@ -223,6 +225,24 @@ public class CoreEvents {
                   )
               )
           );
+    }
+
+    if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.CHEVAL)
+          .forEach(ChevaldeFrise.crossChevalDeFrise(
+              intakeArm,
+              hardware,
+              drivetrain
+          ));
+
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.PORTCULLIS)
+          .forEach(PortcullisRoutine.crossPortcullis(
+              intakeArm,
+              drivetrain,
+              hardware
+          ));
     }
 
     // Abort on button press
