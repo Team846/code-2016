@@ -22,4 +22,12 @@ public class IntakeArmConstants {
   public static final double HIGH_POSITION_PORTCULLIS = 0.0;
 
   public static final double DRIVING_DISTANCE_PORTCULLIS = 0.0;
+
+
+  public static final double HIGH_CHIVEL_POSITION = 0.0;
+
+  public static final double CHIVEL_DE_FRIZE_DRIVE_DISTANCE = 0.0;
+
+  public static final double DISTANCE_TO_PUSH_DOWN_CHIVEL = 0.0;
+
 }
