@@ -26,13 +26,13 @@ public class ChevaldeFrise {
                                               Drivetrain drivetrain) {
 
     return new MoveIntakeArmToAngle(
-        IntakeArmConstants.HIGH_CHIVEL_POSITION,
+        IntakeArmConstants.CHEVAL_HIGH_POSITION,
         intakeArm,
         robotHardware
     ).then(new DriveRelative(
         robotHardware,
-        IntakeArmConstants.DISTANCE_TO_PUSH_DOWN_CHIVEL,
-        IntakeArmConstants.DISTANCE_TO_PUSH_DOWN_CHIVEL,
+        IntakeArmConstants.CHIVEL_DISTANCE_TO_PUSH_DOWN,
+        IntakeArmConstants.CHIVEL_DISTANCE_TO_PUSH_DOWN,
         drivetrain)
     ).then(new MoveIntakeArmToAngle(
         IntakeArmConstants.COLLECT_SETPOINT,
@@ -40,8 +40,8 @@ public class ChevaldeFrise {
         robotHardware)
     ).then(new DriveRelative(
         robotHardware,
-        IntakeArmConstants.CHIVEL_DE_FRIZE_DRIVE_DISTANCE,
-        IntakeArmConstants.CHIVEL_DE_FRIZE_DRIVE_DISTANCE,
+        IntakeArmConstants.CHEVAL_DE_FRIZE_DRIVE_DISTANCE,
+        IntakeArmConstants.CHEVAL_DE_FRIZE_DRIVE_DISTANCE,
         drivetrain));
   }
 
