@@ -31,8 +31,8 @@ public class ChevaldeFrise {
         robotHardware
     ).then(new DriveRelative(
         robotHardware,
-        IntakeArmConstants.CHIVEL_DISTANCE_TO_PUSH_DOWN,
-        IntakeArmConstants.CHIVEL_DISTANCE_TO_PUSH_DOWN,
+        IntakeArmConstants.gCHEVAL_DISTANCE_TO_PUSH_DOWN,
+        IntakeArmConstants.CHEVAL_DISTANCE_TO_PUSH_DOWN,
         drivetrain)
     ).then(new MoveIntakeArmToAngle(
         IntakeArmConstants.COLLECT_SETPOINT,
