@@ -4,6 +4,7 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondaryController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterConstants;
 import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 
 /**
@@ -13,8 +14,7 @@ import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 public class SpinSecondaryNoBall extends FiniteTask {
 
   ShooterSecondary shooterSecondary;
-  double speed;
-  double distance;
+  double speed;//TODO: Change to a configurable value
   ProximitySensor sensor;
   ShooterSecondaryController controller;
   
@@ -23,11 +23,9 @@ public class SpinSecondaryNoBall extends FiniteTask {
    * flywheel while there is no ball detected.
    */
   public SpinSecondaryNoBall(double speed,
-                             double distance,
                              ShooterSecondary shooterSecondary,
                              RobotHardware hardware) {
     this.speed = speed;
-    this.distance = distance;
     this.shooterSecondary = shooterSecondary;
     this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
     this.controller = ShooterSecondaryController.of(() -> speed);
@@ -41,7 +39,7 @@ public class SpinSecondaryNoBall extends FiniteTask {
 
   @Override
   protected void update() {
-    if (sensor.getAverageVoltage() <= distance) { //TODO: Change sensor API
+    if (sensor.isWithinDistance(ShooterConstants.BALL_PROXIMITY_THRESHOLD)) {
       finished();
     }
   }
