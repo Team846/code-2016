@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 
 import java.util.function.Supplier;
 
-public class DriveOnHeadingController extends TankDriveController {
+public class DriveOnHeadingController extends ArcadeDriveController {
   private PID angleControl;
 
   RobotHardware hardware;

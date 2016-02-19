@@ -16,7 +16,7 @@ public class Drivetrain extends Component<DrivetrainController> {
    * @param robotHardware the hardware to use
    */
   public Drivetrain(RobotHardware robotHardware) {
-    super(TankDriveController.of(() -> 0.0, () -> 0.0));
+    super(ArcadeDriveController.of(() -> 0.0, () -> 0.0));
 
     this.hardware = robotHardware.drivetrainHardware;
   }
