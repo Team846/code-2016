@@ -13,21 +13,22 @@ import edu.wpi.first.wpilibj.Jaguar;
  * Includes motors and gyros for angle and acceleration measurement.
  */
 public class DrivetrainHardware {
-  private Jaguar frontLeftMotor;
-  private Jaguar frontRightMotor;
-  private Jaguar backLeftMotor;
-  private Jaguar backRightMotor;
+  public final Jaguar frontLeftMotor;
+  public final Jaguar frontRightMotor;
+  public final Jaguar backLeftMotor;
+  public final Jaguar backRightMotor;
 
-  private CANTalon frontLeftTalon;
-  private CANTalon frontRightTalon;
-  private CANTalon backLeftTalon;
-  private CANTalon backRightTalon;
+  public final CANTalon frontLeftTalon;
+  public final CANTalon frontRightTalon;
+  public final CANTalon backLeftTalon;
+  public final CANTalon backRightTalon;
 
-  private Encoder leftEncoder;
-  private Encoder rightEncoder;
+  public final Encoder leftEncoder;
+  public final Encoder rightEncoder;
 
-  private GyroL3GD20H gyro;
-  private ADIS16448 imu;
+  public final GyroL3GD20H gyro;
+  public final ADIS16448 imu;
+  public final DigitalGyro mainGyro;
 
 
   /**
@@ -49,8 +50,8 @@ public class DrivetrainHardware {
     this.backRightMotor = backRightMotor;
 
     this.frontLeftTalon = frontLeftTalon;
-    this.frontRightTalon = frontRightTalon();
-    this.backLeftTalon = backLeftTalon();
+    this.frontRightTalon = frontRightTalon;
+    this.backLeftTalon = backLeftTalon;
     this.backRightTalon = backRightTalon;
 
     this.leftEncoder = Encoder.talonEncoder(frontLeftTalon);
@@ -58,6 +59,7 @@ public class DrivetrainHardware {
 
     this.gyro = gyro;
     this.imu = imu;
+    this.mainGyro = imu;
   }
 
   /**
@@ -78,53 +80,4 @@ public class DrivetrainHardware {
         new ADIS16448()
     );
   }
-
-  public Jaguar frontLeftMotor() {
-    return frontLeftMotor;
-  }
-
-  public Jaguar frontRightMotor() {
-    return frontRightMotor;
-  }
-
-  public Jaguar backLeftMotor() {
-    return backLeftMotor;
-  }
-
-  public Jaguar backRightMotor() {
-    return backRightMotor;
-  }
-
-  public DigitalGyro mainGyro() {
-    return imu();
-  }
-
-  public GyroL3GD20H gyro() {
-    return gyro;
-  }
-
-  public ADIS16448 imu() {
-    return imu;
-  }
-
-  public CANTalon frontLeftTalon() {
-    return frontLeftTalon;
-  }
-
-  public CANTalon frontRightTalon() {
-    return frontRightTalon;
-  }
-
-  public CANTalon backLeftTalon() {
-    return backLeftTalon;
-  }
-
-  public Encoder leftEncoder() {
-    return leftEncoder;
-  }
-
-  public Encoder getRightEncoder() {
-    return rightEncoder;
-  }
-
 }

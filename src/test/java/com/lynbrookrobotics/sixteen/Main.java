@@ -2,10 +2,12 @@ package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.potassium.Potassium;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
+import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Jaguar;
 
 import static org.mockito.Mockito.*;
@@ -14,23 +16,39 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main {
-  static RobotHardware hardware = mock(RobotHardware.class);
-  static DrivetrainHardware drivetrainHardware = mock(DrivetrainHardware.class);
-
   static Jaguar frontLeftMotor = mock(Jaguar.class, withSettings().verboseLogging());
   static Jaguar frontRightMotor = mock(Jaguar.class, withSettings().verboseLogging());
   static Jaguar backLeftMotor = mock(Jaguar.class, withSettings().verboseLogging());
   static Jaguar backRightMotor = mock(Jaguar.class, withSettings().verboseLogging());
 
+  static DriverStation ds = mock(DriverStation.class);
+
+  static RobotHardware hardware = new RobotHardware(
+      new DrivetrainHardware(
+          frontLeftMotor,
+          frontRightMotor,
+          backLeftMotor,
+          backRightMotor,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+      ),
+      null,
+      null,
+      null,
+      null
+  );
+
   public static void main(String[] args) {
-    when(hardware.drivetrainHardware).thenReturn(drivetrainHardware);
+    when(ds.isEnabled()).thenReturn(false);
+    when(ds.isOperatorControl()).thenReturn(false);
 
-    when(drivetrainHardware.frontLeftMotor()).thenReturn(frontLeftMotor);
-    when(drivetrainHardware.frontRightMotor()).thenReturn(frontRightMotor);
-    when(drivetrainHardware.backLeftMotor()).thenReturn(backLeftMotor);
-    when(drivetrainHardware.backRightMotor()).thenReturn(backRightMotor);
-
-    Drivetrain drivetrain = new Drivetrain(hardware, null);
+    Drivetrain drivetrain = new Drivetrain(hardware, new DriverControls(
+        ds, null, null, null
+    ));
 
     Timer updateTimer = new Timer("update-loop");
 

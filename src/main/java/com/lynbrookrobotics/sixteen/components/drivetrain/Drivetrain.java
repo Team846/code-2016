@@ -42,11 +42,11 @@ public class Drivetrain extends Component<DrivetrainController> {
     double left = drivetrainController.leftSpeed();
     double right = drivetrainController.rightSpeed();
 
-    hardware.frontLeftMotor().set(left);
-    hardware.backLeftMotor().set(left);
+    hardware.frontLeftMotor.set(left);
+    hardware.backLeftMotor.set(left);
 
-    hardware.frontRightMotor().set(right);
-    hardware.backRightMotor().set(right);
+    hardware.frontRightMotor.set(right);
+    hardware.backRightMotor.set(right);
   }
 
   @Override

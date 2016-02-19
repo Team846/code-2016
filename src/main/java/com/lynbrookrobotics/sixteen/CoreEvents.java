@@ -181,7 +181,7 @@ public class CoreEvents {
       dashboard.datasetGroup("drivetrain")
           .addDataset(new TimeSeriesNumeric<>(
               "Angular Position",
-              () -> hardware.drivetrainHardware.mainGyro().currentPosition().valueZ()));
+              () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
 
       if (RobotConstants.HAS_SHOOTER) {
         dashboard.datasetGroup("shooter")

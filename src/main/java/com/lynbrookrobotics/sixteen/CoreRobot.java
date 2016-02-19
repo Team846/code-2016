@@ -62,9 +62,9 @@ public class CoreRobot {
 
     Notifier gyroNotifier = new Notifier(() ->  {
       if (!events.initialCalibrationDone) {
-        hardware.drivetrainHardware.mainGyro().calibrateUpdate();
+        hardware.drivetrainHardware.mainGyro.calibrateUpdate();
       } else {
-        hardware.drivetrainHardware.mainGyro().angleUpdate();
+        hardware.drivetrainHardware.mainGyro.angleUpdate();
       }
     });
     gyroNotifier.startPeriodic(RobotConstants.TICK_PERIOD);

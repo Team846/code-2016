@@ -35,8 +35,8 @@ public class DriveRelative extends FiniteTask {
   @Override
   public void startTask() {
     driveDistanceController = new DriveDistanceController(hardware,
-        hardware.drivetrainHardware.leftEncoder().getAngle() + leftAngleDistance,
-        hardware.drivetrainHardware.leftEncoder().getAngle() + rightAngleDistance);
+        hardware.drivetrainHardware.leftEncoder.getAngle() + leftAngleDistance,
+        hardware.drivetrainHardware.leftEncoder.getAngle() + rightAngleDistance);
     drivetrain.setController(driveDistanceController);
   }
 

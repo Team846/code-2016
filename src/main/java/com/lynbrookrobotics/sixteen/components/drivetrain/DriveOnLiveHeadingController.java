@@ -20,12 +20,12 @@ public abstract class DriveOnLiveHeadingController extends ArcadeDriveController
    */
   public DriveOnLiveHeadingController(RobotHardware hardware) {
     this.hardware = hardware;
-    this.gyro = hardware.drivetrainHardware.mainGyro();
+    this.gyro = hardware.drivetrainHardware.mainGyro;
 
     this.currentAngle =
-        hardware.drivetrainHardware.mainGyro().currentPosition().valueZ();
+        hardware.drivetrainHardware.mainGyro.currentPosition().valueZ();
     this.angleControl = new PID(
-        () -> hardware.drivetrainHardware.mainGyro().currentPosition().valueZ(),
+        () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ(),
         () -> currentAngle
     ).withP(1D / 360).withI(1D / 90, 0.4).withD(1D / 180);
 
@@ -55,9 +55,9 @@ public abstract class DriveOnLiveHeadingController extends ArcadeDriveController
     if (Math.abs(curSpeed) < 0.01) {
       if (coasting) {
         currentAngle =
-            hardware.drivetrainHardware.mainGyro().currentPosition().valueZ();
+            hardware.drivetrainHardware.mainGyro.currentPosition().valueZ();
 
-        if (hardware.drivetrainHardware.mainGyro().currentVelocity().valueZ() <= 20) {
+        if (hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ() <= 20) {
           coasting = false;
         }
       }
@@ -65,7 +65,7 @@ public abstract class DriveOnLiveHeadingController extends ArcadeDriveController
       return angleControl.get();
     } else {
       currentAngle =
-          hardware.drivetrainHardware.mainGyro().currentPosition().valueZ();
+          hardware.drivetrainHardware.mainGyro.currentPosition().valueZ();
       coasting = true;
 
       return curSpeed;
