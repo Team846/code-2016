@@ -2,17 +2,19 @@ package com.lynbrookrobotics.sixteen.tasks.shooter.arm;
 
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
+import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArmController;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArmPositionController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
+import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
 /**
  * Moves Shooter to specified angle with an accepted error range of 2 degrees.
  */
 public class MoveShooterArmToAngle extends FiniteTask {
-  private RobotHardware robotHardware;
-  private Encoder encoder;
+  private Potentiometer pot;
+  private ShooterArmController controller;
   private ShooterArm shooterArm;
   private double angle;
 
@@ -24,11 +26,9 @@ public class MoveShooterArmToAngle extends FiniteTask {
    */
   public MoveShooterArmToAngle(double angle, RobotHardware robotHardware, ShooterArm shooterArm) {
     this.angle = angle;
-    this.robotHardware = robotHardware;
+    this.pot = robotHardware.shooterArmHardware.pot;
+    this.controller = new ShooterArmPositionController(angle, robotHardware);
     this.shooterArm = shooterArm;
-    encoder = robotHardware.shooterArmHardware.encoder;
-
-
   }
 
   /**
@@ -38,8 +38,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
    */
   @Override
   protected void startTask() {
-    shooterArm.setController(new ShooterArmPositionController(angle, robotHardware));
-
+    shooterArm.setController(controller);
   }
 
   /**
@@ -49,7 +48,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
    */
   @Override
   protected void update() {
-    if ( Math.abs(encoder.getAngle() - angle) < ShooterArmConstants.SHOOTER_ARM_ERROR) {
+    if (Math.abs(pot.getAngle() - angle) < ShooterArmConstants.SHOOTER_ARM_ERROR) {
       finished();
     }
   }
@@ -61,6 +60,5 @@ public class MoveShooterArmToAngle extends FiniteTask {
   @Override
   protected void endTask() {
     shooterArm.resetToDefault();
-
   }
 }

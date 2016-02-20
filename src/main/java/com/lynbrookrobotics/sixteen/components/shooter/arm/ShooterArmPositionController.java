@@ -13,7 +13,7 @@ public class ShooterArmPositionController extends ShooterArmController {
    * @param hardware          the robot hardware
    */
   public ShooterArmPositionController(double targetPotPosition, RobotHardware hardware) {
-    pid = new PID(hardware.shooterArmHardware.encoder::getAngle, targetPotPosition)
+    pid = new PID(hardware.shooterArmHardware.pot::getAngle, targetPotPosition)
                         .withP(ShooterArmConstants.P_GAIN)
                         .withI(ShooterArmConstants.I_GAIN,
                             ShooterArmConstants.I_MEMORY);

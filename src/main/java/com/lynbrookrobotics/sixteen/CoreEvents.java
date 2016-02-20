@@ -297,7 +297,7 @@ public class CoreEvents {
         dashboard.datasetGroup("shooter")
             .addDataset(new TimeSeriesNumeric<>(
                 "Potentiometer Angle",
-                () -> hardware.shooterArmHardware.encoder.getAngle()));
+                () -> hardware.shooterArmHardware.pot.getAngle()));
       }
     });
   }
