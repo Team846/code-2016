@@ -25,11 +25,14 @@ public class MoveShooterArmToAngle extends FiniteTask {
    * @param shooterArm    the shooter arm that has to be moved.
    */
   public MoveShooterArmToAngle(double angle, RobotHardware robotHardware, ShooterArm shooterArm) {
+<<<<<<< 4bcfe3172ccf397725ae08705ea96ee65500cb52
 <<<<<<< 4c8458993d8f6421e74d30254603b9f144f08422
     this.angle = angle;
     this.pot = robotHardware.shooterArmHardware.pot;
     this.controller = new ShooterArmPositionController(angle, robotHardware);
 =======
+=======
+>>>>>>> Added safety
     this.angle = (int)angle;
     this.robotHardware = robotHardware;
 >>>>>>> Added safety
