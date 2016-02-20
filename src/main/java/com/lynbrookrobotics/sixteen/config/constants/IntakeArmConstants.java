@@ -16,6 +16,7 @@ public class IntakeArmConstants {
   public static final double LOW_POSITON_PORTCULLIS = 0.0;
   public static final double TRANSPORT_SETPOINT = 0.0;
 
+  public static final double DRIVING_DISTANCE_TO_PORTCULLIS = 0.0;
 
   public static final double LOW_POSITION_PORTCULLIS = 0.0;
 
