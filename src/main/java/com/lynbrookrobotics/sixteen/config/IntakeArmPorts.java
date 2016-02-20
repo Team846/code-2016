@@ -7,14 +7,16 @@ import com.typesafe.config.Config;
  */
 public class IntakeArmPorts {
   public final int motorPort;
+  public final int potPort;
 
   /**
    * Initializes the motor port with the motor port passed.
    *
    * @param motorPort The motor port for the intake arm.
    */
-  public IntakeArmPorts(int motorPort) {
+  public IntakeArmPorts(int motorPort, int potPort) {
     this.motorPort = motorPort;
+    this.potPort = potPort;
   }
 
   /**
@@ -23,6 +25,9 @@ public class IntakeArmPorts {
    * @param config the configuration from robot.conf
    */
   public IntakeArmPorts(Config config) {
-    this(config.getInt("arm-motor-port"));
+    this(
+        config.getInt("motor-port"),
+        config.getInt("pot-port")
+    );
   }
 }

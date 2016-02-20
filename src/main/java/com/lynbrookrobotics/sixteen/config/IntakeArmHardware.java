@@ -1,7 +1,6 @@
 package com.lynbrookrobotics.sixteen.config;
 
-
-import com.lynbrookrobotics.sixteen.sensors.planetaryencoder.PlanetaryEncoder;
+import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
@@ -10,29 +9,17 @@ import edu.wpi.first.wpilibj.CANTalon;
  */
 public class IntakeArmHardware {
   public final CANTalon motor;
-  public final PlanetaryEncoder encoder;
+  public final Potentiometer pot;
 
   /**
    * Hardware for the Intake arm.
    *
    * @param motor   CANTalon used in Intake Arm Hardware
-   * @param encoder Encoder used to set the intake arm to certain angle.
+   * @param pot Potentiometer used to set the intake arm to certain angle.
    */
-  public IntakeArmHardware(CANTalon motor, PlanetaryEncoder encoder) {
+  public IntakeArmHardware(CANTalon motor, Potentiometer pot) {
     this.motor = motor;
-    this.encoder = encoder;
-  }
-
-  /**
-   * Takes the motor and passes it to the constructor.
-   *
-   * @param motor the motor that is passed by RobotHardware.
-   */
-  private IntakeArmHardware(CANTalon motor) {
-    this(
-        motor,
-        new PlanetaryEncoder(motor) // need to access through talon
-    );
+    this.pot = pot;
   }
 
   /**
@@ -40,7 +27,11 @@ public class IntakeArmHardware {
    */
   public IntakeArmHardware(VariableConfiguration config) {
     this(
-        new CANTalon(config.intakeArmPorts.motorPort)
+        new CANTalon(config.intakeArmPorts.motorPort),
+        new Potentiometer(
+            config.intakeArmPorts.potPort,
+            config.sensorConfig.intakePotOffset
+        )
     );
   }
 }

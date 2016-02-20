@@ -18,10 +18,11 @@ public class VariableConfiguration {
       new ShooterArmPorts(loadedConfig.getConfig("shooter-arm"));
   public final ShooterSpinnersPorts shooterSpinnersPorts =
       new ShooterSpinnersPorts(loadedConfig.getConfig("shooter"));
-  public final ShooterSensorConfig shooterSensorConfig =
-      new ShooterSensorConfig(loadedConfig.getConfig("shooter-sensors"));
   public final IntakeRollerPorts intakeRollerPorts =
       new IntakeRollerPorts(loadedConfig.getConfig("intake-roller"));
   public final IntakeArmPorts intakeArmPorts =
       new IntakeArmPorts(loadedConfig.getConfig("intake-arm"));
+
+  public final SensorConfig sensorConfig =
+      new SensorConfig(loadedConfig.getConfig("sensors"));
 }
