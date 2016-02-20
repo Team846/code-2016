@@ -35,6 +35,7 @@ public class ShooterArmPositionController extends ShooterArmController {
    */
   public boolean isIntakeArmStowed() {
     return Math.abs(robotHardware.intakeArmHardware.pot.getAngle() - IntakeArmConstants.STOWED_SETPOINT) < IntakeArmConstants.ARM_ERROR;
+
   }
 
   /**
