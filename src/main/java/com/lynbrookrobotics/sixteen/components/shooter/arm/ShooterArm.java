@@ -13,7 +13,6 @@ public class ShooterArm extends Component<ShooterArmController> {
    */
   public ShooterArm(RobotHardware hardware) {
     super(ShooterArmController.of(() -> 0.0));
-
     this.armMotor = hardware.shooterArmHardware.armMotor;
   }
 
