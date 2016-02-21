@@ -4,6 +4,7 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveDistanceController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 
 /**
  * Finite task to drive to some position relative to the position at the time of startTask().
@@ -26,8 +27,8 @@ public class DriveRelative extends FiniteTask {
    */
   public DriveRelative(RobotHardware hardware, double leftAngleDistance, double rightAngleDistance,
                        Drivetrain drivetrain) {
-    this.leftAngleDistance = leftAngleDistance;
-    this.rightAngleDistance = rightAngleDistance;
+    this.leftAngleDistance = leftAngleDistance * DrivetrainConstants.FT_TO_ENC;
+    this.rightAngleDistance = rightAngleDistance * DrivetrainConstants.FT_TO_ENC;
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }

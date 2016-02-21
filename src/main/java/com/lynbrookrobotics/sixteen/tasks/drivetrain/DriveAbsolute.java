@@ -4,6 +4,7 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveDistanceController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 
 /**
  * Finite task to drive to some position relative to the starting position of the robot, AKA origin.
@@ -26,8 +27,8 @@ public class DriveAbsolute extends FiniteTask {
    */
   public DriveAbsolute(RobotHardware hardware, double leftAngleTarget, double rightAngleTarget,
                        Drivetrain drivetrain) {
-    this.leftAngleTarget = leftAngleTarget;
-    this.rightAngleTarget = rightAngleTarget;
+    this.leftAngleTarget = leftAngleTarget * DrivetrainConstants.FT_TO_ENC;
+    this.rightAngleTarget = rightAngleTarget * DrivetrainConstants.FT_TO_ENC;
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }
