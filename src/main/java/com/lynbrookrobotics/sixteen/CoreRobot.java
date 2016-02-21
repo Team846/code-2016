@@ -6,6 +6,7 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
+import com.lynbrookrobotics.sixteen.components.lights.Lights;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
@@ -51,7 +52,8 @@ public class CoreRobot {
           orNull(RobotConstants.HAS_INTAKE, () -> new IntakeRoller(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterArm(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterFlywheel(hardware)),
-          orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterSecondary(hardware))
+          orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterSecondary(hardware)),
+          new Lights()
       ),
       "Core events loading "
   );

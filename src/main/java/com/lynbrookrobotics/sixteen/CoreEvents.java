@@ -6,6 +6,9 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
+import com.lynbrookrobotics.sixteen.components.lights.HSVController;
+import com.lynbrookrobotics.sixteen.components.lights.Lights;
+import com.lynbrookrobotics.sixteen.components.lights.LightsController;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
@@ -50,6 +53,8 @@ public class CoreEvents {
   ShooterFlywheel shooterFlywheel;
   ShooterSecondary shooterSecondary;
 
+  Lights lights;
+
   boolean initialCalibrationDone = false;
 
   // Game State
@@ -67,7 +72,8 @@ public class CoreEvents {
                     IntakeRoller intakeRoller,
                     ShooterArm shooterArm,
                     ShooterFlywheel shooterFlywheel,
-                    ShooterSecondary shooterSecondary) {
+                    ShooterSecondary shooterSecondary,
+                    Lights lights) {
     this.controls = controls;
     this.hardware = hardware;
 
@@ -79,6 +85,8 @@ public class CoreEvents {
     this.shooterArm = shooterArm;
     this.shooterFlywheel = shooterFlywheel;
     this.shooterSecondary = shooterSecondary;
+
+    this.lights = lights;
 
     this.disabledStateEvent = new InGameState(
         controls.driverStation,
@@ -291,6 +299,62 @@ public class CoreEvents {
     controls.operatorStick
         .onPress(OperatorButtonAssignments.ABORT_CURRENT_TASK)
         .forEach(Task::abortCurrentTask);
+
+//    HSVController disabledColors = new HSVController() {
+//      int lastHue = 0;
+//      @Override
+//      public double hue() {
+//        lastHue = (lastHue + 1) % 1000;
+//        return lastHue/1000D;
+//      }
+//
+//      @Override
+//      public double saturation() {
+//        return 1;
+//      }
+//
+//      @Override
+//      public double value() {
+//        return 1;
+//      }
+//    };
+
+    LightsController disabledColors = new LightsController() {
+      int lastHue = 0;
+      @Override
+      public double red() {
+        return 1;
+      }
+
+      @Override
+      public double green() {
+        return 1;
+      }
+
+      @Override
+      public double blue() {
+        lastHue = (lastHue + 1) % 1000;
+        return lastHue/1000D;
+      }
+    };
+
+    disabledStateEvent.forEach(
+        () -> {
+          lights.setController(disabledColors);
+        },
+        () -> {
+          lights.resetToDefault();
+        }
+    );
+
+    enabledStateEvent.forEach(
+        () -> {
+          lights.setController(disabledColors);
+        },
+        () -> {
+          lights.resetToDefault();
+        }
+    );
 
     // Dashboard data
     RobotConstants.dashboard.thenAccept(dashboard -> {
