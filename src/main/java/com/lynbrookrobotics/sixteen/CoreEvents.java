@@ -27,12 +27,12 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywhe
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 import com.ni.vision.NIVision;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.USBCamera;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * CoreEvents class creates events and maps these to handlers.
@@ -141,10 +141,10 @@ public class CoreEvents {
     );
 
     for (int i = 0; i < AutoGenerator.Defense.values().length; i++) {
-        SmartDashboard.putString(
-            "DB/String " + i,
-            "DB0 " + AutoGenerator.Defense.values()[i] + " - " + ((double) i / 2)
-        );
+      SmartDashboard.putString(
+          "DB/String " + i,
+          "DB0 " + AutoGenerator.Defense.values()[i] + " - " + ((double) i / 2)
+      );
     }
 
     SmartDashboard.putString(
@@ -266,8 +266,7 @@ public class CoreEvents {
                       hardware,
                       shooterArm
                   )
-              )
-          );
+              ));
     }
 
     if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {

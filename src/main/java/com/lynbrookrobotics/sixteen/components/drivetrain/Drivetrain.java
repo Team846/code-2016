@@ -28,17 +28,6 @@ public class Drivetrain extends Component<DrivetrainController> {
         () -> 10 * Math.pow(-controls.driverStick.getY(), 3),
         () -> 10 * Math.pow(controls.driverWheel.getX(), 3)
     );
-//    this.enabledDrive = new DriveOnLiveHeadingController(robotHardware) {
-//      @Override
-//      public double forward() {
-//        return 10 * Math.pow(-controls.driverStick.getY(), 3);
-//      }
-//
-//      @Override
-//      public double angleSpeed() {
-//        return 10 * Math.pow(controls.driverWheel.getX(), 3);
-//      }
-//    };
   }
 
   @Override

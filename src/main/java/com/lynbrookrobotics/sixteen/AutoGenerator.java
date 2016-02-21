@@ -35,6 +35,9 @@ public class AutoGenerator {
   private ShooterFlywheel shooterFlywheel;
   private ShooterSecondary shooterSecondary;
 
+  /**
+   * Generates autonomous routines with different configurations.
+   */
   public AutoGenerator(RobotHardware hardware,
                        Drivetrain drivetrain,
                        IntakeArm intakeArm,
@@ -200,6 +203,12 @@ public class AutoGenerator {
     }
   }
 
+  /**
+   * Generates autonomous routines.
+   * @param defense the defense the robot is in front of
+   * @param startingPosition the initial position of the robot
+   * @return a full autonomous routine for the initial configuration
+   */
   public FiniteTask generateRoutine(Defense defense, int startingPosition) {
     FiniteTask driveUp = new DriveRelative(
         hardware,
