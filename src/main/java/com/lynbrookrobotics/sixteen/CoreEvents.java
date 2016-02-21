@@ -15,9 +15,7 @@ import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
-import com.lynbrookrobotics.sixteen.tasks.FixedTime;
-import com.lynbrookrobotics.sixteen.tasks.defenses.ChevaldeFrise;
-import com.lynbrookrobotics.sixteen.tasks.defenses.PortcullisRoutine;
+import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
@@ -26,7 +24,6 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.ShooterTasks;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.DirectShooterArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
-import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 import com.ni.vision.NIVision;
 
@@ -34,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
@@ -131,11 +129,42 @@ public class CoreEvents {
       controls.operatorStick.update();
     });
 
-    // Shooter
-    if (RobotConstants.HAS_SHOOTER) {
-      autonomousStateEvent.forEach(
-          new FixedTime(10000).andUntilDone(new SpinFlywheelAtRPM(2000, shooterFlywheel, hardware))
-      );
+    // AUTO
+    AutoGenerator generator = new AutoGenerator(
+        hardware,
+        drivetrain,
+        intakeArm,
+        intakeRoller,
+        shooterArm,
+        shooterFlywheel,
+        shooterSecondary
+    );
+
+    for (int i = 0; i < AutoGenerator.Defense.values().length; i++) {
+        SmartDashboard.putString(
+            "DB/String " + i,
+            "DB0 " + AutoGenerator.Defense.values()[i] + " - " + ((double) i / 2)
+        );
+    }
+
+    SmartDashboard.putString(
+        "DB/String " + AutoGenerator.Defense.values().length,
+        "DB1 lt dfns: 1; rt dfns: 5"
+    );
+
+    if (RobotConstants.HAS_DRIVETRAIN
+        && RobotConstants.HAS_INTAKE
+        && RobotConstants.HAS_SHOOTER) {
+      autonomousStateEvent.forEach(() -> {
+        long defenseID = Math.round(SmartDashboard.getNumber("DB/Slider 0") * 2);
+        AutoGenerator.Defense defense = AutoGenerator.Defense.values()[(int) defenseID];
+
+        long position = Math.round(SmartDashboard.getNumber("DB/Slider 1"));
+        return generator.generateRoutine(
+            defense,
+            (int) position
+        );
+      });
     }
 
     // Gyro
@@ -244,7 +273,7 @@ public class CoreEvents {
     if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
       controls.operatorStick
           .onPress(OperatorButtonAssignments.CHEVAL)
-          .forEach(ChevaldeFrise.crossChevalDeFrise(
+          .forEach(DefenseRoutines.crossChevalDeFrise(
               intakeArm,
               hardware,
               drivetrain
@@ -252,7 +281,7 @@ public class CoreEvents {
 
       controls.operatorStick
           .onPress(OperatorButtonAssignments.PORTCULLIS)
-          .forEach(PortcullisRoutine.crossPortcullis(
+          .forEach(DefenseRoutines.crossPortcullis(
               intakeArm,
               drivetrain,
               hardware

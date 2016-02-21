@@ -3,9 +3,8 @@ package com.lynbrookrobotics.sixteen.config.constants;
 import akka.actor.ActorSystem;
 
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
+import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
-import com.lynbrookrobotics.sixteen.tasks.defenses.ChevaldeFrise;
-import com.lynbrookrobotics.sixteen.tasks.defenses.PortcullisRoutine;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveAbsolute;
@@ -44,8 +43,7 @@ public class RobotConstants {
   public static final int DRIVER_WHEEL = 2;
 
   public static final Class[] taskList = {
-      ChevaldeFrise.class,
-      PortcullisRoutine.class,
+      DefenseRoutines.class,
 
       AbsoluteHeadingTimedDrive.class,
       ContinuousDrive.class,
