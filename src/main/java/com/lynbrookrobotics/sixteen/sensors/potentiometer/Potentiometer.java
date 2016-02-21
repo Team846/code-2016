@@ -9,7 +9,7 @@ public class Potentiometer {
   AnalogInput input;
   double conversionFactor = 726;
   double positionOffset;
-  double voltageOffset = 13.122;
+  double voltageOffset = 0.076203211471160;
 
   /**
    * Class for a ten turn potentiometer.
