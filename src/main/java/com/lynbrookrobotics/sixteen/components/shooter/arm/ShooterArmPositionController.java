@@ -26,4 +26,5 @@ public class ShooterArmPositionController extends ShooterArmController {
   public double armMotorSpeed() {
     return pid.get() * ShooterArmConstants.CONVERSION_FACTOR;
   }
-}}
+}
+

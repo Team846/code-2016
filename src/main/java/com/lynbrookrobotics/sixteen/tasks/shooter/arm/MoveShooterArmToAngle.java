@@ -16,7 +16,7 @@ public class MoveShooterArmToAngle extends FiniteTask {
   private Potentiometer pot;
   private ShooterArmController controller;
   private ShooterArm shooterArm;
-  private double angle;
+  private int angle;
 
   /**
    * Constructor for the MoveShooterArmToAngle.
@@ -25,9 +25,14 @@ public class MoveShooterArmToAngle extends FiniteTask {
    * @param shooterArm    the shooter arm that has to be moved.
    */
   public MoveShooterArmToAngle(double angle, RobotHardware robotHardware, ShooterArm shooterArm) {
+<<<<<<< 4c8458993d8f6421e74d30254603b9f144f08422
     this.angle = angle;
     this.pot = robotHardware.shooterArmHardware.pot;
     this.controller = new ShooterArmPositionController(angle, robotHardware);
+=======
+    this.angle = (int)angle;
+    this.robotHardware = robotHardware;
+>>>>>>> Added safety
     this.shooterArm = shooterArm;
   }
 
