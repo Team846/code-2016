@@ -12,11 +12,33 @@ public class ShooterArmPositionController extends ShooterArmController {
    * @param targetPotPosition the target pot position
    * @param hardware          the robot hardware
    */
+<<<<<<< 3fdb81296cd62398d582485b758e884e7ce98839
   public ShooterArmPositionController(double targetPotPosition, RobotHardware hardware) {
     pid = new PID(hardware.shooterArmHardware.pot::getAngle, targetPotPosition)
         .withP(ShooterArmConstants.P_GAIN)
         .withI(ShooterArmConstants.I_GAIN,
             ShooterArmConstants.I_MEMORY);
+=======
+  public ShooterArmPositionController(int targetPotPosition, RobotHardware robotHardware) {
+    this.robotHardware = robotHardware;
+    if ( armMotorSpeed() < 0 && IsIntakeArmStowed() ) {
+      System.out.println("Intake arm is stowed, cannot move shooter arm there");
+    } else {
+      pid = new PID(() -> (double) currentPosition, (double) targetPotPosition)
+          .withP(ShooterArmConstants.P_GAIN)
+          .withI(ShooterArmConstants.I_GAIN,
+              ShooterArmConstants.I_MEMORY);
+    }
+  }
+
+
+  /**
+   * Finds whether the intake arm's angle is greater than stowed constant.
+   * @return intake stowed or not.
+   */
+  public boolean IsIntakeArmStowed() {
+    return Math.abs(robotHardware.intakeArmHardware.encoder.getAngle() - IntakeArmConstants.STOWED_SETPOINT) < IntakeArmConstants.ARM_ERROR;
+>>>>>>> fixed merge issues
   }
 
   /**
