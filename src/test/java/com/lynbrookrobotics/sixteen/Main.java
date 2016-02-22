@@ -7,8 +7,8 @@ import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Jaguar;
 
 import static org.mockito.Mockito.*;
 
@@ -16,10 +16,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main {
-  static Jaguar frontLeftMotor = mock(Jaguar.class, withSettings().verboseLogging());
-  static Jaguar frontRightMotor = mock(Jaguar.class, withSettings().verboseLogging());
-  static Jaguar backLeftMotor = mock(Jaguar.class, withSettings().verboseLogging());
-  static Jaguar backRightMotor = mock(Jaguar.class, withSettings().verboseLogging());
+  static CANTalon frontLeftMotor = mock(CANTalon.class, withSettings().verboseLogging());
+  static CANTalon frontRightMotor = mock(CANTalon.class, withSettings().verboseLogging());
+  static CANTalon backLeftMotor = mock(CANTalon.class, withSettings().verboseLogging());
+  static CANTalon backRightMotor = mock(CANTalon.class, withSettings().verboseLogging());
 
   static DriverStation ds = mock(DriverStation.class);
 
@@ -29,10 +29,6 @@ public class Main {
           frontRightMotor,
           backLeftMotor,
           backRightMotor,
-          null,
-          null,
-          null,
-          null,
           null,
           null
       ),

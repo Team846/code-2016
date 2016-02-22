@@ -6,22 +6,16 @@ import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Jaguar;
 
 /**
  * Contains all the hardware components for the drivetrain.
  * Includes motors and gyros for angle and acceleration measurement.
  */
 public class DrivetrainHardware {
-  public final Jaguar frontLeftMotor;
-  public final Jaguar frontRightMotor;
-  public final Jaguar backLeftMotor;
-  public final Jaguar backRightMotor;
-
-  public final CANTalon frontLeftTalon;
-  public final CANTalon frontRightTalon;
-  public final CANTalon backLeftTalon;
-  public final CANTalon backRightTalon;
+  public final CANTalon frontLeftMotor;
+  public final CANTalon frontRightMotor;
+  public final CANTalon backLeftMotor;
+  public final CANTalon backRightMotor;
 
   public final Encoder leftEncoder;
   public final Encoder rightEncoder;
@@ -34,14 +28,10 @@ public class DrivetrainHardware {
   /**
    * Constructs a new default DrivetrainHardware object given the interfaces.
    */
-  public DrivetrainHardware(Jaguar frontLeftMotor,
-                            Jaguar frontRightMotor,
-                            Jaguar backLeftMotor,
-                            Jaguar backRightMotor,
-                            CANTalon frontLeftTalon,
-                            CANTalon frontRightTalon,
-                            CANTalon backLeftTalon,
-                            CANTalon backRightTalon,
+  public DrivetrainHardware(CANTalon frontLeftMotor,
+                            CANTalon frontRightMotor,
+                            CANTalon backLeftMotor,
+                            CANTalon backRightMotor,
                             GyroL3GD20H gyro,
                             ADIS16448 imu) {
     this.frontLeftMotor = frontLeftMotor;
@@ -49,13 +39,8 @@ public class DrivetrainHardware {
     this.backLeftMotor = backLeftMotor;
     this.backRightMotor = backRightMotor;
 
-    this.frontLeftTalon = frontLeftTalon;
-    this.frontRightTalon = frontRightTalon;
-    this.backLeftTalon = backLeftTalon;
-    this.backRightTalon = backRightTalon;
-
-    this.leftEncoder = Encoder.talonEncoder(frontLeftTalon);
-    this.rightEncoder = Encoder.talonEncoder(frontRightTalon);
+    this.leftEncoder = Encoder.talonEncoder(frontLeftMotor);
+    this.rightEncoder = Encoder.talonEncoder(frontRightMotor);
 
     this.gyro = gyro;
     this.imu = imu;
@@ -68,14 +53,10 @@ public class DrivetrainHardware {
    */
   public DrivetrainHardware(VariableConfiguration config) {
     this(
-        new Jaguar(config.drivetrainPorts.portFrontLeft),
-        new Jaguar(config.drivetrainPorts.portFrontRight),
-        new Jaguar(config.drivetrainPorts.portBackLeft),
-        new Jaguar(config.drivetrainPorts.portBackRight),
-        new CANTalon(0),
-        new CANTalon(1),
-        new CANTalon(2),
-        new CANTalon(3),
+        new CANTalon(config.drivetrainPorts.portFrontLeft),
+        new CANTalon(config.drivetrainPorts.portFrontRight),
+        new CANTalon(config.drivetrainPorts.portBackLeft),
+        new CANTalon(config.drivetrainPorts.portBackRight),
         new GyroL3GD20H(),
         new ADIS16448()
     );
