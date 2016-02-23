@@ -53,7 +53,7 @@ public class CoreRobot {
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterArm(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterFlywheel(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterSecondary(hardware)),
-          new Lights()
+          null // new Lights()
       ),
       "Core events loading "
   );

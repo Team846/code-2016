@@ -111,24 +111,26 @@ public class CoreEvents {
    */
   public void initEventMappings() {
     // Camera Streaming
-    NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+    if (RobotConstants.HAS_CAMERA) {
+      NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
-    USBCamera camera = new USBCamera("cam1");
-    camera.setBrightness(50);
-    camera.setExposureAuto();
-    camera.updateSettings();
-    camera.startCapture();
+      USBCamera camera = new USBCamera("cam1");
+      camera.setBrightness(50);
+      camera.setExposureAuto();
+      camera.updateSettings();
+      camera.startCapture();
 
-    Timer updateTimer = new Timer("update-loop");
+      Timer updateTimer = new Timer("update-loop");
 
-    CameraServer.getInstance().setQuality(50);
-    updateTimer.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        camera.getImage(image);
-        CameraServer.getInstance().setImage(image);
-      }
-    }, 0, (long) (50));
+      CameraServer.getInstance().setQuality(50);
+      updateTimer.schedule(new TimerTask() {
+        @Override
+        public void run() {
+          camera.getImage(image);
+          CameraServer.getInstance().setImage(image);
+        }
+      }, 0, (long) (50));
+    }
 
     // Driver Controls
     enabledStateEvent.forEach(() -> {
@@ -338,23 +340,23 @@ public class CoreEvents {
       }
     };
 
-    disabledStateEvent.forEach(
-        () -> {
-          lights.setController(disabledColors);
-        },
-        () -> {
-          lights.resetToDefault();
-        }
-    );
+//    disabledStateEvent.forEach(
+//        () -> {
+//          lights.setController(disabledColors);
+//        },
+//        () -> {
+//          lights.resetToDefault();
+//        }
+//    );
 
-    enabledStateEvent.forEach(
-        () -> {
-          lights.setController(disabledColors);
-        },
-        () -> {
-          lights.resetToDefault();
-        }
-    );
+//    enabledStateEvent.forEach(
+//        () -> {
+//          lights.setController(disabledColors);
+//        },
+//        () -> {
+//          lights.resetToDefault();
+//        }
+//    );
 
     // Dashboard data
     RobotConstants.dashboard.thenAccept(dashboard -> {
