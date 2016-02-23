@@ -12,7 +12,6 @@ import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeRollerConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
-import com.lynbrookrobotics.sixteen.tasks.intake.roller.CollectUntilBall;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinUntilBall;
@@ -28,27 +27,20 @@ public class IntakeTasks {
                                    ShooterSecondary secondary,
                                    RobotHardware hardware) {
     return
-        ((new MoveIntakeArmToAngle(
+        (new MoveIntakeArmToAngle(
             IntakeArmConstants.COLLECT_SETPOINT,
             arm,
             hardware
-        ).and(
-            new CollectUntilBall(roller, hardware)
         ).and(new MoveShooterArmToAngle(
-            ShooterArmConstants.STOWED_SETPOINT,
-            hardware,
-            shooterArm
+          ShooterArmConstants.STOWED_SETPOINT,
+          hardware,
+          shooterArm
         ))).then(
-            new SpinUntilBall(hardware, flywheel, secondary))
-            .andUntilDone(
-                new DirectIntakeRollerSpeed(
-                    () -> IntakeRollerConstants.COLLECT_SPEED,
-                    roller)
-            ).andUntilDone(
-                new MoveIntakeArmToAngle(
-                    IntakeArmConstants.COLLECT_TRANSFER_SETPOINT,
-                    arm, hardware).toContinuous()
-            )
+            new SpinUntilBall(hardware, flywheel, secondary)
+            .andUntilDone(new DirectIntakeRollerSpeed(
+              () -> IntakeRollerConstants.COLLECT_SPEED,
+              roller
+            ))
         );
   }
 }

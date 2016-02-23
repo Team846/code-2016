@@ -20,6 +20,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
+import edu.wpi.first.wpilibj.Talon;
+
 /**
  * A swing-based interface for validating JavaScript routines.
  */
@@ -32,7 +34,8 @@ public class JSValidator extends JFrame {
       null, null, null, null
   );
 
-  private IntakeRollerHardware intakeRollerHardware = new IntakeRollerHardware(null, null);
+  private Talon intakeTalon = null;
+  private IntakeRollerHardware intakeRollerHardware = new IntakeRollerHardware(intakeTalon);
   private IntakeArmHardware intakeArmHardware = new IntakeArmHardware(null,null);
   private ShooterArmHardware shooterArmHardware = new ShooterArmHardware(null, null);
   private RobotHardware robotHardware = new RobotHardware(

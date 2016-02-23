@@ -14,7 +14,6 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
-import com.lynbrookrobotics.sixteen.tasks.intake.roller.CollectUntilBall;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.ShooterTasks;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.DirectShooterArmSpeed;
@@ -33,7 +32,7 @@ import java.util.concurrent.Executors;
 public class RobotConstants {
   public static final boolean HAS_CAMERA = true;
   public static final boolean HAS_DRIVETRAIN = true;
-  public static final boolean HAS_INTAKE = false;
+  public static final boolean HAS_INTAKE = true;
   public static final boolean HAS_SHOOTER = false;
 
   public static final double TICK_PERIOD = 1D / 200; // every 10ms
@@ -56,7 +55,6 @@ public class RobotConstants {
       DirectIntakeArmSpeed.class,
       MoveIntakeArmToAngle.class,
 
-      CollectUntilBall.class,
       DirectIntakeRollerSpeed.class,
 
       IntakeTasks.class,

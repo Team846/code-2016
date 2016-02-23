@@ -7,14 +7,12 @@ import com.typesafe.config.Config;
  */
 public class IntakeRollerPorts {
   public final int motorPort;
-  public final int proximityPort;
 
-  public IntakeRollerPorts(int motorPort, int proximityPort) {
+  public IntakeRollerPorts(int motorPort) {
     this.motorPort = motorPort;
-    this.proximityPort = proximityPort;
   }
 
   public IntakeRollerPorts(Config config) {
-    this(config.getInt("roller-motor-port"), config.getInt("proximity-port"));
+    this(config.getInt("roller-motor-port"));
   }
 }

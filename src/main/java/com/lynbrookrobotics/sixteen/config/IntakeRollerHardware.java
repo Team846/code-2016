@@ -9,11 +9,9 @@ import edu.wpi.first.wpilibj.Talon;
  */
 public class IntakeRollerHardware {
   public final Talon rollerMotor;
-  public final ProximitySensor proximitySensor;
 
-  public IntakeRollerHardware(Talon rollerMotor, ProximitySensor proximitySensor) {
+  public IntakeRollerHardware(Talon rollerMotor) {
     this.rollerMotor = rollerMotor;
-    this.proximitySensor = proximitySensor;
   }
 
   /**
@@ -22,8 +20,7 @@ public class IntakeRollerHardware {
    */
   public IntakeRollerHardware(VariableConfiguration configuration) {
     this(
-            new Talon(configuration.intakeRollerPorts.motorPort),
-            new ProximitySensor(configuration.intakeRollerPorts.proximityPort)
+            new Talon(configuration.intakeRollerPorts.motorPort)
     );
   }
 }
