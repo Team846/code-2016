@@ -241,7 +241,7 @@ public class CoreEvents {
 
     if (RobotConstants.HAS_INTAKE) {
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.COLLECT)
+          .onHold(OperatorButtonAssignments.COLLECT)
           .forEach(IntakeTasks.collect(
               intakeArm,
               intakeRoller,

@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen.inputs;
 
+import com.lynbrookrobotics.potassium.defaults.events.ButtonHold;
 import com.lynbrookrobotics.potassium.defaults.events.ButtonPress;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -44,6 +45,16 @@ public class PollingJoystick {
    */
   public ButtonPress onPress(int button) {
     return new ButtonPress(
+        underlying,
+        button
+    );
+  }
+
+  /**
+   * Creates an event triggered when the button is held.
+   */
+  public ButtonHold onHold(int button) {
+    return new ButtonHold(
         underlying,
         button
     );

@@ -11,6 +11,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeRollerConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
+import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
@@ -31,12 +32,13 @@ public class IntakeTasks {
             IntakeArmConstants.COLLECT_SETPOINT,
             arm,
             hardware
-        ).and(new MoveShooterArmToAngle(
+        )/*.and(new MoveShooterArmToAngle(
           ShooterArmConstants.STOWED_SETPOINT,
           hardware,
           shooterArm
-        ))).then(
-            new SpinUntilBall(hardware, flywheel, secondary)
+        ))*/).then(
+//            new SpinUntilBall(hardware, flywheel, secondary)
+            new FixedTime(2000)
             .andUntilDone(new DirectIntakeRollerSpeed(
               () -> IntakeRollerConstants.COLLECT_SPEED,
               roller
