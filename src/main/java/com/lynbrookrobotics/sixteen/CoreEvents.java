@@ -363,13 +363,16 @@ public class CoreEvents {
       if (RobotConstants.HAS_DRIVETRAIN) {
         dashboard.datasetGroup("drivetrain")
             .addDataset(new TimeSeriesNumeric<>(
-                "Turning gain",
-                () -> 20 * controls.operatorStick.getY()));
-
-        dashboard.datasetGroup("drivetrain")
-            .addDataset(new TimeSeriesNumeric<>(
                 "Angular Position",
                 () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+      }
+
+      if (RobotConstants.HAS_INTAKE) {
+        dashboard.datasetGroup("intake-arm")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Potentiometer Angle",
+                () -> hardware.intakeArmHardware.pot.getAngle()
+            ));
       }
 
       if (RobotConstants.HAS_SHOOTER) {
