@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
 public class IntakeArmConstants {
-  public static final double P_GAIN = 1D/40; // start slowing at 40 deg error
+  public static final double P_GAIN = 0.5D/40; // start slowing from 0.5 at 40 deg error
 
   public static final double I_GAIN = 0.0;
 
