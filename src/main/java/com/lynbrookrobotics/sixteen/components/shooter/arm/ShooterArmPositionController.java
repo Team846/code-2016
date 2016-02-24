@@ -7,9 +7,8 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 public class ShooterArmPositionController extends ShooterArmController {
   private PID pid;
+  private int currentPosition;
   private RobotHardware robotHardware;
-  double currentPosition;
-
   /**
    * Constructor for the ShooterArmPositionController.
    * @param targetPotPosition the target pot position
@@ -20,14 +19,12 @@ public class ShooterArmPositionController extends ShooterArmController {
     if ( armMotorSpeed() < 0 && isIntakeArmStowed() ) {
       System.out.println("Intake arm is stowed, cannot move shooter arm there");
     } else {
-      pid = new PID(() -> currentPosition, (double) targetPotPosition)
+      pid = new PID(() -> (double) currentPosition, (double) targetPotPosition)
           .withP(ShooterArmConstants.P_GAIN)
           .withI(ShooterArmConstants.I_GAIN,
               ShooterArmConstants.I_MEMORY);
     }
   }
-
-
   /**
    * Finds whether the intake arm's angle is greater than stowed constant.
    * @return intake stowed or not.
@@ -41,6 +38,7 @@ public class ShooterArmPositionController extends ShooterArmController {
    */
   @Override
   public double armMotorSpeed() {
+    currentPosition = (int) robotHardware.shooterArmHardware.pot.getAngle();
     return pid.get() * ShooterArmConstants.CONVERSION_FACTOR;
   }
 }
