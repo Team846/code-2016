@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 
 public class RobotConstants {
   public static final boolean HAS_CAMERA = true;
-  public static final boolean HAS_DRIVETRAIN = true;
+  public static final boolean HAS_DRIVETRAIN = false;
   public static final boolean HAS_INTAKE = true;
   public static final boolean HAS_SHOOTER = false;
 
@@ -90,4 +90,14 @@ public class RobotConstants {
 
         return ret;
       }, executor);
+
+  public static double clamp(double value, double low, double high) {
+    return Math.max(
+        Math.min(
+            value,
+            high
+        ),
+        low
+    );
+  }
 }

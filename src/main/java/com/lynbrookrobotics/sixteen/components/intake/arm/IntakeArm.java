@@ -2,6 +2,8 @@ package com.lynbrookrobotics.sixteen.components.intake.arm;
 
 import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
 /**
  * Intake Component that sets the arms speed.
@@ -16,12 +18,28 @@ public class IntakeArm extends Component<IntakeArmController> {
    */
   public IntakeArm(RobotHardware robotHardware) {
     super(IntakeArmController.of(() -> 0.0));
+
+    robotHardware.intakeArmHardware.motor.enableBrakeMode(true);
     this.robotHardware = robotHardware;
   }
 
-
   @Override
   protected void setOutputs(IntakeArmController intakeArmController) {
-    robotHardware.intakeArmHardware.motor.set(intakeArmController.armSpeed());
+    double output = intakeArmController.armSpeed();
+
+    if (robotHardware.intakeArmHardware.pot.getAngle() < IntakeArmConstants.FORWARD_LIMIT
+        && output > 0) {
+      System.out.println("limiting to zero forward");
+      output = 0; // only allow reverse
+    }
+
+    if (robotHardware.intakeArmHardware.pot.getAngle() > IntakeArmConstants.REVERSE_LIMIT
+        && output < 0) {
+      System.out.println("limiting to zero reverse");
+      output = 0; // only allow forward
+    }
+
+    output = RobotConstants.clamp(output, -IntakeArmConstants.MAX_SPEED, IntakeArmConstants.MAX_SPEED);
+    robotHardware.intakeArmHardware.motor.set(output);
   }
 }

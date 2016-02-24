@@ -3,13 +3,12 @@ package com.lynbrookrobotics.sixteen.sensors.potentiometer;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
- * Class for the guitar potentiometer  with part #:987 -1325.
+ * Class for the guitar potentiometer with part number 987-1325.
  */
 public class Potentiometer {
   AnalogInput input;
-  double conversionFactor = 0.076203211471160;
+  double conversionFactor = 90D/(2.568359 - 0.71533);
   double positionOffset;
-  double voltageOffset = 2.65;
 
   /**
    * Class for a ten turn potentiometer.
@@ -20,13 +19,16 @@ public class Potentiometer {
     this.positionOffset = positionOffset;
   }
 
+  public double rawVoltage() {
+    return input.getAverageVoltage();
+  }
+
   /**
    * Finds the angle that the pot has turned in degrees.
    * @return angle that the pot has turned in degrees
    */
   public double getAngle() {
-    return conversionFactor * (input.getAverageVoltage() - voltageOffset)
+    return (conversionFactor * input.getAverageVoltage())
         - positionOffset;
   }
-
 }

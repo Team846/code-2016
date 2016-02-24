@@ -6,7 +6,6 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
-import com.lynbrookrobotics.sixteen.components.lights.HSVController;
 import com.lynbrookrobotics.sixteen.components.lights.Lights;
 import com.lynbrookrobotics.sixteen.components.lights.LightsController;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
@@ -139,6 +138,187 @@ public class CoreEvents {
       controls.operatorStick.update();
     });
 
+    // Gyro
+    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
+    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
+
+    // Drivetrain - telop control
+    if (RobotConstants.HAS_DRIVETRAIN) {
+      enabledStateEvent.forEach(
+          () -> drivetrain.resetToDefault(),
+          () -> drivetrain.resetToDefault()
+      );
+    }
+
+    // Overrides
+    if (RobotConstants.HAS_INTAKE) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ARM)
+          .forEach(new DirectIntakeArmSpeed(
+              () -> -controls.operatorStick.getY() * IntakeArmConstants.MAX_SPEED,
+              intakeArm
+          ));
+
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ROLLER)
+          .forEach(new DirectIntakeRollerSpeed(
+              () -> -controls.operatorStick.getY(),
+              intakeRoller
+          ));
+    }
+
+    if (RobotConstants.HAS_SHOOTER) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_ARM)
+          .forEach(new DirectShooterArmSpeed(
+              () -> -controls.operatorStick.getY(),
+              shooterArm
+          ));
+
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_FLYWHEEL)
+          .forEach(new DirectFlywheelSpeed(
+              () -> -controls.operatorStick.getY(),
+              shooterFlywheel
+          ));
+
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SECONDARY)
+          .forEach(new SpinSecondary(
+              () -> -controls.operatorStick.getY(),
+              shooterSecondary
+          ));
+    }
+
+//    if (RobotConstants.HAS_SHOOTER) {
+//      controls.operatorStick
+//          .onPress(OperatorButtonAssignments.SHOOT_HIGH)
+//          .forEach(ShooterTasks.shootHigh(
+//              shooterFlywheel,
+//              shooterSecondary,
+//              shooterArm,
+//              hardware));
+//    }
+//
+//    if (RobotConstants.HAS_INTAKE) {
+//      controls.operatorStick
+//          .onHold(OperatorButtonAssignments.COLLECT)
+//          .forEach(IntakeTasks.collect(
+//              intakeArm,
+//              intakeRoller,
+//              shooterArm,
+//              shooterFlywheel,
+//              shooterSecondary,
+//              hardware
+//          ));
+//    }
+//
+//    if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
+//      controls.operatorStick
+//          .onPress(OperatorButtonAssignments.SHOOT_LOW)
+//          .forEach(ShooterTasks.shootLow(
+//              shooterFlywheel,
+//              shooterSecondary,
+//              shooterArm,
+//              intakeArm,
+//              intakeRoller,
+//              hardware));
+//
+//      controls.operatorStick
+//          .onPress(OperatorButtonAssignments.TRANSPORT_POSITION)
+//          .forEach(
+//              new MoveIntakeArmToAngle(
+//                  IntakeArmConstants.TRANSPORT_SETPOINT,
+//                  intakeArm,
+//                  hardware
+//              ).and(
+//                  new MoveShooterArmToAngle(
+//                      ShooterArmConstants.TRANSPORT_SETPOINT,
+//                      hardware,
+//                      shooterArm
+//                  )
+//              ));
+//    }
+//
+//    if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
+//      controls.operatorStick
+//          .onPress(OperatorButtonAssignments.CHEVAL)
+//          .forEach(DefenseRoutines.crossChevalDeFrise(
+//              intakeArm,
+//              hardware,
+//              drivetrain
+//          ));
+//
+//      controls.operatorStick
+//          .onPress(OperatorButtonAssignments.PORTCULLIS)
+//          .forEach(DefenseRoutines.crossPortcullis(
+//              intakeArm,
+//              drivetrain,
+//              hardware
+//          ));
+//    }
+
+    // Abort on button press
+    controls.operatorStick
+        .onPress(OperatorButtonAssignments.ABORT_CURRENT_TASK)
+        .forEach(Task::abortCurrentTask);
+
+//    HSVController disabledColors = new HSVController() {
+//      int lastHue = 0;
+//      @Override
+//      public double hue() {
+//        lastHue = (lastHue + 1) % 1000;
+//        return lastHue/1000D;
+//      }
+//
+//      @Override
+//      public double saturation() {
+//        return 1;
+//      }
+//
+//      @Override
+//      public double value() {
+//        return 1;
+//      }
+//    };
+
+//    LightsController disabledColors = new LightsController() {
+//      int lastHue = 0;
+//      @Override
+//      public double red() {
+//        return 1;
+//      }
+//
+//      @Override
+//      public double green() {
+//        return 1;
+//      }
+//
+//      @Override
+//      public double blue() {
+//        lastHue = (lastHue + 1) % 1000;
+//        return lastHue/1000D;
+//      }
+//    };
+
+//    disabledStateEvent.forEach(
+//        () -> {
+//          lights.setController(disabledColors);
+//        },
+//        () -> {
+//          lights.resetToDefault();
+//        }
+//    );
+
+//    enabledStateEvent.forEach(
+//        () -> {
+//          lights.setController(disabledColors);
+//        },
+//        () -> {
+//          lights.resetToDefault();
+//        }
+//    );
+
     // AUTO
     AutoGenerator generator = new AutoGenerator(
         hardware,
@@ -177,187 +357,6 @@ public class CoreEvents {
       });
     }
 
-    // Gyro
-    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
-    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
-
-    // Drivetrain - telop control
-    if (RobotConstants.HAS_DRIVETRAIN) {
-      enabledStateEvent.forEach(
-          () -> drivetrain.resetToDefault(),
-          () -> drivetrain.resetToDefault()
-      );
-    }
-
-    // Overrides
-    if (RobotConstants.HAS_INTAKE) {
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ARM)
-          .forEach(new DirectIntakeArmSpeed(
-              () -> -controls.operatorStick.getY(),
-              intakeArm
-          ));
-
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ROLLER)
-          .forEach(new DirectIntakeRollerSpeed(
-              () -> -controls.operatorStick.getY(),
-              intakeRoller
-          ));
-    }
-
-    if (RobotConstants.HAS_SHOOTER) {
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_ARM)
-          .forEach(new DirectShooterArmSpeed(
-              () -> -controls.operatorStick.getY(),
-              shooterArm
-          ));
-
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_FLYWHEEL)
-          .forEach(new DirectFlywheelSpeed(
-              () -> -controls.operatorStick.getY(),
-              shooterFlywheel
-          ));
-
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SECONDARY)
-          .forEach(new SpinSecondary(
-              () -> -controls.operatorStick.getY(),
-              shooterSecondary
-          ));
-    }
-
-    if (RobotConstants.HAS_SHOOTER) {
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.SHOOT_HIGH)
-          .forEach(ShooterTasks.shootHigh(
-              shooterFlywheel,
-              shooterSecondary,
-              shooterArm,
-              hardware));
-    }
-
-    if (RobotConstants.HAS_INTAKE) {
-      controls.operatorStick
-          .onHold(OperatorButtonAssignments.COLLECT)
-          .forEach(IntakeTasks.collect(
-              intakeArm,
-              intakeRoller,
-              shooterArm,
-              shooterFlywheel,
-              shooterSecondary,
-              hardware
-          ));
-    }
-
-    if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.SHOOT_LOW)
-          .forEach(ShooterTasks.shootLow(
-              shooterFlywheel,
-              shooterSecondary,
-              shooterArm,
-              intakeArm,
-              intakeRoller,
-              hardware));
-
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.TRANSPORT_POSITION)
-          .forEach(
-              new MoveIntakeArmToAngle(
-                  IntakeArmConstants.TRANSPORT_SETPOINT,
-                  intakeArm,
-                  hardware
-              ).and(
-                  new MoveShooterArmToAngle(
-                      ShooterArmConstants.TRANSPORT_SETPOINT,
-                      hardware,
-                      shooterArm
-                  )
-              ));
-    }
-
-    if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.CHEVAL)
-          .forEach(DefenseRoutines.crossChevalDeFrise(
-              intakeArm,
-              hardware,
-              drivetrain
-          ));
-
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.PORTCULLIS)
-          .forEach(DefenseRoutines.crossPortcullis(
-              intakeArm,
-              drivetrain,
-              hardware
-          ));
-    }
-
-    // Abort on button press
-    controls.operatorStick
-        .onPress(OperatorButtonAssignments.ABORT_CURRENT_TASK)
-        .forEach(Task::abortCurrentTask);
-
-//    HSVController disabledColors = new HSVController() {
-//      int lastHue = 0;
-//      @Override
-//      public double hue() {
-//        lastHue = (lastHue + 1) % 1000;
-//        return lastHue/1000D;
-//      }
-//
-//      @Override
-//      public double saturation() {
-//        return 1;
-//      }
-//
-//      @Override
-//      public double value() {
-//        return 1;
-//      }
-//    };
-
-    LightsController disabledColors = new LightsController() {
-      int lastHue = 0;
-      @Override
-      public double red() {
-        return 1;
-      }
-
-      @Override
-      public double green() {
-        return 1;
-      }
-
-      @Override
-      public double blue() {
-        lastHue = (lastHue + 1) % 1000;
-        return lastHue/1000D;
-      }
-    };
-
-//    disabledStateEvent.forEach(
-//        () -> {
-//          lights.setController(disabledColors);
-//        },
-//        () -> {
-//          lights.resetToDefault();
-//        }
-//    );
-
-//    enabledStateEvent.forEach(
-//        () -> {
-//          lights.setController(disabledColors);
-//        },
-//        () -> {
-//          lights.resetToDefault();
-//        }
-//    );
-
     // Dashboard data
     RobotConstants.dashboard.thenAccept(dashboard -> {
       if (RobotConstants.HAS_DRIVETRAIN) {
@@ -365,6 +364,16 @@ public class CoreEvents {
             .addDataset(new TimeSeriesNumeric<>(
                 "Angular Position",
                 () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Right Encoder",
+                () -> hardware.drivetrainHardware.rightEncoder.getAngle()));
+
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Left Encoder",
+                () -> hardware.drivetrainHardware.leftEncoder.getAngle()));
       }
 
       if (RobotConstants.HAS_INTAKE) {
@@ -372,6 +381,12 @@ public class CoreEvents {
             .addDataset(new TimeSeriesNumeric<>(
                 "Potentiometer Angle",
                 () -> hardware.intakeArmHardware.pot.getAngle()
+            ));
+
+        dashboard.datasetGroup("intake-arm")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Potentiometer Voltage",
+                () -> hardware.intakeArmHardware.pot.rawVoltage()
             ));
       }
 

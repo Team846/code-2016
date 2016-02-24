@@ -1,7 +1,14 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
 public class IntakeArmConstants {
-  public static final double P_GAIN = 0.5D/40; // start slowing from 0.5 at 40 deg error
+  public static final double FORWARD_LIMIT = 40;
+  public static final double REVERSE_LIMIT = 90;
+
+  public static final double MAX_SPEED = 0.2;
+
+  // negative because pot increases as arm moves back
+  // start slowing from 0.5 at 40 deg error
+  public static final double P_GAIN = -0.5D/40;
 
   public static final double I_GAIN = 0.0;
 
@@ -9,7 +16,7 @@ public class IntakeArmConstants {
 
   public static final double ARM_ERROR = 5.0;
 
-  public static final double COLLECT_SETPOINT = 90.0;
+  public static final double COLLECT_SETPOINT = 90.0; // setpoints are from forward limit
   public static final double TRANSPORT_SETPOINT = 45.0;
 
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS = 0.0;
