@@ -40,7 +40,6 @@ public class IntakeArmAngleController extends IntakeArmController {
 
   /**
    * Updates the pid to a current position to the current angle.
-   *
    * @return the angle created by the PID.
    */
   @Override
