@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.AnalogInput;
  */
 public class Potentiometer {
   AnalogInput input;
-  double conversionFactor = 726;
+  double conversionFactor = 0.076203211471160;
   double positionOffset;
-  double voltageOffset = 0.076203211471160;
+  double voltageOffset = 2.65;
 
   /**
    * Class for a ten turn potentiometer.
