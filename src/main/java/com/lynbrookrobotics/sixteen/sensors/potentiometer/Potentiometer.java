@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.sensors.potentiometer;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
- * Class for the guitar potentiometer  with part #:987 -1325
+ * Class for the guitar potentiometer  with part #:987 -1325.
  */
 public class Potentiometer {
   AnalogInput input;
@@ -25,8 +25,8 @@ public class Potentiometer {
    * @return angle that the pot has turned in degrees
    */
   public double getAngle() {
-    return conversionFactor * (input.getAverageVoltage() - voltageOffset) -
-            positionOffset;
+    return conversionFactor * (input.getAverageVoltage() - voltageOffset)
+        - positionOffset;
   }
 
 }
