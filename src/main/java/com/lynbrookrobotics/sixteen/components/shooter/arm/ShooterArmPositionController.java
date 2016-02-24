@@ -9,6 +9,7 @@ public class ShooterArmPositionController extends ShooterArmController {
   private PID pid;
   private int currentPosition;
   private RobotHardware robotHardware;
+
   /**
    * Constructor for the ShooterArmPositionController.
    * @param targetPotPosition the target pot position
@@ -25,6 +26,7 @@ public class ShooterArmPositionController extends ShooterArmController {
               ShooterArmConstants.I_MEMORY);
     }
   }
+
   /**
    * Finds whether the intake arm's angle is greater than stowed constant.
    * @return intake stowed or not.

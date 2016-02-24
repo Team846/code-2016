@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 public class ShooterArm extends Component<ShooterArmController> {
   private final CANTalon armMotor;
   private RobotHardware robotHardware;
+
   /**
    * Constructs a shooter arm component.
    */
