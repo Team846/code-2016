@@ -27,6 +27,8 @@ public class ShooterArmPositionController extends ShooterArmController {
     }
   }
 
+
+
   /**
    * Finds whether the intake arm's angle is greater than stowed constant.
    * @return intake stowed or not.
