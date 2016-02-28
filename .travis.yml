@@ -1,5 +1,9 @@
 language: scala
 jdk: oraclejdk8
+compiler:
+  - gcc
+before_script:
+  - 'bash ./install-opencv.sh'
 script:
   - 'sbt test'
   - 'if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then bash ./style-checks.sh; fi'
