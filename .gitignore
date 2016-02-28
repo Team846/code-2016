@@ -2,3 +2,5 @@
 !.idea/codeStyleSettings.xml
 project/project
 target/
+outImages/
+vision/lib

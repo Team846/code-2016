@@ -9,6 +9,8 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.7"
 
+lazy val vision = project
+
 resolvers += "WPILib-Maven" at "http://team846.github.io/wpilib-maven"
 resolvers += "Funky-Repo" at "http://team846.github.io/repo"
 
