@@ -4,6 +4,8 @@ public class IntakeArmConstants {
   public static final double FORWARD_LIMIT = 40;
   public static final double REVERSE_LIMIT = 90;
 
+  public static final double STOWED_THRESHOLD = 80;
+
   public static final double MAX_SPEED = 0.2;
 
   // negative because pot increases as arm moves back

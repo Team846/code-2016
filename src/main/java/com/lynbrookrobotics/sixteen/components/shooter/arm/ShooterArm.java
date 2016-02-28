@@ -2,6 +2,8 @@ package com.lynbrookrobotics.sixteen.components.shooter.arm;
 
 import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
@@ -10,6 +12,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 public class ShooterArm extends Component<ShooterArmController> {
   private final CANTalon armMotor;
   private final Potentiometer pot;
+  private final Potentiometer intakePot;
 
   /**
    * Constructs a shooter arm component.
@@ -19,6 +22,7 @@ public class ShooterArm extends Component<ShooterArmController> {
 
     this.armMotor = hardware.shooterArmHardware.armMotor;
     this.pot = hardware.shooterArmHardware.pot;
+    this.intakePot = hardware.intakeArmHardware.pot;
   }
 
   @Override
@@ -37,6 +41,12 @@ public class ShooterArm extends Component<ShooterArmController> {
       output = 0; // only allow forward
     }
 
-    armMotor.set(output);
+    if (intakePot.getAngle() > IntakeArmConstants.STOWED_THRESHOLD
+        && output > 0) {
+      System.out.println("Not allowing forward because intake is stowed");
+      output = 0;
+    }
+
+    armMotor.set(RobotConstants.clamp(output, -ShooterArmConstants.MAX_SPEED, ShooterArmConstants.MAX_SPEED));
   }
 }
