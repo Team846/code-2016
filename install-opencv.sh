@@ -6,8 +6,7 @@ mkdir opencv-build
 cd opencv-build
 cmake ../opencv
 make -j4
-make -j4 install
 cd ..
 mkdir vision/lib
-cp /usr/local/share/OpenCV/java/opencv-310.jar vision/lib/opencv-310.jar
-cp /usr/local/share/OpenCV/java/libopencv_java310.so vision/lib/libopencv_java310.so
+cp opencv-build/bin/opencv-310.jar vision/lib/opencv-310.jar
+cp opencv-build/lib/libopencv_java310.so vision/lib/libopencv_java310.so
