@@ -8,9 +8,10 @@ import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterArm extends Component<ShooterArmController> {
-  private final CANTalon armMotor;
+  private final Talon armMotor;
   private final Potentiometer pot;
   private final Potentiometer intakePot;
 
@@ -29,20 +30,20 @@ public class ShooterArm extends Component<ShooterArmController> {
   protected void setOutputs(ShooterArmController controller) {
     double output = controller.armMotorSpeed();
 
-    if (pot.getAngle() < ShooterArmConstants.FORWARD_LIMIT
+    if (pot.getAngle() > ShooterArmConstants.FORWARD_LIMIT
         && output > 0) {
       System.out.println("limiting to zero forward");
       output = 0; // only allow reverse
     }
 
-    if (pot.getAngle() > ShooterArmConstants.REVERSE_LIMIT
+    if (pot.getAngle() < ShooterArmConstants.REVERSE_LIMIT
         && output < 0) {
       System.out.println("limiting to zero reverse");
       output = 0; // only allow forward
     }
 
     if (intakePot.getAngle() > IntakeArmConstants.STOWED_THRESHOLD
-        && output > 0) {
+        /*&& output > 0*/) {
       System.out.println("Not allowing forward because intake is stowed");
       output = 0;
     }

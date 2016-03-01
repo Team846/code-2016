@@ -1,11 +1,11 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
 public class ShooterArmConstants {
-  public static final double FORWARD_LIMIT = 10;
-  public static final double REVERSE_LIMIT = 50;
+  public static final double FORWARD_LIMIT = 54.31585200092063;
+  public static final double REVERSE_LIMIT = 40.501635099161405;
   public static final double STOWED_THRESHOLD = 20;
 
-  public static final double MAX_SPEED = 0.2;
+  public static final double MAX_SPEED = 0.4;
 
   // TODO: experimentally determine PID factors
   public static final double P_GAIN = 0.0d;

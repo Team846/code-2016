@@ -3,15 +3,16 @@ package com.lynbrookrobotics.sixteen.config;
 import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Talon;
 
 public class ShooterArmHardware {
-  public final CANTalon armMotor;
+  public final Talon armMotor;
   public final Potentiometer pot;
 
   /**
    * Constructs a new default ShooterArmHardware object given the interfaces.
    */
-  public ShooterArmHardware(CANTalon armMotor,
+  public ShooterArmHardware(Talon armMotor,
                             Potentiometer pot) {
     this.armMotor = armMotor;
     this.pot = pot;
@@ -24,7 +25,7 @@ public class ShooterArmHardware {
    */
   public ShooterArmHardware(VariableConfiguration config) {
     this(
-        new CANTalon(config.shooterArmPorts.motorPort),
+        new Talon(config.shooterArmPorts.motorPort),
         new Potentiometer(
             config.shooterArmPorts.potentiometerPort,
             config.sensorConfig.shooterPotOffset

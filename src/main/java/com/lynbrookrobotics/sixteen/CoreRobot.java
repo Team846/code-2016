@@ -65,14 +65,16 @@ public class CoreRobot {
     Notifier componentNotifier = new Notifier(Component::updateComponents);
     componentNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
 
-    Notifier gyroNotifier = new Notifier(() ->  {
-      if (!events.initialCalibrationDone) {
-        hardware.drivetrainHardware.mainGyro.calibrateUpdate();
-      } else {
-        hardware.drivetrainHardware.mainGyro.angleUpdate();
-      }
-    });
-    gyroNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
+    if (RobotConstants.HAS_DRIVETRAIN) {
+      Notifier gyroNotifier = new Notifier(() -> {
+        if (!events.initialCalibrationDone) {
+          hardware.drivetrainHardware.mainGyro.calibrateUpdate();
+        } else {
+          hardware.drivetrainHardware.mainGyro.angleUpdate();
+        }
+      });
+      gyroNotifier.startPeriodic(RobotConstants.TICK_PERIOD);
+    }
 
     Notifier slowNotifier = new Notifier(() -> {
       Event.updateEvents();

@@ -378,26 +378,17 @@ public class CoreEvents {
       }
 
       if (RobotConstants.HAS_INTAKE) {
-        System.out.println("adding datasets");
-        try {
-          System.out.println(hardware.intakeArmHardware);
-          System.out.println(hardware.intakeArmHardware.pot);
-          dashboard.datasetGroup("intake-arm")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Potentiometer Angle",
-                  () -> hardware.intakeArmHardware.pot.getAngle()
-              ));
+        dashboard.datasetGroup("intake-arm")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Potentiometer Angle",
+                () -> hardware.intakeArmHardware.pot.getAngle()
+            ));
 
-          System.out.println("added first dataset");
-
-          dashboard.datasetGroup("intake-arm")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Potentiometer Voltage",
-                  () -> hardware.intakeArmHardware.pot.rawVoltage()
-              ));
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        dashboard.datasetGroup("intake-arm")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Potentiometer Voltage",
+                () -> hardware.intakeArmHardware.pot.rawVoltage()
+            ));
       }
 
       if (RobotConstants.HAS_SHOOTER) {
