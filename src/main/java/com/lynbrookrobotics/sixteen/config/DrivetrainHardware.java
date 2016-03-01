@@ -39,8 +39,8 @@ public class DrivetrainHardware {
     this.backLeftMotor = backLeftMotor;
     this.backRightMotor = backRightMotor;
 
-    this.leftEncoder = Encoder.talonEncoder(frontLeftMotor);
-    this.rightEncoder = Encoder.talonEncoder(frontRightMotor);
+    this.leftEncoder = Encoder.talonEncoder(frontLeftMotor, false);
+    this.rightEncoder = Encoder.talonEncoder(frontRightMotor, true);
 
     this.gyro = gyro;
     this.imu = imu;

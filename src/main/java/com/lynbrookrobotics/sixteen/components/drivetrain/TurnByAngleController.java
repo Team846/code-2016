@@ -15,6 +15,8 @@ public class TurnByAngleController extends ArcadeDriveController {
    * @param hardware the robot hardware to use
    */
   public TurnByAngleController(double angle, RobotHardware hardware) {
+    super(hardware);
+
     this.angleControl = new PID(
         () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ(),
         hardware.drivetrainHardware.mainGyro.currentPosition().valueZ() + angle

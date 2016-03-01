@@ -19,6 +19,8 @@ public abstract class DriveOnLiveHeadingController extends ArcadeDriveController
    * @param hardware the robot hardware to use
    */
   public DriveOnLiveHeadingController(RobotHardware hardware) {
+    super(hardware);
+
     this.hardware = hardware;
     this.gyro = hardware.drivetrainHardware.mainGyro;
 

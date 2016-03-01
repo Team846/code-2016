@@ -1,9 +1,26 @@
 package com.lynbrookrobotics.sixteen.components.drivetrain;
 
+import java.util.function.Supplier;
+
 /**
  * The controller for the drivetrain component.
  */
 public abstract class DrivetrainController {
+  public static DrivetrainController of(Supplier<Double> left,
+                                        Supplier<Double> right) {
+    return new DrivetrainController() {
+      @Override
+      public double leftSpeed() {
+        return left.get();
+      }
+
+      @Override
+      public double rightSpeed() {
+        return right.get();
+      }
+    };
+  }
+
   /**
    * Gets the left side speed.
    * @return the current speed of the left side as a normalized value

@@ -19,21 +19,35 @@ public class Drivetrain extends Component<DrivetrainController> {
    * @param robotHardware the hardware to use
    */
   public Drivetrain(RobotHardware robotHardware, DriverControls controls) {
-    super(ArcadeDriveController.of(() -> 0.0, () -> 0.0));
+    super(DrivetrainController.of(() -> 0.0, () -> 0.0));
 
     this.hardware = robotHardware.drivetrainHardware;
     this.controls = controls;
 
     this.enabledDrive = ArcadeDriveController.of(
-        () -> 10 * Math.pow(-controls.driverStick.getY(), 3),
-        () -> 10 * Math.pow(controls.driverWheel.getX(), 3)
+        robotHardware,
+        () -> -controls.driverStick.getY(),
+        () -> controls.driverWheel.getX()
     );
   }
 
+  private int ditheredTick = 0;
   @Override
   public void setOutputs(DrivetrainController drivetrainController) {
     double left = drivetrainController.leftSpeed();
     double right = drivetrainController.rightSpeed();
+
+    if (controls.driverStation.isEnabled() && (ditheredTick++ % 20) == 0) {
+      hardware.frontLeftMotor.enableBrakeMode(true);
+      hardware.backLeftMotor.enableBrakeMode(true);
+      hardware.frontRightMotor.enableBrakeMode(true);
+      hardware.backRightMotor.enableBrakeMode(true);
+    } else {
+      hardware.frontLeftMotor.enableBrakeMode(false);
+      hardware.backLeftMotor.enableBrakeMode(false);
+      hardware.frontRightMotor.enableBrakeMode(false);
+      hardware.backRightMotor.enableBrakeMode(false);
+    }
 
     hardware.frontLeftMotor.set(left);
     hardware.backLeftMotor.set(left);

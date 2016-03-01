@@ -21,6 +21,8 @@ public class DriveOnHeadingController extends ArcadeDriveController {
    * @param hardware the robot hardware to use
    */
   public DriveOnHeadingController(double angle, Supplier<Double> speed, RobotHardware hardware) {
+    super(hardware);
+
     this.hardware = hardware;
     this.gyro = hardware.drivetrainHardware.mainGyro;
     this.targetAngle = angle;

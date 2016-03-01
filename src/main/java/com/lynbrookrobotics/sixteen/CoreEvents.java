@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 /**
  * CoreEvents class creates events and maps these to handlers.
@@ -153,14 +154,14 @@ public class CoreEvents {
     // Overrides
     if (RobotConstants.HAS_INTAKE) {
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ARM)
+          .onHold(OperatorButtonAssignments.OVERRIDE_INTAKE_ARM)
           .forEach(new DirectIntakeArmSpeed(
               () -> -controls.operatorStick.getY() * IntakeArmConstants.MAX_SPEED,
               intakeArm
           ));
 
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_INTAKE_ROLLER)
+          .onHold(OperatorButtonAssignments.OVERRIDE_INTAKE_ROLLER)
           .forEach(new DirectIntakeRollerSpeed(
               () -> -controls.operatorStick.getY(),
               intakeRoller
@@ -169,21 +170,21 @@ public class CoreEvents {
 
     if (RobotConstants.HAS_SHOOTER) {
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_ARM)
+          .onHold(OperatorButtonAssignments.OVERRIDE_SHOOTER_ARM)
           .forEach(new DirectShooterArmSpeed(
               () -> -controls.operatorStick.getY(),
               shooterArm
           ));
 
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_FLYWHEEL)
+          .onHold(OperatorButtonAssignments.OVERRIDE_SHOOTER_FLYWHEEL)
           .forEach(new DirectFlywheelSpeed(
               () -> -controls.operatorStick.getY(),
               shooterFlywheel
           ));
 
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.OVERRIDE_SHOOTER_SECONDARY)
+          .onHold(OperatorButtonAssignments.OVERRIDE_SHOOTER_SECONDARY)
           .forEach(new SpinSecondary(
               () -> -controls.operatorStick.getY(),
               shooterSecondary
@@ -192,7 +193,7 @@ public class CoreEvents {
 
 //    if (RobotConstants.HAS_SHOOTER) {
 //      controls.operatorStick
-//          .onPress(OperatorButtonAssignments.SHOOT_HIGH)
+//          .onHold(OperatorButtonAssignments.SHOOT_HIGH)
 //          .forEach(ShooterTasks.shootHigh(
 //              shooterFlywheel,
 //              shooterSecondary,
@@ -367,27 +368,36 @@ public class CoreEvents {
 
         dashboard.datasetGroup("drivetrain")
             .addDataset(new TimeSeriesNumeric<>(
-                "Right Encoder",
-                () -> hardware.drivetrainHardware.rightEncoder.getAngle()));
+                "Right Encoder Speed",
+                () -> hardware.drivetrainHardware.rightEncoder.getSpeed()));
 
         dashboard.datasetGroup("drivetrain")
             .addDataset(new TimeSeriesNumeric<>(
-                "Left Encoder",
-                () -> hardware.drivetrainHardware.leftEncoder.getAngle()));
+                "Left Encoder Speed",
+                () -> hardware.drivetrainHardware.leftEncoder.getSpeed()));
       }
 
       if (RobotConstants.HAS_INTAKE) {
-        dashboard.datasetGroup("intake-arm")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Potentiometer Angle",
-                () -> hardware.intakeArmHardware.pot.getAngle()
-            ));
+        System.out.println("adding datasets");
+        try {
+          System.out.println(hardware.intakeArmHardware);
+          System.out.println(hardware.intakeArmHardware.pot);
+          dashboard.datasetGroup("intake-arm")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Potentiometer Angle",
+                  () -> hardware.intakeArmHardware.pot.getAngle()
+              ));
 
-        dashboard.datasetGroup("intake-arm")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Potentiometer Voltage",
-                () -> hardware.intakeArmHardware.pot.rawVoltage()
-            ));
+          System.out.println("added first dataset");
+
+          dashboard.datasetGroup("intake-arm")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Potentiometer Voltage",
+                  () -> hardware.intakeArmHardware.pot.rawVoltage()
+              ));
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
 
       if (RobotConstants.HAS_SHOOTER) {

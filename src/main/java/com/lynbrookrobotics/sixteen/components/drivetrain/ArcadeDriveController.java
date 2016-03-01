@@ -1,17 +1,20 @@
 package com.lynbrookrobotics.sixteen.components.drivetrain;
 
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
+
 import java.util.function.Supplier;
 
-public abstract class ArcadeDriveController extends DrivetrainController {
+public abstract class ArcadeDriveController extends VelocityTankDriveController {
   /**
    * Creates a new tank-drive style controller based on two suppliers.
    *
    * @param forwardSpeed the speed to move forward
    * @param turnSpeed    the speed to turn at where positive is to the right
    */
-  public static ArcadeDriveController of(Supplier<Double> forwardSpeed,
+  public static ArcadeDriveController of(RobotHardware hardware,
+                                         Supplier<Double> forwardSpeed,
                                          Supplier<Double> turnSpeed) {
-    return new ArcadeDriveController() {
+    return new ArcadeDriveController(hardware) {
       @Override
       public double forwardSpeed() {
         return forwardSpeed.get();
@@ -22,6 +25,10 @@ public abstract class ArcadeDriveController extends DrivetrainController {
         return turnSpeed.get();
       }
     };
+  }
+
+  public ArcadeDriveController(RobotHardware hardware) {
+    super(hardware);
   }
 
   /**
@@ -37,12 +44,12 @@ public abstract class ArcadeDriveController extends DrivetrainController {
   public abstract double turnSpeed();
 
   @Override
-  public double leftSpeed() {
+  public double leftVelocity() {
     return forwardSpeed() + turnSpeed();
   }
 
   @Override
-  public double rightSpeed() {
+  public double rightVelocity() {
     return forwardSpeed() - turnSpeed();
   }
 }

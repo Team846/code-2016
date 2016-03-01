@@ -6,14 +6,13 @@ import edu.wpi.first.wpilibj.CANTalon;
  * This codes gives exact angles in degrees when resolutino is 192 ticks per revolution.
  */
 public abstract class Encoder {
-
   /**
    * Returns an encoder wired to a Talon. The Talon communicates with CAN
    *
    * @param talon The talon that the encoder is wired to
    * @return An encoder wired to a Talon. The Talon communicates with CAN
    */
-  public static Encoder talonEncoder(CANTalon talon) {
+  public static Encoder talonEncoder(CANTalon talon, boolean reversed) {
     return new Encoder() {
       double conversionFactor = -0.34964D;
 
@@ -33,7 +32,7 @@ public abstract class Encoder {
        */
       @Override
       public double getSpeed() {
-        return talon.getSpeed() * conversionFactor;
+        return (reversed ? -1 : 1) * talon.getSpeed() * conversionFactor;
       }
 
       /**
@@ -42,7 +41,7 @@ public abstract class Encoder {
        */
       @Override
       public double getAngle() {
-        return talon.getPosition() * conversionFactor;
+        return (reversed ? -1 : 1) * talon.getPosition() * conversionFactor;
       }
     };
   }

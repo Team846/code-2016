@@ -18,7 +18,7 @@ public class IntakeArmConstants {
 
   public static final double ARM_ERROR = 5.0;
 
-  public static final double COLLECT_SETPOINT = 90.0; // setpoints are from forward limit
+  public static final double COLLECT_SETPOINT = 36.9439429299692; // setpoints are from forward limit
   public static final double TRANSPORT_SETPOINT = 45.0;
 
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS = 0.0;

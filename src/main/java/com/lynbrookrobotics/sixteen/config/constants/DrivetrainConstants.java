@@ -5,6 +5,9 @@ public class DrivetrainConstants {
   public static double GEAR_REDUCTION = 2.13;
   public static double FT_TO_ENC = (1D/(Math.PI * WHEEL_DIAMETER)) * GEAR_REDUCTION;
 
+  public static double MAX_SPEED_RIGHT = 557.6758;
+  public static double MAX_SPEED_LEFT = 510.4744;
+
   public static double MAX_ROTATIONAL_SPEED = 692.0882749590835 /* deg/s */;
 
   public static final double DEFENSE_RAMP_DISTANCE = 0;

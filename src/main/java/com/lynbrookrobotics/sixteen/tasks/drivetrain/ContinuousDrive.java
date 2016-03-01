@@ -23,7 +23,7 @@ public class ContinuousDrive extends ContinuousTask {
                          Supplier<Double> turn,
                          RobotHardware hardware,
                          Drivetrain drivetrain) {
-    this.controller = ArcadeDriveController.of(forward, turn);
+    this.controller = ArcadeDriveController.of(hardware, forward, turn);
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }
