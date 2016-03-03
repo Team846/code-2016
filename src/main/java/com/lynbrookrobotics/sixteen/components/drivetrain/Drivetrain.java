@@ -31,22 +31,30 @@ public class Drivetrain extends Component<DrivetrainController> {
     );
   }
 
+  private boolean forceBrake = false;
+
+  public void toggleForceBrake() {
+    forceBrake = !forceBrake;
+  }
+
   private int ditheredTick = 0;
   @Override
   public void setOutputs(DrivetrainController drivetrainController) {
     double left = drivetrainController.leftSpeed();
     double right = drivetrainController.rightSpeed();
 
-    if (controls.driverStation.isEnabled() && (ditheredTick++ % 20) == 0) {
-      hardware.frontLeftMotor.enableBrakeMode(true);
-      hardware.backLeftMotor.enableBrakeMode(true);
-      hardware.frontRightMotor.enableBrakeMode(true);
-      hardware.backRightMotor.enableBrakeMode(true);
-    } else {
-      hardware.frontLeftMotor.enableBrakeMode(false);
-      hardware.backLeftMotor.enableBrakeMode(false);
-      hardware.frontRightMotor.enableBrakeMode(false);
-      hardware.backRightMotor.enableBrakeMode(false);
+    if (controls.driverStation.isEnabled()) {
+      if ((ditheredTick++ % 20) == 0 || forceBrake) {
+        hardware.frontLeftMotor.enableBrakeMode(true);
+        hardware.backLeftMotor.enableBrakeMode(true);
+        hardware.frontRightMotor.enableBrakeMode(true);
+        hardware.backRightMotor.enableBrakeMode(true);
+      } else {
+        hardware.frontLeftMotor.enableBrakeMode(false);
+        hardware.backLeftMotor.enableBrakeMode(false);
+        hardware.frontRightMotor.enableBrakeMode(false);
+        hardware.backRightMotor.enableBrakeMode(false);
+      }
     }
 
     hardware.frontLeftMotor.set(left);

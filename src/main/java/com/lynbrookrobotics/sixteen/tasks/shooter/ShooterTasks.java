@@ -35,13 +35,13 @@ public class ShooterTasks {
         ShooterArmConstants.SHOOT_ANGLE,
         hardware,
         shooterArm
-    ).toContinuous()/*.and(
+    ).toContinuous().and(
         new SpinFlywheelAtRPM(
             ShooterFlywheelConstants.SHOOT_RPM,
             shooterFlywheel,
             hardware
         )
-    )*/;
+    );
   }
 
   /**

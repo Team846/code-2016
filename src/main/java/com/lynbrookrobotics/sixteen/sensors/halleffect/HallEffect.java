@@ -1,14 +1,24 @@
 package com.lynbrookrobotics.sixteen.sensors.halleffect;
 
+import com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants;
+
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class HallEffect extends Counter {
+  DigitalInput source;
   private static final double memory = 0.6;
   double lastRPM = 0;
   double averageRPM = 0;
 
   public HallEffect(int channel) {
-    super(channel);
+    super();
+    this.source = new DigitalInput(channel);
+    setUpSource(source);
+  }
+
+  public boolean isDetected() {
+    return source.get();
   }
 
   /**
@@ -20,7 +30,7 @@ public class HallEffect extends Counter {
       curRPM = 0;
     }
 
-    if (curRPM < 20000 && (curRPM - averageRPM) <= 1000) {
+    if (curRPM < 20000 && (curRPM - averageRPM) <= ShooterFlywheelConstants.MAX_RPM) {
       lastRPM = curRPM;
     }
 

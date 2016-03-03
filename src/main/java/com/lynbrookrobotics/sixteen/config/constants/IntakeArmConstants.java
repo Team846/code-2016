@@ -5,21 +5,20 @@ public class IntakeArmConstants {
   public static final double REVERSE_LIMIT = 100;
 
   public static final double STOWED_THRESHOLD = 40;
-  public static final double SHOOTER_STOWED_REVERSE_LIMIT = 0;
+  public static final double SHOOTER_STOWED_REVERSE_LIMIT = 33;
 
-  public static final double MAX_SPEED = 1.0;
+  public static final double MAX_SPEED = 0.5;
 
   // negative because pot increases as arm moves back
-  // start slowing from 0.5 at 40 deg error
-  public static final double P_GAIN = -0.5D/40;
+  public static final double P_GAIN = -2D/40;
 
   public static final double I_GAIN = 0.0;
 
   public static final double I_MEMORY = 0.0;
 
-  public static final double ARM_ERROR = 1.0;
+  public static final double ARM_ERROR = 3.0;
 
-  public static final double COLLECT_SETPOINT = 32.14157568085976; // setpoints are from forward limit
+  public static final double COLLECT_SETPOINT = 35; // setpoints are from forward limit
   public static final double TRANSPORT_SETPOINT = 45.0;
 
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS = 0.0;

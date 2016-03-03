@@ -149,6 +149,12 @@ public class CoreEvents {
           () -> drivetrain.resetToDefault(),
           () -> drivetrain.resetToDefault()
       );
+
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.FREEZE_DRIVETRAIN)
+          .forEach(() -> {
+            drivetrain.toggleForceBrake();
+          });
     }
 
     // Overrides
@@ -402,10 +408,15 @@ public class CoreEvents {
       }
 
       if (RobotConstants.HAS_SHOOTER) {
-//        dashboard.datasetGroup("shooter")
-//            .addDataset((new TimeSeriesNumeric<>(
-//                "Back Wheel RPM",
-//                () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Flywheel RPM",
+                () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
+
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Effect detected",
+                () -> hardware.shooterSpinnersHardware.hallEffect.isDetected() ? 1 : 0)));
 //
 //        dashboard.datasetGroup("shooter")
 //            .addDataset((new TimeSeriesNumeric<>(

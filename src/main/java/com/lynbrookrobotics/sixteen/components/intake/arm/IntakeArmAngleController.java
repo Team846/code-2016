@@ -10,7 +10,6 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 public class IntakeArmAngleController extends IntakeArmController {
   PID pid;
   RobotHardware robotHardware;
-  double currentPosition;
 
   /**
    * The IntakeArmAngleController uses the target angle, and robotHardware

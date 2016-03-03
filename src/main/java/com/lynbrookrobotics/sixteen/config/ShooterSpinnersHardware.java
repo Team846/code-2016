@@ -31,7 +31,7 @@ public class ShooterSpinnersHardware {
   public ShooterSpinnersHardware(VariableConfiguration config) {
     this(
         new Talon(config.shooterSpinnersPorts.flywheelPort),
-        new Talon(config.shooterSpinnersPorts.secondaryWheelPort),
+        null/*new Talon(config.shooterSpinnersPorts.secondaryWheelPort)*/,
         new HallEffect(config.shooterSpinnersPorts.hallEffectPort),
         new ProximitySensor(config.shooterSpinnersPorts.proximityPort)
     );
