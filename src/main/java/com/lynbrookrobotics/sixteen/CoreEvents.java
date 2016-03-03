@@ -191,7 +191,17 @@ public class CoreEvents {
           ));
     }
 
-//    if (RobotConstants.HAS_SHOOTER) {
+    if (RobotConstants.HAS_SHOOTER) {
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.PREPARE_SHOOT)
+          .forEach(
+              ShooterTasks.prepareShootHigh(
+                  shooterFlywheel,
+                  shooterArm,
+                  hardware
+              )
+          );
+
 //      controls.operatorStick
 //          .onHold(OperatorButtonAssignments.SHOOT_HIGH)
 //          .forEach(ShooterTasks.shootHigh(
@@ -199,22 +209,22 @@ public class CoreEvents {
 //              shooterSecondary,
 //              shooterArm,
 //              hardware));
-//    }
+    }
 //
-//    if (RobotConstants.HAS_INTAKE) {
-//      controls.operatorStick
-//          .onHold(OperatorButtonAssignments.COLLECT)
-//          .forEach(IntakeTasks.collect(
-//              intakeArm,
-//              intakeRoller,
-//              shooterArm,
-//              shooterFlywheel,
-//              shooterSecondary,
-//              hardware
-//          ));
-//    }
-//
-//    if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
+    if (RobotConstants.HAS_INTAKE) {
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.COLLECT)
+          .forEach(IntakeTasks.collect(
+              intakeArm,
+              intakeRoller,
+              shooterArm,
+              shooterFlywheel,
+              shooterSecondary,
+              hardware
+          ));
+    }
+
+    if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
 //      controls.operatorStick
 //          .onPress(OperatorButtonAssignments.SHOOT_LOW)
 //          .forEach(ShooterTasks.shootLow(
@@ -239,25 +249,25 @@ public class CoreEvents {
 //                      shooterArm
 //                  )
 //              ));
-//    }
-//
-//    if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
-//      controls.operatorStick
-//          .onPress(OperatorButtonAssignments.CHEVAL)
-//          .forEach(DefenseRoutines.crossChevalDeFrise(
-//              intakeArm,
-//              hardware,
-//              drivetrain
-//          ));
-//
-//      controls.operatorStick
-//          .onPress(OperatorButtonAssignments.PORTCULLIS)
-//          .forEach(DefenseRoutines.crossPortcullis(
-//              intakeArm,
-//              drivetrain,
-//              hardware
-//          ));
-//    }
+    }
+
+    if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.CHEVAL)
+          .forEach(DefenseRoutines.crossChevalDeFrise(
+              intakeArm,
+              hardware,
+              drivetrain
+          ));
+
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.PORTCULLIS)
+          .forEach(DefenseRoutines.crossPortcullis(
+              intakeArm,
+              drivetrain,
+              hardware
+          ));
+    }
 
     // Abort on button press
     controls.operatorStick
@@ -392,25 +402,27 @@ public class CoreEvents {
       }
 
       if (RobotConstants.HAS_SHOOTER) {
-        dashboard.datasetGroup("shooter")
-            .addDataset((new TimeSeriesNumeric<>(
-                "Back Wheel RPM",
-                () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
-
-        dashboard.datasetGroup("shooter")
-            .addDataset((new TimeSeriesNumeric<>(
-                "Proximity Sensor Average Value",
-                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
-
-        dashboard.datasetGroup("shooter")
-            .addDataset((new TimeSeriesNumeric<>(
-                "Proximity Sensor Average Voltage",
-                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+//        dashboard.datasetGroup("shooter")
+//            .addDataset((new TimeSeriesNumeric<>(
+//                "Back Wheel RPM",
+//                () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
+//
+//        dashboard.datasetGroup("shooter")
+//            .addDataset((new TimeSeriesNumeric<>(
+//                "Proximity Sensor Average Value",
+//                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
+//
+//        dashboard.datasetGroup("shooter")
+//            .addDataset((new TimeSeriesNumeric<>(
+//                "Proximity Sensor Average Voltage",
+//                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
 
         dashboard.datasetGroup("shooter")
             .addDataset(new TimeSeriesNumeric<>(
                 "Potentiometer Angle",
                 () -> hardware.shooterArmHardware.pot.getAngle()));
+
+        System.out.println("FunkyDashboard is up!");
       }
     });
   }

@@ -20,7 +20,7 @@ public class IntakeArmAngleController extends IntakeArmController {
    */
   public IntakeArmAngleController(double targetAngle, RobotHardware robotHardware) {
     this.robotHardware = robotHardware;
-    pid = new PID(() -> targetAngle, () -> currentPosition)
+    pid = new PID(() -> robotHardware.intakeArmHardware.pot.getAngle(), targetAngle)
         .withP(IntakeArmConstants.P_GAIN)
         .withI(IntakeArmConstants.I_GAIN, IntakeArmConstants.I_MEMORY);
   }
@@ -32,7 +32,6 @@ public class IntakeArmAngleController extends IntakeArmController {
    */
   @Override
   public double armSpeed() {
-    currentPosition = robotHardware.intakeArmHardware.pot.getAngle();
     return pid.get();
   }
 }

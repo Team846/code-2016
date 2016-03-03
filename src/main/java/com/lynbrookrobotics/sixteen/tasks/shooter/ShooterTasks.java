@@ -25,6 +25,28 @@ public class ShooterTasks {
   /**
    * Shooting high task.
    * @param shooterFlywheel Flywheel component
+   * @param hardware Robot Hardware
+   * @return FiniteTask for shooting
+   */
+  public static ContinuousTask prepareShootHigh(ShooterFlywheel shooterFlywheel,
+                                            ShooterArm shooterArm,
+                                            RobotHardware hardware) {
+    return new MoveShooterArmToAngle(
+        ShooterArmConstants.SHOOT_ANGLE,
+        hardware,
+        shooterArm
+    ).toContinuous()/*.and(
+        new SpinFlywheelAtRPM(
+            ShooterFlywheelConstants.SHOOT_RPM,
+            shooterFlywheel,
+            hardware
+        )
+    )*/;
+  }
+
+  /**
+   * Shooting high task.
+   * @param shooterFlywheel Flywheel component
    * @param shooterSecondary Secondary wheel component
    * @param hardware Robot Hardware
    * @return FiniteTask for shooting

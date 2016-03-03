@@ -51,8 +51,8 @@ public class CoreRobot {
           orNull(RobotConstants.HAS_INTAKE, () -> new IntakeArm(hardware)),
           orNull(RobotConstants.HAS_INTAKE, () -> new IntakeRoller(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterArm(hardware)),
-          orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterFlywheel(hardware)),
-          orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterSecondary(hardware)),
+          orNull(/*RobotConstants.HAS_SHOOTER*/ false, () -> new ShooterFlywheel(hardware)),
+          orNull(/*RobotConstants.HAS_SHOOTER*/ false, () -> new ShooterSecondary(hardware)),
           null // new Lights()
       ),
       "Core events loading "

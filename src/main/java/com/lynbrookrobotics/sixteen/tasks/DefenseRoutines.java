@@ -64,7 +64,7 @@ public class DefenseRoutines {
         IntakeArmConstants.CHEVAL_DISTANCE_TO_PUSH_DOWN,
         drivetrain)
     ).then(new MoveIntakeArmToAngle(
-        IntakeArmConstants.COLLECT_SETPOINT,
+        IntakeArmConstants.CHEVAL_LOW_POSITION,
         intakeArm,
         robotHardware)
     ).then(new DriveRelative(

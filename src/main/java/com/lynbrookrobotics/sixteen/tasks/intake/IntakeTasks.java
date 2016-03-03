@@ -32,17 +32,17 @@ public class IntakeTasks {
             IntakeArmConstants.COLLECT_SETPOINT,
             arm,
             hardware
-        )/*.and(new MoveShooterArmToAngle(
+        ).and(new MoveShooterArmToAngle(
           ShooterArmConstants.STOWED_SETPOINT,
           hardware,
           shooterArm
-        ))*/).then(
+        )))/*.then(
 //            new SpinUntilBall(hardware, flywheel, secondary)
             new FixedTime(2000)
             .andUntilDone(new DirectIntakeRollerSpeed(
               () -> IntakeRollerConstants.COLLECT_SPEED,
               roller
             ))
-        );
+        )*/;
   }
 }
