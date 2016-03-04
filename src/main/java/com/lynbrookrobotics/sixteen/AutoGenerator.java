@@ -13,6 +13,7 @@ import com.lynbrookrobotics.sixteen.config.constants.ShootingPositionConstants;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+import com.lynbrookrobotics.sixteen.tasks.shooter.ShooterTasks;
 
 public class AutoGenerator {
   public enum Defense {
@@ -210,19 +211,29 @@ public class AutoGenerator {
    * @return a full autonomous routine for the initial configuration
    */
   public FiniteTask generateRoutine(Defense defense, int startingPosition) {
-    FiniteTask driveUp = new DriveRelative(
-        hardware,
-        DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
-        DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
-        drivetrain
-    );
-
-    if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
-      return driveUp;
+    if (startingPosition ==  0) {
+      return new DriveRelative(
+          hardware,
+          DrivetrainConstants.SPY_TO_SHOOT,
+          DrivetrainConstants.SPY_TO_SHOOT,
+          drivetrain
+      ).then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, hardware));
     } else {
-      return driveUp
-          .then(cross(defense))
-          .then(driveToShootingPosition(startingPosition));
+      FiniteTask driveUp = new DriveRelative(
+          hardware,
+          DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
+          DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
+          drivetrain
+      );
+
+      if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
+        return driveUp;
+      } else {
+        return driveUp
+            .then(cross(defense))
+            .then(driveToShootingPosition(startingPosition))
+            .then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, hardware));
+      }
     }
   }
 }

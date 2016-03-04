@@ -10,6 +10,7 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.Shoote
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
@@ -18,6 +19,7 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelToRPM;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.WaitForRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondaryNoBall;
 
@@ -55,28 +57,28 @@ public class ShooterTasks {
                                  ShooterSecondary shooterSecondary,
                                  ShooterArm shooterArm,
                                  RobotHardware hardware) {
-    SpinFlywheelAtRPM flywheelTask
-        = new SpinFlywheelAtRPM(ShooterFlywheelConstants.SHOOT_RPM, shooterFlywheel, hardware);
-    return
-        (new SpinFlywheelToRPM(ShooterFlywheelConstants.SHOOT_RPM,
-                                 shooterFlywheel,
-                                 hardware)
-        .and(new MoveShooterArmToAngle(
-            ShooterArmConstants.SHOOT_ANGLE,
-            hardware,
-            shooterArm
-        )))
-        .then(
-            new SpinSecondaryNoBall(ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
-                                      ShooterFlywheelConstants.SHOOTER_HAS_THRESHOLD,
-                                      shooterSecondary,
-                                      hardware)
-            .andUntilDone(flywheelTask)
-        ).then(new FixedTime(1000)
-              .andUntilDone(flywheelTask)
-              .andUntilDone(new SpinSecondary(
-                  () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
-                  shooterSecondary)));
+    FiniteTask withoutFlywheel =
+        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware)
+            .and(new MoveShooterArmToAngle(
+                ShooterArmConstants.SHOOT_ANGLE,
+                hardware,
+                shooterArm
+            ))
+        ).then(new SpinSecondaryNoBall(
+          ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+          ShooterConstants.BALL_PROXIMITY_THRESHOLD,
+          shooterSecondary,
+          hardware
+        )).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
+            () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+            shooterSecondary
+        )));
+
+    return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
+        ShooterFlywheelConstants.SHOOT_RPM,
+        shooterFlywheel,
+        hardware
+    ));
   }
 
   /**
@@ -108,17 +110,21 @@ public class ShooterTasks {
         () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
         shooterSecondary
     )).and(new DirectIntakeRollerSpeed(
-        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        () -> -ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
         intakeRoller
     ));
 
-    FiniteTask rollOut = new SpinSecondaryNoBall(
+    FiniteTask rollOut = new SpinFlywheelToRPM(
+        ShooterFlywheelConstants.MAX_RPM * 0.5,
+        shooterFlywheel,
+        hardware
+    ).then(new SpinSecondaryNoBall(
         ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
-        ShooterFlywheelConstants.SHOOTER_HAS_THRESHOLD,
+        ShooterConstants.BALL_PROXIMITY_THRESHOLD,
         shooterSecondary,
         hardware
-    ).andUntilDone(rolling).then(
-        new FixedTime(1000)
+    ).andUntilDone(rolling)).then(
+        new FixedTime(2000)
             .andUntilDone(rolling)
     );
 

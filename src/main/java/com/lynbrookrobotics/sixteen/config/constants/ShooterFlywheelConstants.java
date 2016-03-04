@@ -14,5 +14,5 @@ public class ShooterFlywheelConstants {
   public static final double SHOOT_SECONDARY_POWER = 0.5;
   public static final double SHOOTER_HAS_THRESHOLD = 0;
 
-  public static final double INTAKE_POWER = 0.2;
+  public static final double INTAKE_POWER = -0.5;
 }

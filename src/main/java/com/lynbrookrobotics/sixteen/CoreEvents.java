@@ -208,13 +208,13 @@ public class CoreEvents {
               )
           );
 
-//      controls.operatorStick
-//          .onHold(OperatorButtonAssignments.SHOOT_HIGH)
-//          .forEach(ShooterTasks.shootHigh(
-//              shooterFlywheel,
-//              shooterSecondary,
-//              shooterArm,
-//              hardware));
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.SHOOT_HIGH)
+          .forEach(ShooterTasks.shootHigh(
+              shooterFlywheel,
+              shooterSecondary,
+              shooterArm,
+              hardware));
     }
 //
     if (RobotConstants.HAS_INTAKE) {
@@ -231,15 +231,15 @@ public class CoreEvents {
     }
 
     if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
-//      controls.operatorStick
-//          .onPress(OperatorButtonAssignments.SHOOT_LOW)
-//          .forEach(ShooterTasks.shootLow(
-//              shooterFlywheel,
-//              shooterSecondary,
-//              shooterArm,
-//              intakeArm,
-//              intakeRoller,
-//              hardware));
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.SHOOT_LOW)
+          .forEach(ShooterTasks.shootLow(
+              shooterFlywheel,
+              shooterSecondary,
+              shooterArm,
+              intakeArm,
+              intakeRoller,
+              hardware));
 //
 //      controls.operatorStick
 //          .onPress(OperatorButtonAssignments.TRANSPORT_POSITION)
@@ -417,16 +417,16 @@ public class CoreEvents {
             .addDataset((new TimeSeriesNumeric<>(
                 "Effect detected",
                 () -> hardware.shooterSpinnersHardware.hallEffect.isDetected() ? 1 : 0)));
-//
-//        dashboard.datasetGroup("shooter")
-//            .addDataset((new TimeSeriesNumeric<>(
-//                "Proximity Sensor Average Value",
-//                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
-//
-//        dashboard.datasetGroup("shooter")
-//            .addDataset((new TimeSeriesNumeric<>(
-//                "Proximity Sensor Average Voltage",
-//                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Proximity Sensor Average Value",
+                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
+
+        dashboard.datasetGroup("shooter")
+            .addDataset((new TimeSeriesNumeric<>(
+                "Proximity Sensor Average Voltage",
+                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
 
         dashboard.datasetGroup("shooter")
             .addDataset(new TimeSeriesNumeric<>(

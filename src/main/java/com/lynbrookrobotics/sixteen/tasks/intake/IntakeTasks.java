@@ -4,7 +4,6 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
-import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArmController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
@@ -36,13 +35,13 @@ public class IntakeTasks {
           ShooterArmConstants.STOWED_SETPOINT,
           hardware,
           shooterArm
-        )))/*.then(
-//            new SpinUntilBall(hardware, flywheel, secondary)
-            new FixedTime(2000)
-            .andUntilDone(new DirectIntakeRollerSpeed(
+        ))).then(
+            (new SpinUntilBall(hardware, flywheel, secondary)
+                .then(new FixedTime(500))
+            ).andUntilDone(new DirectIntakeRollerSpeed(
               () -> IntakeRollerConstants.COLLECT_SPEED,
               roller
             ))
-        )*/;
+        );
   }
 }
