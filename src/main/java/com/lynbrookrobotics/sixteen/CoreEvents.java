@@ -13,6 +13,8 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.Shooter
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.DriverButtonAssignments;
+import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
@@ -204,6 +206,7 @@ public class CoreEvents {
               ShooterTasks.prepareShootHigh(
                   shooterFlywheel,
                   shooterArm,
+                  intakeArm,
                   hardware
               )
           );
@@ -214,12 +217,24 @@ public class CoreEvents {
               shooterFlywheel,
               shooterSecondary,
               shooterArm,
+              intakeArm,
               hardware));
     }
 //
     if (RobotConstants.HAS_INTAKE) {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.COLLECT)
+          .forEach(IntakeTasks.collect(
+              intakeArm,
+              intakeRoller,
+              shooterArm,
+              shooterFlywheel,
+              shooterSecondary,
+              hardware
+          ));
+
+      controls.driverStick
+          .onHold(DriverButtonAssignments.COLLECT)
           .forEach(IntakeTasks.collect(
               intakeArm,
               intakeRoller,
@@ -240,36 +255,37 @@ public class CoreEvents {
               intakeArm,
               intakeRoller,
               hardware));
-//
-//      controls.operatorStick
-//          .onPress(OperatorButtonAssignments.TRANSPORT_POSITION)
-//          .forEach(
-//              new MoveIntakeArmToAngle(
-//                  IntakeArmConstants.TRANSPORT_SETPOINT,
-//                  intakeArm,
-//                  hardware
-//              ).and(
-//                  new MoveShooterArmToAngle(
-//                      ShooterArmConstants.TRANSPORT_SETPOINT,
-//                      hardware,
-//                      shooterArm
-//                  )
-//              ));
+
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.TRANSPORT_POSITION)
+          .forEach(
+              new MoveIntakeArmToAngle(
+                  IntakeArmConstants.TRANSPORT_SETPOINT,
+                  intakeArm,
+                  hardware
+              ).and(
+                  new MoveShooterArmToAngle(
+                      ShooterArmConstants.TRANSPORT_SETPOINT,
+                      hardware,
+                      shooterArm
+                  )
+              ));
     }
 
     if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
-      controls.operatorStick
-          .onPress(OperatorButtonAssignments.CHEVAL)
-          .forEach(DefenseRoutines.crossChevalDeFrise(
-              intakeArm,
-              hardware,
-              drivetrain
-          ));
+//      controls.operatorStick
+//          .onPress(OperatorButtonAssignments.CHEVAL)
+//          .forEach(DefenseRoutines.crossChevalDeFrise(
+//              intakeArm,
+//              hardware,
+//              drivetrain
+//          ));
 
       controls.operatorStick
           .onPress(OperatorButtonAssignments.PORTCULLIS)
           .forEach(DefenseRoutines.crossPortcullis(
               intakeArm,
+              shooterArm,
               drivetrain,
               hardware
           ));
@@ -391,6 +407,16 @@ public class CoreEvents {
             .addDataset(new TimeSeriesNumeric<>(
                 "Left Encoder Speed",
                 () -> hardware.drivetrainHardware.leftEncoder.getSpeed()));
+
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Right Encoder Distance",
+                () -> hardware.drivetrainHardware.rightEncoder.getAngle() / (DrivetrainConstants.FT_TO_ENC)));
+
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Left Encoder Distance",
+                () -> hardware.drivetrainHardware.leftEncoder.getAngle() / (DrivetrainConstants.FT_TO_ENC)));
       }
 
       if (RobotConstants.HAS_INTAKE) {

@@ -57,7 +57,7 @@ public class AutoGenerator {
 
   private FiniteTask cross(Defense defense) {
     if (defense == Defense.PORTCULLIS) {
-      return DefenseRoutines.crossPortcullis(intakeArm, drivetrain, hardware);
+      return DefenseRoutines.crossPortcullis(intakeArm, shooterArm, drivetrain, hardware);
     } else if (defense == Defense.CHEVAL) {
       return DefenseRoutines.crossChevalDeFrise(intakeArm, hardware, drivetrain);
     } else if (defense == Defense.MOAT) {
@@ -217,7 +217,7 @@ public class AutoGenerator {
           DrivetrainConstants.SPY_TO_SHOOT,
           DrivetrainConstants.SPY_TO_SHOOT,
           drivetrain
-      ).then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, hardware));
+      ).then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, intakeArm, hardware));
     } else {
       FiniteTask driveUp = new DriveRelative(
           hardware,
@@ -232,7 +232,7 @@ public class AutoGenerator {
         return driveUp
             .then(cross(defense))
             .then(driveToShootingPosition(startingPosition))
-            .then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, hardware));
+            .then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, intakeArm, hardware));
       }
     }
   }

@@ -32,12 +32,17 @@ public class ShooterTasks {
    */
   public static ContinuousTask prepareShootHigh(ShooterFlywheel shooterFlywheel,
                                             ShooterArm shooterArm,
+                                                IntakeArm intakeArm,
                                             RobotHardware hardware) {
     return new MoveShooterArmToAngle(
         ShooterArmConstants.SHOOT_ANGLE,
         hardware,
         shooterArm
-    ).toContinuous().and(
+    ).and(new MoveIntakeArmToAngle(
+        IntakeArmConstants.SHOOT_HIGH_SETPOINT,
+        intakeArm,
+        hardware
+    )).toContinuous().and(
         new SpinFlywheelAtRPM(
             ShooterFlywheelConstants.SHOOT_RPM,
             shooterFlywheel,
@@ -56,13 +61,18 @@ public class ShooterTasks {
   public static FiniteTask shootHigh(ShooterFlywheel shooterFlywheel,
                                  ShooterSecondary shooterSecondary,
                                  ShooterArm shooterArm,
+                                 IntakeArm intakeArm,
                                  RobotHardware hardware) {
     FiniteTask withoutFlywheel =
-        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware)
+        ((new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware)
             .and(new MoveShooterArmToAngle(
                 ShooterArmConstants.SHOOT_ANGLE,
                 hardware,
                 shooterArm
+            ))).and(new MoveIntakeArmToAngle(
+                IntakeArmConstants.SHOOT_HIGH_SETPOINT,
+                intakeArm,
+                hardware
             ))
         ).then(new SpinSecondaryNoBall(
           ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,

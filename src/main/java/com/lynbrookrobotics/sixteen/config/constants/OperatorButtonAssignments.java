@@ -10,7 +10,7 @@ public class OperatorButtonAssignments {
 
   public static final int TRANSPORT_POSITION = 14; // left
 
-  public static final int FREEZE_DRIVETRAIN = -1;
+  public static final int FREEZE_DRIVETRAIN = 11;
 
   public static final int OVERRIDE_INTAKE_ARM = 7; // buttons on right
   public static final int OVERRIDE_INTAKE_ROLLER = 9;

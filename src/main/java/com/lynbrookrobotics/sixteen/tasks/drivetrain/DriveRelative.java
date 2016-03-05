@@ -16,7 +16,25 @@ public class DriveRelative extends FiniteTask {
   DriveDistanceController driveDistanceController;
   Drivetrain drivetrain;
 
-  double errorThreshold = 3; //End the task after we're within 3 degrees of our target
+  double errorThreshold = 90; //End the task after we're within 3 degrees of our target
+  double maxSpeed;
+
+  /**
+   * Finite task to drive to some position relative to the starting position.
+   * @param hardware Robot hardware
+   * @param leftAngleDistance How many degrees more to turn left wheels
+   * @param rightAngleDistance How many degrees more to turn right wheels
+   * @param drivetrain The drivetrain component
+   */
+  public DriveRelative(RobotHardware hardware, double leftAngleDistance, double rightAngleDistance,
+                       double maxSpeed,
+                       Drivetrain drivetrain) {
+    this.maxSpeed = maxSpeed;
+    this.leftAngleDistance = leftAngleDistance * DrivetrainConstants.FT_TO_ENC;
+    this.rightAngleDistance = rightAngleDistance * DrivetrainConstants.FT_TO_ENC;
+    this.hardware = hardware;
+    this.drivetrain = drivetrain;
+  }
 
   /**
    * Finite task to drive to some position relative to the starting position.
@@ -27,24 +45,23 @@ public class DriveRelative extends FiniteTask {
    */
   public DriveRelative(RobotHardware hardware, double leftAngleDistance, double rightAngleDistance,
                        Drivetrain drivetrain) {
-    this.leftAngleDistance = leftAngleDistance * DrivetrainConstants.FT_TO_ENC;
-    this.rightAngleDistance = rightAngleDistance * DrivetrainConstants.FT_TO_ENC;
-    this.hardware = hardware;
-    this.drivetrain = drivetrain;
+    this(hardware, leftAngleDistance, rightAngleDistance, 1.0, drivetrain);
   }
 
   @Override
   public void startTask() {
     driveDistanceController = new DriveDistanceController(hardware,
         hardware.drivetrainHardware.leftEncoder.getAngle() + leftAngleDistance,
-        hardware.drivetrainHardware.leftEncoder.getAngle() + rightAngleDistance);
+        hardware.drivetrainHardware.rightEncoder.getAngle() + rightAngleDistance,
+        maxSpeed);
     drivetrain.setController(driveDistanceController);
   }
 
   @Override
   public void update() {
+    System.out.println(driveDistanceController.error());
     if (driveDistanceController.error() < errorThreshold) {
-      endTask();
+      finished();
     }
   }
 

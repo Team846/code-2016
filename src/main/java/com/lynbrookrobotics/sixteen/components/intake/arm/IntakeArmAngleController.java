@@ -2,6 +2,7 @@ package com.lynbrookrobotics.sixteen.components.intake.arm;
 
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 /**
@@ -10,6 +11,7 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 public class IntakeArmAngleController extends IntakeArmController {
   PID pid;
   RobotHardware robotHardware;
+  boolean closeToMax;
 
   /**
    * The IntakeArmAngleController uses the target angle, and robotHardware
@@ -19,6 +21,7 @@ public class IntakeArmAngleController extends IntakeArmController {
    */
   public IntakeArmAngleController(double targetAngle, RobotHardware robotHardware) {
     this.robotHardware = robotHardware;
+    this.closeToMax = Math.abs(targetAngle - IntakeArmConstants.FORWARD_LIMIT) <= 5;
     pid = new PID(() -> robotHardware.intakeArmHardware.pot.getAngle(), targetAngle)
         .withP(IntakeArmConstants.P_GAIN)
         .withI(IntakeArmConstants.I_GAIN, IntakeArmConstants.I_MEMORY);
@@ -31,6 +34,10 @@ public class IntakeArmAngleController extends IntakeArmController {
    */
   @Override
   public double armSpeed() {
-    return pid.get();
+    if (closeToMax) {
+      return RobotConstants.clamp(pid.get(), -0.2, 0.2);
+    } else {
+      return pid.get();
+    }
   }
 }

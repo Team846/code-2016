@@ -4,6 +4,7 @@ import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
 /**
  * The component representing the drivetrain of the robot.
@@ -35,6 +36,10 @@ public class Drivetrain extends Component<DrivetrainController> {
 
   public void toggleForceBrake() {
     forceBrake = !forceBrake;
+  }
+
+  public void setForceBrake(boolean brake) {
+    forceBrake = brake;
   }
 
   private int ditheredTick = 0;
