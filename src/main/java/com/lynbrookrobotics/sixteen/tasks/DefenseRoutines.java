@@ -87,26 +87,29 @@ public class DefenseRoutines {
    * @return A finite task used to cross the cheval de frise.
    */
   public static FiniteTask crossChevalDeFrise(IntakeArm intakeArm,
+                                              ShooterArm shooterArm,
                                               RobotHardware robotHardware,
                                               Drivetrain drivetrain) {
-
     return new MoveIntakeArmToAngle(
         IntakeArmConstants.CHEVAL_HIGH_POSITION,
         intakeArm,
         robotHardware
-    ).then(new DriveRelative(
-        robotHardware,
-        IntakeArmConstants.CHEVAL_DISTANCE_TO_PUSH_DOWN,
-        IntakeArmConstants.CHEVAL_DISTANCE_TO_PUSH_DOWN,
-        drivetrain)
     ).then(new MoveIntakeArmToAngle(
         IntakeArmConstants.CHEVAL_LOW_POSITION,
         intakeArm,
-        robotHardware)
-    ).then(new DriveRelative(
+        robotHardware
+    )).then(new DriveRelative(
         robotHardware,
         IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
         IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
-        drivetrain));
+        0.4,
+        drivetrain
+    ).and(
+        new FixedTime(500).then(new MoveIntakeArmToAngle(
+            IntakeArmConstants.CHEVAL_HIGH_POSITION,
+            intakeArm,
+            robotHardware
+        ))
+    ));
   }
 }

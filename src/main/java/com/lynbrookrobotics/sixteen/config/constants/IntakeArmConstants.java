@@ -34,10 +34,8 @@ public class IntakeArmConstants {
   public static final double DRIVING_DISTANCE_PORTCULLIS = 0.0;
 
 
-  public static final double CHEVAL_HIGH_POSITION = 45;
-  public static final double CHEVAL_LOW_POSITION = 0.7186788656992888;
+  public static final double CHEVAL_HIGH_POSITION = TRANSPORT_SETPOINT;
+  public static final double CHEVAL_LOW_POSITION = 18;
 
-  public static final double CHEVAL_DE_FRISE_DRIVE_DISTANCE = 0.0;
-
-  public static final double CHEVAL_DISTANCE_TO_PUSH_DOWN = 0.0;
+  public static final double CHEVAL_DE_FRISE_DRIVE_DISTANCE = 6.274983161038968;
 }

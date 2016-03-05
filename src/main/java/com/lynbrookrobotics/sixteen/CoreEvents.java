@@ -273,13 +273,14 @@ public class CoreEvents {
     }
 
     if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
-//      controls.operatorStick
-//          .onPress(OperatorButtonAssignments.CHEVAL)
-//          .forEach(DefenseRoutines.crossChevalDeFrise(
-//              intakeArm,
-//              hardware,
-//              drivetrain
-//          ));
+      controls.operatorStick
+          .onPress(OperatorButtonAssignments.CHEVAL)
+          .forEach(DefenseRoutines.crossChevalDeFrise(
+              intakeArm,
+              shooterArm,
+              hardware,
+              drivetrain
+          ));
 
       controls.operatorStick
           .onPress(OperatorButtonAssignments.PORTCULLIS)
