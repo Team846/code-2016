@@ -53,12 +53,12 @@ public class IntakeArm extends Component<IntakeArmController> {
       output = 0;
     }
 
-//    if (robotHardware.shooterArmHardware.pot.getAngle() > ShooterArmConstants.LOW_THRESHOLD
-//        && robotHardware.intakeArmHardware.pot.getAngle() > IntakeArmConstants.SHOOTER_STOWED_REVERSE_LIMIT
-//        && output < 0) {
-//      System.out.println("Not allowing reverse because shooter is stowed");
-//      output = 0;
-//    }
+    if (robotHardware.shooterArmHardware.pot.getAngle() > ShooterArmConstants.LOW_THRESHOLD
+        && robotHardware.intakeArmHardware.pot.getAngle() > IntakeArmConstants.SHOOTER_LOW_REVERSE_LIMIT
+        && output < 0) {
+      System.out.println("Not allowing reverse because shooter is stowed");
+      output = 0;
+    }
 
     output = RobotConstants.clamp(output, -IntakeArmConstants.MAX_SPEED, IntakeArmConstants.MAX_SPEED);
     robotHardware.intakeArmHardware.motor.set(output);

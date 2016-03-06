@@ -11,6 +11,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.KeepIntakeArmAtAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 
@@ -28,8 +29,7 @@ public class DefenseRoutines {
                                            RobotHardware robotHardware) {
     return new DriveRelative(robotHardware,
         IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_DROP,
-        IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_DROP,
-        0.2,
+        0.4,
         drivetrain
     ).then((new MoveIntakeArmToAngle(
         IntakeArmConstants.LOW_POSITION_PORTCULLIS,
@@ -58,8 +58,7 @@ public class DefenseRoutines {
     })).then(
         new DriveRelative(robotHardware,
             IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_LIFT,
-            IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_LIFT,
-            0.2,
+            0.4,
             drivetrain
         )
     ).then(
@@ -70,8 +69,7 @@ public class DefenseRoutines {
         ).and(
             new DriveRelative(robotHardware,
                 IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_OUT,
-                IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_OUT,
-                0.2,
+                0.4,
                 drivetrain
             )
         )
@@ -98,14 +96,47 @@ public class DefenseRoutines {
         IntakeArmConstants.CHEVAL_LOW_POSITION,
         intakeArm,
         robotHardware
-    )).then(new DriveRelative(
+    )).then(new FixedTime(500).andUntilDone(new KeepIntakeArmAtAngle(
+        IntakeArmConstants.CHEVAL_LOW_POSITION,
+        intakeArm,
+        robotHardware
+    ))).then(new DriveRelative(
         robotHardware,
-        IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
         IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
         0.4,
         drivetrain
     ).and(
-        new FixedTime(500).then(new MoveIntakeArmToAngle(
+        (new FixedTime(1000).andUntilDone(new KeepIntakeArmAtAngle(
+            IntakeArmConstants.CHEVAL_LOW_POSITION,
+            intakeArm,
+            robotHardware
+        ))).then(new MoveIntakeArmToAngle(
+            IntakeArmConstants.CHEVAL_HIGH_POSITION,
+            intakeArm,
+            robotHardware
+        ))
+    ));
+  }
+
+  public static FiniteTask crossLowBar(IntakeArm intakeArm,
+                                              ShooterArm shooterArm,
+                                              RobotHardware robotHardware,
+                                              Drivetrain drivetrain) {
+    return new MoveIntakeArmToAngle(
+        IntakeArmConstants.LOWBAR_LOW_FIRST,
+        intakeArm,
+        robotHardware
+    ).then(new DriveRelative(
+        robotHardware,
+        IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
+        0.4,
+        drivetrain
+    ).and(
+        (new FixedTime(1000).andUntilDone(new KeepIntakeArmAtAngle(
+            IntakeArmConstants.CHEVAL_LOW_POSITION,
+            intakeArm,
+            robotHardware
+        ))).then(new MoveIntakeArmToAngle(
             IntakeArmConstants.CHEVAL_HIGH_POSITION,
             intakeArm,
             robotHardware

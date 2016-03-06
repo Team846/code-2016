@@ -61,4 +61,8 @@ public class DrivetrainHardware {
         new ADIS16448()
     );
   }
+
+  public double currentDistance() {
+    return (leftEncoder.getAngle() + rightEncoder.getAngle()) / 2;
+  }
 }

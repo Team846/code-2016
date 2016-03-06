@@ -43,6 +43,7 @@ public class ShooterArm extends Component<ShooterArmController> {
     }
 
     if (intakePot.getAngle() > IntakeArmConstants.STOWED_THRESHOLD
+        && pot.getAngle() > ShooterArmConstants.FORWARD_INTAKE_STOWED_LIMIT
         && output > 0) {
       System.out.println("Not allowing forward because intake is stowed");
       output = 0;

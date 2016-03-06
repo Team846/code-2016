@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class RobotConstants {
-  public static final boolean HAS_CAMERA = false;
+  public static final boolean HAS_CAMERA = true;
   public static final boolean HAS_DRIVETRAIN = true;
   public static final boolean HAS_INTAKE = true;
   public static final boolean HAS_SHOOTER = true;

@@ -12,6 +12,7 @@ public class PID {
   private double pGain = 0;
   private double iGain = 0;
   private double dGain = 0;
+  private double deadband = 0;
 
   private double iMemory;
   private double lastError = 0;
@@ -73,6 +74,16 @@ public class PID {
   }
 
   /**
+   * Adds a deadband component to the controller.
+   * @param threshold the amount of error to allow
+   */
+  public PID withDeadband(double threshold) {
+    deadband = threshold;
+
+    return this;
+  }
+
+  /**
    * Gets the difference to the target value.
    */
   public double difference() {
@@ -85,6 +96,10 @@ public class PID {
   public double get() {
     double in = input.get();
     double error = target.get() - in;
+
+    if (Math.abs(error) <= deadband) {
+      return 0;
+    }
 
     runningIntegral = (runningIntegral * iMemory)
         + ((1 - iMemory) * error * RobotConstants.TICK_PERIOD);

@@ -13,6 +13,7 @@ import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.KeepIntakeArmAtAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
@@ -38,17 +39,15 @@ public class ShooterTasks {
         ShooterArmConstants.SHOOT_ANGLE,
         hardware,
         shooterArm
-    ).and(new MoveIntakeArmToAngle(
+    ).toContinuous().and(new KeepIntakeArmAtAngle(
         IntakeArmConstants.SHOOT_HIGH_SETPOINT,
         intakeArm,
         hardware
-    )).toContinuous().and(
-        new SpinFlywheelAtRPM(
-            ShooterFlywheelConstants.SHOOT_RPM,
-            shooterFlywheel,
-            hardware
-        )
-    );
+    )).and(new SpinFlywheelAtRPM(
+        ShooterFlywheelConstants.SHOOT_RPM,
+        shooterFlywheel,
+        hardware
+    ));
   }
 
   /**
@@ -64,15 +63,11 @@ public class ShooterTasks {
                                  IntakeArm intakeArm,
                                  RobotHardware hardware) {
     FiniteTask withoutFlywheel =
-        ((new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware)
+        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware)
             .and(new MoveShooterArmToAngle(
                 ShooterArmConstants.SHOOT_ANGLE,
                 hardware,
                 shooterArm
-            ))).and(new MoveIntakeArmToAngle(
-                IntakeArmConstants.SHOOT_HIGH_SETPOINT,
-                intakeArm,
-                hardware
             ))
         ).then(new SpinSecondaryNoBall(
           ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
@@ -87,6 +82,10 @@ public class ShooterTasks {
     return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
         ShooterFlywheelConstants.SHOOT_RPM,
         shooterFlywheel,
+        hardware
+    )).andUntilDone(new KeepIntakeArmAtAngle(
+        IntakeArmConstants.SHOOT_HIGH_SETPOINT,
+        intakeArm,
         hardware
     ));
   }

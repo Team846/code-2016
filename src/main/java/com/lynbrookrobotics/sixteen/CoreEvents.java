@@ -2,6 +2,7 @@ package com.lynbrookrobotics.sixteen;
 
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
+import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
@@ -64,6 +65,8 @@ public class CoreEvents {
   InGameState autonomousStateEvent;
   InGameState enabledStateEvent;
 
+  FiniteTask transportTask;
+
   /**
    * Initializes hardware for events.
    */
@@ -103,6 +106,18 @@ public class CoreEvents {
     this.enabledStateEvent = new InGameState(
         controls.driverStation,
         InGameState.GameState.ENABLED
+    );
+
+    this.transportTask = new MoveIntakeArmToAngle(
+        IntakeArmConstants.TRANSPORT_SETPOINT,
+        intakeArm,
+        hardware
+    ).and(
+        new MoveShooterArmToAngle(
+            ShooterArmConstants.TRANSPORT_SETPOINT,
+            hardware,
+            shooterArm
+        )
     );
 
     initEventMappings();
@@ -258,18 +273,7 @@ public class CoreEvents {
 
       controls.operatorStick
           .onHold(OperatorButtonAssignments.TRANSPORT_POSITION)
-          .forEach(
-              new MoveIntakeArmToAngle(
-                  IntakeArmConstants.TRANSPORT_SETPOINT,
-                  intakeArm,
-                  hardware
-              ).and(
-                  new MoveShooterArmToAngle(
-                      ShooterArmConstants.TRANSPORT_SETPOINT,
-                      hardware,
-                      shooterArm
-                  )
-              ));
+          .forEach(transportTask);
     }
 
     if (RobotConstants.HAS_DRIVETRAIN && RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
@@ -441,14 +445,9 @@ public class CoreEvents {
                 () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
 
         dashboard.datasetGroup("shooter")
-            .addDataset((new TimeSeriesNumeric<>(
-                "Effect detected",
-                () -> hardware.shooterSpinnersHardware.hallEffect.isDetected() ? 1 : 0)));
-
-        dashboard.datasetGroup("shooter")
-            .addDataset((new TimeSeriesNumeric<>(
-                "Proximity Sensor Average Value",
-                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageValue())));
+            .addDataset(new TimeSeriesNumeric<>(
+                "Shooter Flywheel power",
+                () -> hardware.shooterSpinnersHardware.flywheelMotor.get()));
 
         dashboard.datasetGroup("shooter")
             .addDataset((new TimeSeriesNumeric<>(
