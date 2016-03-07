@@ -16,7 +16,7 @@ public class DriveRelative extends FiniteTask {
   DriveStraightController driveDistanceController;
   Drivetrain drivetrain;
 
-  double errorThreshold = 90;
+  double errorThreshold = 30;
   double maxSpeed;
 
   /**
