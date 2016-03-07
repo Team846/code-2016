@@ -34,7 +34,7 @@ public class DriveStraightController extends ArcadeDriveController {
     this.turningControl = new PID(
         () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ(),
         targetAngle)
-        .withP(1D / 90).withI(1.5D / (90), 0.4);
+        .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
   }
 
   /**
