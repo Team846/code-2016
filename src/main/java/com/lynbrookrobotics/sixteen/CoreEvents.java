@@ -267,14 +267,14 @@ public class CoreEvents {
 
     if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.SHOOT_LOW)
+          .onHold(OperatorButtonAssignments.SHOOT_LOW)
           .forEach(ShooterTasks.shootLow(
               shooterFlywheel,
               shooterSecondary,
               shooterArm,
               intakeArm,
               intakeRoller,
-              hardware));
+              hardware).toContinuous());
 
       controls.operatorStick
           .onHold(OperatorButtonAssignments.TRANSPORT_POSITION)

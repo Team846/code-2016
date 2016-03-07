@@ -210,10 +210,11 @@ public class AutoGenerator {
       if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
         return driveUp.then(new DriveRelative(hardware, 0.5, drivetrain));
       } else {
-        return driveUp
-            .then(cross(defense))
-            .then(driveToShootingPosition(startingPosition))
-            .then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, intakeArm, hardware));
+        return driveToShootingPosition(startingPosition);
+//        return driveUp
+//            .then(cross(defense))
+//            .then(driveToShootingPosition(startingPosition))
+//            .then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, intakeArm, hardware));
       }
     }
   }
