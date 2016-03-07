@@ -129,24 +129,29 @@ public class CoreEvents {
   public void initEventMappings() {
     // Camera Streaming
     if (RobotConstants.HAS_CAMERA) {
-      NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+      try {
+        NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
-      USBCamera camera = new USBCamera("cam1");
-      camera.setBrightness(50);
-      camera.setExposureAuto();
-      camera.updateSettings();
-      camera.startCapture();
+        USBCamera camera = new USBCamera("cam1");
+        camera.setBrightness(50);
+        camera.setExposureAuto();
+        camera.updateSettings();
+        camera.startCapture();
 
-      Timer updateTimer = new Timer("update-loop");
+        Timer updateTimer = new Timer("update-loop");
 
-      CameraServer.getInstance().setQuality(50);
-      updateTimer.schedule(new TimerTask() {
-        @Override
-        public void run() {
-          camera.getImage(image);
-          CameraServer.getInstance().setImage(image);
-        }
-      }, 0, (long) (50));
+        CameraServer.getInstance().setQuality(50);
+        updateTimer.schedule(new TimerTask() {
+          @Override
+          public void run() {
+            camera.getImage(image);
+            CameraServer.getInstance().setImage(image);
+          }
+        }, 0, (long) (50));
+      } catch (Exception e) {
+        System.out.println("Unable to boot camera stream");
+      }
+
     }
 
     // Driver Controls
