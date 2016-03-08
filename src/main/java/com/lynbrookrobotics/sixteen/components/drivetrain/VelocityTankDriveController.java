@@ -11,25 +11,33 @@ public abstract class VelocityTankDriveController extends DrivetrainController {
   public VelocityTankDriveController(RobotHardware hardware) {
     this.leftPID = new PID(
         () -> hardware.drivetrainHardware.leftEncoder.getSpeed(),
-        () -> leftVelocity() * DrivetrainConstants.MAX_SPEED_LEFT
-    ).withP(0.25D/DrivetrainConstants.MAX_SPEED_LEFT);
+        () -> leftBalancedSpeed()
+    ).withP(0.25D/1000);
 
     this.rightPID = new PID(
         () -> hardware.drivetrainHardware.rightEncoder.getSpeed(),
-        () -> rightVelocity() * DrivetrainConstants.MAX_SPEED_RIGHT
-    ).withP(0.25D/DrivetrainConstants.MAX_SPEED_RIGHT);
+        () -> rightBalancedSpeed()
+    ).withP(0.25D/1000);
   }
 
   public abstract double leftVelocity();
   public abstract double rightVelocity();
 
+  private double leftBalancedSpeed() {
+    return leftVelocity() * (DrivetrainConstants.MAX_SPEED_FORWARD/DrivetrainConstants.MAX_SPEED_LEFT);
+  }
+
+  private double rightBalancedSpeed() {
+    return rightVelocity() * (DrivetrainConstants.MAX_SPEED_FORWARD/DrivetrainConstants.MAX_SPEED_RIGHT);
+  }
+
   @Override
   public double leftSpeed() {
-    return leftVelocity() + leftPID.get();
+    return leftBalancedSpeed() + leftPID.get();
   }
 
   @Override
   public double rightSpeed() {
-    return rightVelocity() + rightPID.get();
+    return rightBalancedSpeed() + rightPID.get();
   }
 }

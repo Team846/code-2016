@@ -82,5 +82,8 @@ public class CoreRobot {
       Task.updateCurrentTask();
     });
     slowNotifier.startPeriodic(RobotConstants.SLOW_PERIOD);
+
+    DigitalOutput outLight = new DigitalOutput(4);
+    outLight.set(true);
   }
 }

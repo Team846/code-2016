@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 
 import java.util.function.Supplier;
 
-public class DriveOnHeadingController extends ArcadeDriveController {
+public class DriveOnHeadingController extends VelocityArcadeDriveController {
   private PID angleControl;
 
   RobotHardware hardware;
@@ -35,12 +35,12 @@ public class DriveOnHeadingController extends ArcadeDriveController {
   }
 
   @Override
-  public double forwardSpeed() {
+  public double forwardVelocity() {
     return forwardSpeed.get();
   }
 
   @Override
-  public double turnSpeed() {
+  public double turnVelocity() {
     return angleControl.get();
   }
 }

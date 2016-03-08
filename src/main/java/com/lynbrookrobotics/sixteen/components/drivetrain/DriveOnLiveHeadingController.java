@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 
-public abstract class DriveOnLiveHeadingController extends ArcadeDriveController {
+public abstract class DriveOnLiveHeadingController extends VelocityArcadeDriveController {
   private PID angleControl;
 
   RobotHardware hardware;
@@ -43,14 +43,14 @@ public abstract class DriveOnLiveHeadingController extends ArcadeDriveController
   public abstract double angleSpeed();
 
   @Override
-  public double forwardSpeed() {
+  public double forwardVelocity() {
     return forward();
   }
 
   boolean coasting = false;
 
   @Override
-  public double turnSpeed() {
+  public double turnVelocity() {
     double curSpeed = angleSpeed();
 
     if (Math.abs(curSpeed) < 0.01) {

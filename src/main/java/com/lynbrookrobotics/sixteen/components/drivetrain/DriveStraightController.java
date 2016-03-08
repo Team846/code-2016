@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 /**
  * A controller that drives to an absolute position of the robot, AKA origin.
  */
-public class DriveStraightController extends ArcadeDriveController {
+public class DriveStraightController extends VelocityArcadeDriveController {
   RobotHardware hardware;
 
   private PID forwardControl;
@@ -34,7 +34,7 @@ public class DriveStraightController extends ArcadeDriveController {
     this.turningControl = new PID(
         () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ(),
         targetAngle)
-        .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
+        .withP(1D / 90).withI(3D / (90), 0.4);
   }
 
   /**
@@ -47,12 +47,12 @@ public class DriveStraightController extends ArcadeDriveController {
   }
 
   @Override
-  public double forwardSpeed() {
+  public double forwardVelocity() {
     return RobotConstants.clamp(forwardControl.get(), -maxSpeed, maxSpeed);
   }
 
   @Override
-  public double turnSpeed() {
+  public double turnVelocity() {
     return turningControl.get();
   }
 

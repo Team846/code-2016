@@ -126,21 +126,39 @@ public class DefenseRoutines {
         IntakeArmConstants.LOWBAR_LOW_FIRST,
         intakeArm,
         robotHardware
-    ).then(new DriveRelative(
+    ).then(new InfiniteFinite().andUntilDone(
+        new KeepIntakeArmAtAngle(
+            IntakeArmConstants.LOWBAR_LOW_FIRST,
+            intakeArm,
+            robotHardware
+        )
+    ));
+    /*return (new MoveIntakeArmToAngle(
+        IntakeArmConstants.LOWBAR_LOW_FIRST,
+        intakeArm,
+        robotHardware
+    ).and(new MoveShooterArmToAngle(
+        ShooterArmConstants.FORWARD_LIMIT,
         robotHardware,
-        IntakeArmConstants.CHEVAL_DE_FRISE_DRIVE_DISTANCE,
+        shooterArm
+    ))).then(new DriveRelative(
+        robotHardware,
+        IntakeArmConstants.LOWBAR_DRIVE_FIRST,
         0.4,
         drivetrain
-    ).and(
-        (new FixedTime(1000).andUntilDone(new KeepIntakeArmAtAngle(
-            IntakeArmConstants.CHEVAL_LOW_POSITION,
-            intakeArm,
-            robotHardware
-        ))).then(new MoveIntakeArmToAngle(
-            IntakeArmConstants.CHEVAL_HIGH_POSITION,
-            intakeArm,
-            robotHardware
-        ))
-    ));
+    ).andUntilDone(new KeepIntakeArmAtAngle(
+        IntakeArmConstants.LOWBAR_LOW_FIRST,
+        intakeArm,
+        robotHardware
+    ))).then(new MoveIntakeArmToAngle(
+        IntakeArmConstants.LOWBAR_LOW_SECOND,
+        intakeArm,
+        robotHardware
+    )).then(new DriveRelative(
+        robotHardware,
+        IntakeArmConstants.LOWBAR_DRIVE_SECOND,
+        0.4,
+        drivetrain
+    ));*/
   }
 }

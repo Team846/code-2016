@@ -13,7 +13,7 @@ import com.lynbrookrobotics.sixteen.sensors.proximitysensor.ProximitySensor;
 public class SpinUntilBall extends FiniteTask {
   ProximitySensor sensor;
   ShooterFlywheelController controllerFlywheel;
-//  ShooterSecondaryController controllerSecondary;
+  ShooterSecondaryController controllerSecondary;
   ShooterFlywheel shooterFlywheel;
   ShooterSecondary shooterSecondary;
 
@@ -29,8 +29,8 @@ public class SpinUntilBall extends FiniteTask {
     this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
     this.controllerFlywheel = ShooterFlywheelController.of(
         () -> ShooterFlywheelConstants.INTAKE_POWER);
-//    this.controllerSecondary = ShooterSecondaryController.of(
-//        () -> ShooterFlywheelConstants.INTAKE_POWER);
+    this.controllerSecondary = ShooterSecondaryController.of(
+        () -> ShooterFlywheelConstants.INTAKE_POWER);
     this.shooterFlywheel = shooterFlywheel;
     this.shooterSecondary = shooterSecondary;
   }
@@ -39,7 +39,7 @@ public class SpinUntilBall extends FiniteTask {
   @Override
   protected void startTask() {
     shooterFlywheel.setController(controllerFlywheel);
-//    shooterSecondary.setController(controllerSecondary);
+    shooterSecondary.setController(controllerSecondary);
   }
 
   @Override
@@ -52,6 +52,6 @@ public class SpinUntilBall extends FiniteTask {
   @Override
   protected void endTask() {
     shooterFlywheel.resetToDefault();
-//    shooterSecondary.resetToDefault();
+    shooterSecondary.resetToDefault();
   }
 }

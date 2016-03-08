@@ -299,6 +299,15 @@ public class CoreEvents {
               drivetrain,
               hardware
           ));
+
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.LOWBAR)
+          .forEach(DefenseRoutines.crossLowBar(
+              intakeArm,
+              shooterArm,
+              hardware,
+              drivetrain
+          ));
     }
 
     // Abort on button press
@@ -407,6 +416,11 @@ public class CoreEvents {
             .addDataset(new TimeSeriesNumeric<>(
                 "Angular Position",
                 () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+
+        dashboard.datasetGroup("drivetrain")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Angular Velocity",
+                () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()));
 
         dashboard.datasetGroup("drivetrain")
             .addDataset(new TimeSeriesNumeric<>(

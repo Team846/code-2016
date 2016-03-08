@@ -10,9 +10,9 @@ public class ShooterFlywheelConstants {
 
   public static final double THRESHOLD_RPM = 50;
 
-  public static final double SHOOT_RPM = 6500;
+  public static final double SHOOT_RPM = 7500;
   public static final double SHOOT_SECONDARY_POWER = 0.5;
   public static final double SHOOTER_HAS_THRESHOLD = 0;
 
-  public static final double INTAKE_POWER = -0.35;
+  public static final double INTAKE_POWER = -0.5;
 }

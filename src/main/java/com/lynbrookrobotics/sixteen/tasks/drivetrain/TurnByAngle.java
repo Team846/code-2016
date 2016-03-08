@@ -32,18 +32,11 @@ public class TurnByAngle extends FiniteTask {
     drivetrain.setController(controller);
   }
 
-  int goodTicks = 0;
-
   @Override
   protected void update() {
     System.out.println("LEFT: " + controller.difference());
-    if (controller.difference() < 0.25) {
-      goodTicks++;
-      if (goodTicks == 100) {
-        finished();
-      }
-    } else {
-      goodTicks = 0;
+    if (controller.difference() < 5) {
+      finished();
     }
   }
 

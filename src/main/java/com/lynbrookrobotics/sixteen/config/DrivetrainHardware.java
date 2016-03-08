@@ -65,4 +65,8 @@ public class DrivetrainHardware {
   public double currentDistance() {
     return (leftEncoder.getAngle() + rightEncoder.getAngle()) / 2;
   }
+
+  public double currentForwardSpeed() {
+    return (leftEncoder.getSpeed() + rightEncoder.getSpeed()) / 2;
+  }
 }

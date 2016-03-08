@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 /**
  * A controller that turns a specific number of degrees.
  */
-public class TurnByAngleController extends ArcadeDriveController {
+public class TurnByAngleController extends VelocityArcadeDriveController {
   private PID angleControl;
 
   /**
@@ -20,7 +20,7 @@ public class TurnByAngleController extends ArcadeDriveController {
     this.angleControl = new PID(
         () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ(),
         hardware.drivetrainHardware.mainGyro.currentPosition().valueZ() + angle
-    ).withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
+    ).withP(1D / 90).withI(3D / 90, 0.4);
   }
 
   public double difference() {
@@ -28,12 +28,12 @@ public class TurnByAngleController extends ArcadeDriveController {
   }
 
   @Override
-  public double forwardSpeed() {
+  public double forwardVelocity() {
     return 0;
   }
 
   @Override
-  public double turnSpeed() {
+  public double turnVelocity() {
     return angleControl.get();
   }
 }

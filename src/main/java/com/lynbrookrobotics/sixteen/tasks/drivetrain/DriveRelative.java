@@ -16,7 +16,7 @@ public class DriveRelative extends FiniteTask {
   DriveStraightController driveDistanceController;
   Drivetrain drivetrain;
 
-  double errorThreshold = 30;
+  double errorThreshold = 15;
   double maxSpeed;
 
   /**
@@ -56,7 +56,7 @@ public class DriveRelative extends FiniteTask {
   @Override
   public void update() {
     System.out.println(driveDistanceController.forwardError());
-    if (driveDistanceController.forwardError() < errorThreshold) {
+    if (driveDistanceController.forwardError() < errorThreshold && driveDistanceController.angularError() < 10) {
       finished();
     }
   }
