@@ -3,6 +3,7 @@ package com.lynbrookrobotics.sixteen.config.constants;
 import akka.actor.ActorSystem;
 
 import com.lynbrookrobotics.funkydashboard.FunkyDashboard;
+import com.lynbrookrobotics.sixteen.components.lights.Lights;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AbsoluteHeadingTimedDrive;
@@ -75,6 +76,8 @@ public class RobotConstants {
 
       FixedTime.class
   };
+
+  public static Lights lights;
 
   public static final Executor executor = Executors.newFixedThreadPool(2);
   public static final ActorSystem system = ActorSystem.create();

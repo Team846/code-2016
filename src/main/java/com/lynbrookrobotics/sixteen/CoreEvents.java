@@ -7,6 +7,7 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
+import com.lynbrookrobotics.sixteen.components.lights.HSVController;
 import com.lynbrookrobotics.sixteen.components.lights.Lights;
 import com.lynbrookrobotics.sixteen.components.lights.LightsController;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
@@ -314,62 +315,6 @@ public class CoreEvents {
     controls.operatorStick
         .onPress(OperatorButtonAssignments.ABORT_CURRENT_TASK)
         .forEach(Task::abortCurrentTask);
-
-//    HSVController disabledColors = new HSVController() {
-//      int lastHue = 0;
-//      @Override
-//      public double hue() {
-//        lastHue = (lastHue + 1) % 1000;
-//        return lastHue/1000D;
-//      }
-//
-//      @Override
-//      public double saturation() {
-//        return 1;
-//      }
-//
-//      @Override
-//      public double value() {
-//        return 1;
-//      }
-//    };
-
-//    LightsController disabledColors = new LightsController() {
-//      int lastHue = 0;
-//      @Override
-//      public double red() {
-//        return 1;
-//      }
-//
-//      @Override
-//      public double green() {
-//        return 1;
-//      }
-//
-//      @Override
-//      public double blue() {
-//        lastHue = (lastHue + 1) % 1000;
-//        return lastHue/1000D;
-//      }
-//    };
-
-//    disabledStateEvent.forEach(
-//        () -> {
-//          lights.setController(disabledColors);
-//        },
-//        () -> {
-//          lights.resetToDefault();
-//        }
-//    );
-
-//    enabledStateEvent.forEach(
-//        () -> {
-//          lights.setController(disabledColors);
-//        },
-//        () -> {
-//          lights.resetToDefault();
-//        }
-//    );
 
     // AUTO
     AutoGenerator generator = new AutoGenerator(

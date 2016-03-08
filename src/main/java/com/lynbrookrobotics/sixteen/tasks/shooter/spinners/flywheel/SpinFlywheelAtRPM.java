@@ -1,9 +1,11 @@
 package com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel;
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
+import com.lynbrookrobotics.sixteen.components.lights.LightsController;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelSpeedController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
+import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
 public class SpinFlywheelAtRPM extends ContinuousTask {
   double targetRPM;
@@ -25,6 +27,22 @@ public class SpinFlywheelAtRPM extends ContinuousTask {
   protected void startTask() {
     shooterFlywheel.setController(
         new ShooterFlywheelSpeedController(targetRPM, hardware));
+    RobotConstants.lights.setController(new LightsController() {
+      @Override
+      public double red() {
+        return 1 - (hardware.shooterSpinnersHardware.hallEffect.getRPM() / targetRPM);
+      }
+
+      @Override
+      public double green() {
+        return (hardware.shooterSpinnersHardware.hallEffect.getRPM() / targetRPM);
+      }
+
+      @Override
+      public double blue() {
+        return 0;
+      }
+    });
   }
 
   @Override
@@ -35,5 +53,6 @@ public class SpinFlywheelAtRPM extends ContinuousTask {
   @Override
   protected void endTask() {
     shooterFlywheel.resetToDefault();
+    RobotConstants.lights.resetToDefault();
   }
 }

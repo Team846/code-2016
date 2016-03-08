@@ -45,6 +45,11 @@ public class CoreRobot {
       "Driver controls loading "
   );
 
+  private Lights getLights() {
+    RobotConstants.lights = new Lights();
+    return RobotConstants.lights;
+  }
+
   CoreEvents events = Timing.time(
       () -> new CoreEvents(
           controls, hardware,
@@ -54,7 +59,7 @@ public class CoreRobot {
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterArm(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterFlywheel(hardware)),
           orNull(RobotConstants.HAS_SHOOTER, () -> new ShooterSecondary(hardware)),
-          null // new Lights()
+          getLights()
       ),
       "Core events loading "
   );
@@ -82,8 +87,5 @@ public class CoreRobot {
       Task.updateCurrentTask();
     });
     slowNotifier.startPeriodic(RobotConstants.SLOW_PERIOD);
-
-    DigitalOutput outLight = new DigitalOutput(4);
-    outLight.set(true);
   }
 }
