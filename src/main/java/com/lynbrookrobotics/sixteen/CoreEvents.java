@@ -241,7 +241,7 @@ public class CoreEvents {
               intakeArm,
               hardware));
     }
-//
+
     if (RobotConstants.HAS_INTAKE) {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.COLLECT)
@@ -306,8 +306,7 @@ public class CoreEvents {
           .forEach(DefenseRoutines.crossLowBar(
               intakeArm,
               shooterArm,
-              hardware,
-              drivetrain
+              hardware
           ));
     }
 

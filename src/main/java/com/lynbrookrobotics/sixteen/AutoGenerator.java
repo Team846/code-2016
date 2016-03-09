@@ -9,11 +9,16 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.Shooter
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
+import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
+import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShootingPositionConstants;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.KeepIntakeArmAtAngle;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.ShooterTasks;
+import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 
 public class AutoGenerator {
   public enum Defense {
@@ -93,12 +98,24 @@ public class AutoGenerator {
           drivetrain
       );
     } else {
-      return new DriveRelative(
+      return (new MoveIntakeArmToAngle(
+          IntakeArmConstants.LOWBAR_LOW_FIRST,
+          intakeArm,
+          hardware
+      ).and(new MoveShooterArmToAngle(
+          ShooterArmConstants.FORWARD_LIMIT,
+          hardware,
+          shooterArm
+      ))).then(new DriveRelative(
           hardware,
           DrivetrainConstants.LOWBAR_BACKWARD_DISTANCE,
           MAX_FORWARD_SPEED,
           drivetrain
-      ).then(new TurnByAngle(
+      ).andUntilDone(new KeepIntakeArmAtAngle(
+          IntakeArmConstants.LOWBAR_LOW_FIRST,
+          intakeArm,
+          hardware
+      ))).then(new TurnByAngle(
           180,
           hardware,
           drivetrain

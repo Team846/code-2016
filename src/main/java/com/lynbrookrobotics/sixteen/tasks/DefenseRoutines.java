@@ -120,20 +120,8 @@ public class DefenseRoutines {
 
   public static FiniteTask crossLowBar(IntakeArm intakeArm,
                                               ShooterArm shooterArm,
-                                              RobotHardware robotHardware,
-                                              Drivetrain drivetrain) {
+                                              RobotHardware robotHardware) {
     return new MoveIntakeArmToAngle(
-        IntakeArmConstants.LOWBAR_LOW_FIRST,
-        intakeArm,
-        robotHardware
-    ).then(new InfiniteFinite().andUntilDone(
-        new KeepIntakeArmAtAngle(
-            IntakeArmConstants.LOWBAR_LOW_FIRST,
-            intakeArm,
-            robotHardware
-        )
-    ));
-    /*return (new MoveIntakeArmToAngle(
         IntakeArmConstants.LOWBAR_LOW_FIRST,
         intakeArm,
         robotHardware
@@ -141,24 +129,12 @@ public class DefenseRoutines {
         ShooterArmConstants.FORWARD_LIMIT,
         robotHardware,
         shooterArm
-    ))).then(new DriveRelative(
-        robotHardware,
-        IntakeArmConstants.LOWBAR_DRIVE_FIRST,
-        0.4,
-        drivetrain
-    ).andUntilDone(new KeepIntakeArmAtAngle(
-        IntakeArmConstants.LOWBAR_LOW_FIRST,
-        intakeArm,
-        robotHardware
-    ))).then(new MoveIntakeArmToAngle(
-        IntakeArmConstants.LOWBAR_LOW_SECOND,
-        intakeArm,
-        robotHardware
-    )).then(new DriveRelative(
-        robotHardware,
-        IntakeArmConstants.LOWBAR_DRIVE_SECOND,
-        0.4,
-        drivetrain
-    ));*/
+    )).then(new InfiniteFinite().andUntilDone(
+        new KeepIntakeArmAtAngle(
+            IntakeArmConstants.LOWBAR_LOW_FIRST,
+            intakeArm,
+            robotHardware
+        )
+    ));
   }
 }
