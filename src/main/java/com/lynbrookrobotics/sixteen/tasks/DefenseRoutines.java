@@ -6,7 +6,6 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
-import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArmController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
@@ -118,11 +117,14 @@ public class DefenseRoutines {
     ));
   }
 
+  /**
+   * Creates a routine that prepares the robot to cross the low bar.
+   */
   public static FiniteTask crossLowBar(IntakeArm intakeArm,
-                                              ShooterArm shooterArm,
-                                              RobotHardware robotHardware) {
+                                       ShooterArm shooterArm,
+                                       RobotHardware robotHardware) {
     return new MoveIntakeArmToAngle(
-        IntakeArmConstants.LOWBAR_LOW_FIRST,
+        IntakeArmConstants.LOWBAR_ANGLE,
         intakeArm,
         robotHardware
     ).and(new MoveShooterArmToAngle(
@@ -131,7 +133,7 @@ public class DefenseRoutines {
         shooterArm
     )).then(new InfiniteFinite().andUntilDone(
         new KeepIntakeArmAtAngle(
-            IntakeArmConstants.LOWBAR_LOW_FIRST,
+            IntakeArmConstants.LOWBAR_ANGLE,
             intakeArm,
             robotHardware
         )

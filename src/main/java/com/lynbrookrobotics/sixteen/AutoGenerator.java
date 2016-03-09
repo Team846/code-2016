@@ -60,6 +60,21 @@ public class AutoGenerator {
     this.shooterSecondary = shooterSecondary;
   }
 
+  private FiniteTask immediateEnd = new FiniteTask() {
+    @Override
+    protected void startTask() {
+    }
+
+    @Override
+    protected void update() {
+      finished();
+    }
+
+    @Override
+    protected void endTask() {
+    }
+  };
+
   private FiniteTask cross(Defense defense) {
     if (defense == Defense.PORTCULLIS) {
       return DefenseRoutines.crossPortcullis(intakeArm, shooterArm, drivetrain, hardware);
@@ -80,9 +95,9 @@ public class AutoGenerator {
           drivetrain
       );
     } else if (defense == Defense.DRAWBRIDGE) {
-      return null;
+      return immediateEnd;
     } else if (defense == Defense.SALLYPORT) {
-      return null;
+      return immediateEnd;
     } else if (defense == Defense.ROCKWALL) {
       return new DriveRelative(
           hardware,
@@ -99,7 +114,7 @@ public class AutoGenerator {
       );
     } else {
       return (new MoveIntakeArmToAngle(
-          IntakeArmConstants.LOWBAR_LOW_FIRST,
+          IntakeArmConstants.LOWBAR_ANGLE,
           intakeArm,
           hardware
       ).and(new MoveShooterArmToAngle(
@@ -112,7 +127,7 @@ public class AutoGenerator {
           MAX_FORWARD_SPEED,
           drivetrain
       ).andUntilDone(new KeepIntakeArmAtAngle(
-          IntakeArmConstants.LOWBAR_LOW_FIRST,
+          IntakeArmConstants.LOWBAR_ANGLE,
           intakeArm,
           hardware
       ))).then(new TurnByAngle(
@@ -255,7 +270,13 @@ public class AutoGenerator {
           DrivetrainConstants.SPY_TO_SHOOT,
           MAX_FORWARD_SPEED,
           drivetrain
-      ).then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, intakeArm, hardware));
+      ).then(ShooterTasks.shootHigh(
+          shooterFlywheel,
+          shooterSecondary,
+          shooterArm,
+          intakeArm,
+          hardware
+      ));
     } else {
       FiniteTask driveUp = new DriveRelative(
           hardware,
@@ -269,12 +290,24 @@ public class AutoGenerator {
       } else if (defense == Defense.LOWBAR) {
         return cross(defense)
             .then(driveToShootingPosition(startingPosition))
-            .then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, intakeArm, hardware));
+            .then(ShooterTasks.shootHigh(
+                shooterFlywheel,
+                shooterSecondary,
+                shooterArm,
+                intakeArm,
+                hardware
+            ));
       } else {
         return driveUp
             .then(cross(defense))
             .then(driveToShootingPosition(startingPosition))
-            .then(ShooterTasks.shootHigh(shooterFlywheel, shooterSecondary, shooterArm, intakeArm, hardware));
+            .then(ShooterTasks.shootHigh(
+                shooterFlywheel,
+                shooterSecondary,
+                shooterArm,
+                intakeArm,
+                hardware
+            ));
       }
     }
   }

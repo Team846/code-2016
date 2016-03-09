@@ -42,6 +42,9 @@ public class Lights extends Component<LightsController> {
     }
   }
 
+  /**
+   * Constructs a component that controls the LEDs and flashlight.
+   */
   public Lights() {
     super(new DefaultLights());
 

@@ -11,13 +11,14 @@ import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
  * Finite task to drive to some position relative to the position at the time of startTask().
  */
 public class DriveRelative extends FiniteTask {
+  private static final double errorThresholdForward = 15;
+  private static final double errorThresholdTurn = 10;
+
   double distance;
   RobotHardware hardware;
   DriveStraightController driveDistanceController;
   Drivetrain drivetrain;
 
-  private final static double errorThresholdForward = 15;
-  private final static double errorThresholdTurn = 10;
   double maxSpeed;
 
   /**
@@ -57,7 +58,8 @@ public class DriveRelative extends FiniteTask {
   @Override
   public void update() {
     System.out.println(driveDistanceController.forwardError());
-    if (driveDistanceController.forwardError() < errorThresholdForward && driveDistanceController.angularError() < errorThresholdTurn) {
+    if (driveDistanceController.forwardError() < errorThresholdForward
+        && driveDistanceController.angularError() < errorThresholdTurn) {
       finished();
     }
   }

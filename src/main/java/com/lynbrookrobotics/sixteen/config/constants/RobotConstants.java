@@ -94,6 +94,9 @@ public class RobotConstants {
         return ret;
       }, executor);
 
+  /**
+   * Clamps a value between the low and high values.
+   */
   public static double clamp(double value, double low, double high) {
     return Math.max(
         Math.min(

@@ -49,6 +49,10 @@ public class ShooterArm extends Component<ShooterArmController> {
       output = 0;
     }
 
-    armMotor.set(RobotConstants.clamp(output, -ShooterArmConstants.MAX_SPEED, ShooterArmConstants.MAX_SPEED));
+    armMotor.set(RobotConstants.clamp(
+        output,
+        -ShooterArmConstants.MAX_SPEED,
+        ShooterArmConstants.MAX_SPEED
+    ));
   }
 }

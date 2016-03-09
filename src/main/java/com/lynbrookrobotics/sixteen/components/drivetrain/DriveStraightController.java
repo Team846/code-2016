@@ -16,11 +16,16 @@ public class DriveStraightController extends VelocityArcadeDriveController {
   private double maxSpeed;
 
   /**
-   * Controller that drives to an absolute position.
-   * @param hardware The robot hardware
-   * @param targetDistance Target position in terms of degrees that left encoder is turned
+   * Constructs a controller that drives to an absolute position.
+   * @param hardware robot hardware to use
+   * @param targetDistance the distance to drive to
+   * @param targetAngle the angle to drive to
+   * @param maxSpeed the maximum forward speed
    */
-  public DriveStraightController(RobotHardware hardware, double targetDistance, double targetAngle, double maxSpeed) {
+  public DriveStraightController(RobotHardware hardware,
+                                 double targetDistance,
+                                 double targetAngle,
+                                 double maxSpeed) {
     super(hardware);
 
     this.hardware = hardware;
@@ -40,6 +45,8 @@ public class DriveStraightController extends VelocityArcadeDriveController {
   /**
    * Controller that drives to an absolute position.
    * @param hardware The robot hardware
+   * @param forwardTarget the distance to drive to
+   * @param turnTarget the angle to drive to
    */
   public DriveStraightController(RobotHardware hardware, double forwardTarget,
                                  double turnTarget) {

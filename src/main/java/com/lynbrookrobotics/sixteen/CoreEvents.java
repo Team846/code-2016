@@ -7,9 +7,7 @@ import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
-import com.lynbrookrobotics.sixteen.components.lights.HSVController;
 import com.lynbrookrobotics.sixteen.components.lights.Lights;
-import com.lynbrookrobotics.sixteen.components.lights.LightsController;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
@@ -149,7 +147,7 @@ public class CoreEvents {
             CameraServer.getInstance().setImage(image);
           }
         }, 0, (long) (50));
-      } catch (Exception e) {
+      } catch (Exception cameraException) {
         System.out.println("Unable to boot camera stream");
       }
 
@@ -174,10 +172,10 @@ public class CoreEvents {
       );
 
       controls.operatorStick
-          .onPress(OperatorButtonAssignments.FREEZE_DRIVETRAIN)
-          .forEach(() -> {
-            drivetrain.toggleForceBrake();
-          });
+          .onHold(OperatorButtonAssignments.FREEZE_DRIVETRAIN)
+          .forEach(
+            () -> drivetrain.setForceBrake(true),
+            () -> drivetrain.setForceBrake(false));
     }
 
     // Overrides
@@ -223,14 +221,12 @@ public class CoreEvents {
     if (RobotConstants.HAS_SHOOTER) {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.PREPARE_SHOOT)
-          .forEach(
-              ShooterTasks.prepareShootHigh(
-                  shooterFlywheel,
-                  shooterArm,
-                  intakeArm,
-                  hardware
-              )
-          );
+          .forEach(ShooterTasks.prepareShootHigh(
+            shooterFlywheel,
+            shooterArm,
+            intakeArm,
+            hardware
+          ));
 
       controls.operatorStick
           .onHold(OperatorButtonAssignments.SHOOT_HIGH)
@@ -379,12 +375,14 @@ public class CoreEvents {
         dashboard.datasetGroup("drivetrain")
             .addDataset(new TimeSeriesNumeric<>(
                 "Right Encoder Distance",
-                () -> hardware.drivetrainHardware.rightEncoder.getAngle() / (DrivetrainConstants.FT_TO_ENC)));
+                () -> hardware.drivetrainHardware.rightEncoder.getAngle()
+                    / (DrivetrainConstants.FT_TO_ENC)));
 
         dashboard.datasetGroup("drivetrain")
             .addDataset(new TimeSeriesNumeric<>(
                 "Left Encoder Distance",
-                () -> hardware.drivetrainHardware.leftEncoder.getAngle() / (DrivetrainConstants.FT_TO_ENC)));
+                () -> hardware.drivetrainHardware.leftEncoder.getAngle()
+                    / (DrivetrainConstants.FT_TO_ENC)));
       }
 
       if (RobotConstants.HAS_INTAKE) {

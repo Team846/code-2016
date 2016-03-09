@@ -11,14 +11,13 @@ public class HallEffect extends Counter {
   double lastRPM = 0;
   double averageRPM = 0;
 
+  /**
+   * Constructs a hall effect sensor reading from the given DIO channel.
+   */
   public HallEffect(int channel) {
     super();
     this.source = new DigitalInput(channel);
     setUpSource(source);
-  }
-
-  public boolean isDetected() {
-    return source.get();
   }
 
   /**

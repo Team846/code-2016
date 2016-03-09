@@ -32,18 +32,23 @@ public abstract class VelocityArcadeDriveController extends ArcadeDriveControlle
   private PID forwardControl;
   private PID turnControl;
 
+  /**
+   * Constructs a drivetrain controller that uses closed loop on forward and turning speed.
+   */
   public VelocityArcadeDriveController(RobotHardware hardware) {
     super(hardware);
 
     forwardControl = new PID(
-        () -> hardware.drivetrainHardware.currentForwardSpeed() / DrivetrainConstants.MAX_SPEED_FORWARD,
+        () -> hardware.drivetrainHardware.currentForwardSpeed()
+            / DrivetrainConstants.MAX_SPEED_FORWARD,
         this::forwardVelocity
-    ).withP(0.25D/DrivetrainConstants.MAX_SPEED_FORWARD);
+    ).withP(0.25D / DrivetrainConstants.MAX_SPEED_FORWARD);
 
     turnControl = new PID(
-        () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ() / DrivetrainConstants.MAX_ROTATIONAL_SPEED,
+        () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()
+            / DrivetrainConstants.MAX_ROTATIONAL_SPEED,
         this::turnVelocity
-    ).withP(1D/(DrivetrainConstants.MAX_ROTATIONAL_SPEED / 2));
+    ).withP(1D / (DrivetrainConstants.MAX_ROTATIONAL_SPEED / 2));
   }
 
   public abstract double forwardVelocity();
@@ -52,9 +57,9 @@ public abstract class VelocityArcadeDriveController extends ArcadeDriveControlle
 
   public double forwardSpeed() {
     return forwardVelocity() + forwardControl.get();
-  };
+  }
 
   public double turnSpeed() {
     return turnVelocity() + turnControl.get();
-  };
+  }
 }

@@ -10,6 +10,8 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.ShooterArmHardware;
 import com.lynbrookrobotics.sixteen.config.ShooterSpinnersHardware;
 
+import edu.wpi.first.wpilibj.Talon;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,8 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
-
-import edu.wpi.first.wpilibj.Talon;
 
 /**
  * A swing-based interface for validating JavaScript routines.

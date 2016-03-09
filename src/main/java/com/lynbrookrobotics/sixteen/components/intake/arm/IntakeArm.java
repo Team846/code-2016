@@ -34,33 +34,41 @@ public class IntakeArm extends Component<IntakeArmController> {
 
     double output = intakeArmController.armSpeed();
 
-    if (robotHardware.intakeArmHardware.pot.getAngle() < IntakeArmConstants.FORWARD_LIMIT
+    final double intakePosition = robotHardware.intakeArmHardware.pot.getAngle();
+    final double shooterPosition = robotHardware.shooterArmHardware.pot.getAngle();
+
+    if (intakePosition < IntakeArmConstants.FORWARD_LIMIT
         && output > 0) {
       System.out.println("limiting to zero forward");
       output = 0; // only allow reverse
     }
 
-    if (robotHardware.intakeArmHardware.pot.getAngle() > IntakeArmConstants.REVERSE_LIMIT
+    if (intakePosition > IntakeArmConstants.REVERSE_LIMIT
         && output < 0) {
       System.out.println("limiting to zero reverse");
       output = 0; // only allow forward
     }
 
-    if (robotHardware.shooterArmHardware.pot.getAngle() > ShooterArmConstants.STOWED_THRESHOLD
-        && robotHardware.intakeArmHardware.pot.getAngle() > IntakeArmConstants.SHOOTER_STOWED_REVERSE_LIMIT
+    if (shooterPosition > ShooterArmConstants.STOWED_THRESHOLD
+        && intakePosition > IntakeArmConstants.SHOOTER_STOWED_REVERSE_LIMIT
         && output < 0) {
       System.out.println("Not allowing reverse because shooter is stowed");
       output = 0;
     }
 
-    if (robotHardware.shooterArmHardware.pot.getAngle() > ShooterArmConstants.LOW_THRESHOLD
-        && robotHardware.intakeArmHardware.pot.getAngle() > IntakeArmConstants.SHOOTER_LOW_REVERSE_LIMIT
+    if (shooterPosition > ShooterArmConstants.LOW_THRESHOLD
+        && intakePosition > IntakeArmConstants.SHOOTER_LOW_REVERSE_LIMIT
         && output < 0) {
       System.out.println("Not allowing reverse because shooter is stowed");
       output = 0;
     }
 
-    output = RobotConstants.clamp(output, -IntakeArmConstants.MAX_SPEED, IntakeArmConstants.MAX_SPEED);
+    output = RobotConstants.clamp(
+        output,
+        -IntakeArmConstants.MAX_SPEED,
+        IntakeArmConstants.MAX_SPEED
+    );
+
     robotHardware.intakeArmHardware.motor.set(output);
   }
 }

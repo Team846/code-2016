@@ -6,18 +6,21 @@ import com.lynbrookrobotics.sixteen.components.lights.LightsController;
 
 import java.util.function.Supplier;
 
-import javaslang.Tuple3;
-
 public class DirectLightsColor extends ContinuousTask {
-  Supplier<Double> r;
-  Supplier<Double> g;
-  Supplier<Double> b;
+  Supplier<Double> red;
+  Supplier<Double> green;
+  Supplier<Double> blue;
   Lights lights;
 
-  public DirectLightsColor(Supplier<Double> r, Supplier<Double> g, Supplier<Double> b, Lights lights) {
-    this.r = r;
-    this.g = g;
-    this.b = b;
+  /**
+   * Creates a task that controls the LED light colors.
+   */
+  public DirectLightsColor(Supplier<Double> red,
+                           Supplier<Double> green,
+                           Supplier<Double> blue, Lights lights) {
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
     this.lights = lights;
   }
 
@@ -26,17 +29,17 @@ public class DirectLightsColor extends ContinuousTask {
     lights.setController(new LightsController() {
       @Override
       public double red() {
-        return r.get();
+        return red.get();
       }
 
       @Override
       public double green() {
-        return g.get();
+        return green.get();
       }
 
       @Override
       public double blue() {
-        return b.get();
+        return blue.get();
       }
     });
   }

@@ -11,7 +11,7 @@ public class IntakeArmConstants {
   public static final double MAX_SPEED = 0.5;
 
   // negative because pot increases as arm moves back
-  public static final double P_GAIN = -2D/40;
+  public static final double P_GAIN = -2D / 40;
 
   public static final double I_GAIN = 0.0;
 
@@ -33,10 +33,7 @@ public class IntakeArmConstants {
   public static final double CHEVAL_HIGH_POSITION = TRANSPORT_SETPOINT;
   public static final double CHEVAL_LOW_POSITION = 18;
 
-  public static final double LOWBAR_LOW_FIRST = 10;
-  public static final double LOWBAR_LOW_SECOND = 30;
-  public static final double LOWBAR_DRIVE_FIRST = 6.274983161038968;
-  public static final double LOWBAR_DRIVE_SECOND = 6.274983161038968;
+  public static final double LOWBAR_ANGLE = 10;
 
   public static final double CHEVAL_DE_FRISE_DRIVE_DISTANCE = 6.274983161038968;
 }

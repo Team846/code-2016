@@ -3,28 +3,33 @@ package com.lynbrookrobotics.sixteen.components.lights;
 import java.util.function.Supplier;
 
 public abstract class LightsController {
-  public static LightsController of(Supplier<Double> r,
-                                    Supplier<Double> g,
-                                    Supplier<Double> b) {
+  /**
+   * Constructs a light controller given lambdas for each color.
+   */
+  public static LightsController of(Supplier<Double> red,
+                                    Supplier<Double> green,
+                                    Supplier<Double> blue) {
     return new LightsController() {
       @Override
       public double red() {
-        return r.get();
+        return red.get();
       }
 
       @Override
       public double green() {
-        return g.get();
+        return green.get();
       }
 
       @Override
       public double blue() {
-        return b.get();
+        return blue.get();
       }
     };
   }
 
   public abstract double red();
+
   public abstract double green();
+
   public abstract double blue();
 }

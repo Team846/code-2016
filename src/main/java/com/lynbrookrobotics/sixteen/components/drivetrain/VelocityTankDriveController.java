@@ -8,27 +8,33 @@ public abstract class VelocityTankDriveController extends DrivetrainController {
   private final PID leftPID;
   private final PID rightPID;
 
+  /**
+   * Constructs a drivetrain controller that runs closed loop on each side.
+   */
   public VelocityTankDriveController(RobotHardware hardware) {
     this.leftPID = new PID(
-        () -> hardware.drivetrainHardware.leftEncoder.getSpeed(),
-        () -> leftBalancedSpeed()
-    ).withP(0.25D/1000);
+        hardware.drivetrainHardware.leftEncoder::getSpeed,
+        this::leftBalancedSpeed
+    ).withP(0.25D / 1000);
 
     this.rightPID = new PID(
-        () -> hardware.drivetrainHardware.rightEncoder.getSpeed(),
-        () -> rightBalancedSpeed()
-    ).withP(0.25D/1000);
+        hardware.drivetrainHardware.rightEncoder::getSpeed,
+        this::rightBalancedSpeed
+    ).withP(0.25D / 1000);
   }
 
   public abstract double leftVelocity();
+
   public abstract double rightVelocity();
 
   private double leftBalancedSpeed() {
-    return leftVelocity() * (DrivetrainConstants.MAX_SPEED_FORWARD/DrivetrainConstants.MAX_SPEED_LEFT);
+    return leftVelocity()
+        * (DrivetrainConstants.MAX_SPEED_FORWARD / DrivetrainConstants.MAX_SPEED_LEFT);
   }
 
   private double rightBalancedSpeed() {
-    return rightVelocity() * (DrivetrainConstants.MAX_SPEED_FORWARD/DrivetrainConstants.MAX_SPEED_RIGHT);
+    return rightVelocity()
+        * (DrivetrainConstants.MAX_SPEED_FORWARD / DrivetrainConstants.MAX_SPEED_RIGHT);
   }
 
   @Override

@@ -1,11 +1,9 @@
 package com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel;
 
-import com.lynbrookrobotics.potassium.tasks.FiniteTask;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
-import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheelSpeedController;
-import com.lynbrookrobotics.sixteen.config.RobotHardware;
-
 import static com.lynbrookrobotics.sixteen.config.constants.ShooterFlywheelConstants.THRESHOLD_RPM;
+
+import com.lynbrookrobotics.potassium.tasks.FiniteTask;
+import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 public class WaitForRPM extends FiniteTask {
   double targetRPM;
@@ -26,7 +24,8 @@ public class WaitForRPM extends FiniteTask {
 
   @Override
   protected void update() {
-    if (Math.abs(hardware.shooterSpinnersHardware.hallEffect.getRPM() - targetRPM) <= THRESHOLD_RPM) {
+    double error = Math.abs(hardware.shooterSpinnersHardware.hallEffect.getRPM() - targetRPM);
+    if (error <= THRESHOLD_RPM) {
       finished();
     }
   }

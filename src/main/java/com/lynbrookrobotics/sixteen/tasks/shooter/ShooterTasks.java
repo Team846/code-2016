@@ -65,8 +65,8 @@ public class ShooterTasks {
                                  IntakeArm intakeArm,
                                  RobotHardware hardware) {
     FiniteTask withoutFlywheel =
-        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware).
-            and(new MoveShooterArmToAngle(
+        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware)
+            .and(new MoveShooterArmToAngle(
                 ShooterArmConstants.SHOOT_ANGLE,
                 hardware,
                 shooterArm

@@ -34,19 +34,16 @@ public class Drivetrain extends Component<DrivetrainController> {
 
   private boolean forceBrake = false;
 
-  public void toggleForceBrake() {
-    forceBrake = !forceBrake;
-  }
-
   public void setForceBrake(boolean brake) {
     forceBrake = brake;
   }
 
   private int ditheredTick = 0;
+
   @Override
   public void setOutputs(DrivetrainController drivetrainController) {
-    double left = drivetrainController.leftSpeed();
-    double right = drivetrainController.rightSpeed();
+    final double left = drivetrainController.leftSpeed();
+    final double right = drivetrainController.rightSpeed();
 
     if (controls.driverStation.isEnabled()) {
       if ((ditheredTick++ % 20) == 0 || forceBrake) {

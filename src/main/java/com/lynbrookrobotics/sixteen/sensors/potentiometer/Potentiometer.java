@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
  */
 public class Potentiometer {
   AnalogInput input;
-  double conversionFactor = 90D/(2.568359 - 0.71533);
+  double conversionFactor = 90D / (2.568359 - 0.71533);
   double positionOffset;
 
   /**

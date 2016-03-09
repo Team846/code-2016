@@ -6,6 +6,9 @@ import java.util.function.Supplier;
  * The controller for the drivetrain component.
  */
 public abstract class DrivetrainController {
+  /**
+   * Constructs a DrivetrainController given lambdas for each side.
+   */
   public static DrivetrainController of(Supplier<Double> left,
                                         Supplier<Double> right) {
     return new DrivetrainController() {

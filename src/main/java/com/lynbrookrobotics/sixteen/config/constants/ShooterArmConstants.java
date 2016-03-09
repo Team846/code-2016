@@ -10,7 +10,7 @@ public class ShooterArmConstants {
   public static final double MAX_SPEED = 0.4;
 
   // TODO: experimentally determine PID factors
-  public static final double P_GAIN = 1.2/90D;
+  public static final double P_GAIN = 1.2 / 90D;
 
   public static final double I_GAIN = 0.0d;
   public static final int I_MEMORY = 1;

@@ -13,14 +13,11 @@ import com.lynbrookrobotics.sixteen.config.constants.IntakeRollerConstants;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
-import com.lynbrookrobotics.sixteen.tasks.InfiniteFinite;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.lights.DirectLightsColor;
-import com.lynbrookrobotics.sixteen.tasks.lights.FlashLightsColor;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinUntilBall;
-import com.sun.glass.ui.Robot;
 
 public class IntakeTasks {
   /**
@@ -49,10 +46,11 @@ public class IntakeTasks {
                     () -> 0.0,
                     RobotConstants.lights
                 )))
-            ).andUntilDone(new DirectIntakeRollerSpeed(
-              () -> IntakeRollerConstants.COLLECT_SPEED,
-              roller
-            ).and(new DirectLightsColor(() -> 1.0, () -> 0.0, () -> 0.0, RobotConstants.lights)))
+            ).andUntilDone(
+                new DirectIntakeRollerSpeed(
+                    () -> IntakeRollerConstants.COLLECT_SPEED, roller
+                ).and(new DirectLightsColor(() -> 1.0, () -> 0.0, () -> 0.0, RobotConstants.lights))
+            )
         ).then(new FixedTime(1000).andUntilDone(new DirectLightsColor(
             () -> 0.0,
             () -> 1.0,
