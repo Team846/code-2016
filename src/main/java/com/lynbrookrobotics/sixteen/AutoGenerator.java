@@ -290,24 +290,24 @@ public class AutoGenerator {
       } else if (defense == Defense.LOWBAR) {
         return cross(defense)
             .then(driveToShootingPosition(startingPosition))
-            .then(ShooterTasks.shootHigh(
+            /*.then(ShooterTasks.shootHigh(
                 shooterFlywheel,
                 shooterSecondary,
                 shooterArm,
                 intakeArm,
                 hardware
-            ));
+            ))*/;
       } else {
         return driveUp
             .then(cross(defense))
             .then(driveToShootingPosition(startingPosition))
-            .then(ShooterTasks.shootHigh(
+            /*.then(ShooterTasks.shootHigh(
                 shooterFlywheel,
                 shooterSecondary,
                 shooterArm,
                 intakeArm,
                 hardware
-            ));
+            ))*/;
       }
     }
   }

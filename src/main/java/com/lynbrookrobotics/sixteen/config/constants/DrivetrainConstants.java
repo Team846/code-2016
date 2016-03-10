@@ -12,13 +12,13 @@ public class DrivetrainConstants {
 
   public static double MAX_ROTATIONAL_SPEED = 336.59407295975933;
 
-  public static final double SPY_TO_SHOOT = 0;
+  public static final double SPY_TO_SHOOT = (100 - ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
   public static final double DEFENSE_RAMP_DISTANCE = 23 / 12D;
 
-  public static final double MOAT_FORWARD_DISTANCE = 0;
-  public static final double RAMPARTS_FORWARD_DISTANCE = 0;
-  public static final double ROCKWALL_FORWARD_DISTANCE = 0;
-  public static final double ROUGHTERRAIN_FORWARD_DISTANCE = 0;
+  public static final double MOAT_FORWARD_DISTANCE = (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
+  public static final double RAMPARTS_FORWARD_DISTANCE = (50 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
+  public static final double ROCKWALL_FORWARD_DISTANCE = (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
+  public static final double ROUGHTERRAIN_FORWARD_DISTANCE = (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
 
-  public static final double LOWBAR_BACKWARD_DISTANCE = -5;
+  public static final double LOWBAR_BACKWARD_DISTANCE = -(47.75 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
 }
