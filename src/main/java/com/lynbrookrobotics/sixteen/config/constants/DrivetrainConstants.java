@@ -20,5 +20,5 @@ public class DrivetrainConstants {
   public static final double ROCKWALL_FORWARD_DISTANCE = 0;
   public static final double ROUGHTERRAIN_FORWARD_DISTANCE = 0;
 
-  public static final double LOWBAR_BACKWARD_DISTANCE = 5;
+  public static final double LOWBAR_BACKWARD_DISTANCE = -5;
 }
