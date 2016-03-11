@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
 
 /**
  * CoreEvents class creates events and maps these to handlers.

@@ -4,7 +4,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
 
-public abstract class ArcadeDriveController extends VelocityTankDriveController {
+public abstract class ArcadeDriveController extends DrivetrainController {
   /**
    * Creates a new tank-drive style controller based on two suppliers.
    *
@@ -28,7 +28,7 @@ public abstract class ArcadeDriveController extends VelocityTankDriveController 
   }
 
   public ArcadeDriveController(RobotHardware hardware) {
-    super(hardware);
+//    super(hardware);
   }
 
   /**
@@ -44,12 +44,12 @@ public abstract class ArcadeDriveController extends VelocityTankDriveController 
   public abstract double turnSpeed();
 
   @Override
-  public double leftVelocity() {
+  public double leftPower() {
     return forwardSpeed() + turnSpeed();
   }
 
   @Override
-  public double rightVelocity() {
+  public double rightPower() {
     return forwardSpeed() - turnSpeed();
   }
 }

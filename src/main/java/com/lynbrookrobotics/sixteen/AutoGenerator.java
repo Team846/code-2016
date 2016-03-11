@@ -290,6 +290,7 @@ public class AutoGenerator {
       if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
         return driveUp.then(new DriveRelative(hardware, 0.5, MAX_FORWARD_SPEED, drivetrain));
       } else if (defense == Defense.LOWBAR) {
+        // #ROLLOYOLO
         return new FixedTime(3000).andUntilDone(new ContinuousDrive(() -> -0.5, () -> 0.0, hardware, drivetrain));
 //        return cross(defense)
 //            .then(driveToShootingPosition(startingPosition))

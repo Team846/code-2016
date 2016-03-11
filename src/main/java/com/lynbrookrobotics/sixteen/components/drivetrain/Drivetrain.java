@@ -24,7 +24,7 @@ public class Drivetrain extends Component<DrivetrainController> {
     this.hardware = robotHardware.drivetrainHardware;
     this.controls = controls;
 
-    this.enabledDrive = VelocityArcadeDriveController.of(
+    this.enabledDrive = ArcadeDriveController.of(
         robotHardware,
         () -> -controls.driverStick.getY(),
         () -> controls.driverWheel.getX()
@@ -41,8 +41,8 @@ public class Drivetrain extends Component<DrivetrainController> {
 
   @Override
   public void setOutputs(DrivetrainController drivetrainController) {
-    final double left = drivetrainController.leftPower();
-    final double right = drivetrainController.rightPower();
+    final double left = forceBrake ? 0 : drivetrainController.leftPower();
+    final double right = forceBrake ? 0 : drivetrainController.rightPower();
 
     if (controls.driverStation.isEnabled()) {
       if ((ditheredTick++ % 20) == 0 || forceBrake) {

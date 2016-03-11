@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 public class ContinuousDrive extends ContinuousTask {
   RobotHardware hardware;
   Drivetrain drivetrain;
-  VelocityArcadeDriveController controller;
+  ArcadeDriveController controller;
 
   /**
    * Constructs a fixed duration drive.
@@ -24,7 +24,7 @@ public class ContinuousDrive extends ContinuousTask {
                          Supplier<Double> turn,
                          RobotHardware hardware,
                          Drivetrain drivetrain) {
-    this.controller = VelocityArcadeDriveController.of(hardware, forward, turn);
+    this.controller = ArcadeDriveController.of(hardware, forward, turn);
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }

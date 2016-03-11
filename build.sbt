@@ -9,6 +9,8 @@ version := "0.1.0"
 
 scalaVersion := "2.11.7"
 
+offline := true
+
 lazy val vision = project
 
 resolvers += "WPILib-Maven" at "http://team846.github.io/wpilib-maven"
