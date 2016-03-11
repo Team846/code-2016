@@ -50,7 +50,7 @@ public class IntakeTasks {
             ).andUntilDone(
                 new DirectIntakeRollerSpeed(
                     () -> IntakeRollerConstants.COLLECT_SPEED, roller
-                ).and(new DirectLightsColor(() -> false, () -> 1.0, () -> 0.0, () -> 0.0, RobotConstants.lights))
+                ).and(new DirectLightsColor(() -> false, () -> 1.0, () -> 0.0, () -> 1.0, RobotConstants.lights))
             )
         ).then(new FixedTime(1000).andUntilDone(new DirectLightsColor(
             () -> false,
