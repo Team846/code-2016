@@ -259,6 +259,10 @@ public class CoreEvents {
               shooterSecondary,
               hardware
           ));
+
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.POP_OUT)
+          .forEach(IntakeTasks.popOut(intakeArm, intakeRoller, controls, hardware));
     }
 
     if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
@@ -365,22 +369,22 @@ public class CoreEvents {
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Right Encoder Speed",
-                  () -> hardware.drivetrainHardware.rightEncoder.getSpeed()));
+                  () -> hardware.drivetrainHardware.rightEncoder.getSpeed() / DrivetrainConstants.MAX_SPEED_RIGHT));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Left Encoder Speed",
-                  () -> hardware.drivetrainHardware.leftEncoder.getSpeed()));
+                  () -> hardware.drivetrainHardware.leftEncoder.getSpeed() / DrivetrainConstants.MAX_SPEED_LEFT));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Right Encoder Tick",
-                  () -> hardware.drivetrainHardware.frontRightMotor.getPosition()));
+                  "Right Encoder Position",
+                  () -> hardware.drivetrainHardware.rightEncoder.getAngle()));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Left Encoder Tick",
-                  () -> hardware.drivetrainHardware.frontLeftMotor.getPosition()));
+                  "Left Encoder Position",
+                  () -> hardware.drivetrainHardware.leftEncoder.getAngle()));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
@@ -434,6 +438,8 @@ public class CoreEvents {
               .addDataset(new TimeSeriesNumeric<>(
                   "Potentiometer Angle",
                   () -> hardware.shooterArmHardware.pot.getAngle()));
+
+//          dashboard.outputText(RobotConstants.system);
 
           System.out.println("FunkyDashboard is up!");
         }

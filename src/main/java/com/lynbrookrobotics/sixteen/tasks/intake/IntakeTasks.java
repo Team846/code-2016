@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen.tasks.intake;
 
+import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.CoreRobot;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
@@ -7,12 +8,14 @@ import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.flywheel.ShooterFlywheel;
 import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.ShooterSecondary;
+import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeRollerConstants;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.lights.DirectLightsColor;
@@ -59,5 +62,17 @@ public class IntakeTasks {
             () -> 0.0,
             RobotConstants.lights
         )));
+  }
+
+  public static ContinuousTask popOut(IntakeArm arm,
+                                      IntakeRoller roller,
+                                      DriverControls controls,
+                                      RobotHardware hardware) {
+    return new DirectIntakeRollerSpeed(() -> -1.0, roller).and(
+        new DirectIntakeArmSpeed(
+            () -> -controls.operatorStick.getY() * IntakeArmConstants.MAX_SPEED,
+            arm
+        )
+    );
   }
 }

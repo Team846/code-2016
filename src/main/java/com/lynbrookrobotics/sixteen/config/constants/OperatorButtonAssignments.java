@@ -21,4 +21,6 @@ public class OperatorButtonAssignments {
   public static final int CHEVAL = 12; // left of joystick
   public static final int PORTCULLIS = 15;
   public static final int LOWBAR = 16;
+
+  public static final int POP_OUT = 4;
 }

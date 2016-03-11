@@ -38,17 +38,17 @@ public abstract class VelocityArcadeDriveController extends ArcadeDriveControlle
   public VelocityArcadeDriveController(RobotHardware hardware) {
     super(hardware);
 
-    forwardControl = new PID(
+    this.forwardControl = new PID(
         () -> hardware.drivetrainHardware.currentForwardSpeed()
             / DrivetrainConstants.MAX_SPEED_FORWARD,
         this::forwardVelocity
-    ).withP(0.25D / DrivetrainConstants.MAX_SPEED_FORWARD);
+    ).withP(0.1D);
 
-    turnControl = new PID(
+    this.turnControl = new PID(
         () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()
             / DrivetrainConstants.MAX_ROTATIONAL_SPEED,
         this::turnVelocity
-    ).withP(1D / (DrivetrainConstants.MAX_ROTATIONAL_SPEED / 2));
+    ).withP(0.1D);
   }
 
   public abstract double forwardVelocity();

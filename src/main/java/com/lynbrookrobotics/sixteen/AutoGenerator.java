@@ -279,6 +279,10 @@ public class AutoGenerator {
           intakeArm,
           hardware
       ));
+    } else if (startingPosition == 6) {
+      return new FixedTime(4000).andUntilDone(new ContinuousDrive(() -> 0.5, () -> 0.0, hardware, drivetrain));
+    } else if (startingPosition == 7) {
+      return new FixedTime(4000).andUntilDone(new ContinuousDrive(() -> -0.5, () -> 0.0, hardware, drivetrain));
     } else {
       FiniteTask driveUp = new DriveRelative(
           hardware,
@@ -291,7 +295,15 @@ public class AutoGenerator {
         return driveUp.then(new DriveRelative(hardware, 0.5, MAX_FORWARD_SPEED, drivetrain));
       } else if (defense == Defense.LOWBAR) {
         // #ROLLOYOLO
-        return new FixedTime(3000).andUntilDone(new ContinuousDrive(() -> -0.5, () -> 0.0, hardware, drivetrain));
+        return (new MoveIntakeArmToAngle(
+            IntakeArmConstants.LOWBAR_ANGLE,
+            intakeArm,
+            hardware
+        ).and(new MoveShooterArmToAngle(
+            ShooterArmConstants.FORWARD_LIMIT,
+            hardware,
+            shooterArm
+        ))).then(new FixedTime(3000).andUntilDone(new ContinuousDrive(() -> -0.5, () -> 0.0, hardware, drivetrain)));
 //        return cross(defense)
 //            .then(driveToShootingPosition(startingPosition))
 //            /*.then(ShooterTasks.shootHigh(
