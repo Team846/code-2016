@@ -8,6 +8,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
 public class SpinFlywheelAtRPM extends ContinuousTask {
+  boolean flash;
   double targetRPM;
   ShooterFlywheel shooterFlywheel;
   RobotHardware hardware;
@@ -15,9 +16,11 @@ public class SpinFlywheelAtRPM extends ContinuousTask {
   /**
    * Spins the spinner at a given RPM continually.
    */
-  public SpinFlywheelAtRPM(double targetRPM,
+  public SpinFlywheelAtRPM(boolean flash,
+                           double targetRPM,
                            ShooterFlywheel shooterFlywheel,
                            RobotHardware hardware) {
+    this.flash = flash;
     this.targetRPM = targetRPM;
     this.shooterFlywheel = shooterFlywheel;
     this.hardware = hardware;
@@ -28,6 +31,11 @@ public class SpinFlywheelAtRPM extends ContinuousTask {
     shooterFlywheel.setController(
         new ShooterFlywheelSpeedController(targetRPM, hardware));
     RobotConstants.lights.setController(new LightsController() {
+      @Override
+      public boolean flash() {
+        return flash;
+      }
+
       @Override
       public double red() {
         return 1 - (hardware.shooterSpinnersHardware.hallEffect.getRPM() / targetRPM);

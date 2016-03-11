@@ -13,6 +13,8 @@ import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShootingPositionConstants;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
+import com.lynbrookrobotics.sixteen.tasks.FixedTime;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.KeepIntakeArmAtAngle;
@@ -288,15 +290,16 @@ public class AutoGenerator {
       if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
         return driveUp.then(new DriveRelative(hardware, 0.5, MAX_FORWARD_SPEED, drivetrain));
       } else if (defense == Defense.LOWBAR) {
-        return cross(defense)
-            .then(driveToShootingPosition(startingPosition))
-            /*.then(ShooterTasks.shootHigh(
-                shooterFlywheel,
-                shooterSecondary,
-                shooterArm,
-                intakeArm,
-                hardware
-            ))*/;
+        return new FixedTime(3000).andUntilDone(new ContinuousDrive(() -> -0.5, () -> 0.0, hardware, drivetrain));
+//        return cross(defense)
+//            .then(driveToShootingPosition(startingPosition))
+//            /*.then(ShooterTasks.shootHigh(
+//                shooterFlywheel,
+//                shooterSecondary,
+//                shooterArm,
+//                intakeArm,
+//                hardware
+//            ))*/;
       } else {
         return driveUp
             .then(cross(defense))

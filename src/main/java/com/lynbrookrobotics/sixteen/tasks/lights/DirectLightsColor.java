@@ -7,6 +7,7 @@ import com.lynbrookrobotics.sixteen.components.lights.LightsController;
 import java.util.function.Supplier;
 
 public class DirectLightsColor extends ContinuousTask {
+  Supplier<Boolean> flash;
   Supplier<Double> red;
   Supplier<Double> green;
   Supplier<Double> blue;
@@ -15,9 +16,11 @@ public class DirectLightsColor extends ContinuousTask {
   /**
    * Creates a task that controls the LED light colors.
    */
-  public DirectLightsColor(Supplier<Double> red,
+  public DirectLightsColor(Supplier<Boolean> flash,
+                           Supplier<Double> red,
                            Supplier<Double> green,
                            Supplier<Double> blue, Lights lights) {
+    this.flash = flash;
     this.red = red;
     this.green = green;
     this.blue = blue;
@@ -26,22 +29,7 @@ public class DirectLightsColor extends ContinuousTask {
 
   @Override
   protected void startTask() {
-    lights.setController(new LightsController() {
-      @Override
-      public double red() {
-        return red.get();
-      }
-
-      @Override
-      public double green() {
-        return green.get();
-      }
-
-      @Override
-      public double blue() {
-        return blue.get();
-      }
-    });
+    lights.setController(LightsController.of(flash, red, green, blue));
   }
 
   @Override

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Lights extends Component<LightsController> {
+  private DigitalOutput flashOut = new DigitalOutput(1);
   private DigitalOutput rOut = new DigitalOutput(2);
   private DigitalOutput gOut = new DigitalOutput(3);
   private DigitalOutput bOut = new DigitalOutput(4);
@@ -24,6 +25,11 @@ public class Lights extends Component<LightsController> {
       } else if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
         defaultB = 1.0;
       }
+    }
+
+    @Override
+    public boolean flash() {
+      return false;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class Lights extends Component<LightsController> {
 
   @Override
   protected void setOutputs(LightsController lightsController) {
+    flashOut.set(lightsController.flash());
     rOut.updateDutyCycle(lightsController.red());
     gOut.updateDutyCycle(lightsController.green());
     bOut.updateDutyCycle(lightsController.blue());

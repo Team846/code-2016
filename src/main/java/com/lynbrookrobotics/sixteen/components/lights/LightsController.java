@@ -6,10 +6,16 @@ public abstract class LightsController {
   /**
    * Constructs a light controller given lambdas for each color.
    */
-  public static LightsController of(Supplier<Double> red,
+  public static LightsController of(Supplier<Boolean> flash,
+                                    Supplier<Double> red,
                                     Supplier<Double> green,
                                     Supplier<Double> blue) {
     return new LightsController() {
+      @Override
+      public boolean flash() {
+        return flash.get();
+      }
+
       @Override
       public double red() {
         return red.get();
@@ -26,6 +32,8 @@ public abstract class LightsController {
       }
     };
   }
+
+  public abstract boolean flash();
 
   public abstract double red();
 

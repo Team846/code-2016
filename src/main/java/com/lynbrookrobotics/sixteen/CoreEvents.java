@@ -351,76 +351,96 @@ public class CoreEvents {
 
     // Dashboard data
     RobotConstants.dashboard.thenAccept(dashboard -> {
-      if (RobotConstants.HAS_DRIVETRAIN) {
-        dashboard.datasetGroup("drivetrain")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Angular Position",
-                () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+      try {
+        if (RobotConstants.HAS_DRIVETRAIN) {
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Angular Position",
+                  () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
 
-        dashboard.datasetGroup("drivetrain")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Angular Velocity",
-                () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Angular Velocity",
+                  () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()));
 
-        dashboard.datasetGroup("drivetrain")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Right Encoder Speed",
-                () -> hardware.drivetrainHardware.rightEncoder.getSpeed()));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Right Encoder Speed",
+                  () -> hardware.drivetrainHardware.rightEncoder.getSpeed()));
 
-        dashboard.datasetGroup("drivetrain")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Left Encoder Speed",
-                () -> hardware.drivetrainHardware.leftEncoder.getSpeed()));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Left Encoder Speed",
+                  () -> hardware.drivetrainHardware.leftEncoder.getSpeed()));
 
-        dashboard.datasetGroup("drivetrain")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Right Encoder Distance",
-                () -> hardware.drivetrainHardware.rightEncoder.getAngle()
-                    / (DrivetrainConstants.FT_TO_ENC)));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Right Encoder Tick",
+                  () -> hardware.drivetrainHardware.frontRightMotor.getPosition()));
 
-        dashboard.datasetGroup("drivetrain")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Left Encoder Distance",
-                () -> hardware.drivetrainHardware.leftEncoder.getAngle()
-                    / (DrivetrainConstants.FT_TO_ENC)));
-      }
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Left Encoder Tick",
+                  () -> hardware.drivetrainHardware.frontLeftMotor.getPosition()));
 
-      if (RobotConstants.HAS_INTAKE) {
-        dashboard.datasetGroup("intake-arm")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Potentiometer Angle",
-                () -> hardware.intakeArmHardware.pot.getAngle()
-            ));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Right Encoder Distance",
+                  () -> hardware.drivetrainHardware.rightEncoder.getAngle()
+                      / (DrivetrainConstants.FT_TO_ENC)));
 
-        dashboard.datasetGroup("intake-arm")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Potentiometer Voltage",
-                () -> hardware.intakeArmHardware.pot.rawVoltage()
-            ));
-      }
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Left Encoder Distance",
+                  () -> hardware.drivetrainHardware.leftEncoder.getAngle()
+                      / (DrivetrainConstants.FT_TO_ENC)));
+        }
 
-      if (RobotConstants.HAS_SHOOTER) {
-        dashboard.datasetGroup("shooter")
-            .addDataset((new TimeSeriesNumeric<>(
-                "Flywheel RPM",
-                () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
+        if (RobotConstants.HAS_INTAKE) {
+          dashboard.datasetGroup("intake-arm")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Potentiometer Angle",
+                  () -> hardware.intakeArmHardware.pot.getAngle()
+              ));
 
-        dashboard.datasetGroup("shooter")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Shooter Flywheel power",
-                () -> hardware.shooterSpinnersHardware.flywheelMotor.get()));
+          dashboard.datasetGroup("intake-arm")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Potentiometer Voltage",
+                  () -> hardware.intakeArmHardware.pot.rawVoltage()
+              ));
+        }
 
-        dashboard.datasetGroup("shooter")
-            .addDataset((new TimeSeriesNumeric<>(
-                "Proximity Sensor Average Voltage",
-                () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+        if (RobotConstants.HAS_SHOOTER) {
+          dashboard.datasetGroup("shooter")
+              .addDataset((new TimeSeriesNumeric<>(
+                  "Flywheel RPM",
+                  () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
 
-        dashboard.datasetGroup("shooter")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Potentiometer Angle",
-                () -> hardware.shooterArmHardware.pot.getAngle()));
+          dashboard.datasetGroup("shooter")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Shooter Flywheel power",
+                  () -> hardware.shooterSpinnersHardware.flywheelMotor.get()));
 
-        System.out.println("FunkyDashboard is up!");
+          dashboard.datasetGroup("shooter")
+              .addDataset((new TimeSeriesNumeric<>(
+                  "Proximity Sensor Average Voltage",
+                  () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+
+          dashboard.datasetGroup("shooter")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Potentiometer Voltage",
+                  () -> hardware.shooterArmHardware.pot.rawVoltage()));
+
+          dashboard.datasetGroup("shooter")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Potentiometer Angle",
+                  () -> hardware.shooterArmHardware.pot.getAngle()));
+
+          System.out.println("FunkyDashboard is up!");
+        }
+      } catch (Exception e) {
+        System.out.println("Funky Dashboard could not load");
+        e.printStackTrace();
       }
     });
   }

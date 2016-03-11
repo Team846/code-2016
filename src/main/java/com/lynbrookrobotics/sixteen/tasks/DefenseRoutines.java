@@ -26,53 +26,58 @@ public class DefenseRoutines {
                                            ShooterArm shooterArm,
                                            Drivetrain drivetrain,
                                            RobotHardware robotHardware) {
-    return new DriveRelative(robotHardware,
-        IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_DROP,
-        0.4,
-        drivetrain
-    ).then((new MoveIntakeArmToAngle(
-        IntakeArmConstants.LOW_POSITION_PORTCULLIS,
+    return new MoveIntakeArmToAngle(
+        10,
         intakeArm,
         robotHardware
-    ).and(
-        new MoveShooterArmToAngle(
-            ShooterArmConstants.FORWARD_LIMIT,
-            robotHardware,
-            shooterArm
-        )
-    )).andUntilDone(new ContinuousTask() {
-      @Override
-      protected void startTask() {
-        drivetrain.setController(DrivetrainController.of(() -> 0.1, () -> 0.1));
-      }
-
-      @Override
-      protected void update() {
-      }
-
-      @Override
-      protected void endTask() {
-        drivetrain.resetToDefault();
-      }
-    })).then(
-        new DriveRelative(robotHardware,
-            IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_LIFT,
-            0.4,
-            drivetrain
-        )
-    ).then(
-        new MoveIntakeArmToAngle(
-            IntakeArmConstants.HIGH_POSITION_PORTCULLIS,
-            intakeArm,
-            robotHardware
-        ).and(
-            new DriveRelative(robotHardware,
-                IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_OUT,
-                0.4,
-                drivetrain
-            )
-        )
     );
+//    return new DriveRelative(robotHardware,
+//        IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_DROP,
+//        0.4,
+//        drivetrain
+//    ).then((new MoveIntakeArmToAngle(
+//        IntakeArmConstants.LOW_POSITION_PORTCULLIS,
+//        intakeArm,
+//        robotHardware
+//    ).and(
+//        new MoveShooterArmToAngle(
+//            ShooterArmConstants.FORWARD_LIMIT,
+//            robotHardware,
+//            shooterArm
+//        )
+//    )).andUntilDone(new ContinuousTask() {
+//      @Override
+//      protected void startTask() {
+//        drivetrain.setController(DrivetrainController.of(() -> 0.1, () -> 0.1));
+//      }
+//
+//      @Override
+//      protected void update() {
+//      }
+//
+//      @Override
+//      protected void endTask() {
+//        drivetrain.resetToDefault();
+//      }
+//    })).then(
+//        new DriveRelative(robotHardware,
+//            IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_LIFT,
+//            0.4,
+//            drivetrain
+//        )
+//    ).then(
+//        new MoveIntakeArmToAngle(
+//            IntakeArmConstants.HIGH_POSITION_PORTCULLIS,
+//            intakeArm,
+//            robotHardware
+//        ).and(
+//            new DriveRelative(robotHardware,
+//                IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_OUT,
+//                0.4,
+//                drivetrain
+//            )
+//        )
+//    );
   }
 
   /**

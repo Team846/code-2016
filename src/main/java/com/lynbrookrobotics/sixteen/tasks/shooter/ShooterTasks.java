@@ -46,6 +46,7 @@ public class ShooterTasks {
         intakeArm,
         hardware
     )).and(new SpinFlywheelAtRPM(
+        true,
         ShooterFlywheelConstants.SHOOT_RPM,
         shooterFlywheel,
         hardware
@@ -82,6 +83,7 @@ public class ShooterTasks {
         )));
 
     return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
+        true,
         ShooterFlywheelConstants.SHOOT_RPM,
         shooterFlywheel,
         hardware
@@ -115,13 +117,13 @@ public class ShooterTasks {
     ));
 
     ContinuousTask rolling = new DirectFlywheelSpeed(
-        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
         shooterFlywheel
     ).and(new SpinSecondary(
-        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
         shooterSecondary
     )).and(new DirectIntakeRollerSpeed(
-        () -> -ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        () -> -ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
         intakeRoller
     ));
 
@@ -130,17 +132,19 @@ public class ShooterTasks {
         shooterFlywheel,
         hardware
     ).then(new SpinSecondaryNoBall(
-        ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+        ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
         ShooterConstants.BALL_PROXIMITY_THRESHOLD,
         shooterSecondary,
         hardware
     ).andUntilDone(rolling.and(new DirectLightsColor(
+        () -> false,
         () -> 1.0,
         () -> 0.0,
         () -> 0.0, RobotConstants.lights)))).then(
         new FixedTime(2000)
             .andUntilDone(rolling.and(
                 new DirectLightsColor(
+                    () -> false,
                     () -> 0.0,
                     () -> 1.0,
                     () -> 0.0, RobotConstants.lights)

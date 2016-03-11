@@ -50,12 +50,12 @@ public class DriveDistanceController extends DrivetrainController {
   }
 
   @Override
-  public double leftSpeed() {
+  public double leftPower() {
     return RobotConstants.clamp(leftSpeedControl.get(), -maxSpeed, maxSpeed);
   }
 
   @Override
-  public double rightSpeed() {
+  public double rightPower() {
     return RobotConstants.clamp(rightSpeedControl.get(), -maxSpeed, maxSpeed);
   }
 

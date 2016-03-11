@@ -4,7 +4,6 @@ import com.lynbrookrobotics.potassium.components.Component;
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
 /**
  * The component representing the drivetrain of the robot.
@@ -42,8 +41,8 @@ public class Drivetrain extends Component<DrivetrainController> {
 
   @Override
   public void setOutputs(DrivetrainController drivetrainController) {
-    final double left = drivetrainController.leftSpeed();
-    final double right = drivetrainController.rightSpeed();
+    final double left = drivetrainController.leftPower();
+    final double right = drivetrainController.rightPower();
 
     if (controls.driverStation.isEnabled()) {
       if ((ditheredTick++ % 20) == 0 || forceBrake) {

@@ -13,12 +13,12 @@ public abstract class DrivetrainController {
                                         Supplier<Double> right) {
     return new DrivetrainController() {
       @Override
-      public double leftSpeed() {
+      public double leftPower() {
         return left.get();
       }
 
       @Override
-      public double rightSpeed() {
+      public double rightPower() {
         return right.get();
       }
     };
@@ -28,11 +28,11 @@ public abstract class DrivetrainController {
    * Gets the left side speed.
    * @return the current speed of the left side as a normalized value
    */
-  public abstract double leftSpeed();
+  public abstract double leftPower();
 
   /**
    * Gets the right side speed.
    * @return the current speed of the right side as a normalized value
    */
-  public abstract double rightSpeed();
+  public abstract double rightPower();
 }

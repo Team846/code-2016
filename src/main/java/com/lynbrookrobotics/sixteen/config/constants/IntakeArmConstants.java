@@ -2,11 +2,11 @@ package com.lynbrookrobotics.sixteen.config.constants;
 
 public class IntakeArmConstants {
   public static final double FORWARD_LIMIT = 3;
-  public static final double REVERSE_LIMIT = 100;
+  public static final double REVERSE_LIMIT = 110;
 
-  public static final double STOWED_THRESHOLD = 40;
-  public static final double SHOOTER_STOWED_REVERSE_LIMIT = 37;
-  public static final double SHOOTER_LOW_REVERSE_LIMIT = 107.43793948834896;
+  public static final double STOWED_THRESHOLD = 35;
+  public static final double SHOOTER_STOWED_REVERSE_LIMIT = 33;
+  public static final double SHOOTER_LOW_REVERSE_LIMIT = 101;
 
   public static final double MAX_SPEED = 0.5;
 
@@ -19,9 +19,9 @@ public class IntakeArmConstants {
 
   public static final double ARM_ERROR = 3.0;
 
-  public static final double COLLECT_SETPOINT = 35; // setpoints are from forward limit
-  public static final double TRANSPORT_SETPOINT = 106.0;
-  public static final double SHOOT_HIGH_SETPOINT = 34.0;
+  public static final double COLLECT_SETPOINT = 32; // setpoints are from forward limit
+  public static final double TRANSPORT_SETPOINT = 100;
+  public static final double SHOOT_HIGH_SETPOINT = 30.0;
 
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS_DROP = 0.3609852200848849;
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS_LIFT = 0.29983110397555492;

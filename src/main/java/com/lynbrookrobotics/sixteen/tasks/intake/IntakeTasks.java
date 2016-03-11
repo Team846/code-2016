@@ -41,6 +41,7 @@ public class IntakeTasks {
         ))).then(
             (new SpinUntilBall(hardware, flywheel, secondary)
                 .then(new FixedTime(250).andUntilDone(new DirectLightsColor(
+                    () -> false,
                     () -> 0.0,
                     () -> 1.0,
                     () -> 0.0,
@@ -49,9 +50,10 @@ public class IntakeTasks {
             ).andUntilDone(
                 new DirectIntakeRollerSpeed(
                     () -> IntakeRollerConstants.COLLECT_SPEED, roller
-                ).and(new DirectLightsColor(() -> 1.0, () -> 0.0, () -> 0.0, RobotConstants.lights))
+                ).and(new DirectLightsColor(() -> false, () -> 1.0, () -> 0.0, () -> 0.0, RobotConstants.lights))
             )
         ).then(new FixedTime(1000).andUntilDone(new DirectLightsColor(
+            () -> false,
             () -> 0.0,
             () -> 1.0,
             () -> 0.0,
