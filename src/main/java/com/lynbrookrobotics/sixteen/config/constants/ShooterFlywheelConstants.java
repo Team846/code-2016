@@ -8,9 +8,9 @@ public class ShooterFlywheelConstants {
 
   public static final double MAX_RPM = 7900;
 
-  public static final double THRESHOLD_RPM = 50;
+  public static final double THRESHOLD_RPM = 500;
 
-  public static final double SHOOT_RPM = 7500;
+  public static final double SHOOT_RPM = 7100; // with partial battery only 7396
   public static final double SHOOT_SECONDARY_POWER = 1;
   public static final double SHOOT_SECONDARY_LOW_POWER = 0.5;
   public static final double SHOOTER_HAS_THRESHOLD = 0;

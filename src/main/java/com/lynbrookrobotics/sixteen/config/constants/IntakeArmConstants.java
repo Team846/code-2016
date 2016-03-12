@@ -5,7 +5,7 @@ public class IntakeArmConstants {
   public static final double REVERSE_LIMIT = 110;
 
   public static final double STOWED_THRESHOLD = 35;
-  public static final double SHOOTER_STOWED_REVERSE_LIMIT = 33;
+  public static final double SHOOTER_STOWED_REVERSE_LIMIT = 30;
   public static final double SHOOTER_LOW_REVERSE_LIMIT = 101;
 
   public static final double MAX_SPEED = 0.5;
@@ -19,7 +19,7 @@ public class IntakeArmConstants {
 
   public static final double ARM_ERROR = 3.0;
 
-  public static final double COLLECT_SETPOINT = 32; // setpoints are from forward limit
+  public static final double COLLECT_SETPOINT = 35; // setpoints are from forward limit
   public static final double TRANSPORT_SETPOINT = 100;
   public static final double SHOOT_HIGH_SETPOINT = 30.0;
 

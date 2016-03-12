@@ -1,7 +1,7 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
 public class ShooterArmConstants {
-  public static final double FORWARD_LIMIT = 140;
+  public static final double FORWARD_LIMIT = 135;
   public static final double FORWARD_INTAKE_STOWED_LIMIT = 60;
   public static final double REVERSE_LIMIT = 10;
   public static final double STOWED_THRESHOLD = 85;

@@ -21,6 +21,8 @@ import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.lights.DirectLightsColor;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.SpinUntilBall;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 
 public class IntakeTasks {
   /**
@@ -43,17 +45,21 @@ public class IntakeTasks {
           shooterArm
         ))).then(
             (new SpinUntilBall(hardware, flywheel, secondary)
-                .then(new FixedTime(250).andUntilDone(new DirectLightsColor(
+                .then(new FixedTime(50).andUntilDone(new DirectLightsColor(
                     () -> false,
                     () -> 0.0,
                     () -> 1.0,
                     () -> 0.0,
                     RobotConstants.lights
-                )))
+                ).and(new DirectFlywheelSpeed(
+                    () -> -IntakeRollerConstants.COLLECT_SPEED, flywheel
+                )).and(new SpinSecondary(
+                    () -> -IntakeRollerConstants.COLLECT_SPEED, secondary
+                ))))
             ).andUntilDone(
-                new DirectIntakeRollerSpeed(
+                new DirectLightsColor(() -> false, () -> 1.0, () -> 0.0, () -> 1.0, RobotConstants.lights).and(new DirectIntakeRollerSpeed(
                     () -> IntakeRollerConstants.COLLECT_SPEED, roller
-                ).and(new DirectLightsColor(() -> false, () -> 1.0, () -> 0.0, () -> 1.0, RobotConstants.lights))
+                ))
             )
         ).then(new FixedTime(1000).andUntilDone(new DirectLightsColor(
             () -> false,

@@ -15,6 +15,7 @@ import com.lynbrookrobotics.sixteen.config.constants.ShootingPositionConstants;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousDrive;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousStraightDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.KeepIntakeArmAtAngle;
@@ -280,9 +281,9 @@ public class AutoGenerator {
           hardware
       ));
     } else if (startingPosition == 6) {
-      return new FixedTime(4000).andUntilDone(new ContinuousDrive(() -> 0.5, () -> 0.0, hardware, drivetrain));
+      return new FixedTime(4000).andUntilDone(new ContinuousStraightDrive(() -> 0.75, hardware, drivetrain));
     } else if (startingPosition == 7) {
-      return new FixedTime(4000).andUntilDone(new ContinuousDrive(() -> -0.5, () -> 0.0, hardware, drivetrain));
+      return new FixedTime(4000).andUntilDone(new ContinuousStraightDrive(() -> -0.5, hardware, drivetrain));
     } else {
       FiniteTask driveUp = new DriveRelative(
           hardware,
@@ -303,7 +304,7 @@ public class AutoGenerator {
             ShooterArmConstants.FORWARD_LIMIT,
             hardware,
             shooterArm
-        ))).then(new FixedTime(3000).andUntilDone(new ContinuousDrive(() -> -0.5, () -> 0.0, hardware, drivetrain)));
+        ))).then(new FixedTime(3000).andUntilDone(new ContinuousStraightDrive(() -> -0.5, hardware, drivetrain)));
 //        return cross(defense)
 //            .then(driveToShootingPosition(startingPosition))
 //            /*.then(ShooterTasks.shootHigh(
