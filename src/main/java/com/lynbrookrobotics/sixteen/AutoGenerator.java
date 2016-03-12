@@ -14,7 +14,6 @@ import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShootingPositionConstants;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.FixedTime;
-import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousStraightDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
@@ -80,7 +79,21 @@ public class AutoGenerator {
 
   private FiniteTask cross(Defense defense) {
     if (defense == Defense.PORTCULLIS) {
-      return DefenseRoutines.crossPortcullis(intakeArm, shooterArm, drivetrain, hardware);
+      return (new MoveIntakeArmToAngle(
+          IntakeArmConstants.LOWBAR_ANGLE,
+          intakeArm,
+          hardware
+      ).and(new MoveShooterArmToAngle(
+          ShooterArmConstants.FORWARD_LIMIT,
+          hardware,
+          shooterArm
+      ))).then(new DriveRelative(
+          hardware,
+          IntakeArmConstants.PORTCULLIS_DRIVE_DISTANCE,
+          MAX_FORWARD_SPEED,
+          drivetrain
+      ));
+//      return DefenseRoutines.crossPortcullis(intakeArm, shooterArm, drivetrain, hardware);
     } else if (defense == Defense.CHEVAL) {
       return DefenseRoutines.crossChevalDeFrise(intakeArm, shooterArm, hardware, drivetrain);
     } else if (defense == Defense.MOAT) {
@@ -281,9 +294,9 @@ public class AutoGenerator {
           hardware
       ));
     } else if (startingPosition == 6) {
-      return new FixedTime(4000).andUntilDone(new ContinuousStraightDrive(() -> 0.75, hardware, drivetrain));
+      return new FixedTime(2000).andUntilDone(new ContinuousStraightDrive(() -> 0.75, hardware, drivetrain));
     } else if (startingPosition == 7) {
-      return new FixedTime(4000).andUntilDone(new ContinuousStraightDrive(() -> -0.5, hardware, drivetrain));
+      return new FixedTime(2000).andUntilDone(new ContinuousStraightDrive(() -> -0.5, hardware, drivetrain));
     } else {
       FiniteTask driveUp = new DriveRelative(
           hardware,
@@ -295,6 +308,7 @@ public class AutoGenerator {
       if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
         return driveUp.then(new DriveRelative(hardware, 0.5, MAX_FORWARD_SPEED, drivetrain));
       } else if (defense == Defense.LOWBAR) {
+
         // #ROLLOYOLO
         return (new MoveIntakeArmToAngle(
             IntakeArmConstants.LOWBAR_ANGLE,
@@ -316,15 +330,15 @@ public class AutoGenerator {
 //            ))*/;
       } else {
         return driveUp
-            .then(cross(defense))
-            .then(driveToShootingPosition(startingPosition))
+            .then(cross(defense));
+//            .then(driveToShootingPosition(startingPosition))
             /*.then(ShooterTasks.shootHigh(
                 shooterFlywheel,
                 shooterSecondary,
                 shooterArm,
                 intakeArm,
                 hardware
-            ))*/;
+            ));*/
       }
     }
   }

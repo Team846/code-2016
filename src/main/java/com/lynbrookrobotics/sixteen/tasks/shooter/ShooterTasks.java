@@ -120,7 +120,7 @@ public class ShooterTasks {
         () -> ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
         shooterFlywheel
     ).and(new SpinSecondary(
-        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
+        () -> 1.0,
         shooterSecondary
     )).and(new DirectIntakeRollerSpeed(
         () -> -ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
@@ -132,7 +132,7 @@ public class ShooterTasks {
         shooterFlywheel,
         hardware
     ).then(new SpinSecondaryNoBall(
-        ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
+        1.0,
         ShooterConstants.BALL_PROXIMITY_THRESHOLD,
         shooterSecondary,
         hardware

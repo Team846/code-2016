@@ -23,6 +23,7 @@ public class IntakeArmConstants {
   public static final double TRANSPORT_SETPOINT = 100;
   public static final double SHOOT_HIGH_SETPOINT = 30.0;
 
+  public static final double PORTCULLIS_DRIVE_DISTANCE = 5.928322751274909;
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS_DROP = 0.3609852200848849;
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS_LIFT = 0.29983110397555492;
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS_OUT = 5.267506427214469;

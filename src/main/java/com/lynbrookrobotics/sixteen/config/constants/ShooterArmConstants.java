@@ -14,7 +14,7 @@ public class ShooterArmConstants {
 
   public static final double I_GAIN = 0.0d;
   public static final int I_MEMORY = 1;
-  public static final int SHOOTER_ARM_ERROR = 3;
+  public static final int SHOOTER_ARM_ERROR = 5;
 
   public static final double SHOOT_ANGLE = REVERSE_LIMIT;
 
