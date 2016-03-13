@@ -294,9 +294,9 @@ public class AutoGenerator {
           hardware
       ));
     } else if (startingPosition == 6) {
-      return new FixedTime(2000).andUntilDone(new ContinuousStraightDrive(() -> 0.75, hardware, drivetrain));
+      return new FixedTime(3000).andUntilDone(new ContinuousStraightDrive(() -> 0.75, hardware, drivetrain));
     } else if (startingPosition == 7) {
-      return new FixedTime(2000).andUntilDone(new ContinuousStraightDrive(() -> -0.5, hardware, drivetrain));
+      return new FixedTime(3000).andUntilDone(new ContinuousStraightDrive(() -> -0.5, hardware, drivetrain));
     } else {
       FiniteTask driveUp = new DriveRelative(
           hardware,

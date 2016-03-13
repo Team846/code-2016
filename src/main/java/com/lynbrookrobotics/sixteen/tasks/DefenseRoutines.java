@@ -27,10 +27,14 @@ public class DefenseRoutines {
                                            Drivetrain drivetrain,
                                            RobotHardware robotHardware) {
     return new MoveIntakeArmToAngle(
-        10,
+        IntakeArmConstants.LOWBAR_ANGLE,
         intakeArm,
         robotHardware
-    );
+    ).and(new MoveShooterArmToAngle(
+        ShooterArmConstants.FORWARD_LIMIT,
+        robotHardware,
+        shooterArm
+    ));
 //    return new DriveRelative(robotHardware,
 //        IntakeArmConstants.DRIVING_DISTANCE_TO_PORTCULLIS_DROP,
 //        0.4,
