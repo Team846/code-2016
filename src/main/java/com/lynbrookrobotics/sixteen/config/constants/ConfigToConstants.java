@@ -21,9 +21,17 @@ public class ConfigToConstants {
   private static LinkedList<Field> toSet = null;
   private static Config currentConfig = null;
 
+  /**
+   * Prepares a class for having config values loaded into its fields.
+   * @param clazz the class to load config into
+   * @param conf the config object to get values from
+   */
   public static void loadInto(Class<?> clazz, Config conf) {
     if (!(toSet == null || toSet.isEmpty())) {
-      throw new RuntimeException("Config loading of " + toSet.peekFirst().getDeclaringClass() + " did not load in all variables that were annotated");
+      throw new RuntimeException(
+          "Config loading of "
+              + toSet.peekFirst().getDeclaringClass()
+              + " did not load in all variables that were annotated");
     }
 
     currentConfig = conf;
@@ -44,6 +52,10 @@ public class ConfigToConstants {
     }
   }
 
+  /**
+   * Loads a value from the prepared config into a field.
+   * Must have a call to loadInto at the top of the class.
+   */
   public static <T> T config() {
     Field field = toSet.remove();
     String[] parts = field.getName().split(Pattern.quote("_"));

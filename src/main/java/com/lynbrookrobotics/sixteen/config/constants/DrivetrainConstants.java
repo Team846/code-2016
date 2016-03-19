@@ -1,10 +1,10 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
-import static com.lynbrookrobotics.sixteen.config.constants.ConfigToConstants.*;
+import static com.lynbrookrobotics.sixteen.config.constants.ConfigToConstants.config;
 
 public class DrivetrainConstants {
   static {
-    loadInto(
+    ConfigToConstants.loadInto(
         DrivetrainConstants.class,
         RobotConstants.config.getConfig("drivetrain")
     );
@@ -14,20 +14,26 @@ public class DrivetrainConstants {
   public static final double GEAR_REDUCTION = 2.13;
   public static final double FT_TO_ENC = (360D / (Math.PI * WHEEL_DIAMETER)) * GEAR_REDUCTION;
 
-  @ConfigLoaded public final static double MAX_SPEED_RIGHT = config();
-  @ConfigLoaded public final static double MAX_SPEED_LEFT = config();
+  @ConfigLoaded public static final double MAX_SPEED_RIGHT = config();
+  @ConfigLoaded public static final double MAX_SPEED_LEFT = config();
 
   public static final double MAX_SPEED_FORWARD = Math.min(MAX_SPEED_LEFT, MAX_SPEED_RIGHT);
 
-  @ConfigLoaded public final static double MAX_ROTATIONAL_SPEED = config();
+  @ConfigLoaded public static final double MAX_ROTATIONAL_SPEED = config();
 
-  public static final double SPY_TO_SHOOT = (100 - ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
+  public static final double SPY_TO_SHOOT =
+      (100 - ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM) / 12D;
   public static final double DEFENSE_RAMP_DISTANCE = 23 / 12D;
 
-  public static final double MOAT_FORWARD_DISTANCE = (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
-  public static final double RAMPARTS_FORWARD_DISTANCE = (50 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
-  public static final double ROCKWALL_FORWARD_DISTANCE = (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
-  public static final double ROUGHTERRAIN_FORWARD_DISTANCE = (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
+  public static final double MOAT_FORWARD_DISTANCE =
+      (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM) / 12D;
+  public static final double RAMPARTS_FORWARD_DISTANCE =
+      (50 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM) / 12D;
+  public static final double ROCKWALL_FORWARD_DISTANCE =
+      (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM) / 12D;
+  public static final double ROUGHTERRAIN_FORWARD_DISTANCE =
+      (51 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM) / 12D;
 
-  public static final double LOWBAR_BACKWARD_DISTANCE = -(47.75 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM)/12D;
+  public static final double LOWBAR_BACKWARD_DISTANCE =
+      -(47.75 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM) / 12D;
 }

@@ -1,10 +1,10 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
-import static com.lynbrookrobotics.sixteen.config.constants.ConfigToConstants.*;
+import static com.lynbrookrobotics.sixteen.config.constants.ConfigToConstants.config;
 
 public class ShooterFlywheelConstants {
   static {
-    loadInto(
+    ConfigToConstants.loadInto(
         ShooterFlywheelConstants.class,
         RobotConstants.config.getConfig("shooter-flywheel")
     );
@@ -23,7 +23,6 @@ public class ShooterFlywheelConstants {
   @ConfigLoaded public static final double SHOOT_RPM = config();
   public static final double SHOOT_SECONDARY_POWER = 1;
   public static final double SHOOT_SECONDARY_LOW_POWER = 0.5;
-  public static final double SHOOTER_HAS_THRESHOLD = 0;
 
   public static final double INTAKE_POWER = -0.5;
 }

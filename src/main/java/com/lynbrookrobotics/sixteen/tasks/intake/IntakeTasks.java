@@ -57,7 +57,13 @@ public class IntakeTasks {
                     () -> -IntakeRollerConstants.COLLECT_SPEED, secondary
                 ))))
             ).andUntilDone(
-                new DirectLightsColor(() -> false, () -> 1.0, () -> 0.0, () -> 1.0, RobotConstants.lights).and(new DirectIntakeRollerSpeed(
+                new DirectLightsColor(
+                    () -> false,
+                    () -> 1.0,
+                    () -> 0.0,
+                    () -> 1.0,
+                    RobotConstants.lights
+                ).and(new DirectIntakeRollerSpeed(
                     () -> IntakeRollerConstants.COLLECT_SPEED, roller
                 ))
             )
@@ -70,6 +76,9 @@ public class IntakeTasks {
         )));
   }
 
+  /**
+   * A routine that allows for a stuck boulder to be "popped" out.
+   */
   public static ContinuousTask popOut(IntakeArm arm,
                                       IntakeRoller roller,
                                       DriverControls controls,

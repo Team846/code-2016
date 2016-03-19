@@ -47,7 +47,8 @@ public class RobotConstants {
   public static final int OPERATOR_STICK = 1;
   public static final int DRIVER_WHEEL = 2;
 
-  public static final Config config = ConfigFactory.parseFile(new File("/home/lvuser/constants.conf"));
+  public static final Config config =
+      ConfigFactory.parseFile(new File("/home/lvuser/constants.conf"));
 
   public static final Class[] taskList = {
       DefenseRoutines.class,

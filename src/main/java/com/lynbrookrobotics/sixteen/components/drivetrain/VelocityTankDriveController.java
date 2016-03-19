@@ -13,12 +13,14 @@ public abstract class VelocityTankDriveController extends DrivetrainController {
    */
   public VelocityTankDriveController(RobotHardware hardware) {
     this.leftPID = new PID(
-        () -> hardware.drivetrainHardware.leftEncoder.getSpeed() / DrivetrainConstants.MAX_SPEED_LEFT,
+        () -> hardware.drivetrainHardware.leftEncoder.getSpeed()
+            / DrivetrainConstants.MAX_SPEED_FORWARD,
         () -> this.leftVelocity()
     ).withP(0.01D);
 
     this.rightPID = new PID(
-        () -> hardware.drivetrainHardware.rightEncoder.getSpeed() / DrivetrainConstants.MAX_SPEED_LEFT,
+        () -> hardware.drivetrainHardware.rightEncoder.getSpeed()
+            / DrivetrainConstants.MAX_SPEED_FORWARD,
         () -> this.rightVelocity()
     ).withP(0.01D);
   }

@@ -1,10 +1,10 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
-import static com.lynbrookrobotics.sixteen.config.constants.ConfigToConstants.*;
+import static com.lynbrookrobotics.sixteen.config.constants.ConfigToConstants.config;
 
 public class IntakeRollerConstants {
   static {
-    loadInto(
+    ConfigToConstants.loadInto(
         IntakeRollerConstants.class,
         RobotConstants.config.getConfig("intake-roller")
     );

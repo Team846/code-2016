@@ -11,7 +11,7 @@ public abstract class Encoder {
    */
   public static Encoder  talonEncoder(CANTalon talon, boolean reversed) {
     return new Encoder() {
-      double conversionFactor = -360/8192.0/*-0.34964D*/;
+      double conversionFactor = -360 / 8192.0;
 
       /**
        * Returns the speed in degrees per second.

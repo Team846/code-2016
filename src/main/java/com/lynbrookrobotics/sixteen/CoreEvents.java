@@ -42,28 +42,27 @@ import java.util.TimerTask;
  * CoreEvents class creates events and maps these to handlers.
  */
 public class CoreEvents {
-  DriverControls controls;
-  RobotHardware hardware;
+  private final DriverControls controls;
+  private final RobotHardware hardware;
 
-  Drivetrain drivetrain;
+  private final Drivetrain drivetrain;
 
-  IntakeArm intakeArm;
-  IntakeRoller intakeRoller;
+  private final IntakeArm intakeArm;
+  private final IntakeRoller intakeRoller;
 
-  ShooterArm shooterArm;
-  ShooterFlywheel shooterFlywheel;
-  ShooterSecondary shooterSecondary;
+  private final ShooterArm shooterArm;
+  private final ShooterFlywheel shooterFlywheel;
+  private final ShooterSecondary shooterSecondary;
 
-  Lights lights;
+  private final Lights lights;
 
   boolean initialCalibrationDone = false;
 
   // Game State
-  InGameState disabledStateEvent;
-  InGameState autonomousStateEvent;
-  InGameState enabledStateEvent;
+  private final InGameState autonomousStateEvent;
+  private final InGameState enabledStateEvent;
 
-  FiniteTask transportTask;
+  private final FiniteTask transportTask;
 
   /**
    * Initializes hardware for events.
@@ -91,11 +90,6 @@ public class CoreEvents {
 
     this.lights = lights;
 
-    this.disabledStateEvent = new InGameState(
-        controls.driverStation,
-        InGameState.GameState.DISABLED
-    );
-
     this.autonomousStateEvent = new InGameState(
         controls.driverStation,
         InGameState.GameState.AUTONOMOUS
@@ -110,13 +104,11 @@ public class CoreEvents {
         IntakeArmConstants.TRANSPORT_SETPOINT,
         intakeArm,
         hardware
-    ).and(
-        new MoveShooterArmToAngle(
-            ShooterArmConstants.TRANSPORT_SETPOINT,
-            hardware,
-            shooterArm
-        )
-    );
+    ).and(new MoveShooterArmToAngle(
+        ShooterArmConstants.TRANSPORT_SETPOINT,
+        hardware,
+        shooterArm
+    ));
 
     initEventMappings();
   }
@@ -149,7 +141,6 @@ public class CoreEvents {
       } catch (Exception cameraException) {
         System.out.println("Unable to boot camera stream");
       }
-
     }
 
     // Driver Controls
@@ -293,10 +284,9 @@ public class CoreEvents {
 
       controls.operatorStick
           .onPress(OperatorButtonAssignments.PORTCULLIS)
-          .forEach(DefenseRoutines.crossPortcullis(
+          .forEach(DefenseRoutines.preparePortcullis(
               intakeArm,
               shooterArm,
-              drivetrain,
               hardware
           ));
 
@@ -368,13 +358,15 @@ public class CoreEvents {
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Right Encoder Speed",
-                  () -> hardware.drivetrainHardware.rightEncoder.getSpeed() / DrivetrainConstants.MAX_SPEED_RIGHT));
+                  "Right Encoder Speed (% of max)",
+                  () -> hardware.drivetrainHardware.rightEncoder.getSpeed()
+                      / DrivetrainConstants.MAX_SPEED_FORWARD));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Left Encoder Speed",
-                  () -> hardware.drivetrainHardware.leftEncoder.getSpeed() / DrivetrainConstants.MAX_SPEED_LEFT));
+                  "Left Encoder Speed (% of max)",
+                  () -> hardware.drivetrainHardware.leftEncoder.getSpeed()
+                      / DrivetrainConstants.MAX_SPEED_FORWARD));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
@@ -439,13 +431,11 @@ public class CoreEvents {
                   "Potentiometer Angle",
                   () -> hardware.shooterArmHardware.pot.getAngle()));
 
-//          dashboard.outputText(RobotConstants.system);
-
           System.out.println("FunkyDashboard is up!");
         }
-      } catch (Exception e) {
+      } catch (Exception exception) {
         System.out.println("Funky Dashboard could not load");
-        e.printStackTrace();
+        exception.printStackTrace();
       }
     });
   }
