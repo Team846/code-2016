@@ -1,14 +1,23 @@
 package com.lynbrookrobotics.sixteen.config.constants;
 
+import static com.lynbrookrobotics.sixteen.config.constants.ConfigToConstants.*;
+
 public class IntakeArmConstants {
-  public static final double FORWARD_LIMIT = 3;
-  public static final double REVERSE_LIMIT = 110;
+  static {
+    loadInto(
+        IntakeArmConstants.class,
+        RobotConstants.config.getConfig("intake-arm")
+    );
+  }
 
-  public static final double STOWED_THRESHOLD = 35;
-  public static final double SHOOTER_STOWED_REVERSE_LIMIT = 30;
-  public static final double SHOOTER_LOW_REVERSE_LIMIT = 101;
+  @ConfigLoaded public static final double FORWARD_LIMIT = config();
+  @ConfigLoaded public static final double REVERSE_LIMIT = config();
 
-  public static final double MAX_SPEED = 0.5;
+  @ConfigLoaded public static final double STOWED_THRESHOLD = config();
+  @ConfigLoaded public static final double SHOOTER_STOWED_REVERSE_LIMIT = config();
+  @ConfigLoaded public static final double SHOOTER_LOW_REVERSE_LIMIT = config();
+
+  @ConfigLoaded public static final double MAX_SPEED = config();
 
   // negative because pot increases as arm moves back
   public static final double P_GAIN = -2D / 40;
@@ -19,9 +28,9 @@ public class IntakeArmConstants {
 
   public static final double ARM_ERROR = 3.0;
 
-  public static final double COLLECT_SETPOINT = 35; // setpoints are from forward limit
-  public static final double TRANSPORT_SETPOINT = 100;
-  public static final double SHOOT_HIGH_SETPOINT = 30.0;
+  @ConfigLoaded public static final double COLLECT_SETPOINT = config(); // setpoints are from forward limit
+  @ConfigLoaded public static final double TRANSPORT_SETPOINT = config();
+  @ConfigLoaded public static final double SHOOT_HIGH_SETPOINT = config();
 
   public static final double PORTCULLIS_DRIVE_DISTANCE = 5.928322751274909;
   public static final double DRIVING_DISTANCE_TO_PORTCULLIS_DROP = 0.3609852200848849;
@@ -32,9 +41,9 @@ public class IntakeArmConstants {
   public static final double HIGH_POSITION_PORTCULLIS = 37;
 
   public static final double CHEVAL_HIGH_POSITION = TRANSPORT_SETPOINT;
-  public static final double CHEVAL_LOW_POSITION = 18;
+  @ConfigLoaded public static final double CHEVAL_LOW_POSITION = config();
 
-  public static final double LOWBAR_ANGLE = 10;
+  @ConfigLoaded public static final double LOWBAR_ANGLE = config();
 
   public static final double CHEVAL_DE_FRISE_DRIVE_DISTANCE = 6.274983161038968;
 }

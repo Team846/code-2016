@@ -25,7 +25,11 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheel
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelToRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondaryNoBall;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigObject;
 
+import java.io.File;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -42,6 +46,8 @@ public class RobotConstants {
   public static final int DRIVER_STICK = 0;
   public static final int OPERATOR_STICK = 1;
   public static final int DRIVER_WHEEL = 2;
+
+  public static final Config config = ConfigFactory.parseFile(new File("/home/lvuser/constants.conf"));
 
   public static final Class[] taskList = {
       DefenseRoutines.class,
