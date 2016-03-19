@@ -32,7 +32,7 @@ public class DriveStraightController extends VelocityArcadeDriveController {
     this.maxSpeed = maxSpeed;
 
     this.forwardControl = new PID(
-        () -> hardware.drivetrainHardware.currentDistance(),
+        hardware.drivetrainHardware::currentDistance,
         targetDistance)
         .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
 

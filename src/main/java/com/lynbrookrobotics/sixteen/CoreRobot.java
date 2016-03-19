@@ -41,7 +41,7 @@ public class CoreRobot {
       "Robot hardware loading "
   );
   DriverControls controls = Timing.time(
-      () -> new DriverControls(),
+      DriverControls::new,
       "Driver controls loading "
   );
 

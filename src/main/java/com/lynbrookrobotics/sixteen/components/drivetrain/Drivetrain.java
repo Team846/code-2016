@@ -27,7 +27,7 @@ public class Drivetrain extends Component<DrivetrainController> {
     this.enabledDrive = VelocityArcadeDriveController.of(
         robotHardware,
         () -> -controls.driverStick.getY(),
-        () -> controls.driverWheel.getX()
+        controls.driverWheel::getX
     );
   }
 

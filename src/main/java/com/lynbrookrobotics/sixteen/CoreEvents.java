@@ -157,8 +157,8 @@ public class CoreEvents {
     // Drivetrain - telop control
     if (RobotConstants.HAS_DRIVETRAIN) {
       enabledStateEvent.forEach(
-          () -> drivetrain.resetToDefault(),
-          () -> drivetrain.resetToDefault()
+          drivetrain::resetToDefault,
+          drivetrain::resetToDefault
       );
 
       controls.operatorStick
@@ -371,12 +371,12 @@ public class CoreEvents {
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Right Encoder Position",
-                  () -> hardware.drivetrainHardware.rightEncoder.getAngle()));
+                  hardware.drivetrainHardware.rightEncoder::getAngle));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Left Encoder Position",
-                  () -> hardware.drivetrainHardware.leftEncoder.getAngle()));
+                  hardware.drivetrainHardware.leftEncoder::getAngle));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
@@ -395,13 +395,13 @@ public class CoreEvents {
           dashboard.datasetGroup("intake-arm")
               .addDataset(new TimeSeriesNumeric<>(
                   "Potentiometer Angle",
-                  () -> hardware.intakeArmHardware.pot.getAngle()
+                  hardware.intakeArmHardware.pot::getAngle
               ));
 
           dashboard.datasetGroup("intake-arm")
               .addDataset(new TimeSeriesNumeric<>(
                   "Potentiometer Voltage",
-                  () -> hardware.intakeArmHardware.pot.rawVoltage()
+                  hardware.intakeArmHardware.pot::rawVoltage
               ));
         }
 
@@ -409,27 +409,27 @@ public class CoreEvents {
           dashboard.datasetGroup("shooter")
               .addDataset((new TimeSeriesNumeric<>(
                   "Flywheel RPM",
-                  () -> hardware.shooterSpinnersHardware.hallEffect.getRPM())));
+                  hardware.shooterSpinnersHardware.hallEffect::getRPM)));
 
           dashboard.datasetGroup("shooter")
               .addDataset(new TimeSeriesNumeric<>(
                   "Shooter Flywheel power",
-                  () -> hardware.shooterSpinnersHardware.flywheelMotor.get()));
+                  hardware.shooterSpinnersHardware.flywheelMotor::get));
 
           dashboard.datasetGroup("shooter")
               .addDataset((new TimeSeriesNumeric<>(
                   "Proximity Sensor Average Voltage",
-                  () -> hardware.shooterSpinnersHardware.proximitySensor.getAverageVoltage())));
+                  hardware.shooterSpinnersHardware.proximitySensor::getAverageVoltage)));
 
           dashboard.datasetGroup("shooter")
               .addDataset(new TimeSeriesNumeric<>(
                   "Potentiometer Voltage",
-                  () -> hardware.shooterArmHardware.pot.rawVoltage()));
+                  hardware.shooterArmHardware.pot::rawVoltage));
 
           dashboard.datasetGroup("shooter")
               .addDataset(new TimeSeriesNumeric<>(
                   "Potentiometer Angle",
-                  () -> hardware.shooterArmHardware.pot.getAngle()));
+                  hardware.shooterArmHardware.pot::getAngle));
 
           System.out.println("FunkyDashboard is up!");
         }

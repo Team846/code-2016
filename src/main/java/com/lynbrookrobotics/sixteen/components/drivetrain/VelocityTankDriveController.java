@@ -15,13 +15,13 @@ public abstract class VelocityTankDriveController extends DrivetrainController {
     this.leftPID = new PID(
         () -> hardware.drivetrainHardware.leftEncoder.getSpeed()
             / DrivetrainConstants.MAX_SPEED_FORWARD,
-        () -> this.leftVelocity()
+        this::leftVelocity
     ).withP(0.01D);
 
     this.rightPID = new PID(
         () -> hardware.drivetrainHardware.rightEncoder.getSpeed()
             / DrivetrainConstants.MAX_SPEED_FORWARD,
-        () -> this.rightVelocity()
+        this::rightVelocity
     ).withP(0.01D);
   }
 

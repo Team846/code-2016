@@ -30,8 +30,6 @@ class ADIS16448Protocol {
     static final double MilligaussPerLSB = 1.0 / 7.0;
   }
 
-  // TODO: what is the global command doing?
-  private static final byte[] globalCommand = {0x08, 0};
   private ConstantBufferSPI spi;
 
   public ADIS16448Protocol() {

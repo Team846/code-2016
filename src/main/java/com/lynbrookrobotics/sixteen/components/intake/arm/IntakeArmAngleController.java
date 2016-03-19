@@ -22,7 +22,7 @@ public class IntakeArmAngleController extends IntakeArmController {
   public IntakeArmAngleController(double targetAngle, RobotHardware robotHardware) {
     this.robotHardware = robotHardware;
     this.closeToMax = Math.abs(targetAngle - IntakeArmConstants.FORWARD_LIMIT) <= 5;
-    pid = new PID(() -> robotHardware.intakeArmHardware.pot.getAngle(), targetAngle)
+    pid = new PID(robotHardware.intakeArmHardware.pot::getAngle, targetAngle)
         .withP(IntakeArmConstants.P_GAIN)
         .withI(IntakeArmConstants.I_GAIN, IntakeArmConstants.I_MEMORY)
         .withDeadband(IntakeArmConstants.ARM_ERROR);
