@@ -27,7 +27,6 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSeconda
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondaryNoBall;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import com.typesafe.config.ConfigObject;
 
 import java.io.File;
 import java.util.concurrent.CompletableFuture;

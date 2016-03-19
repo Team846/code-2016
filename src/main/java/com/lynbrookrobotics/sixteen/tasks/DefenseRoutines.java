@@ -61,7 +61,6 @@ public class DefenseRoutines {
    * @return A finite task used to cross the cheval de frise.
    */
   public static FiniteTask crossChevalDeFrise(IntakeArm intakeArm,
-                                              ShooterArm shooterArm,
                                               RobotHardware robotHardware,
                                               Drivetrain drivetrain) {
     return new MoveIntakeArmToAngle(

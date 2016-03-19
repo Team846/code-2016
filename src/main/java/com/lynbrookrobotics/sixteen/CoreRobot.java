@@ -15,7 +15,6 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.VariableConfiguration;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Notifier;
 
 import java.util.function.Supplier;

@@ -86,7 +86,7 @@ public class AutoGenerator {
           hardware
       );
     } else if (defense == Defense.CHEVAL) {
-      return DefenseRoutines.crossChevalDeFrise(intakeArm, shooterArm, hardware, drivetrain);
+      return DefenseRoutines.crossChevalDeFrise(intakeArm, hardware, drivetrain);
     } else if (defense == Defense.MOAT) {
       return new DriveRelative(
           hardware,

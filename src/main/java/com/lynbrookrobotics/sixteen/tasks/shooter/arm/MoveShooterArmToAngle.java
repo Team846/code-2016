@@ -6,7 +6,6 @@ import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArmController;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArmPositionController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
-import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
 /**

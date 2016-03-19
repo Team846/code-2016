@@ -4,7 +4,6 @@ import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeDriveController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveOnHeadingController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.VelocityArcadeDriveController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;

@@ -3,7 +3,6 @@ package com.lynbrookrobotics.sixteen.tasks.jsauto;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 import org.mozilla.javascript.EcmaError;
 

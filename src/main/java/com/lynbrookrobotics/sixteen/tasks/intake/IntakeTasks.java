@@ -2,7 +2,6 @@ package com.lynbrookrobotics.sixteen.tasks.intake;
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
-import com.lynbrookrobotics.sixteen.CoreRobot;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
 import com.lynbrookrobotics.sixteen.components.shooter.arm.ShooterArm;
@@ -81,8 +80,7 @@ public class IntakeTasks {
    */
   public static ContinuousTask popOut(IntakeArm arm,
                                       IntakeRoller roller,
-                                      DriverControls controls,
-                                      RobotHardware hardware) {
+                                      DriverControls controls) {
     return new DirectIntakeRollerSpeed(() -> -1.0, roller).and(
         new DirectIntakeArmSpeed(
             () -> -controls.operatorStick.getY() * IntakeArmConstants.MAX_SPEED,

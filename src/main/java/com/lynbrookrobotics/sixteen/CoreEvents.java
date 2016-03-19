@@ -253,7 +253,7 @@ public class CoreEvents {
 
       controls.operatorStick
           .onHold(OperatorButtonAssignments.POP_OUT)
-          .forEach(IntakeTasks.popOut(intakeArm, intakeRoller, controls, hardware));
+          .forEach(IntakeTasks.popOut(intakeArm, intakeRoller, controls));
     }
 
     if (RobotConstants.HAS_INTAKE && RobotConstants.HAS_SHOOTER) {
@@ -277,7 +277,6 @@ public class CoreEvents {
           .onPress(OperatorButtonAssignments.CHEVAL)
           .forEach(DefenseRoutines.crossChevalDeFrise(
               intakeArm,
-              shooterArm,
               hardware,
               drivetrain
           ));

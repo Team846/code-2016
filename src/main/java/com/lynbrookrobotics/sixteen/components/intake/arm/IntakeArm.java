@@ -22,7 +22,6 @@ public class IntakeArm extends Component<IntakeArmController> {
   public IntakeArm(RobotHardware robotHardware) {
     super(IntakeArmController.of(() -> 0.0));
 
-    ;
     this.robotHardware = robotHardware;
   }
 

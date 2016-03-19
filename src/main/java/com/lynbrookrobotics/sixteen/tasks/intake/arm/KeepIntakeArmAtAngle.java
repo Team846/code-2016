@@ -1,11 +1,9 @@
 package com.lynbrookrobotics.sixteen.tasks.intake.arm;
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
-import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArmAngleController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 
 /**
  * A finite task that moves the intake arm to a certain angle.
