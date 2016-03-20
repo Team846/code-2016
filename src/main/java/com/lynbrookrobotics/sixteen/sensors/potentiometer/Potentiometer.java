@@ -23,17 +23,11 @@ public class Potentiometer {
     return input.getAverageVoltage();
   }
 
-  int tick = 0;
-
   /**
    * Finds the angle that the pot has turned in degrees.
    * @return angle that the pot has turned in degrees
    */
   public double getAngle() {
-    if (tick++ % 200 == 0) {
-      System.out.println(input.getAverageVoltage());
-    }
-
     return (conversionFactor * input.getAverageVoltage())
         - positionOffset;
   }
