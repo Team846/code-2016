@@ -13,11 +13,7 @@ public class DrivetrainConstants {
   public static final double WHEEL_DIAMETER = 1D / 2; // 6 in = 0.5 ft
   public static final double GEAR_REDUCTION = 2.13;
   public static final double FT_TO_ENC = (360D / (Math.PI * WHEEL_DIAMETER)) * GEAR_REDUCTION;
-
-  @ConfigLoaded public static final double MAX_SPEED_RIGHT = config();
-  @ConfigLoaded public static final double MAX_SPEED_LEFT = config();
-
-  public static final double MAX_SPEED_FORWARD = Math.min(MAX_SPEED_LEFT, MAX_SPEED_RIGHT);
+  @ConfigLoaded public static final double MAX_SPEED_FORWARD = config();
 
   @ConfigLoaded public static final double MAX_ROTATIONAL_SPEED = config();
 

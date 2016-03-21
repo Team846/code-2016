@@ -29,7 +29,7 @@ public class DriveRelative extends FiniteTask {
                        double maxSpeed,
                        Drivetrain drivetrain) {
     this.maxSpeed = maxSpeed;
-    this.distance = forwardDistance * DrivetrainConstants.FT_TO_ENC;
+    this.distance = forwardDistance;
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }

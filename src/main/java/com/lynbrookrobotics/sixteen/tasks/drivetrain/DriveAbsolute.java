@@ -4,39 +4,42 @@ import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveDistanceController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
-import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 
 /**
  * Finite task to drive to some position relative to the starting position of the robot, AKA origin.
  */
 public class DriveAbsolute extends FiniteTask {
-  double leftAngleTarget;
-  double rightAngleTarget;
+  double leftDistanceTarget;
+  double rightDistanceTarget;
   DriveDistanceController driveDistanceController;
   RobotHardware hardware;
   Drivetrain drivetrain;
 
-  double errorThreshold = 3; //End the task after 3 degrees
+  double errorThreshold = 1/12D; //End the task after 3 degrees
 
   /**
    * Finite task to drive to some position relative to the starting position.
    * @param hardware Robot hardware
-   * @param leftAngleTarget What angle to turn  the left wheels to
-   * @param rightAngleTarget What angle to turn  the left wheels to.
+   * @param leftDistanceTarget What distance to turn  the left wheels to
+   * @param rightDistanceTarget What distance to turn  the left wheels to.
    * @param drivetrain The drivetrain component
    */
-  public DriveAbsolute(RobotHardware hardware, double leftAngleTarget, double rightAngleTarget,
+  public DriveAbsolute(RobotHardware hardware, double leftDistanceTarget, double rightDistanceTarget,
                        Drivetrain drivetrain) {
-    this.leftAngleTarget = leftAngleTarget * DrivetrainConstants.FT_TO_ENC;
-    this.rightAngleTarget = rightAngleTarget * DrivetrainConstants.FT_TO_ENC;
+    this.leftDistanceTarget = leftDistanceTarget;
+    this.rightDistanceTarget = rightDistanceTarget;
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }
 
   @Override
   public void startTask() {
-    driveDistanceController = new DriveDistanceController(hardware, leftAngleTarget,
-        rightAngleTarget);
+    driveDistanceController = new DriveDistanceController(
+        hardware,
+        leftDistanceTarget,
+        rightDistanceTarget
+    );
+
     drivetrain.setController(driveDistanceController);
   }
 

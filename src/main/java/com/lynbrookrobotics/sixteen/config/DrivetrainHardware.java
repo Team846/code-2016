@@ -1,6 +1,8 @@
 package com.lynbrookrobotics.sixteen.config;
 
+import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
+import com.lynbrookrobotics.sixteen.sensors.encoder.DrivetrainEncoder;
 import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
@@ -17,8 +19,8 @@ public class DrivetrainHardware {
   public final CANTalon backLeftMotor;
   public final CANTalon backRightMotor;
 
-  public final Encoder leftEncoder;
-  public final Encoder rightEncoder;
+  public final DrivetrainEncoder leftEncoder;
+  public final DrivetrainEncoder rightEncoder;
 
   public final GyroL3GD20H gyro;
   public final ADIS16448 imu;
@@ -39,8 +41,17 @@ public class DrivetrainHardware {
     this.backLeftMotor = backLeftMotor;
     this.backRightMotor = backRightMotor;
 
-    this.leftEncoder = Encoder.talonEncoder(frontLeftMotor, false);
-    this.rightEncoder = Encoder.talonEncoder(frontRightMotor, true);
+    this.leftEncoder = new DrivetrainEncoder(
+        Encoder.talonEncoder(frontLeftMotor, true),
+        DrivetrainConstants.GEAR_REDUCTION,
+        DrivetrainConstants.WHEEL_DIAMETER
+    );
+
+    this.rightEncoder = new DrivetrainEncoder(
+        Encoder.talonEncoder(frontRightMotor, false),
+        DrivetrainConstants.GEAR_REDUCTION,
+        DrivetrainConstants.WHEEL_DIAMETER
+    );
 
     this.gyro = gyro;
     this.imu = imu;
@@ -63,10 +74,10 @@ public class DrivetrainHardware {
   }
 
   public double currentDistance() {
-    return (leftEncoder.getAngle() + rightEncoder.getAngle()) / 2;
+    return (leftEncoder.position.ground() + rightEncoder.position.ground()) / 2;
   }
 
   public double currentForwardSpeed() {
-    return (leftEncoder.getSpeed() + rightEncoder.getSpeed()) / 2;
+    return (leftEncoder.velocity.ground() + rightEncoder.velocity.ground()) / 2;
   }
 }

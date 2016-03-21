@@ -18,8 +18,8 @@ public class DriveDistanceController extends DrivetrainController {
   /**
    * Controller that drives to an absolute position.
    * @param hardware The robot hardware
-   * @param leftTargetPosition Target position in terms of degrees that left encoder is turned
-   * @param rightTargetPosition Target position in terms of degrees that left encoder is turned
+   * @param leftTargetPosition Target position in feet
+   * @param rightTargetPosition Target position in feet
    */
   public DriveDistanceController(RobotHardware hardware, double leftTargetPosition,
                                  double rightTargetPosition, double maxSpeed) {
@@ -27,14 +27,14 @@ public class DriveDistanceController extends DrivetrainController {
     this.maxSpeed = maxSpeed;
 
     this.leftSpeedControl = new PID(
-        hardware.drivetrainHardware.leftEncoder::getAngle,
+        hardware.drivetrainHardware.leftEncoder.position::ground,
         leftTargetPosition)
-        .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
+        .withP(1 / 2D);
 
     this.rightSpeedControl = new PID(
-        hardware.drivetrainHardware.rightEncoder::getAngle,
+        hardware.drivetrainHardware.rightEncoder.position::ground,
         rightTargetPosition)
-        .withP(1D / (4 * 90)).withI(1.5D / (90), 0.4);
+        .withP(1D / 2D);
   }
 
   /**

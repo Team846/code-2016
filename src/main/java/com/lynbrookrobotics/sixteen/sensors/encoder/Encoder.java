@@ -9,9 +9,9 @@ public abstract class Encoder {
    * @param talon The talon that the encoder is wired to
    * @return An encoder wired to a Talon. The Talon communicates with CAN
    */
-  public static Encoder  talonEncoder(CANTalon talon, boolean reversed) {
+  public static Encoder talonEncoder(CANTalon talon, boolean reversed) {
     return new Encoder() {
-      double conversionFactor = -360 / 8192.0;
+      double conversionFactor = 360 / 8192.0;
 
       /**
        * Returns the speed in degrees per second.
@@ -19,7 +19,8 @@ public abstract class Encoder {
        */
       @Override
       public double getSpeed() {
-        return (reversed ? -1 : 1) * talon.getSpeed() * conversionFactor;
+        // Talon reports in ticks/100ms
+        return ((reversed ? -1 : 1) * talon.getSpeed() * conversionFactor) * 10;
       }
 
       /**
@@ -41,7 +42,7 @@ public abstract class Encoder {
   public abstract double getSpeed();
 
   /**
-   * Returns the position of the encoder in degrees.
+   * Returns the rotational position of the encoder in degrees.
    *
    * @return The position of the encoder in degrees
    */

@@ -358,36 +358,24 @@ public class CoreEvents {
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Right Encoder Speed (% of max)",
-                  () -> hardware.drivetrainHardware.rightEncoder.getSpeed()
+                  () -> hardware.drivetrainHardware.rightEncoder.velocity.ground()
                       / DrivetrainConstants.MAX_SPEED_FORWARD));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Left Encoder Speed (% of max)",
-                  () -> hardware.drivetrainHardware.leftEncoder.getSpeed()
+                  () -> hardware.drivetrainHardware.leftEncoder.velocity.ground()
                       / DrivetrainConstants.MAX_SPEED_FORWARD));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Right Encoder Position",
-                  hardware.drivetrainHardware.rightEncoder::getAngle));
+                  hardware.drivetrainHardware.rightEncoder.position::ground));
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
                   "Left Encoder Position",
-                  hardware.drivetrainHardware.leftEncoder::getAngle));
-
-          dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Right Encoder Distance",
-                  () -> hardware.drivetrainHardware.rightEncoder.getAngle()
-                      / (DrivetrainConstants.FT_TO_ENC)));
-
-          dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Left Encoder Distance",
-                  () -> hardware.drivetrainHardware.leftEncoder.getAngle()
-                      / (DrivetrainConstants.FT_TO_ENC)));
+                  hardware.drivetrainHardware.leftEncoder.position::ground));
         }
 
         if (RobotConstants.HAS_INTAKE) {
