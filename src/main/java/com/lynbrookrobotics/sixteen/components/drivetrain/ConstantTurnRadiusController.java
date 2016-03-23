@@ -56,7 +56,7 @@ public class ConstantTurnRadiusController extends ClosedTankDriveController  {
    */
   @Override
   public double rightVelocity() {
-    return forwardSpeed.get() * ( 1D
-        - curvature.get() * DrivetrainConstants.TRACK / 2 );
+    return forwardSpeed.get() * ( 1D -
+        curvature.get() * DrivetrainConstants.TRACK / 2 );
   }
 }
