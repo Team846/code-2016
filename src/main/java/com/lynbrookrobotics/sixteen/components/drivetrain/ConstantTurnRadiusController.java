@@ -9,7 +9,8 @@ import java.util.function.Supplier;
  * velocities in feet per second for given curvature ( 1 / radius ) and
  * forward speed suppliers.
  */
-public class ConstantTurnRadiusController extends ClosedTankDriveController  {
+public class ConstantTurnRadiusController extends ClosedTankDriveController {
+  
   RobotHardware hardware;
   Supplier<Double> forwardSpeed;
   Supplier<Double> curvature;
