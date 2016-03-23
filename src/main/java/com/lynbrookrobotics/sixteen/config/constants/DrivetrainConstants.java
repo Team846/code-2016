@@ -34,7 +34,7 @@ public class DrivetrainConstants {
       -(47.75 + ShootingPositionConstants.DISTANCE_WHEEL_BOTTOM) / 12D;
 
   //Track AKA distance between wheels
-  public static final double TRACK = 21.75; //Measured In inches
+  public static final double TRACK = 1.8; //Measured In feet
 
   //Minimum radius is track /  2
   public static final double MAX_CURVATURE = 1D / (TRACK / 2 );
