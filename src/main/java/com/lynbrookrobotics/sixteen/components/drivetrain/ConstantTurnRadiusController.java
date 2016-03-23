@@ -35,28 +35,28 @@ public class ConstantTurnRadiusController extends VelocityTankDriveController  {
   }
 
   /**
-   * Calculates the normalized linear speed of the left wheels
-   * at the ground for a given forward speed and a constant curvature.
-   * AKA calculates wheel speed for turning at a constant radius
+   * Calculates the normalized linear speed of the right wheels
+   * at the ground for a given forward speed and a constant curvature. AKA
+   * calculates wheel speed while turning at a constant radius
    * @return the linear speed of the left wheels at the ground for the given
    * curvature and forward speed
    */
   @Override
   public double leftVelocity() {
-    return forwardSpeed.get() * ( 1D +
-        curvature.get() * DrivetrainConstants.TRACK / 2 );
+    return forwardSpeed.get() * ( 1D
+        + curvature.get() * DrivetrainConstants.TRACK / 2 );
   }
 
   /**
-   * Calculates the normalized linear speed of the right wheels in feet per second
+   * Calculates the normalized linear speed of the right wheels
    * at the ground for a given forward speed and a constant curvature. AKA
-   * calculates wheel speed for turning at a constant radius
+   * calculates wheel speed while turning at a constant radius
    * @return the linear speed of the right wheels at the ground for the given
    * curvature and forward speed
    */
   @Override
   public double rightVelocity() {
-    return forwardSpeed.get() * ( 1D -
-        curvature.get() * DrivetrainConstants.TRACK / 2 );
+    return forwardSpeed.get() * ( 1D
+        - curvature.get() * DrivetrainConstants.TRACK / 2 );
   }
 }
