@@ -1,7 +1,12 @@
 language: scala
 jdk: oraclejdk8
+sudo: false
 compiler:
   - gcc
+cache:
+  directories:
+    - opencv-build-3.1.0/bin
+    - opencv-build-3.1.0/lib
 before_script:
   - 'bash ./install-opencv.sh'
 script:
