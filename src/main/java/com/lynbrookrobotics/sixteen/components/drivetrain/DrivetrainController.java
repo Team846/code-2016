@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen.components.drivetrain;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -9,16 +10,16 @@ public abstract class DrivetrainController {
   /**
    * Constructs a DrivetrainController given lambdas for each side.
    */
-  public static DrivetrainController of(Supplier<Double> left,
-                                        Supplier<Double> right) {
+  public static DrivetrainController of(Supplier<Optional<Double>> left,
+                                        Supplier<Optional<Double>> right) {
     return new DrivetrainController() {
       @Override
-      public double leftPower() {
+      public Optional<Double> leftPower() {
         return left.get();
       }
 
       @Override
-      public double rightPower() {
+      public Optional<Double> rightPower() {
         return right.get();
       }
     };
@@ -26,13 +27,13 @@ public abstract class DrivetrainController {
 
   /**
    * Gets the left side speed.
-   * @return the current speed of the left side as a normalized value
+   * @return the current speed of the left side as a normalized value or none if braking
    */
-  public abstract double leftPower();
+  public abstract Optional<Double> leftPower();
 
   /**
    * Gets the right side speed.
    * @return the current speed of the right side as a normalized value
    */
-  public abstract double rightPower();
+  public abstract Optional<Double> rightPower();
 }

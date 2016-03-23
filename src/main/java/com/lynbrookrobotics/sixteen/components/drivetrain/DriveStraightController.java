@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 /**
  * A controller that drives to an absolute position of the robot, AKA origin.
  */
-public class DriveStraightController extends VelocityArcadeDriveController {
+public class DriveStraightController extends ClosedArcadeDriveController {
   RobotHardware hardware;
 
   private PID forwardControl;

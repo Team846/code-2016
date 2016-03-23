@@ -3,7 +3,7 @@ package com.lynbrookrobotics.sixteen.tasks.drivetrain;
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.ArcadeDriveController;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
-import com.lynbrookrobotics.sixteen.components.drivetrain.VelocityArcadeDriveController;
+import com.lynbrookrobotics.sixteen.components.drivetrain.ClosedArcadeDriveController;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
@@ -24,7 +24,7 @@ public class ContinuousDrive extends ContinuousTask {
                          Supplier<Double> turn,
                          RobotHardware hardware,
                          Drivetrain drivetrain) {
-    this.controller = VelocityArcadeDriveController.of(hardware, forward, turn);
+    this.controller = ClosedArcadeDriveController.of(hardware, forward, turn);
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }

@@ -4,7 +4,7 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 import java.util.function.Supplier;
 
-public abstract class ArcadeDriveController extends VelocityTankDriveController {
+public abstract class ArcadeDriveController extends ClosedTankDriveController {
   /**
    * Creates a new tank-drive style controller based on two suppliers.
    *

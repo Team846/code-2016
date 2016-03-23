@@ -5,6 +5,8 @@ import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.DrivetrainHardware;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
+import java.util.Optional;
+
 /**
  * The component representing the drivetrain of the robot.
  * Made up of two independently controlled sides that allows for tank-style control.
@@ -19,44 +21,28 @@ public class Drivetrain extends Component<DrivetrainController> {
    * @param robotHardware the hardware to use
    */
   public Drivetrain(RobotHardware robotHardware, DriverControls controls) {
-    super(DrivetrainController.of(() -> 0.0, () -> 0.0));
+    super(DrivetrainController.of(() -> Optional.of(0.0), () -> Optional.of(0.0)));
 
     this.hardware = robotHardware.drivetrainHardware;
     this.controls = controls;
 
-    this.enabledDrive = VelocityArcadeDriveController.of(
+    this.enabledDrive = ClosedArcadeDriveController.of(
         robotHardware,
         () -> -controls.driverStick.getY(),
         controls.driverWheel::getX
     );
   }
 
-  private boolean forceBrake = false;
-
-  public void setForceBrake(boolean brake) {
-    forceBrake = brake;
-  }
-
-  private int ditheredTick = 0;
-
   @Override
   public void setOutputs(DrivetrainController drivetrainController) {
-    final double left = forceBrake ? 0 : drivetrainController.leftPower();
-    final double right = forceBrake ? 0 : drivetrainController.rightPower();
+    final double left = drivetrainController.leftPower().orElse(0.0);
+    final double right = drivetrainController.rightPower().orElse(0.0);
 
-    if (controls.driverStation.isEnabled()) {
-      if ((ditheredTick++ % 20) == 0 || forceBrake) {
-        hardware.frontLeftMotor.enableBrakeMode(true);
-        hardware.backLeftMotor.enableBrakeMode(true);
-        hardware.frontRightMotor.enableBrakeMode(true);
-        hardware.backRightMotor.enableBrakeMode(true);
-      } else {
-        hardware.frontLeftMotor.enableBrakeMode(false);
-        hardware.backLeftMotor.enableBrakeMode(false);
-        hardware.frontRightMotor.enableBrakeMode(false);
-        hardware.backRightMotor.enableBrakeMode(false);
-      }
-    }
+    hardware.frontLeftMotor.enableBrakeMode(!drivetrainController.leftPower().isPresent());
+    hardware.backLeftMotor.enableBrakeMode(!drivetrainController.leftPower().isPresent());
+
+    hardware.frontRightMotor.enableBrakeMode(!drivetrainController.rightPower().isPresent());
+    hardware.backRightMotor.enableBrakeMode(!drivetrainController.rightPower().isPresent());
 
     hardware.frontLeftMotor.set(left);
     hardware.backLeftMotor.set(left);

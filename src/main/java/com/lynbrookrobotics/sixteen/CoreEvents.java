@@ -5,6 +5,7 @@ import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
+import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
 import com.lynbrookrobotics.sixteen.components.intake.roller.IntakeRoller;
 import com.lynbrookrobotics.sixteen.components.lights.Lights;
@@ -19,6 +20,7 @@ import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
+import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
@@ -31,10 +33,12 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywhe
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 import com.ni.vision.NIVision;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -164,8 +168,8 @@ public class CoreEvents {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.FREEZE_DRIVETRAIN)
           .forEach(
-            () -> drivetrain.setForceBrake(true),
-            () -> drivetrain.setForceBrake(false));
+            () -> drivetrain.setController(DrivetrainController.of(() -> Optional.empty(), () -> Optional.empty())),
+            () -> drivetrain.resetToDefault());
     }
 
     // Overrides
@@ -417,9 +421,14 @@ public class CoreEvents {
               .addDataset(new TimeSeriesNumeric<>(
                   "Potentiometer Angle",
                   hardware.shooterArmHardware.pot::getAngle));
-
-          System.out.println("FunkyDashboard is up!");
         }
+
+        dashboard.datasetGroup("pot-baseline")
+            .addDataset(new TimeSeriesNumeric<>(
+                "Input Voltage",
+                Potentiometer.baseline::getAverageVoltage));
+
+        System.out.println("FunkyDashboard is up!");
       } catch (Exception exception) {
         System.out.println("Funky Dashboard could not load");
         exception.printStackTrace();

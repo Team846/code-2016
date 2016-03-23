@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
  * Class for the guitar potentiometer with part number 987-1325.
  */
 public class Potentiometer {
+  public static final AnalogInput baseline = new AnalogInput(3);
+
   AnalogInput input;
   double conversionFactor = 90D / (2.568359 - 0.71533);
   double positionOffset;
@@ -20,7 +22,7 @@ public class Potentiometer {
   }
 
   public double rawVoltage() {
-    return input.getAverageVoltage();
+    return (input.getAverageVoltage() / baseline.getAverageVoltage()) * 5D;
   }
 
   /**

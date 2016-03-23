@@ -28,7 +28,7 @@ public class SpinUntilBall extends FiniteTask {
                        ShooterSecondary shooterSecondary) {
     this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
     this.controllerFlywheel = ShooterFlywheelController.of(
-        () -> ShooterFlywheelConstants.INTAKE_POWER);
+        () -> -0.75);
     this.controllerSecondary = ShooterSecondaryController.of(
         () -> ShooterFlywheelConstants.INTAKE_POWER);
     this.shooterFlywheel = shooterFlywheel;

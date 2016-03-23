@@ -4,6 +4,8 @@ import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 
+import java.util.Optional;
+
 /**
  * A controller that drives to an absolute position of the robot, AKA origin.
  */
@@ -49,17 +51,16 @@ public class DriveDistanceController extends DrivetrainController {
   }
 
   @Override
-  public double leftPower() {
-    return RobotConstants.clamp(leftSpeedControl.get(), -maxSpeed, maxSpeed);
+  public Optional<Double> leftPower() {
+    return Optional.of(RobotConstants.clamp(leftSpeedControl.get(), -maxSpeed, maxSpeed));
   }
 
   @Override
-  public double rightPower() {
-    return RobotConstants.clamp(rightSpeedControl.get(), -maxSpeed, maxSpeed);
+  public Optional<Double> rightPower() {
+    return Optional.of(RobotConstants.clamp(rightSpeedControl.get(), -maxSpeed, maxSpeed));
   }
 
   public double error() {
     return Math.abs(leftSpeedControl.difference()) + Math.abs(rightSpeedControl.difference());
   }
-
 }

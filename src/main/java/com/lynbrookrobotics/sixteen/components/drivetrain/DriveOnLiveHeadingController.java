@@ -6,7 +6,7 @@ import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.control.pid.PID;
 import com.lynbrookrobotics.sixteen.sensors.digitalgyro.DigitalGyro;
 
-public abstract class DriveOnLiveHeadingController extends VelocityArcadeDriveController {
+public abstract class DriveOnLiveHeadingController extends ClosedArcadeDriveController {
   private PID angleControl;
 
   RobotHardware hardware;

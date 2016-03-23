@@ -6,17 +6,17 @@ import com.lynbrookrobotics.sixteen.control.pid.PID;
 
 import java.util.function.Supplier;
 
-public abstract class VelocityArcadeDriveController extends ArcadeDriveController {
+public abstract class ClosedArcadeDriveController extends ArcadeDriveController {
   /**
    * Creates a new tank-drive style controller based on two suppliers.
    *
    * @param forwardSpeed the speed to move forward
    * @param turnSpeed    the speed to turn at where positive is to the right
    */
-  public static VelocityArcadeDriveController of(RobotHardware hardware,
-                                                 Supplier<Double> forwardSpeed,
-                                                 Supplier<Double> turnSpeed) {
-    return new VelocityArcadeDriveController(hardware) {
+  public static ClosedArcadeDriveController of(RobotHardware hardware,
+                                               Supplier<Double> forwardSpeed,
+                                               Supplier<Double> turnSpeed) {
+    return new ClosedArcadeDriveController(hardware) {
       @Override
       public double forwardVelocity() {
         return forwardSpeed.get();
@@ -35,7 +35,7 @@ public abstract class VelocityArcadeDriveController extends ArcadeDriveControlle
   /**
    * Constructs a drivetrain controller that uses closed loop on forward and turning speed.
    */
-  public VelocityArcadeDriveController(RobotHardware hardware) {
+  public ClosedArcadeDriveController(RobotHardware hardware) {
     super(hardware);
 
     this.forwardControl = new PID(
@@ -48,7 +48,7 @@ public abstract class VelocityArcadeDriveController extends ArcadeDriveControlle
         () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()
             / DrivetrainConstants.MAX_ROTATIONAL_SPEED,
         this::turnVelocity
-    ).withP(0.1D);
+    ).withP(0.25D);
   }
 
   public abstract double forwardVelocity();
