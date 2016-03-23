@@ -18,13 +18,22 @@ public class WaitForRPM extends FiniteTask {
     this.hardware = hardware;
   }
 
+  private long startTime = 0;
+
   @Override
   protected void startTask() {
+    startTime = System.currentTimeMillis();
   }
 
   @Override
   protected void update() {
-    double error = Math.abs(hardware.shooterSpinnersHardware.hallEffect.getRPM() - targetRPM);
+    double curRPM = hardware.shooterSpinnersHardware.hallEffect.getRPM();
+    if (System.currentTimeMillis() > startTime + 1000 && curRPM < Math.min(targetRPM, 250)) {
+      hardware.shooterSpinnersHardware.hallEffect.markNotWorking();
+    }
+
+    double error = Math.abs( - targetRPM);
+
     if (error <= THRESHOLD_RPM) {
       finished();
     }

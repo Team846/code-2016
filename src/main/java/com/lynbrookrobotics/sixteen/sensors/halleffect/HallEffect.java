@@ -8,8 +8,19 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class HallEffect extends Counter {
   DigitalInput source;
   private static final double memory = 0.6;
-  double lastRPM = 0;
+  double curRPM = 0;
   double averageRPM = 0;
+
+  boolean working = true;
+
+  public void markNotWorking() {
+    System.out.println("ERROR ERROR: HALL EFFECT IS NOT WORKING");
+    working = false;
+  }
+
+  public boolean working() {
+    return working;
+  }
 
   /**
    * Constructs a hall effect sensor reading from the given DIO channel.
@@ -24,16 +35,16 @@ public class HallEffect extends Counter {
    * Gets the RPM measured by the sensor.
    */
   public double getRPM() {
-    double curRPM = 60 / getPeriod();
+    double reported = 60 / getPeriod();
     if (getStopped()) {
-      curRPM = 0;
+      reported = 0;
     }
 
-    if (curRPM < 20000 && (curRPM - averageRPM) <= ShooterFlywheelConstants.MAX_RPM) {
-      lastRPM = curRPM;
+    if (reported < 20000 && (reported - averageRPM) <= ShooterFlywheelConstants.MAX_RPM) {
+      curRPM = reported;
     }
 
-    averageRPM = (averageRPM * memory) + (lastRPM * (1D - memory));
+    averageRPM = (averageRPM * memory) + (curRPM * (1D - memory));
     return averageRPM;
   }
 }
