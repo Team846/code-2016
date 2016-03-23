@@ -5,8 +5,7 @@ compiler:
   - gcc
 cache:
   directories:
-    - opencv-build-3.1.0/bin
-    - opencv-build-3.1.0/lib
+    - opencv-build-3.1.0
 before_script:
   - 'bash ./install-opencv.sh'
 script:

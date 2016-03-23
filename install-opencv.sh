@@ -1,4 +1,4 @@
-if [ ! -d "opencv-build-3.1.0" ]; then
+if [ ! -d "opencv-build-3.1.0/bin" ]; then
   git clone https://github.com/Itseez/opencv.git
   cd opencv
   git checkout tags/3.1.0
