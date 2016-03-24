@@ -25,8 +25,7 @@ public class ConstantTurnRadiusController extends ClosedTankDriveController {
    */
   public ConstantTurnRadiusController(RobotHardware hardware,
                                       Supplier<Double> forwardSpeed,
-                                      Supplier<Double> curvature
-  ) {
+                                      Supplier<Double> curvature) {
     super(hardware);
 
     this.hardware = hardware;

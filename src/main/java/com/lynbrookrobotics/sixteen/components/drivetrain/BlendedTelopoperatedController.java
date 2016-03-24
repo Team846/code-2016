@@ -28,7 +28,6 @@ public class BlendedTelopoperatedController extends ClosedTankDriveController {
     this.forwardSpeed = forwardSpeed;
     this.curvature = () -> turnInput.get() * DrivetrainConstants.MAX_CURVATURE;
 
-    // Turning speed is normalized curvature
     this.arcadeDriveController = ArcadeDriveController.of(hardware,
         forwardSpeed,
         turnInput);
