@@ -10,7 +10,6 @@ import java.util.function.Supplier;
  * forward speed suppliers.
  */
 public class ConstantTurnRadiusController extends ClosedTankDriveController {
-  
   RobotHardware hardware;
   Supplier<Double> forwardSpeed;
   Supplier<Double> curvature;
