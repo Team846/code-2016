@@ -9,14 +9,15 @@ import java.util.function.Supplier;
  * A controller that blends outputs of turning in place controller (arcadeDrive)
  * and turning at a constant radius to make control drive intuitive
  */
-public class BlendedTelopoperatedController extends VelocityTankDriveController{
+public class BlendedTelopoperatedController extends ClosedArcadeDriveController {
   Supplier<Double> forwardSpeed;
   Supplier<Double> curvature;
 
   ArcadeDriveController arcadeDriveController;
   ConstantTurnRadiusController constantTurnRadiusController;
 
-  /** Constructs a blended Blended Teloperatored Controller
+  /**
+   * Constructs a blended Blended Teloperatored Controller
    * @param turnInput -1 to 1, turning wheel input
    */
   public BlendedTelopoperatedController(RobotHardware hardware,
@@ -28,7 +29,7 @@ public class BlendedTelopoperatedController extends VelocityTankDriveController{
     this.curvature = () -> turnInput.get() * DrivetrainConstants.MAX_CURVATURE;
 
     // Turning speed is normalized curvature
-    this.arcadeDriveController = arcadeDriveController.of(hardware,
+    this.arcadeDriveController = ArcadeDriveController.of(hardware,
         forwardSpeed,
         turnInput);
 
@@ -39,7 +40,7 @@ public class BlendedTelopoperatedController extends VelocityTankDriveController{
   }
 
   /**
-   *  blend function is square root of forward speed, then weighted average of
+   *  Blend function is square root of forward speed, then weighted average of
    *  turn in place and constant radius outputs.
    * @param forwardSpeed How much to blend by based on forward speed
    * @param turnInPlaceOutput Turn in place output
@@ -83,4 +84,13 @@ public class BlendedTelopoperatedController extends VelocityTankDriveController{
         constantTurnRadiusController.rightVelocity());
   }
 
+  @Override
+  public double turnSpeed() {
+    return super.turnSpeed();
+  }
+
+  @Override
+  public double forwardSpeed() {
+    return super.forwardSpeed();
+  }
 }
