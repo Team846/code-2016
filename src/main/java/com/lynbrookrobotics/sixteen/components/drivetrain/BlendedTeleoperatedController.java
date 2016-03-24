@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  * A controller that blends outputs of turning in place controller (arcadeDrive)
  * and turning at a constant radius to make control drive intuitive.
  */
-public class BlendedTelopoperatedController extends ClosedTankDriveController {
+public class BlendedTeleoperatedController extends ClosedTankDriveController {
   Supplier<Double> forwardSpeed;
   Supplier<Double> curvature;
 
@@ -20,9 +20,9 @@ public class BlendedTelopoperatedController extends ClosedTankDriveController {
    * Constructs a blended Blended Teloperatored Controller
    * @param turnInput -1 to 1, turning wheel input.
    */
-  public BlendedTelopoperatedController(RobotHardware hardware,
-                                        Supplier<Double> forwardSpeed,
-                                        Supplier<Double> turnInput) {
+  public BlendedTeleoperatedController(RobotHardware hardware,
+                                       Supplier<Double> forwardSpeed,
+                                       Supplier<Double> turnInput) {
     super(hardware);
 
     this.forwardSpeed = forwardSpeed;
