@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  * A controller that blends outputs of turning in place controller (arcadeDrive)
  * and turning at a constant radius to make control drive intuitive
  */
-public class BlendedTelopoperatedController extends ClosedArcadeDriveController {
+public class BlendedTelopoperatedController extends ClosedTankDriveController {
   Supplier<Double> forwardSpeed;
   Supplier<Double> curvature;
 
@@ -82,15 +82,5 @@ public class BlendedTelopoperatedController extends ClosedArcadeDriveController 
   public double rightVelocity() {
     return blend(forwardSpeed.get(), arcadeDriveController.rightVelocity(),
         constantTurnRadiusController.rightVelocity());
-  }
-
-  @Override
-  public double turnSpeed() {
-    return super.turnSpeed();
-  }
-
-  @Override
-  public double forwardSpeed() {
-    return super.forwardSpeed();
   }
 }
