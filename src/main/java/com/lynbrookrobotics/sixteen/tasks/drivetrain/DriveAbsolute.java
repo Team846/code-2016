@@ -15,7 +15,7 @@ public class DriveAbsolute extends FiniteTask {
   RobotHardware hardware;
   Drivetrain drivetrain;
 
-  double errorThreshold = 1/12D; //End the task after 3 degrees
+  double errorThreshold = 1 / 12D; // end if within one inch
 
   /**
    * Finite task to drive to some position relative to the starting position.
@@ -24,7 +24,8 @@ public class DriveAbsolute extends FiniteTask {
    * @param rightDistanceTarget What distance to turn  the left wheels to.
    * @param drivetrain The drivetrain component
    */
-  public DriveAbsolute(RobotHardware hardware, double leftDistanceTarget, double rightDistanceTarget,
+  public DriveAbsolute(RobotHardware hardware,
+                       double leftDistanceTarget, double rightDistanceTarget,
                        Drivetrain drivetrain) {
     this.leftDistanceTarget = leftDistanceTarget;
     this.rightDistanceTarget = rightDistanceTarget;

@@ -11,7 +11,12 @@ public class DrivetrainPipeline {
   private double gearReduction;
   private double wheelDiameter;
 
-  public DrivetrainPipeline(Supplier<Double> encoderAngle, double gearReduction, double wheelDiameter) {
+  /**
+   * Constructs a pipeline for converting encoder degrees to drivetrain units.
+   */
+  public DrivetrainPipeline(Supplier<Double> encoderAngle,
+                            double gearReduction,
+                            double wheelDiameter) {
     this.encoderAngle = encoderAngle;
     this.gearReduction = gearReduction;
     this.wheelDiameter = wheelDiameter;

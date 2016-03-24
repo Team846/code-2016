@@ -168,7 +168,10 @@ public class CoreEvents {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.FREEZE_DRIVETRAIN)
           .forEach(
-            () -> drivetrain.setController(DrivetrainController.of(() -> Optional.empty(), () -> Optional.empty())),
+            () -> drivetrain.setController(DrivetrainController.of(
+                () -> Optional.empty(),
+                () -> Optional.empty()
+            )),
             () -> drivetrain.resetToDefault());
     }
 
