@@ -19,6 +19,7 @@ import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.lights.DirectLightsColor;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
+import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.CollectMinMax;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelAtRPM;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.SpinFlywheelToRPM;
@@ -77,10 +78,10 @@ public class ShooterTasks {
           ShooterConstants.BALL_PROXIMITY_THRESHOLD,
           shooterSecondary,
           hardware
-        )).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
+        ).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
             () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
             shooterSecondary
-        )));
+        ))).andUntilDone(new CollectMinMax(hardware)));
 
     return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
         true,
