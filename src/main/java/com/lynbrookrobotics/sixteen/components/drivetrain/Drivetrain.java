@@ -26,8 +26,7 @@ public class Drivetrain extends Component<DrivetrainController> {
     this.hardware = robotHardware.drivetrainHardware;
     this.controls = controls;
 
-    this.enabledDrive = ClosedArcadeDriveController.of(
-        robotHardware,
+    this.enabledDrive = new BlendedTeleoperatedController(robotHardware,
         () -> -controls.driverStick.getY(),
         controls.driverWheel::getX
     );
