@@ -2,7 +2,7 @@ package com.lynbrookrobotics.sixteen.sensors.digitalgyro;
 
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.sensors.Value3D;
-import com.lynbrookrobotics.sixteen.Value3DLogEntry;
+import com.lynbrookrobotics.sixteen.sensors.Value3DLogEntry;
 
 import java.util.ArrayList;
 
