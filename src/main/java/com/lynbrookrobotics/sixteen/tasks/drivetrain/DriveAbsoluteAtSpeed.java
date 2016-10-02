@@ -24,8 +24,8 @@ public class DriveAbsoluteAtSpeed extends FiniteTask {
     /**
      * Finite task to drive to some position relative to the starting position.
      * @param hardware Robot hardware
-     * @param leftDistanceTarget What distance to turn  the left wheels to
-     * @param rightDistanceTarget What distance to turn  the left wheels to.
+     * @param leftDistanceTarget What forwardTravel to turn  the left wheels to
+     * @param rightDistanceTarget What forwardTravel to turn  the left wheels to.
      * @param drivetrain The drivetrain component
      */
     public DriveAbsoluteAtSpeed(RobotHardware hardware,

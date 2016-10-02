@@ -18,6 +18,7 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.AimForShot;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.ContinuousStraightDrive;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelative;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelativeAndAim;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.DriveRelativeAtSpeed;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.KeepIntakeArmAtAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
@@ -90,14 +91,14 @@ public class AutoGenerator {
     } else if (defense == Defense.CHEVAL) {
       return DefenseRoutines.crossChevalDeFrise(intakeArm, hardware, drivetrain);
     } else if (defense == Defense.MOAT) {
-      return new DriveRelative(
+      return new DriveRelativeAtSpeed(
           hardware,
           DrivetrainConstants.DEFENSE_RAMP_DISTANCE + DrivetrainConstants.MOAT_FORWARD_DISTANCE,
           0.75,
           drivetrain
       );
     } else if (defense == Defense.RAMPARTS) {
-      return new DriveRelative(
+      return new DriveRelativeAtSpeed(
           hardware,
           DrivetrainConstants.RAMPARTS_FORWARD_DISTANCE,
           MAX_FORWARD_SPEED,
@@ -108,14 +109,14 @@ public class AutoGenerator {
     } else if (defense == Defense.SALLYPORT) {
       return immediateEnd;
     } else if (defense == Defense.ROCKWALL) {
-      return new DriveRelative(
+      return new DriveRelativeAtSpeed(
           hardware,
           DrivetrainConstants.DEFENSE_RAMP_DISTANCE + DrivetrainConstants.ROCKWALL_FORWARD_DISTANCE,
           0.75,
           drivetrain
       );
     } else if (defense == Defense.ROUGHTERRAIN) {
-      return new DriveRelative(
+      return new DriveRelativeAtSpeed(
           hardware,
           DrivetrainConstants.ROUGHTERRAIN_FORWARD_DISTANCE,
           MAX_FORWARD_SPEED,
@@ -130,7 +131,7 @@ public class AutoGenerator {
           ShooterArmConstants.FORWARD_LIMIT,
           hardware,
           shooterArm
-      ))).then(new DriveRelative(
+      ))).then(new DriveRelativeAtSpeed(
           hardware,
           DrivetrainConstants.DEFENSE_RAMP_DISTANCE + DrivetrainConstants.LOWBAR_DISTANCE,
           0.25,
@@ -304,7 +305,7 @@ public class AutoGenerator {
           drivetrain
       ));
     } else {
-      FiniteTask driveUp = new DriveRelative(
+      FiniteTask driveUp = new DriveRelativeAtSpeed(
           hardware,
           DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
           MAX_FORWARD_SPEED,
@@ -339,7 +340,7 @@ public class AutoGenerator {
       }
 
       if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
-        return driveUp.then(new DriveRelative(hardware, 0.5, MAX_FORWARD_SPEED, drivetrain));
+        return driveUp.then(new DriveRelativeAtSpeed(hardware, 0.5, MAX_FORWARD_SPEED, drivetrain));
       } else {
         return driveUp.then(cross(defense)).then(driveToShootingPosition(startingPosition).andUntilDone(ShooterTasks.prepareShootHigh(
             shooterFlywheel,
