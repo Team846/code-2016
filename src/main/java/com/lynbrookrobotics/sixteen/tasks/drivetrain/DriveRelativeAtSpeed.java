@@ -5,7 +5,7 @@ import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 
 /**
- * Identicl to DriveRelative, except that a constant velocity is maintained throughout the task
+ * Identical to DriveRelative, except that a constant velocity is maintained throughout the task
  */
 public class DriveRelativeAtSpeed extends DriveRelative{
   double cruisingSpeed;
@@ -15,6 +15,9 @@ public class DriveRelativeAtSpeed extends DriveRelative{
     this.cruisingSpeed = cruisingSpeed;
   }
 
+  /**
+   * Identical to super implementation, except that controller is DriveStraightAtSpeedController
+   */
   @Override
   public void startTask() {
     double currentDistance = hardware.drivetrainHardware.currentDistance();

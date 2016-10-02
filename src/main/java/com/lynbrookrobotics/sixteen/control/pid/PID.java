@@ -14,6 +14,8 @@ public class PID {
   private double dGain = 0;
   private double deadband = 0;
 
+  private double feedFoward = 0;
+
   private double iMemory;
   private double lastError = 0;
 
@@ -70,6 +72,19 @@ public class PID {
   public PID withD(double gain) {
     dGain = gain;
 
+    return this;
+  }
+
+  /**
+   * Adds a feedFoward component to the controller, which is use
+   * @param feedForward the normalized feed forward
+   */
+  public PID withFeedForward(double feedForward) {
+    if( Math.abs(feedForward) > 1) {
+      throw new IllegalArgumentException("Feedfoward must be be normalized (between -1 and 1)");
+    }
+
+    this.feedFoward = feedForward;
     return this;
   }
 

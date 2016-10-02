@@ -33,8 +33,7 @@ public class DriveStraightAtSpeedController extends DriveStraightController {
         this.forwardControl = new PID(
                 hardware.drivetrainHardware::currentForwardSpeed,
                 cruisingSpeed * DrivetrainConstants.MAX_SPEED_FORWARD
-        ).withP(1 / DrivetrainConstants.MAX_SPEED_FORWARD)
-                                .withFeedForward(cruisingSpeed);
+        ).withP(1 / DrivetrainConstants.MAX_SPEED_FORWARD).withFeedForward(cruisingSpeed);
     }
 
     @Override
