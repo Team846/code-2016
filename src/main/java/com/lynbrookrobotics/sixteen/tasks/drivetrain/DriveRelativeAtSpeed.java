@@ -17,8 +17,6 @@ public class DriveRelativeAtSpeed extends FiniteTask{
   double targetPosition;
   double targetAngle;
 
-  int ticksOnTarget;
-
   DriveOnHeadingController controller;
   private double errorThresholdForward =  1D/12;
   private double errorThresholdTurn = 3;
@@ -36,8 +34,6 @@ public class DriveRelativeAtSpeed extends FiniteTask{
   public void startTask() {
     targetPosition = hardware.drivetrainHardware.currentDistance() + forwardDistance;
     targetAngle = hardware.drivetrainHardware.mainGyro.currentPosition().valueZ();
-
-    ticksOnTarget = 0;
 
     controller = new DriveOnHeadingController(
         targetAngle,
@@ -59,5 +55,4 @@ public class DriveRelativeAtSpeed extends FiniteTask{
   public void endTask() {
     drivetrain.resetToDefault();
   }
-
 }
