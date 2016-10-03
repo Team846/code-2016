@@ -29,7 +29,6 @@ import com.lynbrookrobotics.sixteen.tasks.intake.roller.DirectIntakeRollerSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.ShooterTasks;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.DirectShooterArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
-import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.CollectMinMax;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
 import com.ni.vision.NIVision;
@@ -447,8 +446,13 @@ public class CoreEvents {
 
           dashboard.datasetGroup("shooter")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Shooter Flywheel power",
-                  hardware.shooterSpinnersHardware.flywheelMotor::get));
+                  "Shooter Left Flywheel power",
+                  hardware.shooterSpinnersHardware.flywheelLeftMotor::get));
+
+          dashboard.datasetGroup("shooter")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Shooter Right Flywheel power",
+                  hardware.shooterSpinnersHardware.flywheelRightMotor::get));
 
           dashboard.datasetGroup("shooter")
               .addDataset((new TimeSeriesNumeric<>(

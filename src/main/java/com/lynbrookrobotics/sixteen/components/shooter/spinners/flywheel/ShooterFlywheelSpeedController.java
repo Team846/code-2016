@@ -27,10 +27,19 @@ public class ShooterFlywheelSpeedController extends ShooterFlywheelController {
     return flywheelPID.difference();
   }
 
-  @Override
-  public double flywheelSpeed() {
+  private double flywheelSpeed() {
     double abs = (Math.abs(targetRPM) / ShooterFlywheelConstants.MAX_RPM) + flywheelPID.get();
 //    System.out.println(targetRPM + " " + abs);
     return Math.copySign(abs, targetRPM);
+  }
+
+  @Override
+  public double flywheelLeftSpeed() {
+    return flywheelSpeed();
+  }
+
+  @Override
+  public double flywheelRightSpeed() {
+    return flywheelSpeed();
   }
 }

@@ -16,13 +16,14 @@ public class ShooterFlywheel extends Component<ShooterFlywheelController> {
    * @param robotHardware     the robot hardware to use
    */
   public ShooterFlywheel(RobotHardware robotHardware) {
-    super(ShooterFlywheelController.of(() -> 0.0));
+    super(ShooterFlywheelController.of(() -> 0.0, () -> 0.0));
 
     this.hardware = robotHardware.shooterSpinnersHardware;
   }
 
   @Override
   protected void setOutputs(ShooterFlywheelController controller) {
-    hardware.flywheelMotor.set(controller.flywheelSpeed());
+    hardware.flywheelLeftMotor.set(controller.flywheelLeftSpeed());
+    hardware.flywheelRightMotor.set(controller.flywheelRightSpeed());
   }
 }

@@ -11,10 +11,10 @@ public class DirectFlywheelSpeed extends ContinuousTask {
   private ShooterFlywheel flywheel;
 
   /**
-   * Constructs a task that directly controls the flywheel speed.
+   * Constructs a task that directly controls both flywheels' speeds.
    */
   public DirectFlywheelSpeed(Supplier<Double> speed, ShooterFlywheel flywheel) {
-    this.controller = ShooterFlywheelController.of(speed);
+    this.controller = ShooterFlywheelController.of(speed, speed);
     this.flywheel = flywheel;
   }
 
