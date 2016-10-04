@@ -12,7 +12,7 @@ public class DriveRelative extends FiniteTask {
   private static final double errorThresholdForward = 4D / 12;
   private static final double errorThresholdTurn = 6;
 
-  double distance;
+  double forwardTravel;
   RobotHardware hardware;
   DriveStraightController driveDistanceController;
   Drivetrain drivetrain;
@@ -28,7 +28,7 @@ public class DriveRelative extends FiniteTask {
                        double maxSpeed,
                        Drivetrain drivetrain) {
     this.maxSpeed = maxSpeed;
-    this.distance = forwardDistance;
+    this.forwardTravel = forwardDistance;
     this.hardware = hardware;
     this.drivetrain = drivetrain;
   }
@@ -45,12 +45,12 @@ public class DriveRelative extends FiniteTask {
 
   @Override
   public void startTask() {
-    if (Math.abs(distance) <= 0.1) {
+    if (Math.abs(forwardTravel) <= 0.1) {
       finished();
     } else {
       double currentAverage = hardware.drivetrainHardware.currentDistance();
       driveDistanceController = new DriveStraightController(hardware,
-          currentAverage + distance,
+          currentAverage + forwardTravel,
           hardware.drivetrainHardware.mainGyro.currentPosition().valueZ(),
           maxSpeed);
       drivetrain.setController(driveDistanceController);
