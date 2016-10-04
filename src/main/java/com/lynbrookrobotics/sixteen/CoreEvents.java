@@ -295,7 +295,6 @@ public class CoreEvents {
               intakeArm,
               intakeRoller,
               shooterArm,
-              shooterFlywheel,
               shooterSecondary,
               hardware
           ));

@@ -19,11 +19,9 @@ public class SpinUntilBall extends FiniteTask {
   /**
    * Task that spins until proximity sensor detects a ball.
    * @param hardware Robot Hardware
-   * @param shooterFlywheel Shooter Flywheel component
    * @param shooterSecondary Shooter Secondary component
    */
   public SpinUntilBall(RobotHardware hardware,
-                       ShooterFlywheel shooterFlywheel,
                        ShooterSecondary shooterSecondary) {
     this.sensor = hardware.shooterSpinnersHardware.proximitySensor;
 //    this.controllerFlywheel = ShooterFlywheelController.of(

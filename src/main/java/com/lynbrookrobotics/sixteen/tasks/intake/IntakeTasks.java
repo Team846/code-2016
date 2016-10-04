@@ -33,7 +33,6 @@ public class IntakeTasks {
   public static FiniteTask collect(IntakeArm arm,
                                    IntakeRoller roller,
                                    ShooterArm shooterArm,
-                                   ShooterFlywheel flywheel,
                                    ShooterSecondary secondary,
                                    RobotHardware hardware) {
     FiniteTask withoutSignal =
@@ -45,11 +44,8 @@ public class IntakeTasks {
           ShooterArmConstants.STOWED_SETPOINT,
           hardware,
           shooterArm
-        )).and(new WaitForRPMBeyond(
-            IntakeRollerConstants.FLYWHEEL_COLLECT_SPEED * ShooterFlywheelConstants.MAX_RPM,
-            hardware
         ))).then(
-            (new SpinUntilBall(hardware, flywheel, secondary)
+            (new SpinUntilBall(hardware, secondary)
                 .then(new FixedTime(50).andUntilDone(new DirectLightsColor(
                     () -> false,
                     () -> 0.0,
@@ -74,9 +70,6 @@ public class IntakeTasks {
                     hardware
                 ))
             )
-        )).andUntilDone(new SpinFlywheelAtRPM(false,
-            -IntakeRollerConstants.FLYWHEEL_COLLECT_SPEED * ShooterFlywheelConstants.MAX_RPM,
-            flywheel, hardware
         ));
 
     return withoutSignal.then(new FixedTime(1000).andUntilDone(new DirectLightsColor(
