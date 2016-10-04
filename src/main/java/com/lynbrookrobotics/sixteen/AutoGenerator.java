@@ -151,7 +151,7 @@ public class AutoGenerator {
           ShootingPositionConstants.ONE_TURN,
           hardware,
           drivetrain
-      )).then(new DriveRelative(
+      )).then(new DriveRelativeAtSpeed(
           hardware,
           ShootingPositionConstants.ONE_FORWARD_SECOND,
           NORMAL_SPEED,

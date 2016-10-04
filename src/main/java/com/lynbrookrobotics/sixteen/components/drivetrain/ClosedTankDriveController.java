@@ -18,13 +18,13 @@ public abstract class ClosedTankDriveController extends DitheredTankDriveControl
         () -> hardware.drivetrainHardware.leftEncoder.velocity.ground()
             / DrivetrainConstants.MAX_SPEED_FORWARD,
         this::leftVelocity
-    ).withP(1D);
+    ).withP(2D).withDeadband(0.05);
 
     this.rightPID = new PID(
         () -> hardware.drivetrainHardware.rightEncoder.velocity.ground()
             / DrivetrainConstants.MAX_SPEED_FORWARD,
         this::rightVelocity
-    ).withP(1D);
+    ).withP(2D).withDeadband(0.05);
   }
 
   public abstract double leftVelocity();
