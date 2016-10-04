@@ -29,6 +29,8 @@ public class ShooterArm extends Component<ShooterArmController> {
   protected void setOutputs(ShooterArmController controller) {
     double output = controller.armMotorSpeed();
 
+    // TODO safeties
+
     if (pot.getAngle() > ShooterArmConstants.FORWARD_LIMIT
         && output > 0) {
       System.out.println("limiting to zero forward");
@@ -41,12 +43,12 @@ public class ShooterArm extends Component<ShooterArmController> {
       output = 0; // only allow forward
     }
 
-    if (intakePot.getAngle() > IntakeArmConstants.STOWED_THRESHOLD
-        && pot.getAngle() > ShooterArmConstants.FORWARD_INTAKE_STOWED_LIMIT
-        && output > 0) {
-      System.out.println("Not allowing forward because intake is stowed");
-      output = 0;
-    }
+//    if (intakePot.getAngle() > IntakeArmConstants.STOWED_THRESHOLD
+//        && pot.getAngle() > ShooterArmConstants.FORWARD_INTAKE_STOWED_LIMIT
+//        && output > 0) {
+//      System.out.println("Not allowing forward because intake is stowed");
+//      output = 0;
+//    }
 
     armMotor.set(RobotConstants.clamp(
         output,

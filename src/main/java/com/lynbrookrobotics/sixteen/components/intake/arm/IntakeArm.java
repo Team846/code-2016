@@ -48,27 +48,29 @@ public class IntakeArm extends Component<IntakeArmController> {
       output = 0; // only allow forward
     }
 
-    if (shooterPosition > ShooterArmConstants.STOWED_THRESHOLD
-        && intakePosition > IntakeArmConstants.SHOOTER_STOWED_REVERSE_LIMIT
-        && output < 0) {
-      System.out.println("Not allowing reverse because shooter is stowed");
-      output = 0;
-    }
+    // TODO safeties
 
-    if (shooterPosition > ShooterArmConstants.LOW_THRESHOLD
-        && intakePosition > IntakeArmConstants.SHOOTER_LOW_REVERSE_LIMIT
-        && output < 0) {
-      System.out.println("Not allowing reverse because shooter is low");
-      output = 0;
-    }
-
-    if (shooterPosition > ShooterArmConstants.INTAKE_BLOCK_THRESHOLD
-        && intakePosition < IntakeArmConstants.SHOOTER_NOTCH_FORWARD_LIMIT
-        && intakePosition > IntakeArmConstants.SHOOTER_NOTCH_FORWARD_LIMIT - 35
-        && output > 0) {
-      System.out.println("Not allowing forward because shooter notch will hit");
-      output = 0;
-    }
+//    if (shooterPosition > ShooterArmConstants.STOWED_THRESHOLD
+//        && intakePosition > IntakeArmConstants.SHOOTER_STOWED_REVERSE_LIMIT
+//        && output < 0) {
+//      System.out.println("Not allowing reverse because shooter is stowed");
+//      output = 0;
+//    }
+//
+//    if (shooterPosition > ShooterArmConstants.LOW_THRESHOLD
+//        && intakePosition > IntakeArmConstants.SHOOTER_LOW_REVERSE_LIMIT
+//        && output < 0) {
+//      System.out.println("Not allowing reverse because shooter is low");
+//      output = 0;
+//    }
+//
+//    if (shooterPosition > ShooterArmConstants.INTAKE_BLOCK_THRESHOLD
+//        && intakePosition < IntakeArmConstants.SHOOTER_NOTCH_FORWARD_LIMIT
+//        && intakePosition > IntakeArmConstants.SHOOTER_NOTCH_FORWARD_LIMIT - 35
+//        && output > 0) {
+//      System.out.println("Not allowing forward because shooter notch will hit");
+//      output = 0;
+//    }
 
     output = RobotConstants.clamp(
         output,
