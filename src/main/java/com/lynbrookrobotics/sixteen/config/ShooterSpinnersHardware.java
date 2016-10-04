@@ -9,7 +9,8 @@ public class ShooterSpinnersHardware {
   public final Talon flywheelLeftMotor;
   public final Talon flywheelRightMotor;
   public final Talon secondary;
-  public final HallEffect hallEffect;
+  public final HallEffect hallEffectLeft;
+  public final HallEffect hallEffectRight;
   public final ProximitySensor proximitySensor;
 
   /**
@@ -18,12 +19,14 @@ public class ShooterSpinnersHardware {
   public ShooterSpinnersHardware(Talon flywheelLeft,
                                  Talon flywheelRight,
                                  Talon secondary,
-                                 HallEffect hallEffect,
+                                 HallEffect hallEffectLeft,
+                                 HallEffect hallEffectRight,
                                  ProximitySensor proximity) {
     this.flywheelLeftMotor = flywheelLeft;
     this.flywheelRightMotor = flywheelRight;
     this.secondary = secondary;
-    this.hallEffect = hallEffect;
+    this.hallEffectLeft = hallEffectLeft;
+    this.hallEffectRight = hallEffectRight;
     this.proximitySensor = proximity;
   }
 
@@ -36,7 +39,8 @@ public class ShooterSpinnersHardware {
         new Talon(config.shooterSpinnersPorts.flywheelLeftPort),
         new Talon(config.shooterSpinnersPorts.flywheelRightPort),
         new Talon(config.shooterSpinnersPorts.secondaryWheelPort),
-        new HallEffect(config.shooterSpinnersPorts.hallEffectPort),
+        new HallEffect(config.shooterSpinnersPorts.hallEffectLeftPort),
+        new HallEffect(config.shooterSpinnersPorts.hallEffectRightPort),
         new ProximitySensor(config.shooterSpinnersPorts.proximityPort)
     );
   }

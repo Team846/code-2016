@@ -27,15 +27,23 @@ public class WaitForRPM extends FiniteTask {
 
   @Override
   protected void update() {
-//    System.out.println("WAIT FOR RPMMMMMM");
-    double curRPM = hardware.shooterSpinnersHardware.hallEffect.getRPM();
-    if (System.currentTimeMillis() > startTime + 1000 && curRPM < Math.min(targetRPM, 250)) {
-      hardware.shooterSpinnersHardware.hallEffect.markNotWorking();
+    double curLeftRPM = hardware.shooterSpinnersHardware.hallEffectLeft.getRPM();
+    double curRightRPM = hardware.shooterSpinnersHardware.hallEffectRight.getRPM();
+
+    if (System.currentTimeMillis() > startTime + 1000 && curLeftRPM < Math.min(targetRPM, 250)) {
+      hardware.shooterSpinnersHardware.hallEffectLeft.markNotWorking();
     }
 
-    double error = Math.abs(curRPM - targetRPM);
 
-    if (error <= THRESHOLD_RPM || System.currentTimeMillis() > startTime + 10000) {
+    if (System.currentTimeMillis() > startTime + 1000 && curRightRPM < Math.min(targetRPM, 250)) {
+      hardware.shooterSpinnersHardware.hallEffectRight.markNotWorking();
+    }
+
+    double errorLeft = Math.abs(curLeftRPM - targetRPM);
+    double errorRight = Math.abs(curRightRPM - targetRPM);
+
+    if ((errorLeft <= THRESHOLD_RPM && errorRight <= THRESHOLD_RPM)
+        || System.currentTimeMillis() > startTime + 10000) {
       finished();
     }
   }

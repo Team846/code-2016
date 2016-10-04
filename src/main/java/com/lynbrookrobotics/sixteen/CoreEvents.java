@@ -441,8 +441,13 @@ public class CoreEvents {
         if (RobotConstants.HAS_SHOOTER) {
           dashboard.datasetGroup("shooter")
               .addDataset((new TimeSeriesNumeric<>(
-                  "Flywheel RPM",
-                  hardware.shooterSpinnersHardware.hallEffect::getRPM)));
+                  "Left Flywheel RPM",
+                  hardware.shooterSpinnersHardware.hallEffectLeft::getRPM)));
+
+          dashboard.datasetGroup("shooter")
+              .addDataset((new TimeSeriesNumeric<>(
+                  "Right Flywheel RPM",
+                  hardware.shooterSpinnersHardware.hallEffectRight::getRPM)));
 
           dashboard.datasetGroup("shooter")
               .addDataset(new TimeSeriesNumeric<>(

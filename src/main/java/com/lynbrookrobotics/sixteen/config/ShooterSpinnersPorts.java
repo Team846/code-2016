@@ -9,7 +9,8 @@ public class ShooterSpinnersPorts {
   public final int flywheelLeftPort;
   public final int flywheelRightPort;
   public final int secondaryWheelPort;
-  public final int hallEffectPort;
+  public final int hallEffectLeftPort;
+  public final int hallEffectRightPort;
   public final int proximityPort;
 
   /**
@@ -24,12 +25,14 @@ public class ShooterSpinnersPorts {
   public ShooterSpinnersPorts(int flywheelLeftPort,
                               int flywheelRightPort,
                               int secondaryWheelPort,
-                              int hallEffectPort,
+                              int hallEffectLeftPort,
+                              int hallEffectRightPort,
                               int proximityPort) {
     this.flywheelLeftPort = flywheelLeftPort;
     this.flywheelRightPort = flywheelRightPort;
     this.secondaryWheelPort = secondaryWheelPort;
-    this.hallEffectPort = hallEffectPort;
+    this.hallEffectLeftPort = hallEffectLeftPort;
+    this.hallEffectRightPort = hallEffectRightPort;
     this.proximityPort = proximityPort;
   }
 
@@ -43,7 +46,8 @@ public class ShooterSpinnersPorts {
         config.getInt("flywheel-left-port"),
         config.getInt("flywheel-right-port"),
         config.getInt("secondary-wheel-port"),
-        config.getInt("hall-effect-port"),
+        config.getInt("hall-effect-left-port"),
+        config.getInt("hall-effect-right-port"),
         config.getInt("proximity-port")
     );
   }

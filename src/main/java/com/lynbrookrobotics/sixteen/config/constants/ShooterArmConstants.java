@@ -11,12 +11,9 @@ public class ShooterArmConstants {
   }
 
   @ConfigLoaded public static final double FORWARD_LIMIT = config();
-  @ConfigLoaded public static final double FORWARD_INTAKE_STOWED_LIMIT = config();
   @ConfigLoaded public static final double REVERSE_LIMIT = config();
   @ConfigLoaded public static final double STOWED_THRESHOLD = config();
-  @ConfigLoaded public static final double LOW_THRESHOLD = config();
-
-  @ConfigLoaded public static final double INTAKE_BLOCK_THRESHOLD = config();
+  @ConfigLoaded public static final double FORWARD_INTAKE_STOWED_LIMIT = config();
 
   @ConfigLoaded public static final double MAX_SPEED = config();
 

@@ -33,7 +33,8 @@ public class SpinFlywheelToRPM extends FiniteTask {
 
   @Override
   protected void update() {
-    if (Math.abs(controller.error()) <= THRESHOLD_RPM) {
+    if (Math.abs(controller.errorLeft()) <= THRESHOLD_RPM &&
+        Math.abs(controller.errorRight()) <= THRESHOLD_RPM) {
       finished();
     }
   }

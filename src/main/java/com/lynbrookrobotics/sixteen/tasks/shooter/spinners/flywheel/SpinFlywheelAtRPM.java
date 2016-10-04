@@ -38,12 +38,16 @@ public class SpinFlywheelAtRPM extends ContinuousTask {
 
       @Override
       public double red() {
-        return 1 - (hardware.shooterSpinnersHardware.hallEffect.getRPM() / targetRPM);
+        return 1 - (
+            ((hardware.shooterSpinnersHardware.hallEffectRight.getRPM() +
+            hardware.shooterSpinnersHardware.hallEffectRight.getRPM()) / 2) / targetRPM);
       }
 
       @Override
       public double green() {
-        return (hardware.shooterSpinnersHardware.hallEffect.getRPM() / targetRPM);
+        return (((
+            hardware.shooterSpinnersHardware.hallEffectRight.getRPM() +
+            hardware.shooterSpinnersHardware.hallEffectRight.getRPM()) / 2) / targetRPM);
       }
 
       @Override
