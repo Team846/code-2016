@@ -114,7 +114,7 @@ public class AutoGenerator {
           drivetrain
       );
     } else {
-      return (new DriveRelative(
+      return (new DriveRelativeAtSpeed(
           hardware,
           -DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
           NORMAL_SPEED,

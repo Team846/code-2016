@@ -29,7 +29,6 @@ public class DriveRelativeAtSpeed extends FiniteTask{
     this.drivetrain = drivetrain;
   }
 
-
   @Override
   public void startTask() {
     targetPosition = hardware.drivetrainHardware.currentDistance() + forwardDistance;
@@ -37,8 +36,11 @@ public class DriveRelativeAtSpeed extends FiniteTask{
 
     controller = new DriveOnHeadingController(
         targetAngle,
-        () -> cruisingSpeed,
-        hardware);
+        () -> Math.copySign(cruisingSpeed, forwardDistance),
+        hardware
+    );
+
+    drivetrain.setController(controller);
   }
 
   @Override
@@ -46,7 +48,10 @@ public class DriveRelativeAtSpeed extends FiniteTask{
     double distanceError = targetPosition - hardware.drivetrainHardware.currentDistance();
     double angleError = targetAngle - hardware.drivetrainHardware.mainGyro.currentPosition().valueZ();
 
-    if (distanceError < errorThresholdForward && angleError < errorThresholdTurn) {
+    boolean done = (forwardDistance < 0 && distanceError > 0)
+        || (forwardDistance > 0 && distanceError < 0);
+
+    if (done && angleError < errorThresholdTurn) {
       finished();
     }
   }
