@@ -267,7 +267,7 @@ public class AutoGenerator {
           DrivetrainConstants.SPY_TO_SHOOT,
           NORMAL_SPEED,
           drivetrain
-      ).then(new AimForShot(hardware, drivetrain)).then(ShooterTasks.shootShort(
+      ).then(new AimForShot(hardware, drivetrain)).then(ShooterTasks.shoot(
           shooterFlywheel,
           shooterSecondary,
           shooterArm,
@@ -334,7 +334,7 @@ public class AutoGenerator {
             .then(cross(defense))
             .then(drivingToGoal).withTimeout(13000);
 
-        return beforeShot.then(ShooterTasks.shootShort(
+        return beforeShot.then(ShooterTasks.shoot(
             shooterFlywheel,
             shooterSecondary,
             shooterArm,

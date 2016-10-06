@@ -223,7 +223,7 @@ public class CoreEvents {
     if (RobotConstants.HAS_SHOOTER) {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.PREPARE_SHOOT)
-          .forEach(ShooterTasks.prepareShootHigh(
+          .forEach(ShooterTasks.prepareShoot(
             shooterFlywheel,
             shooterArm,
             intakeArm,
@@ -248,26 +248,8 @@ public class CoreEvents {
       // control RPM using operator joystick - end
 
       controls.operatorStick
-          .onHold(OperatorButtonAssignments.SHOOT_SHORT)
-          .forEach(ShooterTasks.shootShort(
-              shooterFlywheel,
-              shooterSecondary,
-              shooterArm,
-              intakeArm,
-              hardware));
-
-      controls.operatorStick
-          .onHold(OperatorButtonAssignments.SHOOT_MID)
-          .forEach(ShooterTasks.shootMid(
-              shooterFlywheel,
-              shooterSecondary,
-              shooterArm,
-              intakeArm,
-              hardware));
-
-      controls.operatorStick
-          .onHold(OperatorButtonAssignments.SHOOT_LONG)
-          .forEach(ShooterTasks.shootFar(
+          .onHold(OperatorButtonAssignments.SHOOT)
+          .forEach(ShooterTasks.shoot(
               shooterFlywheel,
               shooterSecondary,
               shooterArm,

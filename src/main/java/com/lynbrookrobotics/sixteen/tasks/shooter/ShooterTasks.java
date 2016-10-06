@@ -42,7 +42,7 @@ public class ShooterTasks {
     FiniteTask withoutFlywheel =
         (new WaitForRPM(speed, hardware)
             .and(new MoveShooterArmToAngle(
-                ShooterArmConstants.SHOOT_MID_ANGLE,
+                ShooterArmConstants.SHOOT_ANGLE,
                 hardware,
                 shooterArm
             ))
@@ -55,7 +55,7 @@ public class ShooterTasks {
             () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
             shooterSecondary
         ))).andUntilDone(new KeepShooterArmToAngle(
-            ShooterArmConstants.SHOOT_MID_ANGLE,
+            ShooterArmConstants.SHOOT_ANGLE,
             hardware,
             shooterArm
         )).andUntilDone(new CollectMinMax(hardware, "VARSPEED")));
@@ -78,12 +78,12 @@ public class ShooterTasks {
    * @param hardware Robot Hardware
    * @return FiniteTask for shooting
    */
-  public static ContinuousTask prepareShootHigh(ShooterFlywheel shooterFlywheel,
+  public static ContinuousTask prepareShoot(ShooterFlywheel shooterFlywheel,
                                                 ShooterArm shooterArm,
                                                 IntakeArm intakeArm,
                                                 RobotHardware hardware) {
     return new MoveShooterArmToAngle(
-        ShooterArmConstants.SHOOT_MID_ANGLE,
+        ShooterArmConstants.SHOOT_ANGLE,
         hardware,
         shooterArm
     ).toContinuous().and(new KeepIntakeArmAtAngle(
@@ -92,31 +92,160 @@ public class ShooterTasks {
         hardware
     )).and(new SpinFlywheelAtRPM(
         true,
-        (ShooterFlywheelConstants.SHOOT_SHORT_RPM
-            + ShooterFlywheelConstants.SHOOT_MID_RPM
-            + ShooterFlywheelConstants.SHOOT_FAR_RPM) / 3D,
+        ShooterFlywheelConstants.SHOOT_RPM,
         shooterFlywheel,
         hardware
     ));//.and(new ForceIntakeBrake(intakeArm));
     // commented out b/c we're forcing it in IntakeArm
   }
 
+//  /**
+//   * Shooting from short distance (high) task.
+//   * @param shooterFlywheel Flywheel component
+//   * @param shooterSecondary Secondary wheel component
+//   * @param hardware Robot Hardware
+//   * @return FiniteTask for shooting
+//   */
+//  public static FiniteTask shootShort(ShooterFlywheel shooterFlywheel,
+//                                      ShooterSecondary shooterSecondary,
+//                                      ShooterArm shooterArm,
+//                                      IntakeArm intakeArm,
+//                                      RobotHardware hardware) {
+//    FiniteTask withoutFlywheel =
+//        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_SHORT_RPM, hardware)
+//            .and(new MoveShooterArmToAngle(
+//                ShooterArmConstants.SHOOT_SHORT_ANGLE,
+//                hardware,
+//                shooterArm
+//            ))
+//        ).then(new SpinSecondaryNoBall(
+//          ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+//          ShooterConstants.BALL_PROXIMITY_THRESHOLD,
+//          shooterSecondary,
+//          hardware
+//        ).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
+//            () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+//            shooterSecondary
+//        ))).andUntilDone(new KeepShooterArmToAngle(
+//            ShooterArmConstants.SHOOT_SHORT_ANGLE,
+//            hardware,
+//            shooterArm
+//        )).andUntilDone(new CollectMinMax(hardware, "SHORT")));
+//
+//    return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
+//        true,
+//        ShooterFlywheelConstants.SHOOT_SHORT_RPM,
+//        shooterFlywheel,
+//        hardware
+//    )).andUntilDone(new KeepIntakeArmAtAngle(
+//        IntakeArmConstants.SHOOT_SETPOINT,
+//        intakeArm,
+//        hardware
+//    ));//.and(new ForceIntakeBrake(intakeArm)));
+//  }
+//
+//  /**
+//   * Shooting from mid distance task.
+//   * @param shooterFlywheel Flywheel component
+//   * @param shooterSecondary Secondary wheel component
+//   * @param hardware Robot Hardware
+//   * @return FiniteTask for shooting
+//   */
+//  public static FiniteTask shootMid(ShooterFlywheel shooterFlywheel,
+//                                      ShooterSecondary shooterSecondary,
+//                                      ShooterArm shooterArm,
+//                                      IntakeArm intakeArm,
+//                                      RobotHardware hardware) {
+//    FiniteTask withoutFlywheel =
+//        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_MID_RPM, hardware)
+//            .and(new MoveShooterArmToAngle(
+//                ShooterArmConstants.SHOOT_MID_ANGLE,
+//                hardware,
+//                shooterArm
+//            ))
+//        ).then(new SpinSecondaryNoBall(
+//            ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+//            ShooterConstants.BALL_PROXIMITY_THRESHOLD,
+//            shooterSecondary,
+//            hardware
+//        ).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
+//            () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+//            shooterSecondary
+//        ))).andUntilDone(new KeepShooterArmToAngle(
+//            ShooterArmConstants.SHOOT_MID_ANGLE,
+//            hardware,
+//            shooterArm
+//        )).andUntilDone(new CollectMinMax(hardware, "MID")));
+//
+//    return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
+//        true,
+//        ShooterFlywheelConstants.SHOOT_MID_RPM,
+//        shooterFlywheel,
+//        hardware
+//    )).andUntilDone(new KeepIntakeArmAtAngle(
+//        IntakeArmConstants.SHOOT_SETPOINT,
+//        intakeArm,
+//        hardware
+//    ));//.and(new ForceIntakeBrake(intakeArm)));
+//  }
+//
+//  /**
+//   * Shooting from far distance (long) task.
+//   * @param shooterFlywheel Flywheel component
+//   * @param shooterSecondary Secondary wheel component
+//   * @param hardware Robot Hardware
+//   * @return FiniteTask for shooting
+//   */
+//  public static FiniteTask shootFar(ShooterFlywheel shooterFlywheel,
+//                                     ShooterSecondary shooterSecondary,
+//                                     ShooterArm shooterArm,
+//                                     IntakeArm intakeArm,
+//                                     RobotHardware hardware) {
+//    FiniteTask withoutFlywheel =
+//        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_FAR_RPM, hardware)
+//            .and(new MoveShooterArmToAngle(
+//                ShooterArmConstants.SHOOT_FAR_ANGLE,
+//                hardware,
+//                shooterArm
+//            ))
+//        ).then(new SpinSecondaryNoBall(
+//            ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+//            ShooterConstants.BALL_PROXIMITY_THRESHOLD,
+//            shooterSecondary,
+//            hardware
+//        ).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
+//            () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
+//            shooterSecondary
+//        ))).andUntilDone(new KeepShooterArmToAngle(
+//            ShooterArmConstants.SHOOT_FAR_ANGLE,
+//            hardware,
+//            shooterArm
+//        )).andUntilDone(new CollectMinMax(hardware, "FAR")));
+//
+//    return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
+//        true,
+//        ShooterFlywheelConstants.SHOOT_FAR_RPM,
+//        shooterFlywheel,
+//        hardware
+//    ));
+//  }
+
   /**
-   * Shooting from short distance (high) task.
+   * Shoot task.
    * @param shooterFlywheel Flywheel component
    * @param shooterSecondary Secondary wheel component
    * @param hardware Robot Hardware
    * @return FiniteTask for shooting
    */
-  public static FiniteTask shootShort(ShooterFlywheel shooterFlywheel,
+  public static FiniteTask shoot(ShooterFlywheel shooterFlywheel,
                                       ShooterSecondary shooterSecondary,
                                       ShooterArm shooterArm,
                                       IntakeArm intakeArm,
                                       RobotHardware hardware) {
     FiniteTask withoutFlywheel =
-        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_SHORT_RPM, hardware)
+        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_RPM, hardware)
             .and(new MoveShooterArmToAngle(
-                ShooterArmConstants.SHOOT_SHORT_ANGLE,
+                ShooterArmConstants.SHOOT_ANGLE,
                 hardware,
                 shooterArm
             ))
@@ -129,14 +258,14 @@ public class ShooterTasks {
             () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
             shooterSecondary
         ))).andUntilDone(new KeepShooterArmToAngle(
-            ShooterArmConstants.SHOOT_SHORT_ANGLE,
+            ShooterArmConstants.SHOOT_ANGLE,
             hardware,
             shooterArm
-        )).andUntilDone(new CollectMinMax(hardware, "SHORT")));
+        )).andUntilDone(new CollectMinMax(hardware, "SHOOT")));
 
     return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
         true,
-        ShooterFlywheelConstants.SHOOT_SHORT_RPM,
+        ShooterFlywheelConstants.SHOOT_RPM,
         shooterFlywheel,
         hardware
     )).andUntilDone(new KeepIntakeArmAtAngle(
@@ -146,91 +275,6 @@ public class ShooterTasks {
     ));//.and(new ForceIntakeBrake(intakeArm)));
   }
 
-  /**
-   * Shooting from mid distance task.
-   * @param shooterFlywheel Flywheel component
-   * @param shooterSecondary Secondary wheel component
-   * @param hardware Robot Hardware
-   * @return FiniteTask for shooting
-   */
-  public static FiniteTask shootMid(ShooterFlywheel shooterFlywheel,
-                                      ShooterSecondary shooterSecondary,
-                                      ShooterArm shooterArm,
-                                      IntakeArm intakeArm,
-                                      RobotHardware hardware) {
-    FiniteTask withoutFlywheel =
-        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_MID_RPM, hardware)
-            .and(new MoveShooterArmToAngle(
-                ShooterArmConstants.SHOOT_MID_ANGLE,
-                hardware,
-                shooterArm
-            ))
-        ).then(new SpinSecondaryNoBall(
-            ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
-            ShooterConstants.BALL_PROXIMITY_THRESHOLD,
-            shooterSecondary,
-            hardware
-        ).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
-            () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
-            shooterSecondary
-        ))).andUntilDone(new KeepShooterArmToAngle(
-            ShooterArmConstants.SHOOT_MID_ANGLE,
-            hardware,
-            shooterArm
-        )).andUntilDone(new CollectMinMax(hardware, "MID")));
-
-    return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
-        true,
-        ShooterFlywheelConstants.SHOOT_MID_RPM,
-        shooterFlywheel,
-        hardware
-    )).andUntilDone(new KeepIntakeArmAtAngle(
-        IntakeArmConstants.SHOOT_SETPOINT,
-        intakeArm,
-        hardware
-    ));//.and(new ForceIntakeBrake(intakeArm)));
-  }
-
-  /**
-   * Shooting from far distance (long) task.
-   * @param shooterFlywheel Flywheel component
-   * @param shooterSecondary Secondary wheel component
-   * @param hardware Robot Hardware
-   * @return FiniteTask for shooting
-   */
-  public static FiniteTask shootFar(ShooterFlywheel shooterFlywheel,
-                                     ShooterSecondary shooterSecondary,
-                                     ShooterArm shooterArm,
-                                     IntakeArm intakeArm,
-                                     RobotHardware hardware) {
-    FiniteTask withoutFlywheel =
-        (new WaitForRPM(ShooterFlywheelConstants.SHOOT_FAR_RPM, hardware)
-            .and(new MoveShooterArmToAngle(
-                ShooterArmConstants.SHOOT_FAR_ANGLE,
-                hardware,
-                shooterArm
-            ))
-        ).then(new SpinSecondaryNoBall(
-            ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
-            ShooterConstants.BALL_PROXIMITY_THRESHOLD,
-            shooterSecondary,
-            hardware
-        ).then(new FixedTime(1000).andUntilDone(new SpinSecondary(
-            () -> ShooterFlywheelConstants.SHOOT_SECONDARY_POWER,
-            shooterSecondary
-        ))).andUntilDone(new KeepShooterArmToAngle(
-            ShooterArmConstants.SHOOT_FAR_ANGLE,
-            hardware,
-            shooterArm
-        )).andUntilDone(new CollectMinMax(hardware, "FAR")));
-
-    return withoutFlywheel.andUntilDone(new SpinFlywheelAtRPM(
-        true,
-        ShooterFlywheelConstants.SHOOT_FAR_RPM,
-        shooterFlywheel,
-        hardware
-    ));
-  }
 
   /**
    * Shooting low goal task.
