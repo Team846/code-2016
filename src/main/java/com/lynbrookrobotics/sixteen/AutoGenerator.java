@@ -114,7 +114,7 @@ public class AutoGenerator {
           drivetrain
       );
     } else {
-      return (new DriveRelativeAtSpeed(
+      return (new DriveRelative(
           hardware,
           -DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
           NORMAL_SPEED,
@@ -127,7 +127,7 @@ public class AutoGenerator {
           IntakeArmConstants.LOWBAR_ANGLE,
           intakeArm,
           hardware
-      ))).then(new DriveRelativeAtSpeed(
+      ))).then(new DriveRelative(
           hardware,
           -DrivetrainConstants.LOWBAR_DISTANCE,
           NORMAL_SPEED,
@@ -309,7 +309,7 @@ public class AutoGenerator {
 //              hardware
 //          ).andUntilDone(new ContinuousStraightDrive(() -> 0.1, hardware, drivetrain)));
     } else {
-      FiniteTask driveUp = new DriveRelativeAtSpeed(
+      FiniteTask driveUp = new DriveRelative(
           hardware,
           DrivetrainConstants.DEFENSE_RAMP_DISTANCE,
           NORMAL_SPEED,
@@ -326,17 +326,17 @@ public class AutoGenerator {
       if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
         return driveUp.then(new DriveRelativeAtSpeed(hardware, 0.5, 0.1, drivetrain));
       } else if (defense == Defense.LOWBAR) {
-        FiniteTask drivingToGoal = new DriveRelativeAtSpeed(hardware, -2D, -0.5, drivetrain)
-            .then(new TurnByAngle(40, hardware, drivetrain))
+        FiniteTask drivingToGoal = new DriveRelative(hardware, -2D, NORMAL_SPEED, drivetrain)
+            .then(new TurnByAngle(60, hardware, drivetrain).withTimeout(1000))
             .then(new MoveShooterArmToAngle(
                 ShooterArmConstants.SHOOT_ANGLE,
                 hardware,
                 shooterArm))
-            .then(new AimForShot(hardware, drivetrain));
+            .then(new AimForShot(hardware, drivetrain)).withTimeout(10000);
 
         FiniteTask beforeShot = driveUp
             .then(cross(defense))
-            .then(drivingToGoal).withTimeout(13000);
+            .then(drivingToGoal);
 
         return beforeShot.then(ShooterTasks.shoot(
             shooterFlywheel,

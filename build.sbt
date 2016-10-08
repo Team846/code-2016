@@ -35,3 +35,4 @@ Checkstyle.xsltTransformations := {
 }
 
 staticIP := true
+offline := true
