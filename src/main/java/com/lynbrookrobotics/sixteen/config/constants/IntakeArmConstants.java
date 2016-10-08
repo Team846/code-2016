@@ -15,9 +15,6 @@ public class IntakeArmConstants {
 
   @ConfigLoaded public static final double STOWED_THRESHOLD = config();
   @ConfigLoaded public static final double SHOOTER_STOWED_REVERSE_LIMIT = config();
-  @ConfigLoaded public static final double SHOOTER_LOW_REVERSE_LIMIT = config();
-
-  @ConfigLoaded public static final double SHOOTER_NOTCH_FORWARD_LIMIT = config();
 
   @ConfigLoaded public static final double MAX_SPEED = config();
 

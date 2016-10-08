@@ -46,14 +46,14 @@ public class IntakeTasks {
           shooterArm
         ))).then(
             (new SpinUntilBall(hardware, secondary)
-                .then(new FixedTime(50).andUntilDone(new DirectLightsColor(
+                .then(new FixedTime(250).andUntilDone(new DirectLightsColor(
                     () -> false,
                     () -> 0.0,
                     () -> 1.0,
                     () -> 0.0,
                     RobotConstants.lights
                 ).and(new SpinSecondary(
-                    () -> -IntakeRollerConstants.COLLECT_SPEED, secondary
+                    () -> IntakeRollerConstants.COLLECT_SPEED, secondary
                 ))))
             ).andUntilDone(
                 new DirectLightsColor(

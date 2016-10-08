@@ -298,25 +298,15 @@ public class ShooterTasks {
         shooterArm
     ));
 
-    ContinuousTask rolling = new DirectFlywheelSpeed(
-        () -> ShooterFlywheelConstants.SHOOT_SECONDARY_LOW_POWER,
-        shooterFlywheel
-    ).and(new SpinSecondary(
-        () -> 1.0,
+    ContinuousTask rolling = new SpinSecondary(
+        () -> -1.0,
         shooterSecondary
-    )).and(new DirectIntakeRollerSpeed(
+    ).and(new DirectIntakeRollerSpeed(
         () -> -1.0, //CHANGEME
         intakeRoller
     ));
 
-    FiniteTask rollOut = (new SpinFlywheelToRPM(
-        ShooterFlywheelConstants.MAX_RPM * 0.5,
-        shooterFlywheel,
-        hardware
-    ).andUntilDone(new DirectIntakeRollerSpeed(
-        () -> -1.0, //CHANGEME
-        intakeRoller
-    ))).then(new SpinSecondaryNoBall(
+    FiniteTask rollOut = new SpinSecondaryNoBall(
         1.0,
         ShooterConstants.BALL_PROXIMITY_THRESHOLD,
         shooterSecondary,
@@ -325,7 +315,7 @@ public class ShooterTasks {
         () -> false,
         () -> 1.0,
         () -> 0.0,
-        () -> 0.0, RobotConstants.lights)))).then(
+        () -> 0.0, RobotConstants.lights))).then(
         new FixedTime(2000)
             .andUntilDone(rolling.and(
                 new DirectLightsColor(

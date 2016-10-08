@@ -326,8 +326,12 @@ public class AutoGenerator {
       if (defense == Defense.DRAWBRIDGE || defense == Defense.SALLYPORT) {
         return driveUp.then(new DriveRelativeAtSpeed(hardware, 0.5, 0.1, drivetrain));
       } else if (defense == Defense.LOWBAR) {
-        FiniteTask drivingToGoal = driveToShootingPosition(startingPosition)
-            .then(new TurnByAngle(-20, hardware, drivetrain))
+        FiniteTask drivingToGoal = new DriveRelativeAtSpeed(hardware, -2D, -0.5, drivetrain)
+            .then(new TurnByAngle(40, hardware, drivetrain))
+            .then(new MoveShooterArmToAngle(
+                ShooterArmConstants.SHOOT_ANGLE,
+                hardware,
+                shooterArm))
             .then(new AimForShot(hardware, drivetrain));
 
         FiniteTask beforeShot = driveUp

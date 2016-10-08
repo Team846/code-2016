@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Lights extends Component<LightsController> {
-  private DigitalOutput flashOut = new DigitalOutput(1);
-  private DigitalOutput rOut = new DigitalOutput(2);
-  private DigitalOutput gOut = new DigitalOutput(3);
-  private DigitalOutput bOut = new DigitalOutput(4);
+  private DigitalOutput flashOut = new DigitalOutput(2);
+  private DigitalOutput rOut = new DigitalOutput(3);
+  private DigitalOutput gOut = new DigitalOutput(4);
+  private DigitalOutput bOut = new DigitalOutput(5);
 
   private static class DefaultLights extends LightsController {
     double defaultR = 0.0;

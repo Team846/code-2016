@@ -420,25 +420,25 @@ public class CoreEvents {
         }
 
         if (RobotConstants.HAS_SHOOTER) {
-          dashboard.datasetGroup("shooter")
+          dashboard.datasetGroup("shooter-flywheel")
               .addDataset((new TimeSeriesNumeric<>(
                   "Left Flywheel RPM",
                   hardware.shooterSpinnersHardware.hallEffectLeft::getRPM)));
 
-          dashboard.datasetGroup("shooter")
+          dashboard.datasetGroup("shooter-flywheel")
               .addDataset((new TimeSeriesNumeric<>(
                   "Right Flywheel RPM",
                   hardware.shooterSpinnersHardware.hallEffectRight::getRPM)));
 
-          dashboard.datasetGroup("shooter")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Shooter Left Flywheel power",
-                  hardware.shooterSpinnersHardware.flywheelLeftMotor::get));
-
-          dashboard.datasetGroup("shooter")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Shooter Right Flywheel power",
-                  hardware.shooterSpinnersHardware.flywheelRightMotor::get));
+//          dashboard.datasetGroup("shooter")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Shooter Left Flywheel power",
+//                  hardware.shooterSpinnersHardware.flywheelLeftMotor::get));
+//
+//          dashboard.datasetGroup("shooter")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Shooter Right Flywheel power",
+//                  hardware.shooterSpinnersHardware.flywheelRightMotor::get));
 
           dashboard.datasetGroup("shooter")
               .addDataset((new TimeSeriesNumeric<>(

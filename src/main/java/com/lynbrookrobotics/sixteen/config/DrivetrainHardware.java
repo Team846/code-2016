@@ -42,13 +42,13 @@ public class DrivetrainHardware {
     this.backRightMotor = backRightMotor;
 
     this.leftEncoder = new DrivetrainEncoder(
-        Encoder.talonEncoder(frontLeftMotor, false), // comp is opposite of practice
+        Encoder.talonEncoder(frontLeftMotor, true), // comp is opposite of practice
         DrivetrainConstants.GEAR_REDUCTION,
         DrivetrainConstants.WHEEL_DIAMETER
     );
 
     this.rightEncoder = new DrivetrainEncoder(
-        Encoder.talonEncoder(frontRightMotor, true),
+        Encoder.talonEncoder(frontRightMotor, false),
         DrivetrainConstants.GEAR_REDUCTION,
         DrivetrainConstants.WHEEL_DIAMETER
     );
