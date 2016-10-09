@@ -2,7 +2,12 @@ package com.lynbrookrobotics.sixteen.config.constants;
 
 public class OperatorButtonAssignments {
   public static final int PREPARE_SHOOT = 7; // left side
+
+  public static final int SHOOT_LOWER = 3; // middle left
   public static final int SHOOT = 2; // middle center
+  public static final int PREPARE_SHOOT_LOWER = 4; // middle right
+
+
   public static final int SHOOT_LOW = 1; // trigger
 
   public static final int TRANSPORT_POSITION = 8; // left

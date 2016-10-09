@@ -230,6 +230,15 @@ public class CoreEvents {
             hardware
           ));
 
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.PREPARE_SHOOT_LOWER)
+          .forEach(ShooterTasks.prepareShootLower(
+              shooterFlywheel,
+              shooterArm,
+              intakeArm,
+              hardware
+          ));
+
       // control RPM using operator joystick - start
 
 //      controls.operatorStick
@@ -246,6 +255,15 @@ public class CoreEvents {
 //          });
 
       // control RPM using operator joystick - end
+
+      controls.operatorStick
+          .onHold(OperatorButtonAssignments.SHOOT_LOWER)
+          .forEach(ShooterTasks.shootLower(
+              shooterFlywheel,
+              shooterSecondary,
+              shooterArm,
+              intakeArm,
+              hardware));
 
       controls.operatorStick
           .onHold(OperatorButtonAssignments.SHOOT)

@@ -22,15 +22,16 @@ public class ShooterArmConstants {
 
   public static final double I_GAIN = 0.0d;
   public static final int I_MEMORY = 1;
-  public static final int SHOOTER_ARM_ERROR = 2;
+  public static final int SHOOTER_ARM_ERROR = 5;
 
 //  public static final double SHOOT_SHORT_ANGLE = REVERSE_LIMIT; // shoot short
 //  @ConfigLoaded public static final double SHOOT_MID_ANGLE = config();
 //  @ConfigLoaded public static final double SHOOT_FAR_ANGLE = config();
 
   @ConfigLoaded public static final double SHOOT_ANGLE = config();
+  public static final double SHOOT_LOWER_ANGLE = SHOOT_ANGLE + 10;
 
-  public static final double STOWED_SETPOINT = FORWARD_LIMIT - 2;
+  public static final double STOWED_SETPOINT = FORWARD_LIMIT;
 
   @ConfigLoaded public static final double TRANSPORT_SETPOINT = config();
 }

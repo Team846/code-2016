@@ -34,7 +34,7 @@ public class AimForShot extends FiniteTask {
           if (Math.abs(VisionCalculation.angularError) > 60) {
             return 0.0;
           } else {
-            return VisionCalculation.angularError * (1D / 80);
+            return VisionCalculation.angularError * (1D / 90);
           }
         }
     ));
