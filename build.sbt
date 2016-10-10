@@ -1,4 +1,4 @@
-enablePlugins(FRCPlugin)
+enablePlugins(FRCPlugin, TravisCheckStylePlugin)
 
 organization := "com.lynbrookrobotics"
 teamNumber := 846
@@ -33,6 +33,3 @@ import com.etsy.sbt.checkstyle._
 Checkstyle.xsltTransformations := {
   Some(Set(XSLTSettings(baseDirectory(_ / "checkstyle-noframes.xsl").value, target(_ / "checkstyle-report.html").value)))
 }
-
-staticIP := true
-offline := true
