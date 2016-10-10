@@ -5,7 +5,7 @@ teamNumber := 846
 
 name := "code-2016"
 
-version := "0.5.0-SNAPSHOT"
+version := "0.5.0"
 
 robotClass := "com.lynbrookrobotics.sixteen.LaunchRobot"
 
