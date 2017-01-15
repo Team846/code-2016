@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.sixteen;
 
+//import com.lynbrookrobotics.sixteen.tasks.drivetrain.Drive
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
@@ -21,6 +22,7 @@ import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
+import com.lynbrookrobotics.sixteen.tasks.DriveDistanceWithTrapazoidalProfile;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AimForShot;
 import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
@@ -373,10 +375,7 @@ public class CoreEvents {
         AutoGenerator.Defense defense = AutoGenerator.Defense.values()[(int) defenseID];
 
         long position = Math.round(SmartDashboard.getNumber("DB/Slider 1"));
-        return generator.generateRoutine(
-            defense,
-            (int) position
-        );
+        return new DriveDistanceWithTrapazoidalProfile(hardware, 5, drivetrain);
       });
     }
 
