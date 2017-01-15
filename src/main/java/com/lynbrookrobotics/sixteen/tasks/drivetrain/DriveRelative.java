@@ -14,7 +14,7 @@ public class DriveRelative extends FiniteTask {
 
   double forwardTravel;
   RobotHardware hardware;
-  DriveStraightController driveDistanceController;
+  protected DriveStraightController driveDistanceController;
   Drivetrain drivetrain;
 
   double maxSpeed;
