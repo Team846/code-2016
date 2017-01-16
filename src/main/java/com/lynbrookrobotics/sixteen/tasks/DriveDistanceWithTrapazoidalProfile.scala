@@ -47,4 +47,5 @@ case class DriveDistanceWithTrapazoidalProfile(
     }
   }
 
+  def forwardSpeedOutPut: Double = driveDistanceController.forwardVelocity()
 }
