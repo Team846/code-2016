@@ -39,7 +39,12 @@ case class DriveDistanceWithTrapazoidalProfile(
     val distanceError = Math.abs(driveDistanceController.forwardError())
     val angleError = Math.abs(driveDistanceController.angularError())
 
-    if(distanceError < 0.1 && angleError < 3) finished()
+    println("Distance Error" + distanceError)
+
+    if(distanceError < 0.1 && angleError < 3) {
+    println("*** FINISHED drive task ***")
+      finished()
+    }
   }
 
 }
