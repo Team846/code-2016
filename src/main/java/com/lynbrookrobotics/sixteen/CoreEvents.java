@@ -4,6 +4,7 @@ package com.lynbrookrobotics.sixteen;
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
+import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
@@ -38,6 +39,7 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSeconda
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -366,16 +368,22 @@ public class CoreEvents {
         "DB/String " + AutoGenerator.Defense.values().length,
         "DB1 lt dfns: 1; rt dfns: 5"
     );
+    Long startTime;
 
+    Supplier<Double> forwardSpeedOutPut;
     if (RobotConstants.HAS_DRIVETRAIN
         && RobotConstants.HAS_INTAKE
         && RobotConstants.HAS_SHOOTER) {
+      DriveDistanceWithTrapazoidalProfile task = new
+          DriveDistanceWithTrapazoidalProfile(hardware, 5.5, drivetrain);
+      forwardSpeedOutPut = task::forwardSpeedOutPut;
+      startTime = System.currentTimeMillis() / 1000;
       autonomousStateEvent.forEach(() -> {
         long defenseID = Math.round(SmartDashboard.getNumber("DB/Slider 0") * 2);
         AutoGenerator.Defense defense = AutoGenerator.Defense.values()[(int) defenseID];
 
         long position = Math.round(SmartDashboard.getNumber("DB/Slider 1"));
-        return new DriveDistanceWithTrapazoidalProfile(hardware, 5.5, drivetrain);
+        return task;
       });
     }
 
@@ -383,69 +391,107 @@ public class CoreEvents {
     RobotConstants.dashboard.thenAccept(dashboard -> {
       try {
         if (RobotConstants.HAS_DRIVETRAIN) {
-          dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Angular Position",
-                  () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+//          dashboard.datasetGroup("drivetrain")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Angular Position",
+//                  () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ()));
+
+//          dashboard.datasetGroup("drivetrain")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Angular Velocity",
+//                  () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()));
+
+//          dashboard.datasetGroup("drivetrain")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Encoder-Measured Angle",
+//                  hardware.drivetrainHardware::currentRotation
+//              ));
+
+          Supplier<Double> idealSpeed = () ->  {
+            double Acceleration = 0.7 * 32.174;
+            double MaxSpeed = DrivetrainConstants.MAX_SPEED_FORWARD;
+            double timeToAccelerate = MaxSpeed / Acceleration;
+            double distanceTraveledAccelerating = timeToAccelerate * (MaxSpeed) / 2;
+            double distanceCruising = 5.5 - 2 * distanceTraveledAccelerating;
+            double timeCruising = distanceCruising / MaxSpeed;
+
+            double timePassed = (System.currentTimeMillis() - startTime) / 1000D;
+
+            if (timePassed <= timeToAccelerate) return timePassed * Acceleration;
+            if (timePassed <= timeCruising + timeToAccelerate) return MaxSpeed;
+            if (timePassed <= 2 * timeToAccelerate + timeCruising) return MaxSpeed - Acceleration * timePassed;
+            else return 0.0;
+          };
 
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Angular Velocity",
-                  () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()));
-
-          dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Encoder-Measured Angle",
-                  hardware.drivetrainHardware::currentRotation
+                  "Current Distance",
+                  hardware.drivetrainHardware::currentDistance
               ));
 
-          dashboard.datasetGroup("encoders")
+          dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Right Encoder Speed (% of max)",
-                  () -> hardware.drivetrainHardware.rightEncoder.velocity.ground()
-                      / DrivetrainConstants.MAX_SPEED_FORWARD));
+                  "Current Speed",
+                  hardware.drivetrainHardware::currentForwardSpeed
+              ));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Outputting",
+                  forwardSpeedOutPut
+              ));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Ideal speed",
+                  idealSpeed
+              ));
 
-          dashboard.datasetGroup("encoders")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Left Encoder Speed (% of max)",
-                  () -> hardware.drivetrainHardware.leftEncoder.velocity.ground()
-                      / DrivetrainConstants.MAX_SPEED_FORWARD));
+//          dashboard.datasetGroup("encoders")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Right Encoder Speed (% of max)",
+//                  () -> hardware.drivetrainHardware.rightEncoder.velocity.ground()
+//                      / DrivetrainConstants.MAX_SPEED_FORWARD));
+//
+//          dashboard.datasetGroup("encoders")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Left Encoder Speed (% of max)",
+//                  () -> hardware.drivetrainHardware.leftEncoder.velocity.ground()
+//                      / DrivetrainConstants.MAX_SPEED_FORWARD));
 
-          dashboard.datasetGroup("encoders")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Right Wheels Rotation",
-                  hardware.drivetrainHardware.rightEncoder.position::rotation));
-
-          dashboard.datasetGroup("encoders")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Left Wheels Rotation",
-                  hardware.drivetrainHardware.leftEncoder.position::rotation));
+//          dashboard.datasetGroup("encoders")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Right Wheels Rotation",
+//                  hardware.drivetrainHardware.rightEncoder.position::rotation));
+//
+//          dashboard.datasetGroup("encoders")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Left Wheels Rotation",
+//                  hardware.drivetrainHardware.leftEncoder.position::rotation));
         }
 
-        if (RobotConstants.HAS_INTAKE) {
-          dashboard.datasetGroup("intake-arm")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Potentiometer Angle",
-                  hardware.intakeArmHardware.pot::getAngle
-              ));
-
-          dashboard.datasetGroup("intake-arm")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Potentiometer Voltage",
-                  hardware.intakeArmHardware.pot::rawVoltage
-              ));
-        }
-
-        if (RobotConstants.HAS_SHOOTER) {
-          dashboard.datasetGroup("shooter-flywheel")
-              .addDataset((new TimeSeriesNumeric<>(
-                  "Left Flywheel RPM",
-                  hardware.shooterSpinnersHardware.hallEffectLeft::getRPM)));
-
-          dashboard.datasetGroup("shooter-flywheel")
-              .addDataset((new TimeSeriesNumeric<>(
-                  "Right Flywheel RPM",
-                  hardware.shooterSpinnersHardware.hallEffectRight::getRPM)));
+//        if (RobotConstants.HAS_INTAKE) {
+//          dashboard.datasetGroup("intake-arm")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Potentiometer Angle",
+//                  hardware.intakeArmHardware.pot::getAngle
+//              ));
+//
+//          dashboard.datasetGroup("intake-arm")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Potentiometer Voltage",
+//                  hardware.intakeArmHardware.pot::rawVoltage
+//              ));
+//        }
+//
+//        if (RobotConstants.HAS_SHOOTER) {
+//          dashboard.datasetGroup("shooter-flywheel")
+//              .addDataset((new TimeSeriesNumeric<>(
+//                  "Left Flywheel RPM",
+//                  hardware.shooterSpinnersHardware.hallEffectLeft::getRPM)));
+//
+//          dashboard.datasetGroup("shooter-flywheel")
+//              .addDataset((new TimeSeriesNumeric<>(
+//                  "Right Flywheel RPM",
+//                  hardware.shooterSpinnersHardware.hallEffectRight::getRPM)));
 
 //          dashboard.datasetGroup("shooter")
 //              .addDataset(new TimeSeriesNumeric<>(
@@ -457,26 +503,26 @@ public class CoreEvents {
 //                  "Shooter Right Flywheel power",
 //                  hardware.shooterSpinnersHardware.flywheelRightMotor::get));
 
-          dashboard.datasetGroup("shooter")
-              .addDataset((new TimeSeriesNumeric<>(
-                  "Proximity Sensor Average Voltage",
-                  hardware.shooterSpinnersHardware.proximitySensor::getAverageVoltage)));
-
-          dashboard.datasetGroup("shooter")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Potentiometer Voltage",
-                  hardware.shooterArmHardware.pot::rawVoltage));
-
-          dashboard.datasetGroup("shooter")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Potentiometer Angle",
-                  hardware.shooterArmHardware.pot::getAngle));
-        }
-
-        dashboard.datasetGroup("pot-baseline")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Input Voltage",
-                Potentiometer.baseline::getAverageVoltage));
+//          dashboard.datasetGroup("shooter")
+//              .addDataset((new TimeSeriesNumeric<>(
+//                  "Proximity Sensor Average Voltage",
+//                  hardware.shooterSpinnersHardware.proximitySensor::getAverageVoltage)));
+//
+//          dashboard.datasetGroup("shooter")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Potentiometer Voltage",
+//                  hardware.shooterArmHardware.pot::rawVoltage));
+//
+//          dashboard.datasetGroup("shooter")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Potentiometer Angle",
+//                  hardware.shooterArmHardware.pot::getAngle));
+//        }
+//
+//        dashboard.datasetGroup("pot-baseline")
+//            .addDataset(new TimeSeriesNumeric<>(
+//                "Input Voltage",
+//                Potentiometer.baseline::getAverageVoltage));
 
         dashboard.datasetGroup("power")
             .addDataset(new TimeSeriesNumeric<>(
