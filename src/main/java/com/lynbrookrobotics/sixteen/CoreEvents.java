@@ -375,7 +375,7 @@ public class CoreEvents {
         AutoGenerator.Defense defense = AutoGenerator.Defense.values()[(int) defenseID];
 
         long position = Math.round(SmartDashboard.getNumber("DB/Slider 1"));
-        return new DriveDistanceWithTrapazoidalProfile(hardware, 5, drivetrain);
+        return new DriveDistanceWithTrapazoidalProfile(hardware, 5.5, drivetrain);
       });
     }
 

@@ -21,30 +21,42 @@ case class TrapozoidalProfileController(
       angle,
       DrivetrainConstants.MAX_SPEED_FORWARD) {
 
+  val acceleration = 0.7 * 32.174
+  println("init Position:")
   override def forwardSpeed: Double = {
-    min(velocityAccel, DrivetrainConstants.MAX_SPEED_FORWARD, velocityDeccel)
+    val result = min(velocityAccel, DrivetrainConstants.MAX_SPEED_FORWARD, velocityDeccel)
+    println("final output:" + result)
+    println("max velocity: " + DrivetrainConstants.MAX_SPEED_FORWARD)
+    println("deccel accel:" + velocityDeccel)
+    result
   }
 
   private def velocityAccel: Double = {
     val initVelocitySquared = Math.pow(initVelocity, 2)
     val error = positionSupplier.apply() - initPosition
-    val acceleration = DrivetrainConstants.MAX_SPEED_FORWARD
 
+    println("init position" + initPosition)
+    println("curss pos: " + positionSupplier.apply())
+    println("error: " + error)
+    println()
     // otherwise additional output is zero and nothing happens
     if (error == 0) {
-      0.5//FeetPerSecond(0.5)
+      val result = initVelocity + 2//FeetPerSecond(0.5)
+      println("InitVelocity: " + result)
+      result
     } else {
-      Math.sqrt(Math.abs(initVelocitySquared + 2 * acceleration * error))
+      val result = Math.sqrt(Math.abs(initVelocitySquared + 2 * acceleration * error))
+      println("Velocity: " + result)
+      result
     }
   }
 
   private def velocityDeccel: Double = {
-    val initVelocitySquared = Math.pow(initVelocity, 2)
-    val error = positionSupplier.apply - initPosition
-    val deceleration = -32.174 * 0.7
+    val finalVelocitySquared = Math.pow(finalVelocity, 2)
+    val error = targetPosition - positionSupplier.apply()
 
     // otherwise it will start accelerating if it overshoots
-    Math.signum(error) * Math.sqrt(Math.abs(initVelocitySquared + 2 * deceleration * error))
+    Math.signum(error) * Math.sqrt(Math.abs(finalVelocitySquared + 2 * -acceleration * error))
   }
 
   protected def min(a: Double, b: Double, c: Double): Double = {
