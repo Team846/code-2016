@@ -1,5 +1,7 @@
 package com.lynbrookrobotics.sixteen.tasks.drivetrain
 
+import java.time.Clock
+
 import com.lynbrookrobotics.sixteen.components.drivetrain.DriveStraightController
 import com.lynbrookrobotics.sixteen.config.RobotHardware
 import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants
@@ -18,36 +20,14 @@ case class TrapozoidalProfileController(
       angle,
       DrivetrainConstants.MAX_SPEED_FORWARD) {
 
-  protected val acceleration = 0.7 * 32.174
-  lazy val startTime = System.currentTimeMillis() / 1000D
+  protected val MaxVelocity = DrivetrainConstants.MAX_SPEED_FORWARD
+  protected val acceleration = 1 //TODO, change to around .5 * g
+
+
 
   override def forwardSpeed: Double = {
-    val result = min(velocityAccel, DrivetrainConstants.MAX_SPEED_FORWARD, velocityDeccel)
-    println("final output:" + result)
-    println("speed:" + robotHardware.drivetrainHardware.currentForwardSpeed())
-    //    println("max velocity: " + DrivetrainConstants.MAX_SPEED_FORWARD)
-    //    println("deccel accel:" + velocityDeccel)
-    val Acceleration: Double = 0.7 * 32.174
-    val MaxSpeed: Double = DrivetrainConstants.MAX_SPEED_FORWARD
-    val timeToAccelerate: Double = MaxSpeed / Acceleration
-    val distanceTraveledAccelerating: Double = timeToAccelerate * (MaxSpeed) / 2
-    val distanceCruising: Double = 5.5 - 2 * distanceTraveledAccelerating
-    val timeCruising: Double = distanceCruising / MaxSpeed
-//    System.out.println("start time:" + startTime)
-    val timePassed: Double = System.currentTimeMillis / 1000D - startTime
-
-    var theoreticalOutput = -1.0
-    if (timePassed <= timeToAccelerate) {
-      theoreticalOutput =  timePassed * Acceleration
-    }
-    else if (timePassed <= timeCruising + timeToAccelerate) {
-      theoreticalOutput = MaxSpeed
-    }
-    else if (timePassed <= 2 * timeToAccelerate + timeCruising) {
-      theoreticalOutput = MaxSpeed - Acceleration * timePassed
-    }
-    else theoreticalOutput = -10.0
-//    println("theortical result: " + theoreticalOutput)
+    val result = min(velocityAccel, MaxVelocity, velocityDeccel)
+    println("final output: " + result)
     result
   }
 
@@ -82,4 +62,48 @@ case class TrapozoidalProfileController(
   protected def min(a: Double, b: Double, c: Double): Double = {
     Math.min(a, Math.min(b, c))
   }
+
+  def idealForwardSpeed(timedPassed: Double): Double = {
+    // assuming flat part is reached
+    val timeToAccelerate = (MaxVelocity - initVelocity) / acceleration
+    val timeToDeccelerate = (finalVelocity - MaxVelocity) / -acceleration
+
+    val distanceAccelerating = 0.5 * acceleration * timeToAccelerate * timeToAccelerate + timeToAccelerate * initVelocity
+    val distanceDeccelerating = 0.5 * -acceleration * timeToDeccelerate * timeToDeccelerate + timeToDeccelerate * initVelocity
+    val timeToCruise = ((targetPosition - initPosition) - distanceAccelerating - distanceAccelerating) / MaxVelocity
+
+    if(timedPassed <= timeToAccelerate) {
+      //      println("accelerating")
+      acceleration * timedPassed
+    }
+    else if(timedPassed <= timeToAccelerate + timeToCruise) MaxVelocity
+    else if(timedPassed <= timeToAccelerate + timeToCruise + timeToDeccelerate) {
+      MaxVelocity - acceleration * (timedPassed - timeToAccelerate - timeToCruise)
+    }
+    else throw new RuntimeException("reached target")
+  }
+}
+
+case class TrapozoidalProfileControllerTest(acceleration: Double, initVelocity: Double, finalVelocity: Double, MaxVelocity: Double, initPosition: Double, targetPosition: Double) {
+  def idealForwardSpeed(timedPassed: Double): Double = {
+    // assuming flat part is reached
+    val timeToAccelerate = (MaxVelocity - initVelocity) / acceleration
+    val timeToDeccelerate = (finalVelocity - MaxVelocity) / -acceleration
+
+    val distanceAccelerating = 0.5 * acceleration * timeToAccelerate * timeToAccelerate + timeToAccelerate * initVelocity
+    val distanceDeccelerating = 0.5 * -acceleration * timeToDeccelerate * timeToDeccelerate + timeToDeccelerate * initVelocity
+    val timeToCruise = ((targetPosition - initPosition) - distanceAccelerating - distanceAccelerating) / MaxVelocity
+
+    if(timedPassed <= timeToAccelerate) {
+      //      println("accelerating")
+      acceleration * timedPassed
+    }
+    else if(timedPassed <= timeToAccelerate + timeToCruise) MaxVelocity
+    else if(timedPassed <= timeToAccelerate + timeToCruise + timeToDeccelerate) {
+      MaxVelocity - acceleration * (timedPassed - timeToAccelerate - timeToCruise)
+    }
+    else throw new RuntimeException("reached target")
+  }
+
+
 }
