@@ -4,7 +4,6 @@ package com.lynbrookrobotics.sixteen;
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
-import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
@@ -16,12 +15,10 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.Shoote
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.DriverButtonAssignments;
-import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
-import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.DriveDistanceWithTrapazoidalProfile;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AimForShot;
@@ -368,16 +365,16 @@ public class CoreEvents {
         "DB/String " + AutoGenerator.Defense.values().length,
         "DB1 lt dfns: 1; rt dfns: 5"
     );
-    Long startTime;
+    Double startTime;
 
     Supplier<Double> forwardSpeedOutPut;
+    DriveDistanceWithTrapazoidalProfile task = new DriveDistanceWithTrapazoidalProfile(hardware, drivetrain, 5.5);
     if (RobotConstants.HAS_DRIVETRAIN
         && RobotConstants.HAS_INTAKE
         && RobotConstants.HAS_SHOOTER) {
-      DriveDistanceWithTrapazoidalProfile task = new
-          DriveDistanceWithTrapazoidalProfile(hardware, 5.5, drivetrain);
-      forwardSpeedOutPut = task::forwardSpeedOutPut;
-      startTime = System.currentTimeMillis() / 1000;
+
+
+      startTime = System.currentTimeMillis() / 1000D;
       autonomousStateEvent.forEach(() -> {
         long defenseID = Math.round(SmartDashboard.getNumber("DB/Slider 0") * 2);
         AutoGenerator.Defense defense = AutoGenerator.Defense.values()[(int) defenseID];
@@ -407,43 +404,18 @@ public class CoreEvents {
 //                  hardware.drivetrainHardware::currentRotation
 //              ));
 
-          Supplier<Double> idealSpeed = () ->  {
-            double Acceleration = 0.7 * 32.174;
-            double MaxSpeed = DrivetrainConstants.MAX_SPEED_FORWARD;
-            double timeToAccelerate = MaxSpeed / Acceleration;
-            double distanceTraveledAccelerating = timeToAccelerate * (MaxSpeed) / 2;
-            double distanceCruising = 5.5 - 2 * distanceTraveledAccelerating;
-            double timeCruising = distanceCruising / MaxSpeed;
-
-            double timePassed = (System.currentTimeMillis() - startTime) / 1000D;
-
-            if (timePassed <= timeToAccelerate) return timePassed * Acceleration;
-            if (timePassed <= timeCruising + timeToAccelerate) return MaxSpeed;
-            if (timePassed <= 2 * timeToAccelerate + timeCruising) return MaxSpeed - Acceleration * timePassed;
-            else return 0.0;
-          };
-
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Current Distance",
-                  hardware.drivetrainHardware::currentDistance
-              ));
-
-          dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Current Speed",
+                  "Current Velocity",
                   hardware.drivetrainHardware::currentForwardSpeed
               ));
+
           dashboard.datasetGroup("drivetrain")
               .addDataset(new TimeSeriesNumeric<>(
-                  "Outputting",
-                  forwardSpeedOutPut
+                  "ideal speed",
+                  () -> task.idealSpeed(System.currentTimeMillis() / 1000D - startTime)
               ));
-          dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric<>(
-                  "Ideal speed",
-                  idealSpeed
-              ));
+
 
 //          dashboard.datasetGroup("encoders")
 //              .addDataset(new TimeSeriesNumeric<>(
