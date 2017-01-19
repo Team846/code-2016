@@ -7,8 +7,8 @@ import com.lynbrookrobotics.sixteen.tasks.drivetrain.{TrapozoidalProfileControll
 
 case class DriveDistanceWithTrapazoidalProfile(
     robotHardware: RobotHardware,
-    forwardDistance: Double,
-    drivetrainParam: Drivetrain)
+    drivetrainParam: Drivetrain,
+    forwardDistance: Double)
   extends DriveRelative(
       robotHardware,
       forwardDistance,
@@ -17,16 +17,16 @@ case class DriveDistanceWithTrapazoidalProfile(
 
   val currPosSupplier     = () => robotHardware.drivetrainHardware.currentDistance()
   lazy val currentAngle   = robotHardware.drivetrainHardware.mainGyro.currentPosition().valueZ()
-  lazy val currentPos     = currPosSupplier.apply()
-  lazy val targetPosition = forwardDistance + currentPos
+
+  val DistanceDeadband = 0.1 //ft
+  val AngleDeadband = 3 //degrees
 
   override def startTask = {
-    if (Math.abs(forwardDistance) <= 0.1) finished()
+    if (Math.abs(forwardDistance) <= DistanceDeadband) finished()
     else {
       driveDistanceController = TrapozoidalProfileController(
         robotHardware,
-        currentPos,
-        targetPosition,
+        forwardDistance,
         0,
         0,
         currentAngle,
@@ -35,17 +35,30 @@ case class DriveDistanceWithTrapazoidalProfile(
     }
   }
 
+//  case class Date(name: String)
+//
+//  // We know he'll get rejected
+//  def askAttractivePeople: Option[Date] = None
+//
+//  def searchForDate: Date = {
+//    askAttractivePeople.getOrElse(Date("Philip"))
+//  }
+
   override def update: Unit = {
-    val distanceError = Math.abs(driveDistanceController.forwardError())
-    val angleError = Math.abs(driveDistanceController.angularError())
+    val distanceError = Math.abs(driveDistanceController.forwardError)
+    val angleError = Math.abs(driveDistanceController.angularError)
 
     println("Distance Error" + distanceError)
 
-    if(distanceError < 0.1 && angleError < 3) {
+    if(distanceError < DistanceDeadband && angleError < AngleDeadband) {
     println("*** FINISHED drive task ***")
       finished()
     }
   }
 
-  def forwardSpeedOutPut: Double = driveDistanceController.forwardVelocity()
+  def forwardSpeedOutPut: Double = driveDistanceController.forwardVelocity
+
+  def idealSpeed(timePassed: Double) = {
+    driveDistanceController.asInstanceOf[TrapozoidalProfileController].idealForwardSpeed(timePassed)
+  }
 }

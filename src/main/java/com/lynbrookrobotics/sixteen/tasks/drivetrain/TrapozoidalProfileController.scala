@@ -8,7 +8,6 @@ import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants
 
 case class TrapozoidalProfileController(
     robotHardware: RobotHardware,
-    initPosition: Double,
     targetPosition: Double,
     initVelocity: Double, //ft/s,
     finalVelocity: Double,
@@ -23,6 +22,8 @@ case class TrapozoidalProfileController(
   protected val MaxVelocity = DrivetrainConstants.MAX_SPEED_FORWARD
   protected val acceleration = 1 //TODO, change to around .5 * g
 
+  // Not lazy to handle discrepancies of tick when instantiated and when forwardSpeed is first used
+  protected val initPosition = positionSupplier.apply()
 
 
   override def forwardSpeed: Double = {
@@ -64,6 +65,7 @@ case class TrapozoidalProfileController(
   }
 
   def idealForwardSpeed(timedPassed: Double): Double = {
+    val distanceToTravel = targetPosition - initPosition
     // assuming flat part is reached
     val timeToAccelerate = (MaxVelocity - initVelocity) / acceleration
     val timeToDeccelerate = (finalVelocity - MaxVelocity) / -acceleration
@@ -72,20 +74,24 @@ case class TrapozoidalProfileController(
     val distanceDeccelerating = 0.5 * -acceleration * timeToDeccelerate * timeToDeccelerate + timeToDeccelerate * initVelocity
     val timeToCruise = ((targetPosition - initPosition) - distanceAccelerating - distanceAccelerating) / MaxVelocity
 
-    if(timedPassed <= timeToAccelerate) {
-      //      println("accelerating")
-      acceleration * timedPassed
+    // If while accelerating, robot moves less than half distance required, velocity will reach
+    // max velocity
+    if(distanceAccelerating <= distanceToTravel / 2) {
+      if(timedPassed <= timeToAccelerate) acceleration * timedPassed
+      else if(timedPassed <= timeToAccelerate + timeToCruise) MaxVelocity
+      else if(timedPassed <= timeToAccelerate + timeToCruise + timeToDeccelerate) {
+        MaxVelocity - acceleration * (timedPassed - timeToAccelerate - timeToCruise)
+      }
+      else -10
+    } else {
+      throw new NotImplementedError("Velocity does not plateu, have not done ideal calculations")
     }
-    else if(timedPassed <= timeToAccelerate + timeToCruise) MaxVelocity
-    else if(timedPassed <= timeToAccelerate + timeToCruise + timeToDeccelerate) {
-      MaxVelocity - acceleration * (timedPassed - timeToAccelerate - timeToCruise)
-    }
-    else throw new RuntimeException("reached target")
   }
 }
 
 case class TrapozoidalProfileControllerTest(acceleration: Double, initVelocity: Double, finalVelocity: Double, MaxVelocity: Double, initPosition: Double, targetPosition: Double) {
-  def idealForwardSpeed(timedPassed: Double): Double = {
+  def idealForwardSpeed(timedPassed: Double): Option[Double] = {
+    val distanceToTravel = targetPosition - initPosition
     // assuming flat part is reached
     val timeToAccelerate = (MaxVelocity - initVelocity) / acceleration
     val timeToDeccelerate = (finalVelocity - MaxVelocity) / -acceleration
@@ -94,16 +100,17 @@ case class TrapozoidalProfileControllerTest(acceleration: Double, initVelocity: 
     val distanceDeccelerating = 0.5 * -acceleration * timeToDeccelerate * timeToDeccelerate + timeToDeccelerate * initVelocity
     val timeToCruise = ((targetPosition - initPosition) - distanceAccelerating - distanceAccelerating) / MaxVelocity
 
-    if(timedPassed <= timeToAccelerate) {
-      //      println("accelerating")
-      acceleration * timedPassed
-    }
-    else if(timedPassed <= timeToAccelerate + timeToCruise) MaxVelocity
-    else if(timedPassed <= timeToAccelerate + timeToCruise + timeToDeccelerate) {
-      MaxVelocity - acceleration * (timedPassed - timeToAccelerate - timeToCruise)
-    }
-    else throw new RuntimeException("reached target")
+    // If while accelerating, robot moves less than half distance required, velocity will reach
+    // max velocity
+    if(distanceAccelerating <= distanceToTravel / 2) {
+      if(timedPassed <= timeToAccelerate) Option(acceleration * timedPassed)
+      else if(timedPassed <= timeToAccelerate + timeToCruise) Option(MaxVelocity)
+      else if(timedPassed <= timeToAccelerate + timeToCruise + timeToDeccelerate) {
+        Option(MaxVelocity - acceleration * (timedPassed - timeToAccelerate - timeToCruise))
+      }
+      else None
+    } else {
+        throw new NotImplementedError("Velocity does not plateu, have not done ideal calculations")
+      }
   }
-
-
 }

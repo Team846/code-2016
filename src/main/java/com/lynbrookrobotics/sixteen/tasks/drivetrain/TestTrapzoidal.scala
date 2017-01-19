@@ -1,4 +1,3 @@
-import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.TrapozoidalProfileControllerTest
 
 object TestTrapzoidal extends App {
@@ -14,8 +13,8 @@ object TestTrapzoidal extends App {
     2)
 
   println("time passed: " + timePassed)
-  while(timePassed < 5) {
-    println(timePassed + "\t" + testObject.idealForwardSpeed(timePassed))
+  while(testObject.idealForwardSpeed(timePassed).isDefined) {
+    println(timePassed + "\t" + testObject.idealForwardSpeed(timePassed).get)
     Thread.sleep(100)
   }
 }
