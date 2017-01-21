@@ -1,9 +1,11 @@
 package com.lynbrookrobotics.sixteen;
 
 //import com.lynbrookrobotics.sixteen.tasks.drivetrain.Drive
+
 import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
+import com.lynbrookrobotics.potassium.tasks.SequentialTask;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
@@ -15,13 +17,16 @@ import com.lynbrookrobotics.sixteen.components.shooter.spinners.secondary.Shoote
 import com.lynbrookrobotics.sixteen.config.DriverControls;
 import com.lynbrookrobotics.sixteen.config.RobotHardware;
 import com.lynbrookrobotics.sixteen.config.constants.DriverButtonAssignments;
+import com.lynbrookrobotics.sixteen.config.constants.DrivetrainConstants;
 import com.lynbrookrobotics.sixteen.config.constants.IntakeArmConstants;
 import com.lynbrookrobotics.sixteen.config.constants.OperatorButtonAssignments;
 import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import com.lynbrookrobotics.sixteen.config.constants.ShooterArmConstants;
 import com.lynbrookrobotics.sixteen.tasks.DefenseRoutines;
 import com.lynbrookrobotics.sixteen.tasks.DriveDistanceWithTrapazoidalProfile;
+import com.lynbrookrobotics.sixteen.tasks.DriveRelativeSpeedWithGain;
 import com.lynbrookrobotics.sixteen.tasks.drivetrain.AimForShot;
+import com.lynbrookrobotics.sixteen.tasks.drivetrain.TurnByAngle;
 import com.lynbrookrobotics.sixteen.tasks.intake.IntakeTasks;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.DirectIntakeArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.intake.arm.MoveIntakeArmToAngle;
@@ -111,12 +116,12 @@ public class CoreEvents {
         ShooterArmConstants.TRANSPORT_SETPOINT,
         hardware,
         shooterArm)
-      .then(
-        new MoveIntakeArmToAngle(
-        IntakeArmConstants.TRANSPORT_SETPOINT,
-        intakeArm,
-        hardware
-    ));
+        .then(
+            new MoveIntakeArmToAngle(
+                IntakeArmConstants.TRANSPORT_SETPOINT,
+                intakeArm,
+                hardware
+            ));
 
     pdp = new PowerDistributionPanel();
 
@@ -161,8 +166,10 @@ public class CoreEvents {
     });
 
     // Gyro
-    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
-    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> { });
+    autonomousStateEvent.forEach(() -> initialCalibrationDone = true, () -> {
+    });
+    enabledStateEvent.forEach(() -> initialCalibrationDone = true, () -> {
+    });
 
     // Drivetrain - telop control
     if (RobotConstants.HAS_DRIVETRAIN) {
@@ -174,11 +181,11 @@ public class CoreEvents {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.FREEZE_DRIVETRAIN)
           .forEach(
-            () -> drivetrain.setController(DrivetrainController.of(
-                () -> Optional.empty(),
-                () -> Optional.empty()
-            )),
-            () -> drivetrain.resetToDefault());
+              () -> drivetrain.setController(DrivetrainController.of(
+                  () -> Optional.empty(),
+                  () -> Optional.empty()
+              )),
+              () -> drivetrain.resetToDefault());
     }
 
     // Overrides
@@ -225,10 +232,10 @@ public class CoreEvents {
       controls.operatorStick
           .onHold(OperatorButtonAssignments.PREPARE_SHOOT)
           .forEach(ShooterTasks.prepareShoot(
-            shooterFlywheel,
-            shooterArm,
-            intakeArm,
-            hardware
+              shooterFlywheel,
+              shooterArm,
+              intakeArm,
+              hardware
           ));
 
       controls.operatorStick
@@ -368,7 +375,22 @@ public class CoreEvents {
     Double startTime;
 
     Supplier<Double> forwardSpeedOutPut;
-    DriveDistanceWithTrapazoidalProfile task = new DriveDistanceWithTrapazoidalProfile(hardware, drivetrain, 5);
+//    DriveDistanceWithTrapazoidalProfile task = new DriveDistanceWithTrapazoidalProfile(
+//        hardware,
+//        drivetrain,
+//        5);
+
+    SequentialTask task = new DriveRelativeSpeedWithGain(
+        0.1, hardware, 5, 0.5, drivetrain)
+        .then(new TurnByAngle(180, hardware, drivetrain))
+        .then(new DriveRelativeSpeedWithGain(0.3, hardware, 5, 0.5, drivetrain))
+        .then(new TurnByAngle(180, hardware, drivetrain))
+        .then(new DriveRelativeSpeedWithGain(0.5, hardware, 5, 0.5, drivetrain))
+        .then(new TurnByAngle(180, hardware, drivetrain))
+        .then(new DriveRelativeSpeedWithGain(0.7, hardware, 5, 0.5, drivetrain))
+        .then(new TurnByAngle(180, hardware, drivetrain))
+        .then(new DriveRelativeSpeedWithGain(0.9, hardware, 5, 0.5, drivetrain));
+
     if (RobotConstants.HAS_DRIVETRAIN
         && RobotConstants.HAS_INTAKE
         && RobotConstants.HAS_SHOOTER) {
@@ -411,16 +433,33 @@ public class CoreEvents {
               ));
 
           dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric <>(
-                  "ideal speed",
-                  () -> task.idealSpeed(System.currentTimeMillis() / 1000D - task.startTime().apply())
+              .addDataset(new TimeSeriesNumeric<>(
+                  "current speed",
+                  hardware.drivetrainHardware::currentForwardSpeed
               ));
 
           dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric <>(
-                  "Time passed",
-                  () -> (System.currentTimeMillis() / 1000D - task.startTime().apply())
+              .addDataset(new TimeSeriesNumeric<>(
+                  "target speed",
+                  () -> 0.5 * DrivetrainConstants.MAX_SPEED_FORWARD
               ));
+
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "error speed",
+                  () -> (0.5 * DrivetrainConstants.MAX_SPEED_FORWARD) - hardware.drivetrainHardware.currentForwardSpeed()
+              ));
+//          dashboard.datasetGroup("drivetrain")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "ideal speed",
+//                  () -> task.idealSpeed(System.currentTimeMillis() / 1000D - task.startTime().apply())
+//              ));
+//
+//          dashboard.datasetGroup("drivetrain")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Time passed",
+//                  () -> (System.currentTimeMillis() / 1000D - task.startTime().apply())
+//              ));
 
 
 //          dashboard.datasetGroup("encoders")
