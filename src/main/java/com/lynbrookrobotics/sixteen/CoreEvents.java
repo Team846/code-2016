@@ -368,7 +368,7 @@ public class CoreEvents {
     Double startTime;
 
     Supplier<Double> forwardSpeedOutPut;
-    DriveDistanceWithTrapazoidalProfile task = new DriveDistanceWithTrapazoidalProfile(hardware, drivetrain, 5.5);
+    DriveDistanceWithTrapazoidalProfile task = new DriveDistanceWithTrapazoidalProfile(hardware, drivetrain, 5);
     if (RobotConstants.HAS_DRIVETRAIN
         && RobotConstants.HAS_INTAKE
         && RobotConstants.HAS_SHOOTER) {
@@ -411,9 +411,15 @@ public class CoreEvents {
               ));
 
           dashboard.datasetGroup("drivetrain")
-              .addDataset(new TimeSeriesNumeric<>(
+              .addDataset(new TimeSeriesNumeric <>(
                   "ideal speed",
-                  () -> task.idealSpeed(System.currentTimeMillis() / 1000D - startTime)
+                  () -> task.idealSpeed(System.currentTimeMillis() / 1000D - task.startTime().apply())
+              ));
+
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric <>(
+                  "Time passed",
+                  () -> (System.currentTimeMillis() / 1000D - task.startTime().apply())
               ));
 
 
@@ -496,27 +502,27 @@ public class CoreEvents {
 //                "Input Voltage",
 //                Potentiometer.baseline::getAverageVoltage));
 
-        dashboard.datasetGroup("power")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Voltage",
-                pdp::getVoltage));
-
-        dashboard.datasetGroup("power")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Current",
-                pdp::getTotalCurrent));
-
-        dashboard.datasetGroup("power")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Left Gearbox Current",
-                (() -> hardware.drivetrainHardware.frontLeftMotor.getOutputCurrent() +
-                hardware.drivetrainHardware.backLeftMotor.getOutputCurrent())));
-
-        dashboard.datasetGroup("power")
-            .addDataset(new TimeSeriesNumeric<>(
-                "Right Gearbox Current",
-                (() -> hardware.drivetrainHardware.frontRightMotor.getOutputCurrent() +
-                hardware.drivetrainHardware.backRightMotor.getOutputCurrent())));
+//        dashboard.datasetGroup("power")
+//            .addDataset(new TimeSeriesNumeric<>(
+//                "Voltage",
+//                pdp::getVoltage));
+//
+//        dashboard.datasetGroup("power")
+//            .addDataset(new TimeSeriesNumeric<>(
+//                "Current",
+//                pdp::getTotalCurrent));
+//
+//        dashboard.datasetGroup("power")
+//            .addDataset(new TimeSeriesNumeric<>(
+//                "Left Gearbox Current",
+//                (() -> hardware.drivetrainHardware.frontLeftMotor.getOutputCurrent() +
+//                hardware.drivetrainHardware.backLeftMotor.getOutputCurrent())));
+//
+//        dashboard.datasetGroup("power")
+//            .addDataset(new TimeSeriesNumeric<>(
+//                "Right Gearbox Current",
+//                (() -> hardware.drivetrainHardware.frontRightMotor.getOutputCurrent() +
+//                hardware.drivetrainHardware.backRightMotor.getOutputCurrent())));
 
         System.out.println("FunkyDashboard is up!");
       } catch (Exception exception) {

@@ -15,6 +15,8 @@ case class DriveDistanceWithTrapazoidalProfile(
       DrivetrainConstants.MAX_SPEED_FORWARD,
       drivetrainParam) {
 
+  var startTime: () => java.lang.Double = () => System.currentTimeMillis() / 1000D
+
   val currPosSupplier     = () => robotHardware.drivetrainHardware.currentDistance()
   lazy val currentAngle   = robotHardware.drivetrainHardware.mainGyro.currentPosition().valueZ()
 
@@ -22,6 +24,9 @@ case class DriveDistanceWithTrapazoidalProfile(
   val AngleDeadband = 3 //degrees
 
   override def startTask = {
+    val startTimeVal = System.currentTimeMillis / 1000D
+    startTime = () => startTimeVal
+
     if (Math.abs(forwardDistance) <= DistanceDeadband) finished()
     else {
       driveDistanceController = TrapozoidalProfileController(
@@ -48,10 +53,10 @@ case class DriveDistanceWithTrapazoidalProfile(
     val distanceError = Math.abs(driveDistanceController.forwardError)
     val angleError = Math.abs(driveDistanceController.angularError)
 
-    println("Distance Error" + distanceError)
+    //println("Distance Error" + distanceError)
 
     if(distanceError < DistanceDeadband && angleError < AngleDeadband) {
-    println("*** FINISHED drive task ***")
+    //println("*** FINISHED drive task ***")
       finished()
     }
   }
@@ -59,6 +64,7 @@ case class DriveDistanceWithTrapazoidalProfile(
   def forwardSpeedOutPut: Double = driveDistanceController.forwardVelocity
 
   def idealSpeed(timePassed: Double) = {
-    driveDistanceController.asInstanceOf[TrapozoidalProfileController].idealForwardSpeed(timePassed)
+    if( driveDistanceController == null) -100.0
+    else driveDistanceController.asInstanceOf[TrapozoidalProfileController].idealForwardSpeed(timePassed)
   }
 }
