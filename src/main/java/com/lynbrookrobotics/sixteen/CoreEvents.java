@@ -31,7 +31,7 @@ import com.lynbrookrobotics.sixteen.tasks.shooter.arm.DirectShooterArmSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.arm.MoveShooterArmToAngle;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.flywheel.DirectFlywheelSpeed;
 import com.lynbrookrobotics.sixteen.tasks.shooter.spinners.secondary.SpinSecondary;
-import com.ni.vision.NIVision;
+//import com.ni.vision.NIVision;
 
 import java.util.Optional;
 import java.util.Timer;
@@ -40,7 +40,7 @@ import java.util.TimerTask;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.USBCamera;
+// import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * CoreEvents class creates events and maps these to handlers.
@@ -129,24 +129,24 @@ public class CoreEvents {
     // Camera Streaming
     if (RobotConstants.HAS_CAMERA) {
       try {
-        NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+	  //NIVision.Image image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
-        USBCamera camera = new USBCamera("cam1");
-        camera.setBrightness(50);
-        camera.setExposureAuto();
-        camera.updateSettings();
-        camera.startCapture();
+        // USBCamera camera = new USBCamera("cam1");
+        // camera.setBrightness(50);
+        // camera.setwExposureAuto();
+        // camera.updateSettings();
+        // camera.startCapture();
 
-        Timer updateTimer = new Timer("update-loop");
+        // Timer updateTimer = new Timer("update-loop");
 
-        CameraServer.getInstance().setQuality(50);
-        updateTimer.schedule(new TimerTask() {
-          @Override
-          public void run() {
-            camera.getImage(image);
-            CameraServer.getInstance().setImage(image);
-          }
-        }, 0, (long) (50));
+        // CameraServer.getInstance().setQuality(50);
+        // updateTimer.schedule(new TimerTask() {
+        //   @Override
+        //   public void run() {
+        //     camera.getImage(image);
+        //     CameraServer.getInstance().setImage(image);
+        //   }
+        // }, 0, (long) (50));
       } catch (Exception cameraException) {
         System.out.println("Unable to boot camera stream");
       }

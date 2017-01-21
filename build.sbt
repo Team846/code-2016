@@ -9,13 +9,17 @@ version := "0.5.0"
 
 robotClass := "com.lynbrookrobotics.sixteen.LaunchRobot"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.1"
 
 lazy val vision = project
 lazy val rpivision = project
 
 resolvers += "WPILib-Maven" at "http://team846.github.io/wpilib-maven"
 resolvers += "Funky-Repo" at "http://team846.github.io/repo"
+
+libraryDependencies += "edu.wpi.first" % "wpilib" % "2017.1.1.rc-2"
+
+libraryDependencies += "com.ctre" % "ctrlib" % "4.4.1.9"
 
 libraryDependencies += "com.lynbrookrobotics" % "potassium" % "0.1-SNAPSHOT"
 

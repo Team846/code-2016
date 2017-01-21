@@ -19,7 +19,7 @@ public class ConstantBufferSPI extends SPI {
   public ConstantBufferSPI(Port port, int size) {
     super(port);
 
-    this.port = (byte) port.getValue();
+    // this.port = (byte) port.getValue();
     this.sendBuffer = ByteBuffer.allocateDirect(size);
     this.receiveBuffer = ByteBuffer.allocateDirect(size);
   }

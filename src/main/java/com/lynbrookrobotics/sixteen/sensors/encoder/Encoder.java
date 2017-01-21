@@ -1,6 +1,6 @@
 package com.lynbrookrobotics.sixteen.sensors.encoder;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 public abstract class Encoder {
   /**

@@ -2,7 +2,7 @@ package com.lynbrookrobotics.sixteen.sensors.planetaryencoder;
 
 import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 /**
  * Class for magnetic planetary encoder.
