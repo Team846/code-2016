@@ -20,7 +20,7 @@ public class TurnByAngleController extends ClosedArcadeDriveController {
     this.angleControl = new PID(
         () -> hardware.drivetrainHardware.mainGyro.currentPosition().valueZ(),
         hardware.drivetrainHardware.mainGyro.currentPosition().valueZ() + angle
-    ).withP(1D / 100);
+    ).withP(1D / 150/*100*/);
   }
 
   public double difference() {

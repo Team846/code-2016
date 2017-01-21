@@ -6,6 +6,7 @@ import com.lynbrookrobotics.funkydashboard.TimeSeriesNumeric;
 import com.lynbrookrobotics.potassium.defaults.events.InGameState;
 import com.lynbrookrobotics.potassium.tasks.FiniteTask;
 import com.lynbrookrobotics.potassium.tasks.SequentialTask;
+import com.lynbrookrobotics.potassium.tasks.Task;
 import com.lynbrookrobotics.sixteen.components.drivetrain.Drivetrain;
 import com.lynbrookrobotics.sixteen.components.drivetrain.DrivetrainController;
 import com.lynbrookrobotics.sixteen.components.intake.arm.IntakeArm;
@@ -380,21 +381,20 @@ public class CoreEvents {
 //        drivetrain,
 //        5);
 
-    SequentialTask task = new DriveRelativeSpeedWithGain(
-        0.1, hardware, 5, 0.5, drivetrain)
-        .then(new TurnByAngle(180, hardware, drivetrain))
-        .then(new DriveRelativeSpeedWithGain(0.3, hardware, 5, 0.5, drivetrain))
-        .then(new TurnByAngle(180, hardware, drivetrain))
-        .then(new DriveRelativeSpeedWithGain(0.5, hardware, 5, 0.5, drivetrain))
-        .then(new TurnByAngle(180, hardware, drivetrain))
-        .then(new DriveRelativeSpeedWithGain(0.7, hardware, 5, 0.5, drivetrain))
-        .then(new TurnByAngle(180, hardware, drivetrain))
-        .then(new DriveRelativeSpeedWithGain(0.9, hardware, 5, 0.5, drivetrain));
+    Task task = new DriveRelativeSpeedWithGain(
+        0.01, hardware, 5, 0.5, drivetrain)
+        .then(new TurnByAngle(180, hardware, drivetrain));
+//        .then(new DriveRelativeSpeedWithGain(0.03, hardware, 5, 0.5, drivetrain))
+//        .then(new TurnByAngle(180, hardware, drivetrain))
+//        .then(new DriveRelativeSpeedWithGain(0.05, hardware, 5, 0.5, drivetrain))
+//        .then(new TurnByAngle(180, hardware, drivetrain))
+//        .then(new DriveRelativeSpeedWithGain(0.07, hardware, 5, 0.5, drivetrain))
+//        .then(new TurnByAngle(180, hardware, drivetrain))
+//        .then(new DriveRelativeSpeedWithGain(0.09, hardware, 5, 0.5, drivetrain));
 
     if (RobotConstants.HAS_DRIVETRAIN
         && RobotConstants.HAS_INTAKE
         && RobotConstants.HAS_SHOOTER) {
-
 
       startTime = System.currentTimeMillis() / 1000D;
       autonomousStateEvent.forEach(() -> {

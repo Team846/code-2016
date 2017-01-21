@@ -15,6 +15,8 @@ case class DriveRelativeSpeedWithGain(
                                        drivetrainParam: Drivetrain)
   extends DriveRelativeAtSpeed(hardwareParam, forwardDistanceParam, cruisingSpeedParam, drivetrainParam) {
 
-  controller.setForwardGain(gain)
-
+  override def startTask(): Unit = {
+    super.startTask()
+    controller.setForwardGain(gain)
+  }
 }
