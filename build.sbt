@@ -9,7 +9,10 @@ version := "0.5.0"
 
 robotClass := "com.lynbrookrobotics.sixteen.LaunchRobot"
 
-scalaVersion := "2.12.1"
+
+//staticIP := true
+
+scalaVersion := "2.11.7"
 
 lazy val vision = project
 lazy val rpivision = project
