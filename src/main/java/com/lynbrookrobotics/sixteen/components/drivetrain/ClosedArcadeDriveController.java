@@ -42,7 +42,7 @@ public abstract class ClosedArcadeDriveController extends ArcadeDriveController 
         () -> hardware.drivetrainHardware.currentForwardSpeed()
             / DrivetrainConstants.MAX_SPEED_FORWARD,
         this::forwardVelocity
-    ).withP(0.5D);
+    ).withP(1D);
 
 
     this.turnControl = new PID(
