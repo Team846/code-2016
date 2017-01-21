@@ -17,7 +17,7 @@ public class DriveRelativeAtSpeed extends FiniteTask{
   double targetPosition;
   double targetAngle;
 
-  DriveOnHeadingController controller;
+  protected DriveOnHeadingController controller;
   private double errorThresholdForward =  1D/12;
   private double errorThresholdTurn = 3;
 
@@ -39,6 +39,7 @@ public class DriveRelativeAtSpeed extends FiniteTask{
         () -> Math.copySign(cruisingSpeed, forwardDistance),
         hardware
     );
+
 
     drivetrain.setController(controller);
   }

@@ -44,6 +44,7 @@ public abstract class ClosedArcadeDriveController extends ArcadeDriveController 
         this::forwardVelocity
     ).withP(0.5D);
 
+
     this.turnControl = new PID(
         () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()
             / DrivetrainConstants.MAX_ROTATIONAL_SPEED,
@@ -61,5 +62,9 @@ public abstract class ClosedArcadeDriveController extends ArcadeDriveController 
 
   public double turnSpeed() {
     return turnVelocity() + turnControl.get();
+  }
+
+  public void setForwardGain(final double gain) {
+    forwardControl = forwardControl.withP(gain);
   }
 }
