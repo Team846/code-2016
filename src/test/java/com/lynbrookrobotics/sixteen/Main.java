@@ -10,7 +10,7 @@ import com.lynbrookrobotics.sixteen.config.constants.RobotConstants;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import static org.mockito.Mockito.mock;

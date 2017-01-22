@@ -7,7 +7,7 @@ import com.lynbrookrobotics.sixteen.sensors.encoder.Encoder;
 import com.lynbrookrobotics.sixteen.sensors.gyro.GyroL3GD20H;
 import com.lynbrookrobotics.sixteen.sensors.imu.ADIS16448;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 /**
  * Contains all the hardware components for the drivetrain.

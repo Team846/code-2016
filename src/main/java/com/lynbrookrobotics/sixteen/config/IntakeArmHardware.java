@@ -2,7 +2,7 @@ package com.lynbrookrobotics.sixteen.config;
 
 import com.lynbrookrobotics.sixteen.sensors.potentiometer.Potentiometer;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 /**
  * Hardware for the Intake arm.
