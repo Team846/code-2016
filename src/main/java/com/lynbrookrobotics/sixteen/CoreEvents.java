@@ -500,83 +500,41 @@ public class CoreEvents {
 //                  hardware.drivetrainHardware.leftEncoder.position::rotation));
         }
 
-//        if (RobotConstants.HAS_INTAKE) {
-//          dashboard.datasetGroup("intake-arm")
+
+//          dashboard.datasetGroup("drivetrain")
 //              .addDataset(new TimeSeriesNumeric<>(
-//                  "Potentiometer Angle",
-//                  hardware.intakeArmHardware.pot::getAngle
+//                  "Angular Velocity",
+//                  () -> hardware.drivetrainHardware.mainGyro.currentVelocity().valueZ()));
+
+//          dashboard.datasetGroup("drivetrain")
+//              .addDataset(new TimeSeriesNumeric<>(
+//                  "Encoder-Measured Angle",
+//                  hardware.drivetrainHardware::currentRotation
 //              ));
-//
-//          dashboard.datasetGroup("intake-arm")
-//              .addDataset(new TimeSeriesNumeric<>(
-//                  "Potentiometer Voltage",
-//                  hardware.intakeArmHardware.pot::rawVoltage
-//              ));
-//        }
-//
-//        if (RobotConstants.HAS_SHOOTER) {
-//          dashboard.datasetGroup("shooter-flywheel")
-//              .addDataset((new TimeSeriesNumeric<>(
-//                  "Left Flywheel RPM",
-//                  hardware.shooterSpinnersHardware.hallEffectLeft::getRPM)));
-//
-//          dashboard.datasetGroup("shooter-flywheel")
-//              .addDataset((new TimeSeriesNumeric<>(
-//                  "Right Flywheel RPM",
-//                  hardware.shooterSpinnersHardware.hallEffectRight::getRPM)));
 
-//          dashboard.datasetGroup("shooter")
-//              .addDataset(new TimeSeriesNumeric<>(
-//                  "Shooter Left Flywheel power",
-//                  hardware.shooterSpinnersHardware.flywheelLeftMotor::get));
-//
-//          dashboard.datasetGroup("shooter")
-//              .addDataset(new TimeSeriesNumeric<>(
-//                  "Shooter Right Flywheel power",
-//                  hardware.shooterSpinnersHardware.flywheelRightMotor::get));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "Current Velocity",
+                  hardware.drivetrainHardware::currentForwardSpeed
+              ));
 
-//          dashboard.datasetGroup("shooter")
-//              .addDataset((new TimeSeriesNumeric<>(
-//                  "Proximity Sensor Average Voltage",
-//                  hardware.shooterSpinnersHardware.proximitySensor::getAverageVoltage)));
-//
-//          dashboard.datasetGroup("shooter")
-//              .addDataset(new TimeSeriesNumeric<>(
-//                  "Potentiometer Voltage",
-//                  hardware.shooterArmHardware.pot::rawVoltage));
-//
-//          dashboard.datasetGroup("shooter")
-//              .addDataset(new TimeSeriesNumeric<>(
-//                  "Potentiometer Angle",
-//                  hardware.shooterArmHardware.pot::getAngle));
-//        }
-//
-//        dashboard.datasetGroup("pot-baseline")
-//            .addDataset(new TimeSeriesNumeric<>(
-//                "Input Voltage",
-//                Potentiometer.baseline::getAverageVoltage));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "current speed",
+                  hardware.drivetrainHardware::currentForwardSpeed
+              ));
 
-//        dashboard.datasetGroup("power")
-//            .addDataset(new TimeSeriesNumeric<>(
-//                "Voltage",
-//                pdp::getVoltage));
-//
-//        dashboard.datasetGroup("power")
-//            .addDataset(new TimeSeriesNumeric<>(
-//                "Current",
-//                pdp::getTotalCurrent));
-//
-//        dashboard.datasetGroup("power")
-//            .addDataset(new TimeSeriesNumeric<>(
-//                "Left Gearbox Current",
-//                (() -> hardware.drivetrainHardware.frontLeftMotor.getOutputCurrent() +
-//                hardware.drivetrainHardware.backLeftMotor.getOutputCurrent())));
-//
-//        dashboard.datasetGroup("power")
-//            .addDataset(new TimeSeriesNumeric<>(
-//                "Right Gearbox Current",
-//                (() -> hardware.drivetrainHardware.frontRightMotor.getOutputCurrent() +
-//                hardware.drivetrainHardware.backRightMotor.getOutputCurrent())));
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "target speed",
+                  () -> 0.5 * DrivetrainConstants.MAX_SPEED_FORWARD
+              ));
+
+          dashboard.datasetGroup("drivetrain")
+              .addDataset(new TimeSeriesNumeric<>(
+                  "error speed",
+                  () -> (0.5 * DrivetrainConstants.MAX_SPEED_FORWARD) - hardware.drivetrainHardware.currentForwardSpeed()
+              ));
 
         System.out.println("FunkyDashboard is up!");
       } catch (Exception exception) {
