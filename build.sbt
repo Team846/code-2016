@@ -16,10 +16,13 @@ lazy val rpivision = project
 
 resolvers += "WPILib-Maven" at "http://team846.github.io/wpilib-maven"
 resolvers += "Funky-Repo" at "http://team846.github.io/repo"
+resolvers += "opencv-maven" at "https://github.com/WPIRoboticsProjects/opencv-maven/raw/mvn-repo"
 
 libraryDependencies += "edu.wpi.first" % "wpilib" % "2017.1.1.rc-2"
 
 libraryDependencies += "com.ctre" % "ctrlib" % "4.4.1.9"
+
+libraryDependencies += "org.opencv" % "opencv-java" % "3.1.0"
 
 libraryDependencies += "com.lynbrookrobotics" % "potassium" % "0.1-SNAPSHOT"
 
